@@ -1,0 +1,35 @@
+
+  .video-js {
+    float: left;
+  }
+
+  .vjs-playlist {
+    float: left;
+    width: 100%;
+    height: 500px;
+  }
+  @media (min-width:768px) {
+    .vjs-playlist {
+        width: 35%;
+    }
+  }
+
+  /*.vjs-mouse.vjs-playlist .vjs-playlist-item{
+    height: 80px;
+  }*/
+  /*.vjs-playlist .vjs-selected img {
+    width: 35%;
+  }*/
+
+  /*.vjs-mouse.vjs-playlist cite{
+    font-size: 13px;
+  }
+  .vjs-mouse.vjs-playlist .vjs-playlist-description{
+    font-size: 13px;
+  }
+  .vjs-playlist .vjs-playlist-thumbnail{
+    background: transparent;
+  }
+  .vjs-mouse.vjs-playlist .vjs-playlist-item{
+    height: 69px;
+  }*/

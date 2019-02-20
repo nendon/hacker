@@ -1,0 +1,134 @@
+/*!
+ * 
+ * Notifino jQuery Plugin - Stylesheet
+ * 
+ */
+ 
+.notifino {
+  width: 100%;
+  font-family: "Lato", Arial, sans-serif;
+  
+}
+.notifino-text {
+  float: left;
+  padding: 0 15px;
+}
+
+.notifino-buttons {
+  float: right;
+}
+
+/* $Layouts type */
+.notifino-standard {
+	max-width: 940px;
+	position: relative;
+	margin: 0 auto 0;
+	padding: 15px 20px;
+}
+
+.notifino-fluid {
+	width: 90%;
+	margin-left: 5%;
+	padding: 15px 20px;
+	clear: both;
+	overflow: hidden;
+	position: relative;
+}
+
+.notifino-fluid, .notifino-standard, .notifino-boxed {
+	clear: both;
+	overflow: hidden;
+}
+
+.notifino-boxed {
+	max-width: 940px;
+	padding: 15px 20px;
+	position: relative;
+	margin: 10px auto 10px;
+}
+
+/* Notifino Content */
+.notifino-content {
+	float: left;
+}
+
+/* $Notifino Buttons */
+
+.notifino-buttons {
+	position: absolute;
+	top: 7px;
+	right: 0;
+	font-size: 14px;
+}
+
+#notifino-close {
+	text-decoration: none;
+	display: block;
+	float: right;
+}
+
+#notifino-close .fa {
+	margin-right: 5px;
+	line-height: 30px;
+	text-align:center;
+}
+
+.notifino-second-button {
+	text-decoration: none;
+	display: block;
+	float: left;
+	margin-right: 10px;
+	margin-top: 3px;
+	padding: 7px 15px;
+	border-radius: 3px;
+}
+.notifino-close-btn-small {
+	width: 24px;
+	height: 24px !important;
+	padding: 0 !important;
+	text-align: center;
+	line-height: 24px !important;
+	margin-top: 4px;
+}
+
+.notifino-close-btn-small .fa-close {
+	line-height: 24px !important;
+	margin-right: 0 !important;
+}
+
+#notifino-close.notifino-btn-square {
+	padding: 0 10px;
+	text-align: center;
+
+}
+	
+.notifino-btn-rounded {
+	padding: 0 15px;
+	height: 34px;
+	line-height: 34px;
+	border-radius: 17px;
+	transition: all .35s ease-in-out;
+	font-weight: bold;
+}
+
+	.notifino-btn-rounded:hover, 
+	.notifino-btn-rounded:active {
+		color: #fff !important;
+		background: none !important;
+	}
+
+.notifino-btn-square {
+	padding: 0 15px;
+	height: 30px;
+	line-height: 30px !important;
+	background: none !important;
+	border: 2px solid #fff;
+	border-radius: 5px;	
+	color: #fff !important;
+	transition: all .35s ease-in-out;
+}
+	.notifino-btn-square:hover, 
+	.notifino-btn-square:active {
+		color: #ccc !important;
+		background: #fff !important;
+	}

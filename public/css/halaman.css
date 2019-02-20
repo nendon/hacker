@@ -1,0 +1,342 @@
+body{
+    font-family: 'Open Sans', sans-serif;    
+}
+h1,h2,h3,h4,h5,h6{
+    font-weight: normal;
+}
+.btn-blue{
+    color: #fff;
+    background: #2699fb;
+    border-color: #2699fb;
+    padding: 8px 24px;
+    font-size: 12px;
+}
+.btn-blue:hover,
+.btn-blue:focus,
+.btn-blue:active{
+    color: #fff;
+    background: #0a89f8;
+    border-color: #0a89f8;
+}
+.slick-initialized .slick-slide{
+    padding: 10px;
+}
+
+
+
+/* 
+=========================================================================================
+=============================== Halaman Browse Programming ==============================
+=========================================================================================
+ */
+ /* Section Header Programming*/
+.header{
+    background: 
+    linear-gradient(to top, #012e78, rgba(3, 141, 210, 0.8)),
+    url(../img/card-2.png);
+    padding: 80px 5%;
+    color:#fff;
+}
+.header h1{
+    font-weight: normal; 
+}
+
+.header p{
+    margin: 40px 0;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* Slick 2 */
+.slick2 .preview{
+    background-size:cover;
+    min-height: 250px;
+    border-radius: 10px
+}
+.slick2 .label{
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding:  10px 20px;
+    background: linear-gradient(to bottom, #038bd1, #24c3d9);
+    color: #fff;
+    box-shadow: 0 1px 10px #00000041;
+}
+.slick2 .box{
+    border-radius: 10px;
+    box-shadow: 0 1px 10px 0 #00000080;
+}
+.slick2 ul{
+    background: transparent;
+    padding: 8px 0;
+    margin: 0;
+}
+.slick2 ul a{
+    color: #000!important;
+    text-decoration: none;
+}
+.slick2 .breadcrumb>li+li:before{
+    content: "\003E";
+}
+.slick2 .author img{
+    display: unset;
+    width: 50px;
+    height: 50px;
+}
+.slick2 .icon{
+    list-style: none;
+    padding:0;
+    margin:5px 0;
+    display: inline-flex;
+    color: #777;
+}
+.slick2 .icon li{
+    margin-right: 40px;
+}
+
+
+.card{
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border-radius: 5px;
+    box-shadow: 0 1px 10px 0px #00000034;
+}
+.card-body{
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+.card-body h5{
+    font-weight: 600;
+}
+.card-body p{
+    font-size: 12px;
+}
+.card-body ul{
+    list-style: none;
+    padding: 0;
+    color: #777
+}
+.card-body ul li{
+    font-size: 12px;
+    display: inline;
+    margin-right: 10px;
+}
+.card-img-top {
+    width: 100%;
+    height: 140px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.img-author {
+    width: 30px;
+    height: 30px;
+}
+.card .label{
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding:  10px 20px;
+    background: linear-gradient(to bottom, #038bd1, #24c3d9);
+    color: #fff;
+    box-shadow: 0 1px 10px #00000041;
+}
+
+.kategori-small h5{
+    background: #fff;
+    color: #000;
+    padding: 10px 20px;
+    margin: 0 25px;
+    text-align: center;
+    font-weight: normal;
+    border-bottom: 7px solid #038bd1;
+    border-radius: 5px;
+}
+
+/* Style Pagination  */
+.pagination>li>a, .pagination>li>span{ 
+    border:none ;
+    background: transparent;
+    color: #038bd1;
+    border-radius: 50%;
+    transform: scale(.8);
+    margin-top:3px;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span, .pagination>li:last-child>a, .pagination>li:last-child>span{
+    margin: 0 10px;
+    color: #038bd1;
+    background: #fff;
+    border: 1px solid #038bd1;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    color: #fff;
+    background-color: #038bd1;
+    transform: scale(1);
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover{
+    color: #fff;
+    background-color: #038bd1;
+}
+
+.slick-prev:before{
+    content: '\f053';
+}
+.slick-next:before{
+    content: '\f054';
+}
+.slick-prev:before, .slick-next:before{
+    margin-left: -4px;
+    padding: 5px 8px 5px 10px;
+    font-family: 'Font Awesome 5 Free';
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 1;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 10px 0 #00000080;
+    color: #000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+
+
+
+/* 
+=========================================================================================
+================================ Halaman Browse Bootcamp ================================
+=========================================================================================
+*/
+/* Section Header  Bootcamp*/
+ .headerBootcamp{
+    background: 
+    linear-gradient(to right, #012e78, rgba(3, 141, 210, 0.8)),
+    url(../img/card-2.png);
+    padding: 80px 5%;
+    color:#fff;
+}
+.headerBootcamp h1{
+    font-weight: normal; 
+}
+
+.headerBootcamp p{
+    margin: 40px 0;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.kotak{
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.3);
+    padding: 20% 5%;
+    color: #fff;
+    font-weight: bold;
+}
+a .kotak h4:hover{
+    text-decoration: none;
+}
+.kategori-list h2{
+    display: inline-block;
+    margin-bottom:20px
+}
+.kategori-list h2:after{
+    content: "\f054";
+    font-weight: bold;
+    font-family: "Font Awesome 5 Free";
+    display: inline-block;
+    position: absolute;
+    margin-left: 20px;
+    width: 1.3em;
+    color: #ddd;
+}
+.features h4{
+    font-weight: bold;
+    margin: 20px 0 40px;
+    position: relative
+}
+.features h4:after{
+    content:'';
+    position:absolute;
+    left:0;
+    right: 0;
+    margin:10px auto;
+    top:100%;
+    width:12%;
+    height:4px;
+    background:#038bd1;
+}
+.features img{
+    height: 100px;
+}
+.video{
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+.sm-flex{
+    display: flex;
+}
+.video iframe{
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: none;
+}
+.video .content{
+    background:linear-gradient(to right, #038dd2cc, #0044b3);
+    color: #fff;
+    padding:80px 20px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius:10px
+}
+
+
+@media only screen and (max-width: 480px){
+    .video{
+        border-radius: 10px;
+        margin-bottom: 40px;
+    }
+    .sm-flex{
+        display: block;
+    }
+    .video iframe{
+        width: 100%;
+        height: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border: none;
+        min-height: 250px;
+        z-index: 2;
+    }
+    .video .content{
+        border-radius: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        margin-top: -6px;
+    }
+}
+
+.card-eq-height{
+    display: flex;
+    flex-wrap: wrap;
+}
+.card-eq-height .card, .card-eq-height .card-body{
+    height: 40%;
+}

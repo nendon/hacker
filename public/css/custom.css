@@ -1,0 +1,373 @@
+@font-face {
+    font-family: "opensans-bold";
+    src: url("../fonts/OpenSans-Bold.ttf") format("truetype");
+}
+@font-face {
+    font-family: "opensans-regular";
+    src: url("../fonts/OpenSans-Regular.ttf") format("truetype");
+}
+html, body {
+    min-height: 100%;
+    position: relative;
+}
+* {
+    font-family: "opensans-regular";
+    -webkit-transition: ease-out .3s;
+    -moz-transition: ease-out .3s;
+    -o-transition: ease-out .3s;
+    transition: ease-out .3s;
+}
+#header {
+    min-height: 80px;
+    background-color: #2ba8e2;
+}
+.logo-container {
+    padding-top: 15px;
+    float: left;
+    display: block;
+    width: 130px;
+}
+.logo {
+    margin-top: -5px;
+    height: 60px;
+}
+.browse-btn {
+    margin-left: 25px;
+    padding: 15px 25px;
+    line-height: 80px;
+    color: #2ba8e2;
+    background-color: #FFF;
+    border-radius: 6px;
+}
+.masuk-btn {
+    margin: 0 20px 0;
+    padding: 5px 20px;
+    line-height: 80px;
+    color: #FFF;
+    border-right: 2px solid #FFF;
+}
+.masuk-btn:hover {
+    text-decoration: none;
+    color: #FFF;
+}
+.daftar-header-btn {
+    padding: 15px 60px;
+    line-height: 80px;
+    color: #2ba8e2;
+    background-color: #FFF;
+    border-radius: 6px;
+}
+.browse-btn:hover, .daftar-header-btn:hover  {
+    text-decoration: none;
+    color: #2ba8e2;
+    -webkit-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    -moz-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+}
+#top-section {
+    padding: 50px 0;
+    min-height: 300px;
+    background-position: center center;
+    background-size: cover;
+    background-image: url('../img/header-bg.png');
+}
+#top-section p {
+    padding: 0 10px;
+    font-size: 32px;
+    color: #FFF;
+    text-align: center;
+}
+.daftar-btn {
+    display: block;
+    width: 180px;
+    margin: auto;
+    margin-top: 35px;
+    padding: 15px 60px;
+    line-height: 20px;
+    color: #FFF;
+    text-align: center;
+    background-color: #f1c40f;
+    border-radius: 6px;
+}
+.daftar-btn:hover {
+    text-decoration: none;
+    color: #FFF;
+    -webkit-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    -moz-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+}
+#cat-images {
+    padding: 25px 0;
+    background-color: #F3F3F3;
+}
+.cat-img-container {
+    overflow: hidden;
+}
+.cat-img-container img {
+    display: block;
+    margin: auto;
+    width: 60%;
+}
+.cat-img-container p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+}
+#cat-section {
+    padding: 25px 0;
+}
+.title-cat {
+    font-size: 26px;
+}
+.selengkapnya-btn {
+    float: right;
+    margin-top: 5px;
+    padding: 5px 25px;
+    font-size: 12px;
+    border-radius: 6px;
+    color: #FFF;
+    background-color: #f1c40f;
+}
+.selengkapnya-btn:hover {
+    text-decoration: none;
+    color: #FFF;
+    -webkit-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    -moz-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+}
+
+.card {
+    margin-bottom: 15px;
+    border-radius: 5px;
+    
+}
+.card:hover {
+    text-decoration: none;
+    -webkit-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    -moz-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+}
+.card a {
+    text-decoration: none;
+}
+.card-img {
+    width: 100%;
+    height: 150px;
+    background-size: cover;
+    background-position: center center;
+}
+.card-body {
+    height: 180px;
+    padding: 15px;
+    padding-bottom: 15px;
+    background-color: #FAFAFA;
+}
+.card-info {
+    padding-bottom: 15px;
+    position: absolute;
+    left: 20;
+    bottom: 0;
+}
+.lihat-semua-btn {
+    margin: auto;
+    margin-bottom: 25px;
+    width: 170px;
+    display: block;
+    padding: 5px 25px;
+    font-size: 18px;
+    color: #FFF;
+    text-align: center;
+    background-color: #2ba8e2;
+    border-radius: 6px;
+}
+.lihat-semua-btn:hover {
+    text-decoration: none;
+    color: #FFF;
+    -webkit-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    -moz-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+    box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.18);
+}
+#footer {
+    padding: 25px;
+    background-color: #09121a;
+}
+.footer-logo {
+    padding-bottom: 15px;
+    height: 55px;
+}
+
+.footer-logo-text {
+    font-family: "opensans-bold";
+    font-size: 18px;
+    color: #FFF;
+}
+.nav-footer {
+    padding: 0;
+    list-style: none;
+}
+.nav-footer li:first-child {
+    font-family: "opensans-bold";
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #FFF;
+}
+.nav-footer li a {
+    text-decoration: none;
+    line-height: 25px;
+    font-size: 12px;
+    color: #D3D6D6;
+}
+#footer p {
+    font-size: 12px;
+    color: #D3D6D6;
+}
+.copyrigth-text {
+    margin-top: 50px;
+}
+
+#sign-container {
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    max-height: 450px;
+    width:  95%;
+    max-width: 450px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    overflow: hidden;
+}
+.tab-btn-container a {
+    display: block;
+    float: left;
+    padding: 20px;
+    width: 50%;
+    font-size: 20px;
+    text-decoration: none;
+    color: #535353;
+    text-align: center;
+}
+.tab-btn-container a:hover {
+    cursor: pointer;
+}
+.tab-content {
+    margin-top: 68px;
+    padding: 25px 25px;
+}
+.tab-content button {
+    display: block;
+    padding: 8px 45px;
+    margin: auto;
+}
+.tab-content input {
+    border: none;
+}
+#tab-2-content {
+    margin-top: 50px;
+}
+
+#table-bg {
+    min-height: 100%;
+    background-image: url('../img/table-bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.overlay-bg {
+    height: 90%;
+    background-color: rgba(255,255,255,.85);
+}
+.intstruction-text {
+    padding: 10px 25px;
+    margin: auto;
+    width: 70%;
+}
+.intstruction-text p {
+    padding-top: 15px;
+    text-align: center;
+}
+.pro {
+    padding: 0 30px !important;
+}
+.pro p {
+    padding: 10px;
+    font-size: 18px;
+    color: #FFF;
+    background-color: #2ecc71;
+    cursor: pointer;
+}
+.premium {
+    padding: 0 30px !important;
+}
+.premium p {
+    padding: 10px;
+    font-size: 18px;
+    color: #339bd5;
+    border: 2px solid #339bd5;
+    cursor: pointer;
+}
+#table-section {
+    padding: 25px;
+    margin: auto;
+    width: 70%;
+    background-color: #FFF;
+}
+#pricing-table tbody tr td {
+    text-align: center;
+}
+#pricing-table tbody tr td:first-child {
+    text-align: left;
+}
+#pricing-table tbody tr td:nth-child(2) {
+    background-color: rgba(46, 204, 113,.1);
+}
+.next-btn {
+    padding: 6px 0;
+    width: 100%;
+    display: block;
+    color: #FFF;
+    background-color: #f39c12;
+}
+.next-btn:hover {
+    text-decoration: none;
+    color: #FFF;
+}
+.no-bg-color {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.playlist-title{
+    color: #2ba8e2;
+    font-size: 26px;
+}
+
+.playlist-total-video {
+    float: right;
+    margin-top: 5px;
+    padding: 5px 25px;
+    font-size: 16px;
+    border-radius: 6px;
+    color: #FFF;
+    background-color: #2ba8e2;
+}
+
+@media only screen and (max-width : 768px) {
+    .logo-container {
+        float: none;
+        margin: auto;
+    }
+    .masuk-btn {
+        margin: 0;
+    }
+    .daftar-header-btn {
+        margin-left: 10px;
+        padding: 10px 10px;
+    }
+    .browse-btn {
+        margin-left: 0;
+        padding: 10px 10px;
+    }
+    #table-section {
+        width: 95%;
+    }
+}
