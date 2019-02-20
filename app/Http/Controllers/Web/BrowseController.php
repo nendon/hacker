@@ -21,11 +21,10 @@ class BrowseController extends Controller
     public function detail($slug){
         $bucat = BootcampCategory::where('slug', $slug)->first();
         $boot = Bootcamp::with(['bootcamp_category' => function ($query) use ($slug){
-            $query->where('slug', $slug);}], 'contributor', 'bootcamp_member', 'course')->paginate(8);
+            $query->where('slug', $slug);}], 'contributor', 'bootcamp_member', 'course')->where('bootcamp_category_id', $bucat->id)->paginate(8);
         $cat = BootcampCategory::all();
         $new = Bootcamp::with(['bootcamp_category' => function ($query) use ($slug){
-            $query->where('slug', $slug);}], 'contributor', 'bootcamp_member', 'course')->orderBy('created_at', 'asc')->take(2)->get();
-        // dd($new);
+            $query->where('slug', $slug);}], 'contributor', 'bootcamp_member', 'course')->where('bootcamp_category_id', $bucat->id)->orderBy('created_at', 'asc')->take(2)->get();
         return view('web.browse.detail', [
             'hasil' => $boot,
             'cat' => $cat,
