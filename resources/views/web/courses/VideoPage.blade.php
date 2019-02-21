@@ -2,7 +2,7 @@
 @section('title','')
 @section('content')
     <section id="wrapper">
-      
+
       <!-- THE PLAYLIST -->
       <div id="sidebar-wrapper">
         <div class="tabs-video">
@@ -21,7 +21,7 @@
           </ul>
         </div>
 
-        
+
         <div class="tab-content tab-content-video-page" id="pills-tabContent">
           <!-- Tab Materi -->
           <div class="tab-pane fade active in" id="pills-materi" role="tabpanel" aria-labelledby="pills-materi-tab">
@@ -36,7 +36,7 @@
                     <h6><span class="fa fa-clock"></span> 40:48</h6>
                   </div>
                   <i class="icon-collap fa fa-chevron-down"></i>
-                </a>    
+                </a>
               </div>
               <div class="collapse submateri" id="{{$section->id}}">
                 <ul>
@@ -64,7 +64,7 @@
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
-                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}           
+                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
@@ -115,7 +115,7 @@
 
               <div class="player-end">
                 <div class="align-items-center">
-                  <div class="col-xs-12 text-center">  
+                  <div class="col-xs-12 text-center">
                     <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
                     <h6>Berikutnya Why you should take this course</h6>
                     <button class="btn btn-primary" onClick="changeVideo()">Lanjutkan</button>
@@ -200,7 +200,7 @@
     </div>
     `;
 
-    var player = new Plyr('#player', { 
+    var player = new Plyr('#player', {
       "debug": true,
       controls,
       keyboard:{
@@ -213,19 +213,19 @@
       type: 'video',
       title: 'Elephant Dream',
       sources: [{
-        src: '{{asset($vsection->file_video)}}',
+        src: '{{asset($section->file_video)}}',
         type: 'video/mp4',
       }]
     };
 
     //show overlay when video has ended
     player.on('ended', function(){
-        $('.player-end').css('display', 'block'); 
+        $('.player-end').css('display', 'block');
     });
 
     //hide overlay when video play again
     player.on('playing',function(){
-        $('.player-end').css('display', 'none'); 
+        $('.player-end').css('display', 'none');
     });
 
 
@@ -234,7 +234,7 @@
       const defaultUrl = 'http://localhost:8000/';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
-      $('.player-end').css('display', 'none'); 
+      $('.player-end').css('display', 'none');
       player.source = {
         type: 'video',
         title: title,
@@ -250,7 +250,7 @@
       var datatarget =  $(this).attr("href");
       var idtarget =  $(this).attr("id");
       $(datatarget).on('shown.bs.collapse', function() {
-        $('#'+idtarget+' i').removeClass('fa-chevron-down').addClass('fa-chevron-up');        
+        $('#'+idtarget+' i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
       });
 
       $(datatarget).on('hidden.bs.collapse', function() {
