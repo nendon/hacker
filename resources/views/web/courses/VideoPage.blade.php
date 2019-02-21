@@ -213,7 +213,7 @@
       type: 'video',
       title: 'Elephant Dream',
       sources: [{
-        src: '{{asset($section->file_video)}}',
+        src: '{{asset($vsection->file_video)}}',
         type: 'video/mp4',
       }]
     };
