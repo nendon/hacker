@@ -1,0 +1,456 @@
+body{
+    font-family: 'Open Sans', sans-serif;
+   /* background: #eee;*/
+}
+
+h1,h2,h3,h4,h5{
+    font-weight: bold;
+}
+h2.title{
+    font-weight: normal;
+    margin-bottom: 40px;
+}
+.btn-blue{
+    color: #fff;
+    background: #2699fb;
+    border-color: #2699fb;
+    letter-spacing: 2px;
+    font-weight: 600;
+    padding: 6px 24px;
+    box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.3);
+}
+.btn-blue:hover,
+.btn-blue:focus,
+.btn-blue:active{
+    color: #fff;
+    background: #0a89f8;
+    border-color: #0a89f8;
+}
+.slick-track
+{
+    display: flex !important;
+}
+.slick-slide
+{
+    height: inherit !important;
+}
+
+
+/* Section Header */
+.header{
+    background: linear-gradient(to right,#05c8bc,#a652ec);
+    padding: 40px 5%;
+    color:#fff;
+}
+.header ul{
+    background: transparent;
+}
+.header ul li, .header-header ul a{
+    color: #fff!important;
+}
+.header .breadcrumb>li+li:before{
+    content: "\003E";
+    color: #fff;
+}
+.header span{
+    border-radius:20px;
+    border:1px solid #fff;
+    padding: 4px 20px;
+    letter-spacing: 4px;
+    font-weight: bold;
+}
+.header h2{
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.header h4{
+    font-weight: normal;
+    margin-bottom: 40px;
+}
+
+/* Section 1 */
+.section1{
+    background: url(../asset/bg.jpg);
+    background-size: auto 100%;
+    padding: 100px 0;
+}
+.section1 h3{
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    position: relative;
+}
+.section1 h3:after{
+    content:'';
+    position:absolute;
+    left:0;
+    margin:10px auto;
+    top:100%;
+    width:12%;
+    height:4px;
+    background:#a851ed;
+}
+
+/* section 2 */
+.section2{
+    background: url(../asset/bg2.jpg);
+    background-size: auto 100%;
+    padding: 100px 0;
+}
+.section2 h3{
+    margin-bottom: 40px;
+    position: relative;
+}
+.section2 h3:after{
+    content:'';
+    position:absolute;
+    left:0;
+    margin:10px auto;
+    top:100%;
+    width:12%;
+    height:4px;
+    background:#ff5383;
+}
+.section2 ul{
+    padding-left: 30px;
+}
+.section2 .panel{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: transparent;
+}
+.section2 .panel a{
+    text-decoration: none;
+    color: #222222;
+    font-size: 22px;
+    font-weight: bold;
+}
+.section2 .panel .collapse,
+.section2 .panel .collapsing{
+    padding-top: 20px;
+}
+
+/* Section 3 */
+.section3{
+    padding: 100px 0;
+    background: url(../asset/bg.jpg);
+    background-size: auto 100%;
+}
+.section3 p{
+    color: #383838;  
+}
+
+/* Silabus */
+.silabus{
+    padding: 40px 5%;
+    background: #f7fcfe
+}
+.silabus .box{
+    background: #fff;
+    border: 1px solid #bebebe;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.silabus .box .images{
+    background-size:cover;
+    min-height: 250px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+.silabus ul li{
+    margin: 20px 0;
+    list-style: none;
+    display: inline-block;
+}
+.silabus ul li img{
+    max-width: 60px;
+    margin-top: -13px;
+    float: left;
+}
+.silabus ul li a{
+    text-decoration: none;
+    color: #2699fb;
+    font-weight: bold;
+}
+.timelines > li .timelines-content {
+    margin: 0 0 0 15%;
+    padding: 2em;
+    position: relative;
+    border-radius: 5px;
+}
+.timelines > li .timelines-number {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    color: #005aee;
+    text-align: center;
+    margin: 7%;
+}
+.timelines > li .timelines-number h1{
+    font-weight: normal;
+    margin:0;
+    font-size:48px;
+}
+.silabus .lesson-detail{
+    padding: 0;
+}
+.silabus .lesson-detail li:not(:last-child){
+    display: block;
+    border-bottom: 1px solid #777;
+    margin-bottom: 10px;
+}
+.silabus .lesson-number{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    color: #005aee;
+    text-align: center;
+    margin: 70px 0 0 15px;
+}
+.silabus .lesson-content {
+    margin: 0 0 0 60px;
+    padding: 2em;
+    position: relative;
+    border-radius: 5px;
+}
+.silabus .lesson-content img{
+    float: none;
+    margin-bottom: -20px;
+}
+
+.instruktur{
+    background: #fff; 
+    padding: 40px 10%;
+}
+.instruktur .border-blue{
+    border: 1px solid #005aee;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow:0px 5px 15px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* instruktur */
+.testimoni{
+    background: #f7fcfe; 
+    padding:40px 5%;
+}
+.testimoni .box{
+    border-radius: 4px;
+    margin: 10px;
+    /* min-height: 350px; */
+    padding: 40px 20px 80px;
+    box-shadow:0px 5px 15px 0 rgba(0, 0, 0, 0.2);
+    position:relative;
+    box-shadow:0px 5px 15px 0 rgba(0, 0, 0, 0.2);
+    background: #fff;
+    background-size: 100%;
+    color: #777;
+}
+.testimoni .box .name{
+    color: #000;
+    bottom: 5%;
+    position: absolute;
+    padding: 0 10px;
+}
+.testimoni .box.image{
+    background-size: 100% 100%;
+    height: 95%;
+}
+/*promote video*/
+.img-play-size{
+	width:150px;
+	height:150px;
+}
+.video-previews .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    /* background-image: url('template/web/img/play-button.svg'); */
+    color: white;
+    font-size: 73px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+/* Question */
+.question{
+    background: #fff;
+    padding: 40px 10%
+}
+.question p{
+    margin-bottom: 40px;
+}
+.question ul{
+    list-style:decimal;
+    padding-left:20px;
+    color: #777"
+}
+.question ul li{
+    margin: 10px 0;
+}
+
+/* Fasilitas */
+.fasilitas{
+    background: #f7fcfe;
+    padding: 100px 10%
+}
+.fasilitas .item{
+    position: relative;
+    margin-top: 20px;
+    padding: 5px 0 0 110px;
+}
+.fasilitas .item .icon{
+    display: block;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0;
+}
+
+/* Harga */
+.harga{
+    background: #fff;
+    padding: 100px 10%
+}
+.harga .border-blue{
+    width: 250px;
+    margin:0 auto;
+    border-radius: 4px;
+    border: 4px solid #2699fb;
+    border-top: 30px solid #2699fb;
+    background: #2699fb;
+    color: #2699fb
+}
+.harga .border-content{
+    border-radius: 4px;
+    padding: 20px 10px;
+    background: #f7f7f7
+}
+.harga h5{
+    border-bottom: 2px solid #2699fb;
+    padding-bottom: 20px;
+    width: fit-content;
+    margin: 0 auto;
+}
+.harga ul{
+    list-style: none;
+    text-align: left;
+    padding-left: 10px;
+    margin: 20px 0;
+    position: relative;
+}
+.harga ul li{
+    margin-bottom: 5px;
+    color: #777;
+}
+.harga ul li:after{
+    content: "\f058";
+    font-weight: bold;
+    font-family: "Font Awesome 5 Free";
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    width: 1.3em;
+    color: #2699fb;
+}
+
+/* Frequently Asked Questions */
+.faq{
+    background: #f7fcfe;padding: 100px 10%
+}
+.faq .panel-heading{
+    background: #fff;
+}
+.panel-group .panel-heading+.panel-collapse>.list-group, .panel-group .panel-heading+.panel-collapse>.panel-body{
+    border: none;
+}
+.faq a{
+    text-decoration: none;
+    color: #000;
+}
+.faq .panel-body{
+    color: #777;
+}
+
+
+
+@media only screen and (max-width: 768px){
+    .timelines > li .timelines-number{
+        margin: 110px 10px;
+    }
+    .timelines > li .timelines-content,.silabus .lesson-content{
+        margin: 0 0 0 10%;
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .slick-track
+    {
+        display: block;
+    }
+    .slick-slide
+    {
+        height: inherit !important;
+    }
+    .silabus .box{
+        display: block;
+        flex-wrap: unset;
+    }
+    .box .images{
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 0;
+    }
+    .testimoni .box{
+        height: auto;
+    }
+    .testimoni .box.image{
+        background-size: 100% 100%;
+        min-height: 450px;
+    }
+    .timelines > li .timelines-number{
+        margin: 40px 25px;
+        z-index: 2;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        padding: 18px 0 0;
+        width: 70px;
+        height: 70px;
+    }
+    .timelines > li .timelines-number h1, .timelines > li .timelines-number h4{
+        font-weight: normal;
+        margin: 0;
+        font-size: 18px;
+    }
+    .timelines > li .timelines-content{
+        margin: 0;
+    }
+
+    .silabus ul li{
+        display: table;
+    }
+
+    .silabus .lesson-number{
+        position: relative;
+        float: left;
+        margin: 10px;
+        background: #d4ebff;
+        border-radius: 50%;
+        padding: 10px;
+        width: 70px;
+        height: 70px;
+    }
+
+    .silabus .lesson-content{
+        padding: 0 0 20px 0;
+        margin: 0;
+    }
+}
+

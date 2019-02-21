@@ -502,6 +502,22 @@ a #items .item {
 }
 
     </style>
+    <!-- Landing page -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!-- Font OpenSans Reguler -->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('template/bootcamp/css/slick.css')}}">
+    <link rel="stylesheet" href="{{asset('template/bootcamp/css/slick-theme.css')}}">
+    <link rel="stylesheet" href="{{asset('template/bootcamp/css/spacing.css')}}">
+    <link rel="stylesheet" href="{{asset('template/bootcamp/css/landingpage.css')}}">
+    
     <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
     <link rel="stylesheet" href="{{ asset('template/web/css/helper.css') }}">
     <link rel="stylesheet" href="{{ asset('template/web/css/common.css') }}">

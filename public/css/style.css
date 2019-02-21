@@ -19,7 +19,8 @@ h1,h2,h3,h4,h5{
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
-.btn-primary:not(:disabled):not(.disabled).active{
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active{
     background: #2ba8e2;
     border-color: transparent;
     color: #fff;
@@ -27,16 +28,18 @@ h1,h2,h3,h4,h5{
 }
 
 
-.btn-second{
+.btn-secondarys{
+
     background: #fff;
     border-color: transparent;
     color: #1fb6ff;
     border-radius: 2px;
     padding: 6px 30px;
 }
-.btn-second:hover,
-.btn-second:focus,
-.btn-second:active{
+.btn-secondarys:hover,
+.btn-secondarys:focus,
+.btn-secondarys:active{
+
     background: #fff;
     border-color: transparent;
     color: #1fb6ff;
@@ -101,7 +104,6 @@ a.collap{
 }
 .tab-content-video-page{
     margin-top: 0px;
-    padding: 0px;
 }
 .video-materi{
     width: 100%;

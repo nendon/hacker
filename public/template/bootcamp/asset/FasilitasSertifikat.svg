@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="179" height="179" viewBox="0 0 179 179">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.29" y1="1.103" x2="0.792" y2="0.073" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#7b1fa2"/>
+      <stop offset="1" stop-color="#7c4dff"/>
+    </linearGradient>
+    <filter id="Ellipse_28" x="0" y="0" width="179" height="179" filterUnits="userSpaceOnUse">
+      <feOffset dy="12" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="8.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Fasilias_Sertifikat" data-name="Fasilias Sertifikat" transform="translate(-270.5 -4395.5)">
+    <g transform="matrix(1, 0, 0, 1, 270.5, 4395.5)" filter="url(#Ellipse_28)">
+      <circle id="Ellipse_28-2" data-name="Ellipse 28" cx="64" cy="64" r="64" transform="translate(25.5 13.5)" fill="url(#linear-gradient)"/>
+    </g>
+    <image id="graduate-diploma" width="64" height="64" transform="translate(328 4441)" xlink:href="data:image/png;base64,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"/>
+  </g>
+</svg>

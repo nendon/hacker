@@ -16,7 +16,7 @@
                 {{$course->deskripsi}}
               </h6>
               <br>
-              <button class="btn btn-second btn-lg mb-2">Mulai belajar</button>
+              <button class="btn btn-secondarys btn-lg mb-2">Mulai belajar</button>
             </div>
           </div>
         </div>
