@@ -69,7 +69,7 @@ class LessonsMemberController extends Controller
             // counting hist & videos
             // set $count_videos to 1 if videos = 0, you can't divide something by 0.
             $count_hist = count($get_hist);
-            $count_videos =  (count($get_videos) == 0) ? 1 : count($get_videos);
+            $count_videos = (count($get_videos) == 0) ? 1 : count($get_videos);
 
             $progress = $count_hist * 100 / $count_videos;
         } else {
