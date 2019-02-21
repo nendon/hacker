@@ -4,6 +4,7 @@
 @section('content')
 
 @include('web.blocks.main-banner')
+@include('web.blocks.bootcamp')
 @include('web.blocks.tutorial')
 @include('web.blocks.guide')
 @include('web.blocks.testimoni')

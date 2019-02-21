@@ -258,4 +258,7 @@
       });
     });
     </script>
+    @section('footer')
+{{-- this section will be empty --}}
+@stop
 @endsection()

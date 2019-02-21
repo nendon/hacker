@@ -34,6 +34,8 @@
     <link href="{{asset('template/web/css/pace.css')}}" rel="stylesheet">
     <link href="{{ asset('template/web/css/venobox.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/flickity@2.1.2/dist/flickity.css"/>
+    <link rel="stylesheet" href="{{asset('css/slick-theme.css')}}">
+    <link rel="stylesheet" href="{{asset('css/halaman.css')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- rating -->
     <link rel="stylesheet" type="text/css" href="{{asset('css/slick.css')}}"/>

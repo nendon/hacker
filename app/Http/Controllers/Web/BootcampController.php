@@ -41,8 +41,8 @@ class BootcampController extends Controller
           }
     	$bc = Bootcamp::where('status', 1)->where('slug', $slug)->first();
     	$now = new DateTime();
-    	$time = strtotime($bc->created_at);
-        $myFormatForView = date("d F y", $time);
+    	// $time = strtotime($bc->created_at);
+        // $myFormatForView = date("d F y", $time);
         $contributors = DB::table('contributors')->where('contributors.id',$bc->contributor_id)->first();
 
         return view('web.bootcamp.bootcamp',[

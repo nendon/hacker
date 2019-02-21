@@ -9,6 +9,67 @@
     <div class="row">
       <div class="col-md-12">
 
+          <!-- New Bootcamp -->
+          <div class="tutorial-row">
+            <div class="row">
+  
+              <div class="col-md-9">
+                <div class="title-area pb-25 hidden">
+                  <div class="inner ">
+                    <h2 class="mb-25">Kelas Bootcamp</h2>
+                    <p>Update materi tutorial baru setiap bulan</p>
+                  </div>                  
+                </div>
+                <a href="{{ url('bootcamp/browse/') }}" class="btn btn-default btn-more" style="color:teal; margin-top: -140px;">Browse Semua Bootcamp </a>
+              </div>
+              <div class="col-md-3">
+                  <div class="bootcamp ">
+                      @foreach($bootcamp as $result)
+                      <div>
+                        <div class="card">
+                          <div class="label">
+                            Bootcamp
+                          </div>
+                          <?php if (!empty($result->cover)) {?>
+                            <img src="{{ asset($result->cover) }}" alt="" class="img-responsive img-card" style="background-size:cover;">
+                          <?php } else {?>
+                            <img src="{{ asset('template/web/img/no-image-available.png') }}" alt="" class="img-responsive">
+                          <?php }?>
+                          <div class="card-body">
+                            <div class="card-author">
+                              <img src="{{asset($result->contributor->avatar)}}" class="img-author" alt="">
+                              <small class="text-muted">{{ $result->contributor->username}}</small>
+                            </div>
+                            <h5>
+                              {{$result->title}}
+                            </h5>
+                            <p>
+                              {!! $result->deskripsi !!}
+                            </p>
+                            <ul>
+                              <li>
+                                <i class="fa fa-book"></i> {{count($result->course)}} Course
+                              </li>
+                              <li>
+                                <i class="fa fa-user"></i> {{count($result->bootcamp_member)}} Siswa
+                              </li>
+                              <li>
+                                <a href="#"> Selengkapnya</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      @endforeach()
+                  </div>
+              </div>
+              
+  
+            </div>
+          </div>
+          <!-- /.New Tutorial -->
+
+        
         <!-- New Tutorial -->
         <div class="tutorial-row">
           <div class="row">
@@ -251,6 +312,33 @@
   });
 </script>
 
+<script>
+    var settingslick = {
+      dots: true,
+      infinite: false,
+      speed: 300,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 800,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
+    };
+
+    $('.bootcamp').slick(settingslick);
+</script>
 
 
 @endpush

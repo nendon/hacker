@@ -12,6 +12,7 @@ use Auth;
 use App\Models\Rate;
 use DB;
 use App\Models\Cart;
+use App\Models\Bootcamp;
 
 
 class HomeController extends Controller {
@@ -109,6 +110,7 @@ class HomeController extends Controller {
 		// $cart = Cart::where('member_id', $mem_id)->where('lesson_id', $lessons->id)->get();
 		// dd($tutorial);
 		$invoice = Invoice::where('status', '=', 1)->where('members_id', '=', $mem_id)->first();
+		$bootcamp = Bootcamp::where('status', 1)->with('course', 'bootcamp_member', 'contributor')->get();
 		return view('web.home', [
 			'categories' => $categories,
 			'newlessons' => $newlessons,
@@ -119,7 +121,7 @@ class HomeController extends Controller {
             // 'cart' => $cart,
 			'ratenow' => $ratenow,
 			'cekdulu' => $cekdulu,
-			
+			'bootcamp'=> $bootcamp,
 		]);
 	}
 }
