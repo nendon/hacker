@@ -1,4 +1,6 @@
 @extends('web.app')
+<link rel="stylesheet" href="{{asset('template/bootcamp/css/landingpage.css')}}">
+
 @section('title',$bca->title)
 @section('description', $bca->description)
 @section('content')

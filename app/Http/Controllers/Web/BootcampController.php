@@ -48,8 +48,8 @@ class BootcampController extends Controller
         $main_videos = Section::with('video_section')->where('course_id', $cs->id)->get();
         $main_course = Course::where('bootcamp_id', $bc->id)->get();
     	$now = new DateTime();
-    	// $time = strtotime($bc->created_at);
-        // $myFormatForView = date("d F y", $time);
+    	$time = strtotime($bc->created_at);
+        $myFormatForView = date("d F y", $time);
         $contributors = DB::table('contributors')->where('contributors.id',$bc->contributor_id)->first();
 
         return view('web.bootcamp.bootcamp',[
