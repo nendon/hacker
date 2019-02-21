@@ -2,24 +2,7 @@
 @section('title',$bca->title)
 @section('description', $bca->description)
 @section('content')
-  <!-- <section class="header">
-
-    <div class="container">
-      <div class="row">
-        
-        <div class="col-md-6 col-xs-12">
-          <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus/') }}" class="btn-tag">{{$bca->title}}</a>
-          
-          <h1 class="price">Rp. {{$bca->price}} </h1>
-          <h2>{{$bca->title}}</h2>
-         
-          <h6 class="mb-4">Oleh {{$contributors->username}}, Created at {{ $tanggal }} </h6>
-          <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
-          <button id="beli-{{ $bca->id }}" class="btn btn-lg btn-primary mb-2" onclick="addToCartBootcamp({{ $bca->id }})">Tambah ke Keranjang</button>
-        </div>
-      </div>
-    </div>
-  </section> -->
+  
   
       
       <!-- Container -->
@@ -30,7 +13,7 @@
           <div class="col-xs-12">
             <ul class="breadcrumb">
               <li><a href="#">Browse</a></li>
-              <li><a href="#">Data Science</a></li>
+              <li><a href="#">{{$bca->title}}</a></li>
               <li class="active">Data Analysis</li>
             </ul>
           </div>
