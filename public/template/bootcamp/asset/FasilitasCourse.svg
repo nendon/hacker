@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="179" height="179" viewBox="0 0 179 179">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.29" y1="1.103" x2="0.792" y2="0.073" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#7b1fa2"/>
+      <stop offset="1" stop-color="#7c4dff"/>
+    </linearGradient>
+    <filter id="Path_2086" x="0" y="0" width="179" height="179" filterUnits="userSpaceOnUse">
+      <feOffset dy="12" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="8.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Fasilitas_Course" data-name="Fasilitas Course" transform="translate(-270.5 -4395.5)">
+    <g transform="matrix(1, 0, 0, 1, 270.5, 4395.5)" filter="url(#Path_2086)">
+      <path id="Path_2086-2" data-name="Path 2086" d="M64,0A64,64,0,1,1,0,64,64,64,0,0,1,64,0Z" transform="translate(25.5 13.5)" fill="url(#linear-gradient)"/>
+    </g>
+    <g id="open-book" transform="translate(343 4459.521)">
+      <g id="Group_1395" data-name="Group 1395">
+        <path id="Path_2070" data-name="Path 2070" d="M61.852,35.254H57.366V30.7a2.119,2.119,0,0,0-1.829-2.083,33.623,33.623,0,0,0-9.817.289C39.852,29.953,35.173,32.535,32,36.437c-3.174-3.9-7.853-6.484-13.72-7.531a33.631,33.631,0,0,0-9.817-.289A2.119,2.119,0,0,0,6.634,30.7v4.554H2.148A2.127,2.127,0,0,0,0,37.359V77.043A2.094,2.094,0,0,0,.9,78.76a2.182,2.182,0,0,0,1.95.272c.161-.055,16.254-5.44,28.255-.073a2.186,2.186,0,0,0,1.783,0c11.967-5.352,28.094.019,28.255.073a2.184,2.184,0,0,0,1.95-.272,2.094,2.094,0,0,0,.9-1.717V37.36A2.128,2.128,0,0,0,61.852,35.254ZM4.3,74.225V39.465H6.634V67.51A2.089,2.089,0,0,0,7.379,69.1a2.178,2.178,0,0,0,1.717.49c.119-.017,9.448-1.273,16.265,3.313C16.964,71.5,8.561,73.127,4.3,74.225Zm25.557-3.218a23.341,23.341,0,0,0-11.572-5.29,34.353,34.353,0,0,0-5.986-.517c-.494,0-.951.01-1.365.027V32.633h0c4.128-.183,14.169.25,18.923,8.154Zm4.3-30.22c4.737-7.87,14.794-8.322,18.923-8.148V65.227a34.707,34.707,0,0,0-7.351.49,23.34,23.34,0,0,0-11.572,5.29V40.787Zm4.485,32.121c6.817-4.589,16.152-3.331,16.268-3.314a2.177,2.177,0,0,0,1.72-.487,2.089,2.089,0,0,0,.746-1.6V39.465H59.7v34.76C55.438,73.127,47.031,71.5,38.632,72.908Z" transform="translate(-15 -40.39)" fill="#fafafa"/>
+      </g>
+    </g>
+  </g>
+</svg>

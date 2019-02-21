@@ -1,0 +1,155 @@
+/*  ==============================
+    timelinez Page Sylabus & Lesson
+    ==============================
+*/
+.timelinez {
+	margin: 30px 0 0 0;
+	padding: 0;
+	list-style: none;
+	position: relative;
+} 
+
+.timelinez li:before {
+ /*   content: '';*/
+    position: relative;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: #afdcf8;
+    left: 10%;
+	margin-left: -10px;
+	height: 0%;
+}
+
+.timelinez li:after {
+	height: 50%;
+    /*content: '';*/
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    width: 10px;
+    background: #afdcf8;
+    left: 10%;
+	margin-left: -10px;
+	z-index: -1;
+}
+
+.timelinez li:first-child:before,
+.timelinez li:last-child:after,
+ul.lesson-detail li:before,
+ul.lesson-detail li:after{
+	display: none;
+}
+
+.timelinez > li {
+	position: relative;
+}
+
+/* Right content */
+.timelinez > li .timelinez-content {
+	margin: 0 0 0 15%;
+	padding: 2em;
+	/* font-size: 1.2em;
+	font-weight: 300;
+	line-height: 1.4; */
+	position: relative;
+	border-radius: 5px;
+}
+
+.timelinez > li .timelinez-content h2 { 
+	margin-top: 0px;
+	padding: 0 0 10px 0;
+	border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+
+.timelinez > li:nth-child(odd) .timelinez-content:after {
+	border-right-color: #6cbfee;
+}
+
+/* The icons */
+.timelinez > li .timelinez-number {
+	width: 50px;
+	height: 50px;
+	font-family: 'ecoico';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	font-size: 1.4em;
+	line-height: 50px;
+	-webkit-font-smoothing: antialiased;
+	position: absolute;
+	/*background: #fff;*/
+	color: #46a4da;
+	border-radius: 50%;
+	/*box-shadow: 0 0 0 8px #afdcf8;*/
+	text-align: center;
+	/* left: 10%;
+	top: 40%; */
+	margin: 120px 0 0 50px;
+}
+
+.timelinez-number-phone:before {
+	content: "\e000";
+}
+
+.timelinez-number-screen:before {
+	content: "\e001";
+}
+
+.timelinez-number-mail:before {
+	content: "\e002";
+}
+
+.timelinez-number-earth:before {
+	content: "\e003";
+}
+
+@media screen and (max-width: 47.2em) {
+    .timelinez .row.box{
+        z-index: 9999;
+        background: #fff;
+    }
+
+	.timelinez:before {
+        left: 50%;
+    }
+
+    .timelinez > li{
+        margin-bottom: 40px;
+    }
+
+	.timelinez > li .timelinez-content {
+		margin: 0 0 0 0;
+		padding: 1em;
+		font-weight: 400;
+		font-size: 95%;
+	}
+
+	.timelinez > li .timelinez-content:after {
+		right: auto;
+		left: 20px;
+		border-right-color: transparent;
+		border-bottom-color: #3594cb;
+		top: -20px;
+	}
+
+	.timelinez > li:nth-child(odd) .timelinez-content:after {
+		border-right-color: transparent;
+		border-bottom-color: #6cbfee;
+	}
+
+	.timelinez > li .timelinez-number {
+        position: absolute;
+        z-index: 999;
+        left: 50%;
+        top: -50px;
+	}
+	
+	ul.timelinez li:before,ul.timelinez li:after{
+		top: 0;
+		left: 50%;
+		height: 80%;
+	}
+}

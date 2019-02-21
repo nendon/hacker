@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="179" height="179" viewBox="0 0 179 179">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.29" y1="1.103" x2="0.792" y2="0.073" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#7b1fa2"/>
+      <stop offset="1" stop-color="#7c4dff"/>
+    </linearGradient>
+    <filter id="Ellipse_29" x="0" y="0" width="179" height="179" filterUnits="userSpaceOnUse">
+      <feOffset dy="12" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="8.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Fasilitas_Ebook" data-name="Fasilitas Ebook" transform="translate(-270.5 -4395.5)">
+    <g transform="matrix(1, 0, 0, 1, 270.5, 4395.5)" filter="url(#Ellipse_29)">
+      <circle id="Ellipse_29-2" data-name="Ellipse 29" cx="64" cy="64" r="64" transform="translate(25.5 13.5)" fill="url(#linear-gradient)"/>
+    </g>
+    <g id="icons8-book" transform="translate(330 4439)">
+      <path id="Path_86" data-name="Path 86" d="M10.4,2A6.4,6.4,0,0,0,4,8.4v48A9.651,9.651,0,0,0,13.6,66H55.2V59.6H13.6a3.2,3.2,0,0,1,0-6.4H55.2V2ZM20,14.8H45.6v6.4H20Z" fill="#fafafa"/>
+    </g>
+  </g>
+</svg>

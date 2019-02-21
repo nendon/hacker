@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="179" height="179" viewBox="0 0 179 179">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.29" y1="1.103" x2="0.792" y2="0.073" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#7b1fa2"/>
+      <stop offset="1" stop-color="#7c4dff"/>
+    </linearGradient>
+    <filter id="Ellipse_26" x="0" y="0" width="179" height="179" filterUnits="userSpaceOnUse">
+      <feOffset dy="12" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="8.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Fasilitas_Akses_Selamanya" data-name="Fasilitas Akses Selamanya" transform="translate(-270.5 -4395.5)">
+    <g transform="matrix(1, 0, 0, 1, 270.5, 4395.5)" filter="url(#Ellipse_26)">
+      <circle id="Ellipse_26-2" data-name="Ellipse 26" cx="64" cy="64" r="64" transform="translate(25.5 13.5)" fill="url(#linear-gradient)"/>
+    </g>
+    <g id="Group_1439" data-name="Group 1439" transform="translate(344 4465.818)">
+      <path id="Path_2083" data-name="Path 2083" d="M50.287,136.533c-7.143,0-14.857,6.919-18.286,10.384-3.429-3.465-11.143-10.384-18.286-10.384C5.128,136.533,0,141.66,0,150.247s5.127,13.714,13.714,13.714c7.143,0,14.857-6.919,18.286-10.384,3.429,3.465,11.143,10.384,18.286,10.384,8.588,0,13.714-5.127,13.714-13.714S58.874,136.533,50.287,136.533ZM13.715,159.39c-6.066,0-9.143-3.077-9.143-9.143s3.077-9.143,9.143-9.143c5.029,0,11.7,5.666,15.15,9.143C25.425,153.729,18.764,159.39,13.715,159.39Zm36.572,0c-5.029,0-11.7-5.666-15.15-9.143,3.429-3.479,10.1-9.143,15.15-9.143,6.066,0,9.143,3.077,9.143,9.143S56.353,159.39,50.287,159.39Z" transform="translate(-16.001 -142.533)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
