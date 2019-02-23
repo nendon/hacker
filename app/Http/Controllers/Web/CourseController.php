@@ -46,7 +46,9 @@ class CourseController extends Controller
     }
     public function courseLesson($slug, $id)
     {
-
+        if (empty(Auth::guard('members')->user()->id)) {
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+          }
         $bcs = Bootcamp::where('slug', $slug)->first();
         $courses = Course::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $courses->id)->get();
@@ -107,6 +109,9 @@ class CourseController extends Controller
     }
      public function videoPage($slug, $id)
     {
+        if (empty(Auth::guard('members')->user()->id)) {
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+          }
         $bcs = Bootcamp::where('slug', $slug)->first();
         $sect = Section::where('id', $id)->first();
         $courses = Course::where('id', $sect->course_id)->first();

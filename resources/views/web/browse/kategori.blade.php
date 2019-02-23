@@ -46,7 +46,7 @@
             </div>
           </div>
           @foreach($boot as $key)
-          <div class="row kategori-list">
+          <div class="row kategori-list ">
             <div class="col-xs-12">
               <h2>{{$key->title}}</h2>
               <a href="{{url('browse/bootcamp/'.$key->slug)}}" class="btn btn-blue pull-right mt-4">Selengkapnya</a>
@@ -55,8 +55,9 @@
                     {!! nl2br($key->meta_desc) !!}
               </p>
 
-              <div class="programming">
+              <div class="programming ">
                 @foreach($key->bootcamp as $result)
+                <a href="{{url('bootcamp/'.$result->slug)}}" style="text-decoration:none; color:black;">                
                 <div>
                   <div class="card">
                     <div class="label">
@@ -82,12 +83,13 @@
                           <i class="fa fa-user"></i> {{count($result->bootcamp_member)}} Siswa
                         </li>
                         <li>
-                          <a href="#"> Selengkapnya</a>
+                          <a href="{{url('bootcamp/'.$result->slug)}}"> Selengkapnya</a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
+                </a>
                 @endforeach()
               </div>
             </div>
