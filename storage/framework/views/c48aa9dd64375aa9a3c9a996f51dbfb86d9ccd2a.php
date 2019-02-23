@@ -49,6 +49,7 @@
                         data-title="<?php echo e($materi->title); ?>"
                         data-video_id="<?php echo e($materi->id); ?>"
                         data-section_id="<?php echo e($materi->section_id); ?>"
+                        
                         onclick="changeVideo(this), saveHistory(this)"
                     >
                       <div class="sub-materi row">
@@ -119,7 +120,6 @@
 
             <!-- THE VIDEO PLAYER -->
               <video id="player" playsinline controls>
-                
                 <source  src="" type="video/mp4">
               </video>
 
@@ -259,11 +259,16 @@
     }
 
     function saveHistory(attr) {
-      let save = "127.0.0.1:8000/bootstrap/" + "<?php echo e($bc->slug); ?>" +
-          "/saveHistory?" +
-          "section_id=" + $(attr).data('section_id') +
-          "&video_id=" + $(attr).data('video_id');
-      console.log(save);
+      let data = {
+        video_id: $(attr).data('video_id'),
+        section_id: $(attr).data('section_id')
+      };
+
+      $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:8000/bootcamp/" + '<?php echo e($bc->slug); ?>' +"/saveHistory",
+        data: data
+      });
     }
 
     $('.collap').click(function(e){

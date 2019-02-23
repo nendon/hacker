@@ -116,7 +116,6 @@
 
             <!-- THE VIDEO PLAYER -->
               <video id="player" playsinline controls>
-                {{-- @php dd($materi->id); @endphp --}}
                 <source  src="" type="video/mp4">
               </video>
 
@@ -247,7 +246,7 @@
 
     //function for button `Lanjutkan` when video has ended
     function changeVideo(attr){
-      const defaultUrl = 'https://cilsy.id';
+      const defaultUrl = 'https://dev.cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
@@ -262,11 +261,16 @@
     }
 
     function saveHistory(attr) {
-      let save = "127.0.0.1:8000/bootstrap/" + "{{ $bc->slug }}" +
-          "/saveHistory?" +
-          "section_id=" + $(attr).data('section_id') +
-          "&video_id=" + $(attr).data('video_id');
-      console.log(save);
+      let data = {
+        video_id: $(attr).data('video_id'),
+        section_id: $(attr).data('section_id')
+      };
+
+      $.ajax({
+        type: "GET",
+        url: "https://dev.cilsy.id/bootcamp/" + '{{$bc->slug}}' +"/saveHistory",
+        data: data
+      });
     }
 
     $('.collap').click(function(e){
