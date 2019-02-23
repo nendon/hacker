@@ -73,12 +73,9 @@ class CourseController extends Controller
         $update->save();
         $response['success'] = true;
         }
-<<<<<<< HEAD
         
         if($tutor->expired_at){
-=======
 
->>>>>>> origin/bootcamp_bugfixes
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
                ->where('member_id', Auth::guard('members')->user()->id)
                ->where('expired_at', '<', $now)
