@@ -32,6 +32,9 @@ class CourseController extends Controller
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
         $mulai = DB::table('course')->where('bootcamp_id', $bcs->id)->first();
 
+        
+      
+
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
         }
@@ -41,7 +44,7 @@ class CourseController extends Controller
             'cs' => $cs,
             'tutor' => $tutor,
             'mulai' => $mulai,
-
+           
         ]);
     }
     public function courseLesson($slug, $id)
@@ -55,6 +58,7 @@ class CourseController extends Controller
         $vsection = $section->first()->video_section->first();
         $cs = DB::table('section')->where('course_id', $courses->id)->get();
 
+        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
         $member = Auth::guard('members')->user()->id;
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
@@ -70,6 +74,7 @@ class CourseController extends Controller
         $response['success'] = true;
         }
         
+        if($tutor->expired_at){
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
                ->where('member_id', Auth::guard('members')->user()->id)
                ->where('expired_at', '<', $now)
@@ -79,7 +84,10 @@ class CourseController extends Controller
         $akhir = date_create($tutor->expired_at);
         $diff = date_diff($awal, $akhir);
         $deadline = $diff->format('%d');
-
+        }else{
+            $exp = ''; 
+            $deadline = '';
+        }
         $project = DB::table('course')
                 ->join('section', 'course.id', 'section.course_id')
                 ->join('video_section', 'section.id','video_section.section_id')
@@ -130,12 +138,7 @@ class CourseController extends Controller
         }
         $expired = BootcampMember::where('bootcamp_id', $bcs->id)->select(DB::raw('DATE_ADD( start_at, INTERVAL target day) as exp'))->first();
 
-        if(!$tutor->expired_at){
-        $exp = BootcampMember::find($tutor->id);
-        $exp['expired_at'] = $expired->exp;
-        $exp->save();
-        $response['success'] = true;
-        }
+        
         return view('web.courses.VideoPage',[
             'course' => $courses,
             'bc' => $bcs,

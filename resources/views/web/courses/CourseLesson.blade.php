@@ -55,6 +55,14 @@
           <!-- Content Timeline -->
           <ul class="timelines">
             <?php
+            if(!$tutor->expired_at){
+            $expired = DB::table('bootcamp_member')->where('bootcamp_id', $bc->id)->where('member_id',Auth::guard('members')->user()->id )
+                      ->select(DB::raw('DATE_ADD( start_at, INTERVAL target day) as exp'))->first();
+
+            $exp = DB::table('bootcamp_member')->where('bootcamp_id',$bc->id)->where('member_id', Auth::guard('members')->user()->id)->update([
+                    'expired_at' => $expired->exp,
+                  ]);
+            }
              $i = 1;
              $a =1;
           foreach ($stn as $key => $section): 
