@@ -126,8 +126,8 @@
                     <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
                     <h6>Berikutnya Why you should take this course</h6>
                     <a
+                        data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
-                        data-section="{{$section->id}}"
                         onClick="changeVideo(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
@@ -247,7 +247,7 @@
 
     //function for button `Lanjutkan` when video has ended
     function changeVideo(attr){
-      const defaultUrl = 'https://dev.cilsy.id';
+      const defaultUrl = 'https://cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
