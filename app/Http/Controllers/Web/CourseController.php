@@ -19,11 +19,11 @@ use Datetime;
 class CourseController extends Controller
 {
     public function courseSylabus($slug)
-    {	
+    {
         if (empty(Auth::guard('members')->user()->id)) {
             return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
           }
-    	
+
     	// $courses = DB::table('course')->first();
     	// $bcs = Bootcamp::where('bootcamp.id',$courses->bootcamp_id)->first();
         $bcs = Bootcamp::where('slug', $slug)->first();
@@ -41,11 +41,11 @@ class CourseController extends Controller
             'cs' => $cs,
             'tutor' => $tutor,
             'mulai' => $mulai,
-            
+
         ]);
     }
     public function courseLesson($slug, $id)
-    {   
+    {
 
         $bcs = Bootcamp::where('slug', $slug)->first();
         $courses = Course::where('id', $id)->first();
@@ -68,9 +68,9 @@ class CourseController extends Controller
         $update->save();
         $response['success'] = true;
 
-        
+
         }
-   
+
         return view('web.courses.CourseLesson',[
             'course' => $courses,
             'bc' => $bcs,
@@ -80,8 +80,7 @@ class CourseController extends Controller
         ]);
     }
      public function videoPage($slug, $id)
-    {   
-
+    {
         $bcs = Bootcamp::where('slug', $slug)->first();
         $sect = Section::where('id', $id)->first();
         $courses = Course::where('id', $sect->course_id)->first();
@@ -90,13 +89,16 @@ class CourseController extends Controller
         $psection = Section::with('project_section')->where('course_id', $courses->id)->get();
         // $vmateri = DB::table('video_section')->where('section_id', $vsection->id)->get();
 
+        if($vsection == null)
+            $vsection = $section->first();
+
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
 
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
         }
         $expired = BootcampMember::where('bootcamp_id', $bcs->id)->select(DB::raw('DATE_ADD( start_at, INTERVAL target day) as exp'))->first();
-        
+
         if(!$tutor->expired_at){
         $exp = BootcampMember::find($tutor->id);
         $exp['expired_at'] = $expired->exp;
@@ -109,7 +111,7 @@ class CourseController extends Controller
             'stn' => $section,
             'psection' => $psection,
             'vsection' => $vsection,
-            
+
         ]);
     }
      public function projectSubmit($slug, $id)
@@ -127,13 +129,13 @@ class CourseController extends Controller
             return redirect('bootcamp/'.$bcs->slug);
         }
          return view('web.courses.ProjectSubmit',[
-            
+
             'bc' => $bcs,
             'stn' => $section,
             'psection' => $psection,
             'vsection' => $vsection,
             'project' => $project,
-            
+
         ]);
     }
 
@@ -142,11 +144,11 @@ class CourseController extends Controller
         if (empty(Auth::guard('members')->user()->id)) {
             $response['success'] = false;
         } else {
-            
+
             $now = new DateTime();
             $uid = Auth::guard('members')->user()->id;
             // $member = DB::table('contributors')->where('id', $uid)->first();
-   
+
             $input = new ProjectUser();
             $input['komentar_user'] = $request->input('body');
             $input['member_id'] = $uid;
@@ -161,5 +163,5 @@ class CourseController extends Controller
         }
         echo json_encode($response);
     }
-    
+
 }

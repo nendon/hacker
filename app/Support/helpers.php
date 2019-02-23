@@ -121,7 +121,8 @@ function cart(){
   $data = Cart::where('member_id', $member_id)->with('member', 'contributor', 'lesson', 'bootcamp')->take(3)->get();
   $html='';
   foreach ($data as $cart) {
-    if ($cart->bootcamp_id != null){
+    // check if $cart->bootcamp_id and $cart->bootcamp is not null
+    if ($cart->bootcamp_id != null && $cart->bootcamp != null){
       $html .='<li class="clearfix">
                 <img style="max-width:70px;max-height:70px;" src="'.$cart->bootcamp->cover.'" alt="item1">
                 <span class="item-name">'.$cart->bootcamp->title.'</span>
@@ -130,18 +131,19 @@ function cart(){
                 ';
     }
     else {
-      # code...
-      $html .='<li class="clearfix">
-              <img style="max-width:70px;max-height:70px;" src="'.$cart->lesson->image.'" alt="item1">
-              <span class="item-name">'.$cart->lesson->title.'</span>
-              <span class="item-price">Rp'.number_format($cart->lesson->price, 0, ",", ".") .'</span>
-              </li>
-              ';
+      // check if $cart->lesson_id and $cart->lesson is not null
+      if($cart->lesson_id != null && $cart->lesson != null)  {
+        $html .='<li class="clearfix">
+                <img style="max-width:70px;max-height:70px;" src="'.$cart->lesson->image.'" alt="item1">
+                <span class="item-name">'.$cart->lesson->title.'</span>
+                <span class="item-price">Rp'.number_format($cart->lesson->price, 0, ",", ".") .'</span>
+                </li>
+                ';
+      }
     }
+    // will show nothing if user don't have any bootcamp or lessons.
   }
   return $html;
-//  dd($data);
-
 }
 function profilcon()
 {
