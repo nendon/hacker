@@ -47,8 +47,9 @@
                     <a
                         data-url="<?php echo e($materi->file_video); ?>"
                         data-title="<?php echo e($materi->title); ?>"
-                        
-                        onclick="changeVideo(this)"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onclick="changeVideo(this), saveHistory(this)"
                     >
                       <div class="sub-materi row">
                         <div class="col-xs-10 px-0">
@@ -128,8 +129,8 @@
                     <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
                     <h6>Berikutnya Why you should take this course</h6>
                     <a
+                        data-url="<?php echo e($materi->file_video); ?>"
                         data-title="<?php echo e($materi->title); ?>"
-                        data-section="<?php echo e($section->id); ?>"
                         onClick="changeVideo(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
