@@ -53,30 +53,56 @@ class CourseController extends Controller
         $vsection = $section->first()->video_section->first();
         $cs = DB::table('section')->where('course_id', $courses->id)->get();
 
-        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
-
+        $member = Auth::guard('members')->user()->id;
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
         }
         $target = Course::where('bootcamp_id', $bcs->id)->select(DB::raw('sum(estimasi) as target'))->first();
-
-        if(!$tutor->start_at){
         $now = new Datetime;
+        if(!$tutor->start_at){
+       
         $update = BootcampMember::find($tutor->id);
         $update['start_at'] = $now;
         $update['target'] = $target->target;
         $update->save();
         $response['success'] = true;
-
-
         }
+        
+        $exp = BootcampMember::where('bootcamp_id', $bcs->id)
+               ->where('member_id', Auth::guard('members')->user()->id)
+               ->where('expired_at', '<', $now)
+               ->first();
+      
+        $awal = date_create();
+        $akhir = date_create($tutor->expired_at);
+        $diff = date_diff($awal, $akhir);
+        $deadline = $diff->format('%d');
 
+        $project = DB::table('course')
+                ->join('section', 'course.id', 'section.course_id')
+                ->join('video_section', 'section.id','video_section.section_id')
+                ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                ->leftjoin('project_user', function($join){
+                        $join->on('project_section.id', '=', 'project_user.project_section_id')
+                ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                ->leftjoin('history', function($join){
+                        $join->on('video_section.id', '=', 'history.video_id')
+                ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                ->where('course.id', $id)
+                ->select('course.id as course', DB::raw('count( DISTINCT video_section.id) as video'),  DB::raw('count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                ->groupby('course.id')
+                ->first();
         return view('web.courses.CourseLesson',[
             'course' => $courses,
             'bc' => $bcs,
             'cs' => $cs,
             'stn' => $section,
             'vsection' => $vsection,
+            'exp' => $exp,
+            'target' => $target,
+            'tutor' => $tutor,
+            'deadline' => $deadline ,
+            'project' =>$project,
         ]);
     }
      public function videoPage($slug, $id)

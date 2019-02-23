@@ -16,7 +16,7 @@
                 {{$course->deskripsi}}
               </h6>
               <br>
-              <button class="btn btn-secondarys btn-lg mb-2">Mulai belajar</button>
+              <button class="btn btn-second btn-lg mb-2">Mulai belajar</button>
             </div>
           </div>
         </div>
@@ -27,19 +27,22 @@
           <div class="row">
             <div class="col-sm-8 col-xs-12">
               <ul class="durationlesson">
-                <li>08 Jam 31 Menit</li>
-                <li>Deadline 2 Hari</li>
-                <li>5 Projek</li>
-                <li>3 Exercises</li>
+                <li style="color:blue;">Target Bootcamp {{$target->target}} Hari</li>
+                <li style="color:red;">Deadline {{$deadline}}  Hari</li>
+                <li>{{$project->video}} Video</li>
+                <li>{{$project->project}} Project</li>
               </ul>
             </div>
             <div class="col-sm-3 col-xs-10" style="margin-top:10px;">
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                <?php 
+                $courseprog = number_format($project->hasil/($project->video + $project->project)*100);
+                ?>
+                    <div class="progress-bar" role="progressbar" style="width:{{$courseprog}}%" aria-valuenow="{{$courseprog}}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
             <div class="col-sm-1 col-xs-2">
-              0%
+              {{$courseprog}}%
             </div>
           </div>
       </section>
@@ -54,7 +57,22 @@
             <?php
              $i = 1;
              $a =1;
-             foreach ($stn as $key => $section): ?>
+          foreach ($stn as $key => $section): 
+            $valid = DB::table('section')
+                   ->join('video_section', 'section.id','video_section.section_id')
+                   ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                   ->leftjoin('project_user', function($join){
+                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                   ->leftjoin('history', function($join){
+                      $join->on('video_section.id', '=', 'history.video_id')
+                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                   ->where('section.id', $section->id)
+                   ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                   ->groupby('section.id', 'section.position')
+                   ->first();
+            $persen = number_format($valid->hasil / $valid->project*100); 
+          ?>
              
             <li>
               <div class="timelines-number"><?php echo $i; ?></div>
@@ -72,11 +90,13 @@
                         </div>
                         <div class="col-md-2 col-sm-5 col-xs-5 mt-3">
                             <div class="progress">
-                              <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <?php ?>
+                              <div class="progress-bar" role="progressbar" style="width: {{$persen}}%" aria-valuenow="{{$persen}}" aria-valuemin="0" aria-valuemax="100"></div>
+                            <?php ?>  
                             </div>
                         </div>
                         <div class="col-sm-1 col-xs-1 p-0 pt-1">
-                          0%
+                        {{$persen}}%
                         </div>
                     </div>
       
@@ -90,7 +110,7 @@
 
                       <ul class="lesson-detail">
                         <?php
-                           foreach ($section->video_section as $key => $vs): ?>
+                      foreach ($section->video_section as $key => $vs): ?>
                         <li>
                             <h4><i class="fas fa-play-circle"></i>{{$vs->title}}</h4>
                             <div class="row">
@@ -101,26 +121,89 @@
                                 {{$vs->durasi}}
                               </div>
                               <div class="col-xs-1 p-0">
-                                <i class="fa fa-check-circle"></i>
+                              <?php
+                              
+                              $cek = DB::table('section')->join('video_section', 'section.id', 'video_section.section_id')
+                              ->leftjoin('history', 'video_section.id', 'history.video_id')
+                              ->where('video_section.id', $vs->id)->get();
+                                foreach ($cek as $key => $cek): 
+                                    if($cek->hist){?>
+                                    <i class="fa fa-check-circle"></i>
+                                  <?php 
+                                    }else{ ?>
+                                    <i class="fa fa-circle"></i>
+                                    <?php    } 
+                                endforeach; ?>
                               </div>
                             </div>
-                          <?php endforeach; ?>
                         </li>
+                      <?php endforeach; ?>
                       </ul>
 
                     </div>
                   </div>
-                  <div class="col-xs-12 px-5 py-3 bg-grey">
-                      <a class="collap" id="<?php echo "collapse-".$a ?>" data-toggle="collapse" href="#{{$section->id}}" role="button"><span>Lihat Detail Lesson <i class="fa fa-chevron-down"></i></span></a>
-                      <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a>
+                  <?php
+                 
+                   $n = $valid->posisi;
+                   $sect = $valid->section;
+
+                   ?>
+                    
+                               
+                    <div class="col-xs-12 px-5 py-3 bg-grey">
+                        <a class="collap" id="<?php echo "collapse-".$a ?>" data-toggle="collapse" href="#{{$section->id}}" role="button"><span>Lihat Detail Lesson <i class="fa fa-chevron-down"></i></span></a>
+                        <?php 
+                        if($valid->project == $valid->hasil)    {   ?> 
+                        <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Selesai Belajar</a>
+                        <?php }else{
+                        
+                          if($valid->posisi == '1'){ ?>
+                         <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a>
+                          <?php }else{
+                            $n = $valid->posisi-1;
+                            $sect = $valid->section-1;
+                            
+                            $lihat = DB::table('section')
+                                    ->join('video_section', 'section.id','video_section.section_id')
+                                    ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                                    ->leftjoin('project_user', function($join){
+                                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+                                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->leftjoin('history', function($join){
+                                      $join->on('video_section.id', '=', 'history.video_id')
+                                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->where('section.id', $sect)->where('section.position', $n)
+                                    ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                                    ->groupby('section.id')
+                                    ->first();
+                                  
+                            if($lihat->project == $lihat->hasil){ 
+                              if(!$exp){
+                              ?>
+                              <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a>
+                            <?php 
+                              }else{ ?>
+                              <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Retake</a>
+                           <?php     
+                              }
+                          }else{ ?>
+                        <a disabled class="btn btn-primary float-right disable">Belum Terbuka</a>
+
+                         
+                            <?php }
+                        }
+                        
+                        }
+                         ?>
+                    </div>
+                      
+
                   </div>
                 </div>
-              </div>
-              
-                
-                <?php $a++;?>
-                <?php endforeach; ?>
             </li>
+            <?php $a++;?>
+            <?php endforeach; ?>
+
           </ul>
         </div>
 
