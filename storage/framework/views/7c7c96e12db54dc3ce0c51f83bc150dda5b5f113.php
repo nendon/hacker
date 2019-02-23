@@ -3,7 +3,7 @@
 
     <!-- Section Content -->
     <section id="wrapper">
-
+      
       <!-- Nav Sidebar -->
       <div id="sidebar-wrapper">
 
@@ -38,7 +38,7 @@
                     <h6><span class="fa fa-clock"></span> 40:48</h6>
                   </div>
                   <i class="icon-collap fa fa-chevron-down"></i>
-                </a>
+                </a>    
               </div>
               <div class="collapse submateri" id="<?php echo e($section->id); ?>">
                 <ul>
@@ -68,8 +68,7 @@
                   <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id)); ?>">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
-                        <i class="fas fa-clipboard-list"></i>  <?php echo e($project->title); ?>
-
+                        <i class="fas fa-clipboard-list"></i>  <?php echo e($project->title); ?>           
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
@@ -122,35 +121,33 @@
                 <button type="button" class="plyr__control btn btn-outline-primary px-4" onClick="sidebarShow()"><i class="fa fa-bars"></i></button>
               </div>
             </div>
-
+            
             <div class="row px-5 pt-4">
-               <div class="w-100 px-5 py-4">
-                  <i class="fa fa-check-circle c-blue"></i> Selamat Anda telah lolos dalam Final Projek Course Linux Fundamental <a href="<?php echo e(url('Bootcamp/ProjectView')); ?>" class="btn btn-outline-primary">Lihat Hasil Preview</a>
-              </div> 
+              
               <div class="col-xs-12">
                   <h4><?php echo e($project->title); ?></h4>
 
                   <h4>Couse <?php echo e($vsection->title); ?>: Final Projek</h4>
-
+                  
                   <input type="file" id="file" name="file">
-
+                  
                   <h5>Komentar</h5>
                   <textarea class="form-control" name="komentar" id="komentar" cols="100" rows="2"></textarea>
-
+                  
                   <button class="btn btn-primary my-4" onclick="saveProject(<?php echo e($project->section_id); ?>)">Submit Projek</button>
-
+                  
               </div>
-            </div>
+            </div> 
           </div>
 
         </div>
       </div>
 
     </section>
-
+    
     <script>
-
-    //function Menu sidebar
+      
+    //function Menu sidebar    
     function sidebarShow(){
       if($("#wrapper").hasClass("toggled")){
         $("#wrapper").removeClass('toggled');
@@ -164,7 +161,7 @@
       var datatarget =  $(this).attr("href");
       var idtarget =  $(this).attr("id");
       $(datatarget).on('shown.bs.collapse', function() {
-        $('#'+idtarget+' i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        $('#'+idtarget+' i').removeClass('fa-chevron-down').addClass('fa-chevron-up');        
       });
 
       $(datatarget).on('hidden.bs.collapse', function() {
@@ -180,7 +177,7 @@
       dataform.append( 'file', file_data);
       dataform.append( 'body', body);
       dataform.append( 'project_id', project_id);
-
+  
       if (body == '') {
         alert('Harap Isi form !')
       }else {
@@ -224,5 +221,4 @@
     }
     </script>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('web.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

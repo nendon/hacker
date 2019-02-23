@@ -62,19 +62,19 @@ class CourseController extends Controller
         $target = Course::where('bootcamp_id', $bcs->id)->select(DB::raw('sum(estimasi) as target'))->first();
         $now = new Datetime;
         if(!$tutor->start_at){
-       
+
         $update = BootcampMember::find($tutor->id);
         $update['start_at'] = $now;
         $update['target'] = $target->target;
         $update->save();
         $response['success'] = true;
         }
-        
+
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
                ->where('member_id', Auth::guard('members')->user()->id)
                ->where('expired_at', '<', $now)
                ->first();
-      
+
         $awal = date_create();
         $akhir = date_create($tutor->expired_at);
         $diff = date_diff($awal, $akhir);
@@ -193,6 +193,21 @@ class CourseController extends Controller
             $response['success'] = true;
         }
         echo json_encode($response);
+    }
+
+    public function saveHistory(Request $req)
+    {
+        $uid = Auth::guard('members')->user()->id;
+        $params = $req->all();
+        $now = new DateTime();
+
+        DB::table('history')->insert([
+            'member_id' => $uid,
+            'section_id' => $params['section_id'],
+            'video_id' => $params['video_id'],
+            'hist' => 1,
+            'created_at' => $now
+        ]);
     }
 
 }

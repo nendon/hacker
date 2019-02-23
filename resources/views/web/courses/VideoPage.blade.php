@@ -44,7 +44,13 @@
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
                   <li>
-                    <a data-url="{{$materi->file_video}}" data-title="{{$materi->title}}" onclick="changeVideo(this)">
+                    <a
+                        data-url="{{$materi->file_video}}"
+                        data-title="{{$materi->title}}"
+                        data-video_id="{{$materi->id}}"
+                        data-section_id="{{$materi->section_id}}"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
                       <div class="sub-materi row">
                         <div class="col-xs-10 px-0">
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
@@ -110,6 +116,7 @@
 
             <!-- THE VIDEO PLAYER -->
               <video id="player" playsinline controls>
+                {{-- @php dd($materi->id); @endphp --}}
                 <source  src="" type="video/mp4">
               </video>
 
@@ -118,7 +125,12 @@
                   <div class="col-xs-12 text-center">
                     <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
                     <h6>Berikutnya Why you should take this course</h6>
-                    <a data-url="{{$materi->file_video}}" data-title="{{$materi->title}}" onClick="changeVideo(this)" class="btn btn-next">Lanjutkan</a>
+                    <a
+                        data-title="{{$materi->title}}"
+                        data-section="{{$section->id}}"
+                        onClick="changeVideo(this)"
+                        class="btn btn-next"
+                    >Lanjutkan</a>
                   </div>
                 </div>
               </div>
@@ -249,6 +261,13 @@
       };
     }
 
+    function saveHistory(attr) {
+      let save = "127.0.0.1:8000/bootstrap/" + "{{ $bc->slug }}" +
+          "/saveHistory?" +
+          "section_id=" + $(attr).data('section_id') +
+          "&video_id=" + $(attr).data('video_id');
+      console.log(save);
+    }
 
     $('.collap').click(function(e){
       var datatarget =  $(this).attr("href");
