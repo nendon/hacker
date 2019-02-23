@@ -190,7 +190,7 @@ class CourseController extends Controller
             $input['status'] = 0;
             $input['project_section_id'] =  $request->input('project_id');
             if ($request->hasFile('file')){
-                $input['file'] = '/assets/source/bootcamp/project-'.$request->input('project_id'.'/'). $request->file('file')->getClientOriginalName();
+                $input['file'] = '/assets/source/bootcamp/project-'.$request->input('project_id').'/'. $request->file('file')->getClientOriginalName();
                 $request->file('file')->move(public_path('/assets/source/bootcamp/project-'.$request->input('project_id').'/'), $input['file']);
             }
             $input->save();
