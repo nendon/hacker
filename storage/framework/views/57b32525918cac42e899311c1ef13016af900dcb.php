@@ -44,7 +44,13 @@
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
                   <li>
-                    <a data-url="<?php echo e($materi->file_video); ?>" data-title="<?php echo e($materi->title); ?>" onclick="changeVideo(this)">
+                    <a
+                        data-url="<?php echo e($materi->file_video); ?>"
+                        data-title="<?php echo e($materi->title); ?>"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
                       <div class="sub-materi row">
                         <div class="col-xs-10 px-0">
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> <?php echo e($materi->title); ?>
@@ -113,6 +119,7 @@
 
             <!-- THE VIDEO PLAYER -->
               <video id="player" playsinline controls>
+                
                 <source  src="" type="video/mp4">
               </video>
 
@@ -121,7 +128,12 @@
                   <div class="col-xs-12 text-center">
                     <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
                     <h6>Berikutnya Why you should take this course</h6>
-                    <button class="btn btn-primary" onClick="changeVideo()">Lanjutkan</button>
+                    <a
+                        data-url="<?php echo e($materi->file_video); ?>"
+                        data-title="<?php echo e($materi->title); ?>"
+                        onClick="changeVideo(this)"
+                        class="btn btn-next"
+                    >Lanjutkan</a>
                   </div>
                 </div>
               </div>
@@ -197,10 +209,7 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-        <a href="ProjectSubmit.html" class="btn btn-next">
-            Lanjutkan <i class="fa fa-step-forward"></i>
-            <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
-        </a>
+        
     </div>
     `;
 
@@ -249,6 +258,13 @@
       };
     }
 
+    function saveHistory(attr) {
+      let save = "127.0.0.1:8000/bootstrap/" + "<?php echo e($bc->slug); ?>" +
+          "/saveHistory?" +
+          "section_id=" + $(attr).data('section_id') +
+          "&video_id=" + $(attr).data('video_id');
+      console.log(save);
+    }
 
     $('.collap').click(function(e){
       var datatarget =  $(this).attr("href");
