@@ -47,9 +47,8 @@
                     <a
                         data-url="<?php echo e($materi->file_video); ?>"
                         data-title="<?php echo e($materi->title); ?>"
-                        data-video_id="<?php echo e($materi->id); ?>"
-                        data-section_id="<?php echo e($materi->section_id); ?>"
-                        onclick="changeVideo(this), saveHistory(this)"
+                        
+                        onclick="changeVideo(this)"
                     >
                       <div class="sub-materi row">
                         <div class="col-xs-10 px-0">
