@@ -151,11 +151,17 @@ class CourseController extends Controller
     }
      public function projectSubmit($slug, $id)
     {
+        if (empty(Auth::guard('members')->user()->id)) {
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+          }
         $bcs = Bootcamp::where('slug', $slug)->first();
         $section = Section::with('video_section')->where('id', $id)->get();
         $vsection = $section->first()->video_section->first();
         $psection = Section::with('project_section')->where('id', $id)->get();
         // $ps = ProjectSection::
+        $sect = Section::where('id', $id)->first();
+        $course = Course::where('id',$sect->course_id)->first();
+        
         $project = ProjectSection::where('section_id', $id)->first();
         // dd($psection);
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
@@ -170,6 +176,7 @@ class CourseController extends Controller
             'psection' => $psection,
             'vsection' => $vsection,
             'project' => $project,
+            'course' =>$course ,
 
         ]);
     }
