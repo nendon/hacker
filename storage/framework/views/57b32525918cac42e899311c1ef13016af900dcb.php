@@ -1,6 +1,5 @@
-@extends('web.app')
-@section('title','')
-@section('content')
+<?php $__env->startSection('title',''); ?>
+<?php $__env->startSection('content'); ?>
     <section id="wrapper">
 
       <!-- THE PLAYLIST -->
@@ -29,34 +28,31 @@
              $a = 1;
              foreach ($stn as $key => $section): ?>
               <div class="video-materi">
-                <a class="collap" id="<?php echo "materi-".$a ?>" data-toggle="collapse" href="#{{$section->id}}" role="button">
+                <a class="collap" id="<?php echo "materi-".$a ?>" data-toggle="collapse" href="#<?php echo e($section->id); ?>" role="button">
                  <div class="number-circle"><?php echo $a ;?></div>
                   <div class="title">
-                     {{$section->title}}
+                     <?php echo e($section->title); ?>
+
                     <h6><span class="fa fa-clock"></span> 40:48</h6>
                   </div>
                   <i class="icon-collap fa fa-chevron-down"></i>
                 </a>
               </div>
-              <div class="collapse submateri" id="{{$section->id}}">
+              <div class="collapse submateri" id="<?php echo e($section->id); ?>">
                 <ul>
                 <?php
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
                   <li>
-                    <a
-                        data-url="{{$materi->file_video}}"
-                        data-title="{{$materi->title}}"
-                        data-video_id="{{$materi->id}}"
-                        data-section_id="{{$materi->section_id}}"
-                        onclick="changeVideo(this), saveHistory(this)"
-                    >
+                    <a data-url="<?php echo e($materi->file_video); ?>" data-title="<?php echo e($materi->title); ?>" onclick="changeVideo(this)">
                       <div class="sub-materi row">
                         <div class="col-xs-10 px-0">
-                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
+                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> <?php echo e($materi->title); ?>
+
                         </div>
                         <div class="col-xs-2 px-0 text-right">
-                          {{$materi->durasi}}
+                          <?php echo e($materi->durasi); ?>
+
                           <i class="fa fa-circle ml-2"></i>
                         </div>
                       </div>
@@ -67,10 +63,11 @@
                   <?php
                   foreach ($section->project_section as $key => $project): ?>
                   <li>
-                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
+                  <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id)); ?>">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
-                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}
+                        <i class="fas fa-clipboard-list"></i>  <?php echo e($project->title); ?>
+
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
@@ -116,7 +113,6 @@
 
             <!-- THE VIDEO PLAYER -->
               <video id="player" playsinline controls>
-                {{-- @php dd($materi->id); @endphp --}}
                 <source  src="" type="video/mp4">
               </video>
 
@@ -125,12 +121,7 @@
                   <div class="col-xs-12 text-center">
                     <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
                     <h6>Berikutnya Why you should take this course</h6>
-                    <a
-                        data-url="{{$materi->file_video}}"
-                        data-title="{{$materi->title}}"
-                        onClick="changeVideo(this)"
-                        class="btn btn-next"
-                    >Lanjutkan</a>
+                    <button class="btn btn-primary" onClick="changeVideo()">Lanjutkan</button>
                   </div>
                 </div>
               </div>
@@ -144,9 +135,9 @@
 
 
     <!-- JavaScript -->
-    <script type="text/javascript" src="{{asset('assets/js/jquery-2.2.1.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/plyr.min.js')}}"></script>
+    <script type="text/javascript" src="<?php echo e(asset('assets/js/jquery-2.2.1.min.js')); ?>"></script>
+    <script type="text/javascript" src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script>
+    <script type="text/javascript" src="<?php echo e(asset('js/plyr.min.js')); ?>"></script>
     <script>
       //function Menu sidebar
       function sidebarShow(){
@@ -159,11 +150,12 @@
 
       const controls = `<div class="video-header">
         <div class="col-xs-8">
-          Become a {{$bc->slug}} <br>
+          Become a <?php echo e($bc->slug); ?> <br>
         </div>
         <div class="col-xs-3 p-0">
           <a href="CourseSylabus.html">
-            <i class="fa fa-chevron-left"></i> Course Part 1 {{$course->title}}
+            <i class="fa fa-chevron-left"></i> Course Part 1 <?php echo e($course->title); ?>
+
           </a>
         </div>
         <div class="col-xs-1 p-0">
@@ -205,14 +197,10 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-        {{--
-            Comment this button, go to next course will show up at the end of video
-
-            <a href="ProjectSubmit.html" class="btn btn-next">
-                Lanjutkan <i class="fa fa-step-forward"></i>
-                <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
-            </a>
-        --}}
+        <a href="ProjectSubmit.html" class="btn btn-next">
+            Lanjutkan <i class="fa fa-step-forward"></i>
+            <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
+        </a>
     </div>
     `;
 
@@ -229,7 +217,7 @@
       type: 'video',
       title: 'Elephant Dream',
       sources: [{
-        src: '{{asset($vsection->file_video)}}',
+        src: '<?php echo e(asset($vsection->file_video)); ?>',
         type: 'video/mp4',
       }]
     };
@@ -261,13 +249,6 @@
       };
     }
 
-    function saveHistory(attr) {
-      let save = "127.0.0.1:8000/bootstrap/" + "{{ $bc->slug }}" +
-          "/saveHistory?" +
-          "section_id=" + $(attr).data('section_id') +
-          "&video_id=" + $(attr).data('video_id');
-      console.log(save);
-    }
 
     $('.collap').click(function(e){
       var datatarget =  $(this).attr("href");
@@ -281,4 +262,6 @@
       });
     });
     </script>
-@endsection()
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('web.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
