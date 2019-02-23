@@ -427,7 +427,7 @@
                                   </div>
                                   <div class="form-group">
                                     <label>Instruksi Projek</label>
-                                    <textarea class="form-control" type="text" name="value" id="value" cols="30" rows="10" placeholder="Tuliskan Instruksi Projek"></textarea>
+                                    <textarea class="form-control" type="text" name="value" id="deskripsi" cols="30" rows="10" placeholder="Tuliskan Instruksi Projek"></textarea>
                                   </div>
                                 </div>
                                 <div class="text-right">
@@ -436,13 +436,11 @@
                                   <div class="dropup">
                                     <button class="btn btn-transparent dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></button>
                                     <ul class="dropdown-menu">
-                                      <li><a href="#">Dropdown</a></li>
-                                      <li><a href="#">Dropdown</a></li>
-                                      <li><a href="#">Dropdown</a></li>
+                                      <li><button type="button" class="btn btn-outline-red px-5 mt-4" onClick="hideContentItem()">Hapus</button></li>
                                     </ul>
                                   </div>
                                   <br>
-                                  <button type="button" class="btn btn-outline-red px-5 mt-4" onClick="hideContentItem()">Hapus</button>
+                                  
                                 </div>
                               </form>
                             </div>
@@ -682,5 +680,12 @@
     <!-- dm-uploader.js : Debug item template -->
     <script type="text/html" id="debug-template">
       <li class="list-group-item text-%%color%%"><strong>%%title%%</strong>: %%message%%</li>
+    </script>
+<script src='https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=i0jmzdrvxazq4u69bg81bp4ukmsok5rv2xb2dm13bfnb6u5d'></script>
+
+    <script>
+      tinymce.init({
+        selector: '#deskripsi'
+      });
     </script>
 @endsection()

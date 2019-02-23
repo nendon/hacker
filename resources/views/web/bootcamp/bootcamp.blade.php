@@ -1,5 +1,5 @@
 @extends('web.app')
-<link rel="stylesheet" href="{{asset('template/bootcamp/css/landingpage.css')}}">
+{{--  <link rel="stylesheet" href="{{asset('template/bootcamp/css/landingpage.css')}}">  --}}
 
 @section('title',$bca->title)
 @section('description', $bca->description)
@@ -31,7 +31,8 @@
               {{$bca->deskripsi}}
             </h4> 
             <h6 class="mb-5">oleh {{$contributors->username}}</h6>
-            <button class="btn btn-blue m-2">Daftar Sekarang</button>
+            <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
+            <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
             <button class="btn btn-blue m-2">Download Silabus</button>
           </div>
         </div>
@@ -153,8 +154,8 @@
               <p class="text-muted">Kami membuat Program untuk menjadikan Anda seorang {{$bca->title}} dengan bantuan kurikulum yang terstruktur</p>
               <ul>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi 1-2 Bulan</li>
-                <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt="">5 Projek</li>
-                <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{count($main_course)}} Course</li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> Projek</li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{$bca->course->count()}}  Course</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt="">120 Jam Video</li>
               </ul>
               <button class="btn btn-blue">Download Silabus</button>
@@ -175,12 +176,12 @@
                 </div>
                 <div class="timelinez-content">
                   <div class="row box p-0">
-                    <div class="col-sm-4 col-xs-12 p-0 images" style="background: url({{asset($courses->cover_course)}});">
+                    <div class="col-sm-4 col-xs-12 p-0 images img-responsive" style="background: url({{asset($courses->cover_course)}}); background-size:cover;">
                       <!-- for image content use style background for full size of column -->
                     </div>
                     <div class="col-sm-8 col-xs-12">
                       <h4>{{$courses->title}}</h4>
-                      <p>
+                      <p>   
                        {{$courses->deskripsi}}
                       </p>
 
@@ -201,7 +202,7 @@
                                 <p class="mb-5">
                                   {{$sections->deskripsi}}
                                 </p>
-                                <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt=""> {{ count($main_videos) }} Video (Total 90min), 1Projek
+                                <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt=""> {{ count($sections->video_section) }} Video (Total min), {{ count($sections->project_section) }} Projek
                                 </div>
                                 <?php 
                                   $no++;
@@ -259,7 +260,7 @@
                                 <p class="mb-5">
                                   {{$sections->deskripsi}}
                                 </p>
-                                <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt="">12 Video (Total 90min), 1Projek
+                                <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt="">{{count($sections->video_section)}} Video (Total 90min), {{count($sections->project_section)}} Projek
                                 </div>
                                 <?php 
                                   $no++;
@@ -295,11 +296,11 @@
             <h2 class="title text-muted">Belajar dari Instruktur superstar</h2>
           
             <div class="border-blue">
-              <img src="{{asset('template/bootcamp/img/users.png')}}" class="img-responsive mx-auto" alt="">
-              <h4 class="c-blue">Rizal Rahman</h4>
+              <img src="{{asset($bca->contributor->avatar)}}" class="img-responsive img-circle mx-auto" alt="">
+              <h4 class="c-blue">{{$bca->contributor->first_name}} {{$bca->contributor->last_name}}</h4>
               <h5>Network Administrator</h5>
               <p class="text-muted">
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  {{$bca->contributor->deskripsi}}
               </p>
             </div>
           </div>
@@ -491,7 +492,7 @@
             <div class="border-blue">
               <div class="border-content">
                 <h5 class="c-black">Bootcamp {{$bca->title}}</h5>
-                <h1>Rp. {{$bca->price}}</h1>
+                <h1>Rp. {{ number_format($bca->price, 0, ",", ".") }}</h1>
                 <ul>
                   <li>Ebook</li>
                   <li>Script konfig</li>
@@ -502,7 +503,8 @@
                   <li>Free Update</li>
                   <li>Sertifikat</li>
                 </ul>
-                <button class="btn btn-blue">Daftar Sekarang</button>
+                <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
+                <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
                 </div>  
             </div>
           </div>

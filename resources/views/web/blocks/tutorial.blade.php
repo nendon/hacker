@@ -20,7 +20,7 @@
                     <p>Update materi tutorial baru setiap bulan</p>
                   </div>                  
                 </div>
-                <a href="{{ url('bootcamp/browse/') }}" class="btn btn-default btn-more" style="color:teal; margin-top: -140px;">Browse Semua Bootcamp </a>
+                <a href="{{ url('browse/bootcamp/') }}" class="btn btn-default btn-more" style="color:teal; margin-top: -140px;">Browse Semua Bootcamp </a>
               </div>
               <div class="col-md-3">
                   <div class="bootcamp ">

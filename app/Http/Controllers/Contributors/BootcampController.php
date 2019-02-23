@@ -123,6 +123,7 @@ class BootcampController extends Controller
             $input['title'] = $request->input('title');
             $input['deskripsi'] =  $request->input('desc');
             $input['sub_title'] =  $request->input('subjud');
+            $input['slug']      = str_slug($request->input('title'));
             $input['audience'] = $request->input('target');
             $input['pre_and_req'] =  $request->input('req');
             $input['bootcamp_category_id'] = $request->input('kat');

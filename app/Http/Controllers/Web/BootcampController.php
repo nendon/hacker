@@ -41,22 +41,22 @@ class BootcampController extends Controller
         if (empty(Auth::guard('members')->user()->id)) {
             return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
           }
-    	$bc = Bootcamp::where('status', 1)->where('slug', $slug)->first();
+    	$bc = Bootcamp::where('status', 1)->where('slug', $slug)->with('contributor', 'course.section.video_section', 'course.section.project_section')->first();
         $cs = Course::where('bootcamp_id', $bc->id)->first();
         // $courses = DB::table('course')->where('bootcamp_id', $bc->id)->get();
-        $courses = Course::with('section')->where('bootcamp_id', $bc->id)->get();
-        $main_videos = Section::with('video_section')->where('course_id', $cs->id)->get();
+        $courses = Course::with('section.project_section', 'section.video_section')->where('bootcamp_id', $bc->id)->get();
+        // $main_videos = Section::with('video_section')->where('course_id', $cs->id)->get();
         $main_course = Course::where('bootcamp_id', $bc->id)->get();
     	$now = new DateTime();
     	$time = strtotime($bc->created_at);
         $myFormatForView = date("d F y", $time);
         $contributors = DB::table('contributors')->where('contributors.id',$bc->contributor_id)->first();
-
+        // dd($bc);
         return view('web.bootcamp.bootcamp',[
             'bca' => $bc,
             'contributors' => $contributors,
             'course' => $courses,
-            'main_videos' => $main_videos,
+            // 'main_videos' => $main_videos,
             'tanggal' => $myFormatForView,
             'main_course' => $main_course,
         ]);

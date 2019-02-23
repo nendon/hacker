@@ -22,10 +22,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
     <title>@yield('title')</title>
     <meta name="description" content="@yield('description')">
+    <link rel="stylesheet" href="{{asset('template/bootcamp/css/landingpage.css')}}">
+
+    <link rel="stylesheet" href="{{asset('template/bootcamp/css/timelines-vertical.css')}}">
+
     <link href="{{asset('template/web/css/app.css')}}" rel="stylesheet">
     <link href="{{asset('template/web/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/spacing.css')}}">
-    <link rel="stylesheet" href="{{asset('css/timelines-vertical.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/video-sidebar.css')}}">
     <link rel="stylesheet" href="{{asset('css/plyr.css')}}">

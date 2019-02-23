@@ -57,7 +57,7 @@
 
                       <div class="author">
                         <img src="{{$news->contributor->avatar}}" class="img-author" alt="">
-                        {{$news->contributor->username}}
+                        {{$news->contributor->first_name}} {{$news->contributor->last_name}}
                       </div>
 
                       <h4>{{$news->title}}</h4>
