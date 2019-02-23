@@ -36,71 +36,83 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12" style="margin-top: 50px;">
-                <h3>Keranjang Belanja (<span id="tutorial-total">{{ count($carts) }}</span> tutorial)</h3>  
+                <h3>Keranjang Belanja (<span id="tutorial-total">{{ count($carts) }}</span> tutorial)</h3>
             </div>
         </div>
         <div class="row">
             @php
-            $total = 0;
+                $total = 0;
             @endphp
+
             @if (count($carts) > 0)
                 @foreach ($carts as $cart)
-                @if($cart->bootcamp_id != null)
-                <div class="col-sm-12 well shadow">
-                    <div class="row cart-list">
-                        <div class="col-md-2">
-                            <center><img src="{{ asset($cart->bootcamp->cover) }}" style="max-width:100%;max-height:100px;"></center>
+                    @if($cart->bootcamp_id != null && $cart->bootcamp != null)
+                        <div class="col-sm-12 well shadow">
+                            <div class="row cart-list">
+                                <div class="col-md-2">
+                                    <center>
+                                        <img src="{{ asset($cart->bootcamp->cover) }}" style="max-width:100%;max-height:100px;">
+                                    </center>
+                                </div>
+                                <div class="col-md-7 cart-title">
+                                    {{ $cart->bootcamp->title }}
+                                </div>
+                                <div class="col-md-2 cart-price">
+                                    Rp{{ number_format($cart->bootcamp->price, 0, ",", ".") }}
+                                </div>
+                                <div class="col-md-1">
+                                    <form action="{{ url('cart/delete/'.$cart->id)}}" method="post">
+                                        {{ csrf_field() }}
+                                        {{ method_field('delete') }}
+                                        <button class="btn btn-default btn-lg">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-7 cart-title">
-                            {{ $cart->bootcamp->title }}
-                        </div>
-                        <div class="col-md-2 cart-price">
-                            Rp{{ number_format($cart->bootcamp->price, 0, ",", ".") }}
-                        </div>
-                        <div class="col-md-1">
-                            <form action="{{ url('cart/delete/'.$cart->id)}}" method="post">
-                                {{ csrf_field() }} 
-                                {{ method_field('delete') }} 
-                                <button class="btn btn-default btn-lg"><i class="fa fa-trash"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                @if($cart->lesson_id != null)
-                <div class="col-sm-12 well shadow">
-                    <div class="row cart-list">
-                        <div class="col-md-2">
-                            <center><img src="{{ url($cart->lesson->image) }}" style="max-width:100%;max-height:100px;"></center>
-                        </div>
-                        <div class="col-md-7 cart-title">
-                            {{ $cart->lesson->title }}
-                        </div>
-                        <div class="col-md-2 cart-price">
-                            Rp{{ number_format($cart->lesson->price, 0, ",", ".") }}
-                        </div>
-                        <div class="col-md-1">
-                            <form action="{{ url('cart/delete/'.$cart->id)}}" method="post">
-                                {{ csrf_field() }} 
-                                {{ method_field('delete') }} 
-                                <button class="btn btn-default btn-lg"><i class="fa fa-trash"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                @php 
-                if($cart->lesson_id != null){
-                    $total += $cart->lesson->price; 
-                }
-                else if($cart->bootcammp_id != null){
-                    $total += $cart->bootcamp->price; 
-                } else if ($cart->bootcammp_id != null && $cart->lesson_id != null){
-                    $total = $cart->bootcamp->price + $cart->lesson->price; 
-                }
-                Session::put('total', $total);
+                    @endif
 
-                @endphp
+                    @if($cart->lesson_id != null && $cart->lesson != null)
+                        <div class="col-sm-12 well shadow">
+                            <div class="row cart-list">
+                                <div class="col-md-2">
+                                    <center><img src="{{ url($cart->lesson->image) }}" style="max-width:100%;max-height:100px;"></center>
+                                </div>
+                                <div class="col-md-7 cart-title">
+                                    {{ $cart->lesson->title }}
+                                </div>
+                                <div class="col-md-2 cart-price">
+                                    Rp{{ number_format($cart->lesson->price, 0, ",", ".") }}
+                                </div>
+                                <div class="col-md-1">
+                                    <form action="{{ url('cart/delete/'.$cart->id)}}" method="post">
+                                        {{ csrf_field() }}
+                                        {{ method_field('delete') }}
+                                        <button class="btn btn-default btn-lg"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @php
+                        if ($cart->lesson_id != null && $cart->lesson != null) {
+                            $total += $cart->lesson->price;
+                        }
+                        else if ($cart->bootcamp_id != null && $cart->bootcamp != null) {
+                            $total += $cart->bootcamp->price;
+                        }
+                        else if (
+                            $cart->bootcamp_id != null &&
+                            $cart->lesson_id != null &&
+                            $cart->lesson != null &&
+                            $cart->bootcamp != null
+                        ) {
+                            $total = $cart->bootcamp->price + $cart->lesson->price;
+                        }
+                        Session::put('total', $total);
+                    @endphp
                 @endforeach
             @else
             <div id="cart">
@@ -114,7 +126,7 @@
                     </h4>
                 </div>
             </div>
-            @endif 
+            @endif
         </div>
         <div id="cart-total" class="row  {{ !count($carts) ? 'hide' : '' }}">
             <div class="col-md-offset-8 col-md-4">
@@ -203,7 +215,7 @@
         <div id="cart-pay" class="row  {{ !count($carts) ? 'hide' : '' }}">
             <div class="col-md-offset-8 col-md-4" style="padding:0">
                 <form action="{{ url('member/checkout')}}" method="post">
-                    {{ csrf_field() }} 
+                    {{ csrf_field() }}
                     <button class="btn btn-primary btn-lg btn-block" id="inicheckout" style="background-color: #3CA3E0; border:0; padding-top:20px;padding-bottom:20px">Pilih Metode Pembayaran</button>
                 </form>
             </div>
@@ -226,7 +238,7 @@ fbq('track', 'AddToCart');
   );
 </script>
 
-@if (!Auth::guard('members')->user()) 
+@if (!Auth::guard('members')->user())
 <script>
     $('document').ready(function(){
         var cart = localStorage.getItem('cart');
