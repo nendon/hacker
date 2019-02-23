@@ -112,8 +112,8 @@
           <div class="project-content col-xs-12 p-0">
             <div class="header">
               <div class="col-xs-11 pl-5">
-                Become a {{$bc->slug}} <br>
-                <small>{{$vsection->title}}</small>
+                {{$bc->title}} <br>
+                <small>{{$course->title}}</small>
               </div>
               <div class="col-xs-1 px-4">
                 <button type="button" class="plyr__control btn btn-outline-primary px-4" onClick="sidebarShow()"><i class="fa fa-bars"></i></button>
@@ -125,10 +125,11 @@
                   <i class="fa fa-check-circle c-blue"></i> Selamat Anda telah lolos dalam Final Projek Course Linux Fundamental <a href="{{ url('Bootcamp/ProjectView') }}" class="btn btn-outline-primary">Lihat Hasil Preview</a>
               </div>  --}}
               <div class="col-xs-12">
-                  <h4>{{$project->title}}</h4>
+                  <h3>{{$project->title}}</h3>
 
-                  <h4>Couse {{$vsection->title}}: Final Projek</h4>
-                  
+                  <h4><b>Instruksi: <br/></b><br/> {{$project->instruksi}}</h4>
+                  <br/>
+                  <br/>
                   <input type="file" id="file" name="file">
                   
                   <h5>Komentar</h5>
