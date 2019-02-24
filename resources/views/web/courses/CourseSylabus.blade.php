@@ -120,13 +120,18 @@
             <div class="tab-pane fade active in" id="pills-kurikulum" role="tabpanel" aria-labelledby="pills-kurikulum-tab">
               <ul class="timelines">
                 <?php
-                     $i = 1;
+                     $i =1;
                      foreach ($cs as $key => $courses): 
                       ?>
 
                   <li>           
                       <div class="timelines-number"><?php echo $i; 
-                      $valid = DB::table('section')
+                       DB::table('course')->where('course.id',$courses->id)
+                        ->update([
+                         'position' => $i,
+                       ]);
+                      $valid = DB::table('course')
+                        ->join('section', 'course.id', 'section.course_id')
                         ->join('video_section', 'section.id','video_section.section_id')
                         ->leftjoin('project_section', 'section.id', 'project_section.section_id')
                         ->leftjoin('project_user', function($join){
@@ -135,11 +140,21 @@
                         ->leftjoin('history', function($join){
                           $join->on('video_section.id', '=', 'history.video_id')
                           ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-                        ->where('section.course_id', $courses->id)
-                        ->select('section.course_id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
-                        ->groupby('section.course_id')
-                        ->get();
-                        
+                        ->where('course.id', $courses->id)
+                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT ifnull(video_section.id,0)) + count(distinct ifnull(project_section.id,0)) as project'), DB::raw('count(DISTINCT ifnull(project_user.id,0))+ count(distinct ifnull(history.id,0)) as hasil'))
+                        ->groupby('course.id', 'course.position')
+                        ->first();
+
+                        if($valid->project >0){
+                          if($valid->hasil){
+                            $hasil = 0;
+                            $persen = number_format($valid->hasil / $valid->project*100); 
+                          }
+                        }else{
+                        $persen = number_format(0);
+                         
+                        }
+
                       ?></div>
                       <div class="timelines-content">
                         <div class="row row-eq-height box p-0">
@@ -150,26 +165,24 @@
                           <?php } else {?>
                           <div class="col-sm-4 col-xs-12 p-0" style="background: url({{ asset('template/web/img/no-image-available.png') }});background-size:cover;min-height: 250px"></div>
                           <?php }?> 
-                        
+                          <?php
+                              ?>
                           <div class="col-sm-8 col-xs-12">
 
                             <div class="row mt-3">
                               <div class="col-xs-6">
                                 <h5>Course Part <?php echo $i; ?></h5> <?php $i++;?>
                               </div>
-                              <?php
-                          foreach ($valid as $key => $valid): 
-                          $persen = number_format($valid->hasil / $valid->project*100); 
-                      ?>
+                             
                               <div class="col-xs-5 mt-4">
                                   <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: {{$persen}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: {{$persen}}%" aria-value ="0" aria-valuemin="0" aria-valuemax="100"></div>
                                   </div>
                               </div>
                               <div class="col-xs-1 p-0 pt-2">
                               {{$persen}}%
                               </div>
-                              <?php endforeach;?>
+                             
 
                             </div>
                               
@@ -185,8 +198,56 @@
                             <small class="text-muted">{{$course->estimasi}} Jam </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline 2 Hari</small>
                                 
                             <br><br>
-                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Mulai Belajar</a>
+                            <?php
+                            
+                              $n = $valid->posisi;
+                              $sect = $valid->section;
 
+                              ?>
+                            <?php 
+                        if($valid->project == $valid->hasil)    {   ?> 
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Selesai Belajar</a>
+                        <?php }else{
+                        
+                          if($valid->posisi == '1'){ ?>
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Mulai Belajar</a>
+                          <?php }else{
+                            $n = $valid->posisi-1;
+                            $sect = $valid->section-1;
+                            
+                            $lihat = DB::table('course')
+                                    ->join('section', 'course.id', 'section.course_id')
+                                    ->join('video_section', 'section.id','video_section.section_id')
+                                    ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                                    ->leftjoin('project_user', function($join){
+                                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+                                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->leftjoin('history', function($join){
+                                      $join->on('video_section.id', '=', 'history.video_id')
+                                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->where('course.id', $sect)->where('course.position', $n)
+                                    ->select('course.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                                    ->groupby('course.id')
+                                    ->first();
+                                  
+                            if($lihat->project == $lihat->hasil){ 
+                              if(!$exp){
+                              ?>
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Mulai Belajar</a>
+                            <?php 
+                              }else{ ?>
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Retake</a>
+                           <?php     
+                              }
+                          }else{ ?>
+                        <a disabled class="btn btn-primary float-right disable">Belum Terbuka</a>
+
+                         
+                            <?php }
+                        }
+                        
+                        }
+                         ?>
                           </div>
                         </div>
                       </div>
