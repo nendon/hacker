@@ -210,7 +210,17 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-        
+        <a
+            data-url="<?php echo e($materi->file_video); ?>"
+            data-title="<?php echo e($materi->title); ?>"
+            data-video_id="<?php echo e($materi->id); ?>"
+            data-section_id="<?php echo e($materi->section_id); ?>"
+            onClick="changeVideo(this), saveHistory(this)"
+            class="btn btn-next"
+        >
+            Lanjutkan <i class="fa fa-step-forward"></i>
+            <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
+        </a>
     </div>
     `;
 

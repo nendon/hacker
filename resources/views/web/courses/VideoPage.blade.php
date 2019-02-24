@@ -206,14 +206,17 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-        {{--
-            Comment this button, go to next course will show up at the end of video
-
-            <a href="ProjectSubmit.html" class="btn btn-next">
-                Lanjutkan <i class="fa fa-step-forward"></i>
-                <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
-            </a>
-        --}}
+        <a
+            data-url="{{$materi->file_video}}"
+            data-title="{{$materi->title}}"
+            data-video_id="{{$materi->id}}"
+            data-section_id="{{$materi->section_id}}"
+            onClick="changeVideo(this), saveHistory(this)"
+            class="btn btn-next"
+        >
+            Lanjutkan <i class="fa fa-step-forward"></i>
+            <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
+        </a>
     </div>
     `;
 
