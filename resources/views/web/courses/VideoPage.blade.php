@@ -173,6 +173,9 @@
           $("#wrapper").addClass('toggled');
         }
       }
+      setInterval(function(){
+        sidebarShow();
+      }, 30000);
 
       const controls = `<div class="video-header">
         <div class="col-xs-8">
