@@ -49,7 +49,6 @@
                         data-title="<?php echo e($materi->title); ?>"
                         data-video_id="<?php echo e($materi->id); ?>"
                         data-section_id="<?php echo e($materi->section_id); ?>"
-                        
                         onclick="changeVideo(this), saveHistory(this)"
                     >
                       <div class="sub-materi row">
@@ -244,7 +243,7 @@
 
     //function for button `Lanjutkan` when video has ended
     function changeVideo(attr){
-      const defaultUrl = 'https://cilsy.id';
+      const defaultUrl = 'https://dev.cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
@@ -264,9 +263,12 @@
         section_id: $(attr).data('section_id')
       };
 
+      let loc = window.location;
+      let baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/bootcamp/";
+
       $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:8000/bootcamp/" + '<?php echo e($bc->slug); ?>' +"/saveHistory",
+        url: baseUrl + '<?php echo e($bc->slug); ?>' +"/saveHistory",
         data: data
       });
     }

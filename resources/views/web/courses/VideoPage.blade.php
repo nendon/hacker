@@ -266,9 +266,14 @@
         section_id: $(attr).data('section_id')
       };
 
+      // set base url for global usage
+      let loc = window.location;
+      let baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/bootcamp/";
+
+      // use ajax to access save query
       $.ajax({
         type: "GET",
-        url: "https://dev.cilsy.id/bootcamp/" + '{{$bc->slug}}' +"/saveHistory",
+        url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
         data: data
       });
     }
