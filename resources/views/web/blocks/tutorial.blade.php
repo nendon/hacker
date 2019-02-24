@@ -54,7 +54,7 @@
                                 <i class="fa fa-user"></i> {{count($result->bootcamp_member)}} Siswa
                               </li>
                               <li>
-                                <a href="#"> Selengkapnya</a>
+                                <a style="color:blue;bold;" href="bootcamp/{{$result->slug}}/courseSylabus"> Selengkapnya <br/></a>
                               </li>
                             </ul>
                           </div>

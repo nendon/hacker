@@ -272,17 +272,28 @@
               <div class="row box m-4">
                 <div class="col-xs-12">
                   <h6>Buat Pertanyaan</h6>
-                  <textarea class="form-control" name="pertanyaan" id="pertanyaan" cols="30" rows="10"></textarea>
-                  <br>
-                  <button class="btn btn-primary mb-2">Upload Gambar</button>
-                  <button class="btn btn-primary mb-2">Tambah Pertanyaan</button>
+                  <form id="form-comment" class="mb-25" enctype="multipart/form-data" method="POST">
+                        @csrf 
+                        {{ method_field('POST') }}
+                        <input type="hidden" name="bootcamp_id" value="{{ $bc->id }}">
+                        <input type="hidden" name="parent_id" value="0"> 
+                        <div class="form-group">
+                          <textarea style="white-space: pre-line" rows="8" cols="80" class="form-control" name="body" id="textbody0"></textarea>
+                        </div>
+                       
+                        <input class="inputfile" type="file" name="image" id="file" data-multiple-caption="{count} files selected" multiple="multiple"/>
+                        <label for="file"><i class="fa fa-upload"></i><span>Upload File</span></label>
+                       
+                      <button type="button" class="btn btn-primary upload-image" onclick="doComment({{ $bc->id}}, 0)">Tambah Pertanyaan</button> 
+                  </form><!--./ Comment Form -->
                 </div>
 
                 <hr class="mb-5">
 
                 <div class="col-xs-12">
-                  <hr>
-                  <span class="text-muted">Saat ini belum ada diskusi</span>
+                <div id="comments-lists">
+                    <p>Memuat Pertanyaan . . .</p>
+                </div>
                 </div>
 
               </div>
@@ -447,7 +458,137 @@
         }]
       };
     }
+    function getComments() {
+      $.ajax({
+          type    :'GET',
+          url     :'{{ url("bootcamp/coments/getComments/".$bc->id) }}',
+          success:function(data){
+            if (data == '') {
+              $('#comments-lists').html('Tidak Ada Pertanyaan');
+            }else {
+              $('#comments-lists').html(data);
+            }
+          }
+      });
+    }
 
+    function doComment(bootcamp_id, parent_id) {
+    var body = $('#textbody'+parent_id).val();
+    var file_data = $('#file').prop("files")[0];
+    dataform = new FormData();
+    dataform.append( 'image', file_data);
+    dataform.append( 'body', body);
+    dataform.append( 'bootcamp_id', bootcamp_id);
+    dataform.append( 'parent_id', parent_id);
+
+    if (body == '') {
+      alert('Harap Isi form !')
+    }else {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax({
+          type    :"POST",
+          url     :'{{ url("/bootcamp/coments/doComment") }}',
+          data    : dataform,
+          dataType : 'json',
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+               swal({
+                title: "Memuat Pertanyaan",
+                text: "Mohon Tunggu sebentar Pertanyaan anda sedang dimuat",
+                imageUrl: "{{ asset('template/web/img/loading.gif') }}",
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            // Show image container
+          },
+          success:function(data){
+            if (data.success == false) {
+               window.location.href = '{{ url("member/signin") }}';
+            }else if (data.success == true) {
+              $('#textbody'+parent_id).val('');
+              $('.inputfile').each(function() {
+                var $input	 = $(this),
+                    $label	 = $input.next('label'),
+                    labelVal = $label.html();
+                    $label.find('span').html('Upload Image');
+              });
+              swal({
+                title: "Pertanyaan berhasil terkirim!",
+                showConfirmButton: true,
+                timer: 3000
+              });
+              
+              getComments();
+            }
+          }
+      });
+    }
+  }
+  function replyComment(bootcamp_id, parent_id) {
+    var body = $('#textbody'+parent_id).val();
+    var file_data = $('#file-2').prop("files")[0];
+    dataform = new FormData();
+    dataform.append( 'image', file_data);
+    dataform.append( 'body', body);
+    dataform.append( 'bootcamp_id', bootcamp_id);
+    dataform.append( 'parent_id', parent_id);
+
+    if (body == '') {
+      alert('Harap Isi form !')
+    }else {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax({
+          type    :"POST",
+          url     :'{{ url("/bootcamp/coments/doComment") }}',
+          data    : dataform,
+          dataType : 'json',
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+               swal({
+                title: "Memuat Pertanyaan",
+                text: "Mohon Tunggu sebentar Pertanyaan anda sedang dimuat",
+                imageUrl: "{{ asset('template/web/img/loading.gif') }}",
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            // Show image container
+          },
+          success:function(data){
+            if (data.success == false) {
+               window.location.href = '{{ url("member/signin") }}';
+            }else if (data.success == true) {
+              $('#textbody'+parent_id).val('');
+              $('.inputfile').each(function() {
+                var $input	 = $(this),
+                    $label	 = $input.next('label'),
+                    labelVal = $label.html();
+                    $label.find('span').html('Upload Image');
+              });
+              swal({
+                title: "Pertanyaan berhasil terkirim!",
+                showConfirmButton: true,
+                timer: 3000
+              });
+              
+              getComments();
+            }
+          }
+      });
+    }
+  }
+      setInterval(function(){
+          getComments();
+        }, 20000);
     function saveHistory(attr) {
       let data = {
         video_id: $(attr).data('video_id'),
