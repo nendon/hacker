@@ -57,7 +57,15 @@
                         </div>
                         <div class="col-xs-2 px-0 text-right">
                           {{$materi->durasi}}
+                          <?php 
+                          $valid = DB::table('video_section')
+                                  ->leftjoin('history')->where('id', $materi->id)->first();
+                          if($valid){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
                           <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
                         </div>
                       </div>
                     </a>
@@ -73,7 +81,15 @@
                         <i class="fas fa-clipboard-list"></i>  {{$project->title}}
                       </div>
                       <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                          $cek = DB::table('video_section')
+                                  ->leftjoin('history')->where('id', $materi->id)->first();
+                          if($cek){        
+                          ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
                       </div>
                     </div>
                   </a >
