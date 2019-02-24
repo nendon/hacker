@@ -82,8 +82,8 @@
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
-                          $cek = DB::table('video_section')
-                                  ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->first();
+                          $cek = DB::table('project_section')
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')->where('project_section.id', $project->id)->first();
                           if($cek){        
                           ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
