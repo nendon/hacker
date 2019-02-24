@@ -59,7 +59,7 @@
                           {{$materi->durasi}}
                           <?php 
                           $valid = DB::table('video_section')
-                                  ->leftjoin('history')->where('id', $materi->id)->first();
+                          ->leftjoin('history', 'video_section.id', 'history.video_id')->where('id', $materi->id)->first();
                           if($valid){        
                           ?>
                           <i class="fa fa-check-circle ml-2 c-blue"></i>
@@ -83,7 +83,7 @@
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
                           $cek = DB::table('video_section')
-                                  ->leftjoin('history')->where('id', $materi->id)->first();
+                                  ->leftjoin('history', 'video_section.id', 'history.video_id')->where('id', $materi->id)->first();
                           if($cek){        
                           ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
