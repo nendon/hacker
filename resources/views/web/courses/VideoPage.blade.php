@@ -27,9 +27,30 @@
           <div class="tab-pane fade active in" id="pills-materi" role="tabpanel" aria-labelledby="pills-materi-tab">
           <?php
              $a = 1;
-             foreach ($stn as $key => $section): ?>
+             foreach ($stn as $key => $section): 
+              $valid = DB::table('section')
+              ->join('video_section', 'section.id','video_section.section_id')
+              ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+              ->leftjoin('project_user', function($join){
+               $join->on('project_section.id', '=', 'project_user.project_section_id')
+               ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+              ->leftjoin('history', function($join){
+                 $join->on('video_section.id', '=', 'history.video_id')
+                 ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+              ->where('section.id', $section->id)
+              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+              ->groupby('section.id', 'section.position')
+              ->first();
+             $persen = number_format($valid->hasil / $valid->project*100); 
+             
+             $n = $valid->posisi;
+             $sect = $valid->section;
+
+             ?>
+             
               <div class="video-materi">
                 <a class="collap" id="<?php echo "materi-".$a ?>" data-toggle="collapse" href="#{{$section->id}}" role="button">
+               
                  <div class="number-circle"><?php echo $a ;?></div>
                   <div class="title">
                      {{$section->title}}
@@ -38,6 +59,7 @@
                   <i class="icon-collap fa fa-chevron-down"></i>
                 </a>
               </div>
+              <?php if($valid->project == $valid->hasil)    {   ?>
               <div class="collapse submateri" id="{{$section->id}}">
                 <ul>
                 <?php
@@ -58,9 +80,9 @@
                         <div class="col-xs-2 px-0 text-right">
                           {{$materi->durasi}}
                           <?php 
-                          $valid = DB::table('video_section')
+                          $history = DB::table('video_section')
                           ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
-                          if($valid){        
+                          if($history){        
                           ?>
                           <i class="fa fa-check-circle ml-2 c-blue"></i>
                           <?php }else{ ?>
@@ -97,6 +119,150 @@
                 <?php endforeach; ?>
                 </ul>
               </div>
+              <?php }else{
+                        
+              if($valid->posisi == '1'){ ?>
+              <div class="collapse submateri" id="{{$section->id}}">
+                <ul>
+                <?php
+                 $i = 1;
+                 foreach ($section->video_section as $key => $materi): ?>
+                  <li>
+                    <a
+                        data-url="{{$materi->file_video}}"
+                        data-title="{{$materi->title}}"
+                        data-video_id="{{$materi->id}}"
+                        data-section_id="{{$materi->section_id}}"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                          {{$materi->durasi}}
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <?php $i++;?>
+                  <?php endforeach; ?>
+                  <?php
+                  foreach ($section->project_section as $key => $project): ?>
+                  <li>
+                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
+                    <div class="sub-materi row">
+                      <div class="col-xs-10 px-0">
+                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}
+                      </div>
+                      <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                          $cek = DB::table('project_section')
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')->where('project_section.id', $project->id)->where('project_user.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($cek){        
+                          ?>
+                        <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </a >
+                </li>
+                <?php endforeach; ?>
+                </ul>
+              </div>
+              <?php }else{
+                 $n = $valid->posisi-1;
+                 $sect = $valid->section-1;
+                 
+                 $lihat = DB::table('section')
+                         ->join('video_section', 'section.id','video_section.section_id')
+                         ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                         ->leftjoin('project_user', function($join){
+                         $join->on('project_section.id', '=', 'project_user.project_section_id')
+                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                         ->leftjoin('history', function($join){
+                           $join->on('video_section.id', '=', 'history.video_id')
+                           ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                         ->where('section.id', $sect)->where('section.position', $n)
+                         ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                         ->groupby('section.id')
+                         ->first();
+              if($lihat->project == $lihat->hasil){ ?>
+               <div class="collapse submateri" id="{{$section->id}}">
+                <ul>
+                <?php
+                 $i = 1;
+                 foreach ($section->video_section as $key => $materi): ?>
+                  <li>
+                    <a
+                        data-url="{{$materi->file_video}}"
+                        data-title="{{$materi->title}}"
+                        data-video_id="{{$materi->id}}"
+                        data-section_id="{{$materi->section_id}}"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                          {{$materi->durasi}}
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <?php $i++;?>
+                  <?php endforeach; ?>
+                  <?php
+                  foreach ($section->project_section as $key => $project): ?>
+                  <li>
+                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
+                    <div class="sub-materi row">
+                      <div class="col-xs-10 px-0">
+                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}
+                      </div>
+                      <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                          $cek = DB::table('project_section')
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')->where('project_section.id', $project->id)->where('project_user.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($cek){        
+                          ?>
+                        <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </a >
+                </li>
+                <?php endforeach; ?>
+                </ul>
+               </div>
+              <?php }else{ ?>
+                <a disabled class="btn btn-primary float-right disable">Terkunci</a>
+              <?php } 
+              }
+            }?>           
               <?php $a++;?>
                   <?php endforeach; ?>
           </div>
