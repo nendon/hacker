@@ -141,19 +141,14 @@
                           $join->on('video_section.id', '=', 'history.video_id')
                           ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
                         ->where('course.id', $courses->id)
-                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT ifnull(video_section.id,0)) + count(distinct ifnull(project_section.id,0)) as project'), DB::raw('count(DISTINCT ifnull(project_user.id,0))+ count(distinct ifnull(history.id,0)) as hasil'))
+                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
                         ->groupby('course.id', 'course.position')
                         ->first();
 
-                        if($valid->project >0){
-                          if($valid->hasil){
-                            $hasil = 0;
+                        
+                            $persen = 0;
                             $persen = number_format($valid->hasil / $valid->project*100); 
-                          }
-                        }else{
-                        $persen = number_format(0);
                          
-                        }
 
                       ?></div>
                       <div class="timelines-content">
