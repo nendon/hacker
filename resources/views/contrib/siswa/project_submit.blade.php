@@ -50,7 +50,7 @@
 
             @foreach($user_project as $user)
             <tr>
-              <td><img src="{{asset($user->member->avatar)}}"class="img-table img-responsive" alt=""> {{$user->member->username}}</td>
+              <td><img src="{{asset($user->avatar)}}"class="img-table img-responsive" alt=""> {{$user->username}}</td>
               <td>{{$user->komentar_user}}</td>
               <td>{{date("jS F Y", strtotime($user->created_at))}}</td>
               @if($user->status == 0)
@@ -60,7 +60,7 @@
               @elseif($user->status == 2)
               <td><span class="c-green">Lulus</span></td>
               @endif
-              <td><a href="{{url('contributor/project/submit/'.$user->project_section_id.'/detail/'.$user->id)}}" class="btn btn-green"><i class="fa fa-eye"></i> Lihat</a></td>
+              <td><a href="{{url('contributor/project/submit/'.$user->section_id.'/detail/'.$user->id)}}" class="btn btn-green"><i class="fa fa-eye"></i> Lihat</a></td>
             </tr>
             @endforeach
 

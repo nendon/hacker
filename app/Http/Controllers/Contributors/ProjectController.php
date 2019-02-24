@@ -54,7 +54,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $user_roject = ProjectUser::where('project_section_id', $id)->with('member')->get();
+        $user_roject = ProjectSection::join('project_user', 'project_section.id', 'project_user.project_section_id')
+                        ->join('members', 'project_user.member_id', 'members.id')->where('project_section.section_id', $id)
+                        ->select('project_user.*', 'project_section.section_id as section_id',  'members.avatar as avatar', 'members.username as username')->get();
         return view('contrib.siswa.project_submit', [
             'user_project' => $user_roject,
         ]);
@@ -62,8 +64,12 @@ class ProjectController extends Controller
 
     public function detail($sectionid, $id)
     {
-        $list_project = ProjectUser::where('project_section_id', $sectionid)->with('member')->get();
-        $user_roject = ProjectUser::where('id',$id)->where('project_section_id', $sectionid)->with('member')->first();
+        $list_project = ProjectSection::join('project_user', 'project_section.id', 'project_user.project_section_id')
+                        ->join('members', 'project_user.member_id', 'members.id')->where('project_section.section_id', $sectionid)
+                        ->select('project_user.*', 'project_section.section_id as section_id',  'members.avatar as avatar', 'members.username as username')->get();
+        $user_roject = ProjectSection::join('project_user', 'project_section.id', 'project_user.project_section_id')
+        ->join('members', 'project_user.member_id', 'members.id')->where('project_section.section_id', $sectionid)
+        ->select('project_user.*', 'project_section.section_id as section_id',  'members.avatar as avatar', 'members.username as username')->first();
         $section_project = ProjectSection::where('section_id', $sectionid)->first();
         return view('contrib.siswa.project_detail', [
             'user' => $user_roject,

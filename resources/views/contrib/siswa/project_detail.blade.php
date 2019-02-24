@@ -43,8 +43,8 @@
         <h5>Nama Siswa</h5>
         <div class="list-group">
             @foreach($list as $lists)
-            <a href="{{url('contributor/project/submit/'.$lists->project_section_id.'/detail/'.$lists->id)}}" class="list-group-item {{ request()->is('contributor/project/submit/'.$lists->project_section_id.'/detail/'.$lists->id) ? 'active' : '' }}">
-                <img src="img/user.png" class="img-table" alt=""> {{$lists->member->username}}</a>
+            <a href="{{url('contributor/project/submit/'.$lists->section_id.'/detail/'.$lists->id)}}" class="list-group-item {{ request()->is('contributor/project/submit/'.$lists->section_id.'/detail/'.$lists->id) ? 'active' : '' }}">
+                <img src="img/user.png" class="img-table" alt=""> {{$lists->username}}</a>
             @endforeach
         </div>
       </div>
