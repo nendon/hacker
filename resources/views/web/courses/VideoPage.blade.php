@@ -127,7 +127,9 @@
                     <a
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
-                        onClick="changeVideo(this)"
+                        data-video_id="{{$materi->id}}"
+                        data-section_id="{{$materi->section_id}}"
+                        onClick="changeVideo(this), saveHistory(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
                   </div>
@@ -246,7 +248,7 @@
 
     //function for button `Lanjutkan` when video has ended
     function changeVideo(attr){
-      const defaultUrl = 'https://dev.cilsy.id';
+      const defaultUrl = 'https://cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');

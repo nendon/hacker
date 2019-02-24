@@ -130,7 +130,9 @@
                     <a
                         data-url="<?php echo e($materi->file_video); ?>"
                         data-title="<?php echo e($materi->title); ?>"
-                        onClick="changeVideo(this)"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onClick="changeVideo(this), saveHistory(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
                   </div>
@@ -243,7 +245,7 @@
 
     //function for button `Lanjutkan` when video has ended
     function changeVideo(attr){
-      const defaultUrl = 'https://dev.cilsy.id';
+      const defaultUrl = 'https://cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
@@ -263,9 +265,11 @@
         section_id: $(attr).data('section_id')
       };
 
+      // set base url for global usage
       let loc = window.location;
       let baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/bootcamp/";
 
+      // use ajax to access save query
       $.ajax({
         type: "GET",
         url: baseUrl + '<?php echo e($bc->slug); ?>' +"/saveHistory",
