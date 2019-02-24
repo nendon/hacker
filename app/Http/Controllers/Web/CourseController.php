@@ -32,7 +32,11 @@ class CourseController extends Controller
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
         $mulai = DB::table('course')->where('bootcamp_id', $bcs->id)->first();
 
-
+        $now = new Datetime();
+        $exp = BootcampMember::where('bootcamp_id', $bcs->id)
+        ->where('member_id', Auth::guard('members')->user()->id)
+        ->where('expired_at', '<', $now)
+        ->first();
 
 
         if(!$tutor){
