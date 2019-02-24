@@ -280,7 +280,6 @@
           type: 'video/mp4',
         }]
       };
-      setInterval(20000);
     }
 
     function saveHistory(attr) {
