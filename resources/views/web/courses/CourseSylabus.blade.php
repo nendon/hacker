@@ -125,7 +125,22 @@
                       ?>
 
                   <li>           
-                      <div class="timelines-number"><?php echo $i; ?></div>
+                      <div class="timelines-number"><?php echo $i; 
+                      $valid = DB::table('section')
+                        ->join('video_section', 'section.id','video_section.section_id')
+                        ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                        ->leftjoin('project_user', function($join){
+                        $join->on('project_section.id', '=', 'project_user.project_section_id')
+                        ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                        ->leftjoin('history', function($join){
+                          $join->on('video_section.id', '=', 'history.video_id')
+                          ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                        ->where('section.course_id', $courses->id)
+                        ->select('section.course_id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                        ->groupby('section.course_id')
+                        ->get();
+                        
+                      ?></div>
                       <div class="timelines-content">
                         <div class="row row-eq-height box p-0">
                           
@@ -135,21 +150,27 @@
                           <?php } else {?>
                           <div class="col-sm-4 col-xs-12 p-0" style="background: url({{ asset('template/web/img/no-image-available.png') }});background-size:cover;min-height: 250px"></div>
                           <?php }?> 
-                          
+                        
                           <div class="col-sm-8 col-xs-12">
 
                             <div class="row mt-3">
                               <div class="col-xs-6">
                                 <h5>Course Part <?php echo $i; ?></h5> <?php $i++;?>
                               </div>
+                              <?php
+                          foreach ($valid as $key => $valid): 
+                          $persen = number_format($valid->hasil / $valid->project*100); 
+                      ?>
                               <div class="col-xs-5 mt-4">
                                   <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: {{$persen}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                   </div>
                               </div>
                               <div class="col-xs-1 p-0 pt-2">
-                                0%
+                              {{$persen}}%
                               </div>
+                              <?php endforeach;?>
+
                             </div>
                               
                             <br>
@@ -164,13 +185,15 @@
                             <small class="text-muted">{{$course->estimasi}} Jam </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline 2 Hari</small>
                                 
                             <br><br>
-
                             <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Mulai Belajar</a>
+
                           </div>
                         </div>
                       </div>
                           
-                          <?php endforeach; ?>
+                          <?php 
+                       
+                        endforeach; ?>
                   </li>
                   </ul>
             </div>
