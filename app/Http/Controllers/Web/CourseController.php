@@ -32,8 +32,8 @@ class CourseController extends Controller
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
         $mulai = DB::table('course')->where('bootcamp_id', $bcs->id)->first();
 
-        
-      
+
+
 
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
@@ -44,7 +44,7 @@ class CourseController extends Controller
             'cs' => $cs,
             'tutor' => $tutor,
             'mulai' => $mulai,
-           
+
         ]);
     }
     public function courseLesson($slug, $id)
@@ -73,7 +73,7 @@ class CourseController extends Controller
         $update->save();
         $response['success'] = true;
         }
-        
+
         if($tutor->expired_at){
 
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
@@ -86,7 +86,7 @@ class CourseController extends Controller
         $diff = date_diff($awal, $akhir);
         $deadline = $diff->format('%d');
         }else{
-            $exp = ''; 
+            $exp = '';
             $deadline = '';
         }
         $project = DB::table('course')
@@ -139,7 +139,7 @@ class CourseController extends Controller
         }
         $expired = BootcampMember::where('bootcamp_id', $bcs->id)->select(DB::raw('DATE_ADD( start_at, INTERVAL target day) as exp'))->first();
 
-        
+
         return view('web.courses.VideoPage',[
             'course' => $courses,
             'bc' => $bcs,
@@ -212,13 +212,24 @@ class CourseController extends Controller
         $params = $req->all();
         $now = new DateTime();
 
-        DB::table('history')->insert([
-            'member_id' => $uid,
-            'section_id' => $params['section_id'],
-            'video_id' => $params['video_id'],
-            'hist' => 1,
-            'created_at' => $now
-        ]);
+        // Check if user has history
+        $history = DB::table('history')
+                      ->where('member_id', '=', $uid)
+                      ->where('section_id', '=', $params['section_id'])
+                      ->where('video_id', '=', $params['video_id'])
+                      ->select('*')
+                      ->get();
+
+        // Insert if user doesn't have any history
+        if (!isset($history[0])) {
+            DB::table('history')->insert([
+                'member_id' => $uid,
+                'section_id' => $params['section_id'],
+                'video_id' => $params['video_id'],
+                'hist' => 1,
+                'created_at' => $now
+            ]);
+        }
     }
 
 }

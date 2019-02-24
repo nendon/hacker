@@ -127,7 +127,9 @@
                     <a
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
-                        onClick="changeVideo(this)"
+                        data-video_id="{{$materi->id}}"
+                        data-section_id="{{$materi->section_id}}"
+                        onClick="changeVideo(this), saveHistory(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
                   </div>
@@ -204,14 +206,17 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-        {{--
-            Comment this button, go to next course will show up at the end of video
-
-            <a href="ProjectSubmit.html" class="btn btn-next">
-                Lanjutkan <i class="fa fa-step-forward"></i>
-                <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
-            </a>
-        --}}
+        <a
+            data-url="{{$materi->file_video}}"
+            data-title="{{$materi->title}}"
+            data-video_id="{{$materi->id}}"
+            data-section_id="{{$materi->section_id}}"
+            onClick="changeVideo(this), saveHistory(this)"
+            class="btn btn-next"
+        >
+            Lanjutkan <i class="fa fa-step-forward"></i>
+            <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
+        </a>
     </div>
     `;
 
@@ -246,7 +251,7 @@
 
     //function for button `Lanjutkan` when video has ended
     function changeVideo(attr){
-      const defaultUrl = 'https://dev.cilsy.id';
+      const defaultUrl = 'https://cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
@@ -266,9 +271,14 @@
         section_id: $(attr).data('section_id')
       };
 
+      // set base url for global usage
+      let loc = window.location;
+      let baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/bootcamp/";
+
+      // use ajax to access save query
       $.ajax({
         type: "GET",
-        url: "https://dev.cilsy.id/bootcamp/" + '{{$bc->slug}}' +"/saveHistory",
+        url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
         data: data
       });
     }

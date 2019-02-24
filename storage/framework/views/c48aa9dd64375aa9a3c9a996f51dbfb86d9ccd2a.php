@@ -49,7 +49,6 @@
                         data-title="<?php echo e($materi->title); ?>"
                         data-video_id="<?php echo e($materi->id); ?>"
                         data-section_id="<?php echo e($materi->section_id); ?>"
-                        
                         onclick="changeVideo(this), saveHistory(this)"
                     >
                       <div class="sub-materi row">
@@ -131,7 +130,9 @@
                     <a
                         data-url="<?php echo e($materi->file_video); ?>"
                         data-title="<?php echo e($materi->title); ?>"
-                        onClick="changeVideo(this)"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onClick="changeVideo(this), saveHistory(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
                   </div>
@@ -209,7 +210,17 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-        
+        <a
+            data-url="<?php echo e($materi->file_video); ?>"
+            data-title="<?php echo e($materi->title); ?>"
+            data-video_id="<?php echo e($materi->id); ?>"
+            data-section_id="<?php echo e($materi->section_id); ?>"
+            onClick="changeVideo(this), saveHistory(this)"
+            class="btn btn-next"
+        >
+            Lanjutkan <i class="fa fa-step-forward"></i>
+            <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
+        </a>
     </div>
     `;
 
@@ -264,9 +275,14 @@
         section_id: $(attr).data('section_id')
       };
 
+      // set base url for global usage
+      let loc = window.location;
+      let baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/bootcamp/";
+
+      // use ajax to access save query
       $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:8000/bootcamp/" + '<?php echo e($bc->slug); ?>' +"/saveHistory",
+        url: baseUrl + '<?php echo e($bc->slug); ?>' +"/saveHistory",
         data: data
       });
     }
