@@ -14,6 +14,7 @@ use App\Models\File;
 use App\Models\LessonDetail;
 use App\Models\LessonDetailView;
 use App\Models\TutorialMember;
+use App\Models\BootcampMember;
 use DateTime;
 use Session;
 use DB;
@@ -25,33 +26,55 @@ class LessonsMemberController extends Controller
     public function index()
     {
         if (empty(Auth::guard('members')->user()->id)) {
-          return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
         }
+
         $mem_id = Auth::guard('members')->user()->id;
 
         $belitut = TutorialMember::join('lessons','lessons.id', '=', 'tutorial_member.lesson_id')
-                        ->where('member_id', '=',  $mem_id)->get();
+                      ->where('member_id', '=',  $mem_id)
+                      ->get();
 
         $get_lessons = Lesson::join('videos', 'lessons.id', '=', 'videos.lessons_id')
-                     ->join('viewers', 'videos.id', '=', 'viewers.video_id')
-                     ->where('viewers.member_id', '=', $mem_id)
-                     ->orderBy('viewers.member_id', 'viewers.updated_at', 'asc')
-                     ->distinct()
-                     ->get(['viewers.member_id', 'lessons.*']);
+                         ->join('viewers', 'videos.id', '=', 'viewers.video_id')
+                         ->where('viewers.member_id', '=', $mem_id)
+                         ->orderBy('viewers.member_id', 'viewers.updated_at', 'asc')
+                         ->distinct()
+                         ->get(['viewers.member_id', 'lessons.*']);
 
         $last_videos = Viewer::leftJoin('videos', 'videos.id', '=', 'viewers.video_id')
-                     ->select('videos.*', 'viewers.*')
-                     ->where('viewers.member_id', '=', $mem_id)->orderBy('viewers.updated_at', 'desc')->first();
+                         ->select('videos.*', 'viewers.*')
+                         ->where('viewers.member_id', '=', $mem_id)
+                         ->orderBy('viewers.updated_at', 'desc')
+                         ->first();
 
+        $get_bootcamp = BootcampMember::where('member_id', '=', $mem_id)
+                          ->select('*')
+                          ->get();
 
         $get_full = Lesson::join('videos', 'lessons.id', '=', 'videos.lessons_id')
-                     ->leftjoin('viewers', function($join){
-                        $join->on('videos.id', '=', 'viewers.video_id')
-                        ->where('viewers.member_id', '=', Auth::guard('members')->user()->id);})
-                     ->select(DB::raw('count(distinct viewers.video_id) as id_count, count(distinct videos.id) as vid_id, lessons.title, lessons.image, lessons.id, lessons.slug'))
-                     ->groupby('lessons.title', 'lessons.image', 'lessons.id', 'lessons.slug')
-                     ->having(DB::raw('count(distinct viewers.video_id)'), '=', DB::raw('count(distinct videos.id)'))
-                     ->get();
+                      ->leftjoin('viewers', function($join) {
+                          $join->on('videos.id', '=', 'viewers.video_id')
+                              ->where('viewers.member_id', '=', Auth::guard('members')
+                                  ->user()->id
+                              );
+                      })
+                      ->select(DB::raw('
+                          count(distinct viewers.video_id) as id_count,
+                          count(distinct videos.id) as vid_id,
+                          lessons.title,
+                          lessons.image,
+                          lessons.id,
+                          lessons.slug')
+                      )
+                      ->groupby(
+                          'lessons.title',
+                          'lessons.image',
+                          'lessons.id',
+                          'lessons.slug'
+                      )
+                      ->having(DB::raw('count(distinct viewers.video_id)'), '=', DB::raw('count(distinct videos.id)'))
+                      ->get();
 
         if (!empty($last_videos)) {
             $last_lessons = Lesson::where('lessons.id', '=', $last_videos->lessons_id)
