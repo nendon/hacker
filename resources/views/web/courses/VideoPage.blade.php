@@ -173,9 +173,7 @@
           $("#wrapper").addClass('toggled');
         }
       }
-      setInterval(function(){
-        sidebarShow();
-      }, 30000);
+     
 
       const controls = `<div class="video-header">
         <div class="col-xs-8">
@@ -282,6 +280,7 @@
           type: 'video/mp4',
         }]
       };
+      setInterval(20000);
     }
 
     function saveHistory(attr) {
