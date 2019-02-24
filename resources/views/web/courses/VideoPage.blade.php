@@ -104,8 +104,12 @@
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
-                          $cek = DB::table('project_section')
-                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')->where('project_section.id', $project->id)->where('project_user.member_id', '=', Auth::guard('members')->user()->id)->first();
+                         $cek = DB::table('project_section')
+                         ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                         ->where('project_section.id', $project->id)
+                         ->where('project_user.status', 2)
+                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                         ->first();
                           if($cek){        
                           ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
@@ -167,7 +171,11 @@
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
                           $cek = DB::table('project_section')
-                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')->where('project_section.id', $project->id)->where('project_user.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                          ->where('project_section.id', $project->id)
+                          ->where('project_user.status', 2)
+                          ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                          ->first();
                           if($cek){        
                           ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
@@ -190,7 +198,8 @@
                          ->leftjoin('project_section', 'section.id', 'project_section.section_id')
                          ->leftjoin('project_user', function($join){
                          $join->on('project_section.id', '=', 'project_user.project_section_id')
-                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                         ->where('project_user.status', '2');})
                          ->leftjoin('history', function($join){
                            $join->on('video_section.id', '=', 'history.video_id')
                            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
@@ -244,8 +253,13 @@
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
                           $cek = DB::table('project_section')
-                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')->where('project_section.id', $project->id)->where('project_user.member_id', '=', Auth::guard('members')->user()->id)->first();
-                          if($cek){        
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                                  ->where('project_section.id', $project->id)
+                                  ->where('project_user.status', 2)
+                                  ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                                  ->first();
+                        
+                                  if($cek){        
                           ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
                           <?php }else{ ?>
