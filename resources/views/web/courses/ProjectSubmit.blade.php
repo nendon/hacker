@@ -135,7 +135,7 @@
                   <h5>Komentar</h5>
                   <textarea class="form-control" name="komentar" id="komentar" cols="100" rows="2"></textarea>
                   
-                  <button class="btn btn-primary my-4" onclick="saveProject({{ $project->section_id}})">Submit Projek</button>
+                  <button class="btn btn-primary my-4" onclick="saveProject({{ $project->id}})">Submit Projek</button>
                   
               </div>
             </div> 
