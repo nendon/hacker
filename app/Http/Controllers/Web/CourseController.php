@@ -33,11 +33,12 @@ class CourseController extends Controller
         $mulai = DB::table('course')->where('bootcamp_id', $bcs->id)->first();
 
         $now = new Datetime();
+        
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
         ->where('member_id', Auth::guard('members')->user()->id)
         ->where('expired_at', '<', $now)
         ->first();
-
+          
 
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
@@ -48,7 +49,7 @@ class CourseController extends Controller
             'cs' => $cs,
             'tutor' => $tutor,
             'mulai' => $mulai,
-
+            'exp'  => $exp,
         ]);
     }
     public function courseLesson($slug, $id)

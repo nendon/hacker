@@ -201,11 +201,11 @@
                               ?>
                             <?php 
                         if($valid->project == $valid->hasil)    {   ?> 
-                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Selesai Belajar</a>
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary  float-right mb-4">Selesai Belajar</a>
                         <?php }else{
                         
                           if($valid->posisi == '1'){ ?>
-                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Mulai Belajar</a>
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary  float-right mb-4">Mulai Belajar</a>
                           <?php }else{
                             $n = $valid->posisi-1;
                             $sect = $valid->section-1;
@@ -228,10 +228,10 @@
                             if($lihat->project == $lihat->hasil){ 
                               if(!$exp){
                               ?>
-                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Mulai Belajar</a>
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary  float-right mb-4">Mulai Belajar</a>
                             <?php 
                               }else{ ?>
-                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary mb-4">Retake</a>
+                            <a href="{{ url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id) }}" class="btn btn-primary  float-right mb-4">Retake</a>
                            <?php     
                               }
                           }else{ ?>
