@@ -604,9 +604,7 @@
       });
     }
   }
-      setInterval(function(){
-          getComments();
-        }, 20000);
+ 
     function saveHistory(attr) {
       let data = {
         video_id: $(attr).data('video_id'),
@@ -636,5 +634,9 @@
         $('#'+idtarget+' i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
       });
     });
+
+    setInterval(function(){
+      getComments();
+    }, 5000);
     </script>
 @endsection()
