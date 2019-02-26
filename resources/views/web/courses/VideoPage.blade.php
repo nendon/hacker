@@ -349,7 +349,11 @@
       </div>
 
     </section>
-
+<script>
+ $(document).on('ready',function () {
+      $('#footer').addClass('hide')
+    });
+</script>
 
     <!-- JavaScript -->
     <script type="text/javascript" src="{{asset('assets/js/jquery-2.2.1.min.js')}}"></script>
@@ -620,7 +624,7 @@
         data: data
       });
     }
-
+    
     $('.collap').click(function(e){
       var datatarget =  $(this).attr("href");
       var idtarget =  $(this).attr("id");
