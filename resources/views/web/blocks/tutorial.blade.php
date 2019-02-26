@@ -26,6 +26,7 @@
                   <div class="bootcamp ">
                       @foreach($bootcamp as $result)
                       <div>
+                      <a href="bootcamp/{{$result->slug}}/courseSylabus" >
                         <div class="card">
                           <div class="label">
                             Bootcamp
@@ -59,6 +60,7 @@
                             </ul>
                           </div>
                         </div>
+                      </a>  
                       </div>
                       @endforeach()
                   </div>

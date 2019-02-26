@@ -71,7 +71,8 @@
                    ->leftjoin('project_section', 'section.id', 'project_section.section_id')
                    ->leftjoin('project_user', function($join){
                     $join->on('project_section.id', '=', 'project_user.project_section_id')
-                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                    ->where('project_user.status', '2');})
                    ->leftjoin('history', function($join){
                       $join->on('video_section.id', '=', 'history.video_id')
                       ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
@@ -176,7 +177,8 @@
                                     ->leftjoin('project_section', 'section.id', 'project_section.section_id')
                                     ->leftjoin('project_user', function($join){
                                     $join->on('project_section.id', '=', 'project_user.project_section_id')
-                                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                                    ->where('project_user.status', '2');})
                                     ->leftjoin('history', function($join){
                                       $join->on('video_section.id', '=', 'history.video_id')
                                       ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
