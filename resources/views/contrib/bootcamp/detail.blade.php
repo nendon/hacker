@@ -47,7 +47,7 @@
                       <input class="form-control" type="text" name="title" id="judul" value="{{ $bootcamp->title }}" >
                     </div>
                     <div class="form-group">
-                      Sub Judul
+                      Sub Judul (Deskripsi Singkat)
                       <input class="form-control" type="text" name="subjudul" id="subjudul" value="{{ $bootcamp->sub_title }}" >
                     </div>
                     <div class="form-group">
@@ -84,8 +84,18 @@
                       <input class="form-control dropify" type="file" data-default-file="{{asset($bootcamp->promote_video)}}" value="{{$bootcamp->promote_video}}"  id="video">
                     </div>
                     <div class="form-group">
-                      Deskripsi Bootcamp
+                      Deskripsi Lengkap Bootcamp
                       <textarea class="form-control" type="text" id="desc"  cols="30" rows="10">  {{$bootcamp->deskripsi}}</textarea>
+
+                    </div>
+                    <div class="form-group">
+                      Problem yang dipecahkan
+                      <textarea class="form-control" type="text" id="problem"  cols="30" rows="10">  {{$bootcamp->problem}}</textarea>
+
+                    </div>
+                    <div class="form-group">
+                      Kenapa belajar bootcamp ini ?
+                      <textarea class="form-control" type="text" id="alasan"  cols="30" rows="10">  {{$bootcamp->alasan}}</textarea>
 
                     </div>
                     <button class="btn btn-green pull-right" onclick="saveDetail({{ $bootcamp->id}})">+ Simpan</button>
@@ -104,6 +114,10 @@
                     <div class="form-group">
                       Preusite and Requirement
                       <input class="form-control" type="text" name="require" id="require" value="{{ $bootcamp->pre_and_req}}" placeholder="Contoh: Harus memiliki Laptop dan Mikrotik" >
+                    </div>
+                    <div class="form-group">
+                      Link download Silabus
+                      <input class="form-control" type="text" name="silabus" id="silabus" value="{{ $bootcamp->silabus }}" >
                     </div>
                     <button class="btn btn-green pull-right" onclick="saveDetail({{ $bootcamp->id}})">+ Simpan</button>
                   </div>
@@ -154,6 +168,9 @@
       var subkat = $('#sub_kat_id').val();
       var kat = $('#kat_id').val();
       var desc = $('#desc').val();
+      var problem = $('#problem').val();
+      var alasan = $('#alasan').val();
+      var silabus = $('#silabus').val();
       var file_data = $('#cover').prop("files")[0];
       var file_video = $('#video').prop("files")[0];
       var target = $('#target').val();
@@ -164,6 +181,9 @@
       dataform.append( 'video', file_video);
       dataform.append( 'title', title);
       dataform.append( 'desc', desc);
+      dataform.append( 'problem', problem);
+      dataform.append( 'alasan', alasan);
+      dataform.append( 'silabus', silabus);
       dataform.append( 'subjud', subjud);
       dataform.append( 'subkat', subkat);
       dataform.append( 'kat', kat);

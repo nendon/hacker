@@ -33,7 +33,7 @@
             <h6 class="mb-5">oleh {{$contributors->username}}</h6>
             <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
             <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
-            <button class="btn btn-blue m-2">Download Silabus</button>
+            <a href="{{$bca->silabus}}" class="btn btn-blue m-2">Download Silabus</a>
           </div>
         </div>
 
@@ -47,30 +47,9 @@
             <div class="col-md-7 col-sm-12 col-xs-12 px-5">
               <h3>Tahukan Anda?</h3>
               <p>
-              Ketika server yang Anda kelola down akan butuh waktu cukup lama untuk
-              mengembalikannya online. Dan ternyata kalau Anda mau menambah layanan / aplikasi
-              baru, ya harus install PC Server baru. Boros waktu, apalagi biaya membengkak. Banyak
-              sekali server yang tumbang karena ulah hacker yang berusaha menerobos masuk.
-              Mungkin Anda sudah tau ahwa solusinya adalah dengan virtualisasi, tapi tidak paham
-              cara implementasinya. Apakah Anda salah satunya ??
+              {{$bca->problem}}
               </p>
 
-              <br>
-              <h5>Anda Merasakan Ini?</h5>
-              <p>
-              Anda sebagai pemula bingung mulai dari mana belajar seluk belu virtualisasi server
-              karena tutorial di internet bertebaran secara acak ?
-              </p>
-
-              <p>  
-              Server ditempat Anda sering bermasalah, bahkan down karena banyaknya hujan
-              serangan dari luar, sehinggan user komplain ?
-              </p>
-
-              <p>  
-              Bingung bagaimana membuat server yang tangguh + memiliki keamanan baik + hemat
-              biaya pembuatan ?
-              </p>
             </div>
           </div>
       </div>
@@ -86,7 +65,7 @@
 
             <ul id="about">
                 <li class="panel">
-                    <a href="#about1" data-toggle="collapse" data-parent="#about" class="collapsed">
+                    <a  style="color:#2ba8e2" href="#about1" data-toggle="collapse" data-parent="#about" class="collapsed">
                       Deskripsi
                     </a>
                     <p id="about1" class="collapse in">
@@ -94,16 +73,11 @@
                     </p>
                 </li>
                 <li class="panel">
-                    <a href="#about2" data-toggle="collapse" data-parent="#about">
+                    <a  style="color:#2ba8e2" href="#about2" data-toggle="collapse" data-parent="#about">
                       Kenapa harus belajar {{$bca->title}}?
                     </a>
                     <p id="about2" class="collapse">
-                        Program akan membantu Anda, menguasai keterampilan dan tools seperti
-                        Statistik, pengujian Hipotesis, Clustering, Decision tree, Linear dan Regresi
-                        logistik, R Studio, Visualisasi Data, model Regresi, Hadoop, Spark, PROC SQL,
-                        SAS Macro, prosedur statistik, tools dan analisis, dan masih banyak lagi.
-                        Keterampilan ini akan membantu Anda mempersiapkan diri untuk seorang
-                        Data Scientist.
+                       {{$bca->alasan}}
                     </p>
                 </li>
             </ul>
@@ -158,7 +132,7 @@
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{$bca->course->count()}}  Course</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt="">120 Jam Video</li>
               </ul>
-              <button class="btn btn-blue">Download Silabus</button>
+              <a href="{{$bca->silabus}}" class="btn btn-blue">Download Silabus</a>
 
           </div>
 

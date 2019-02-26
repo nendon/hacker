@@ -122,6 +122,9 @@ class BootcampController extends Controller
             $input = Bootcamp::find($request->input('boot_id'));
             $input['title'] = $request->input('title');
             $input['deskripsi'] =  $request->input('desc');
+            $input['problem'] =  $request->input('problem');
+            $input['alasan'] =  $request->input('alasan');
+            $input['silabus'] =  $request->input('silabus');
             $input['sub_title'] =  $request->input('subjud');
             $input['slug']      = str_slug($request->input('title'));
             $input['audience'] = $request->input('target');
