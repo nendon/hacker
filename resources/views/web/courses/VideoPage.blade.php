@@ -632,11 +632,11 @@
 
       $(datatarget).on('hidden.bs.collapse', function() {
         $('#'+idtarget+' i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-      });
+      }); 
     });
 
     setInterval(function(){
       getComments();
-    }, 5000);
+    }, 5000); 
     </script>
 @endsection()
