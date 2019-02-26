@@ -28,7 +28,7 @@
 
             <h2>Bootcamp {{$bca->title}}</h2>
             <h4>
-              {{$bca->deskripsi}}
+              {{$bca->sub_title}}
             </h4> 
             <h6 class="mb-5">oleh {{$contributors->username}}</h6>
             <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
