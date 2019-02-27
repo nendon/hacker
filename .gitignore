@@ -1,6 +1,8 @@
 node_modules
 public/node_modules
 public/storage
+storage/framework
+storage/debugbar
 assets/thumbs/videos
 assets/source/videos
 assets/source/lessons
