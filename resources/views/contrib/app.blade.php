@@ -149,13 +149,13 @@
                     <span>Kelola Siswa</span>
                 </a>
             </li>
-            <li class="#" data-toggle="tooltip" data-placement="right" title="Kelola Tutorial">
-                <a href="{{ url('contributor/prohress') }}">
+            <li class="#" data-toggle="tooltip" data-placement="right" title="Progress Siswa">
+                <a href="{{ url('contributor/progress') }}">
                     <img src="{{asset('template/kontributor/img/icon/Kelola_Tutorial.png')}}" alt="" />
                     <span>Progress Siswa</span>
                 </a>
             </li>
-            <li class="#" data-toggle="tooltip" data-placement="right" title="Kelola Tutorial">
+            <li class="#" data-toggle="tooltip" data-placement="right" title="Kelola Project">
                 <a href="{{ url('contributor/project') }}">
                     <img src="{{asset('template/kontributor/img/icon/Kelola_Tutorial.png')}}" alt="" />
                     <span>Project</span>
