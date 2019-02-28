@@ -255,15 +255,19 @@
   
   
           
-            <!-- Tab File Praktek -->
+            <!-- Tab File Praktek List materi praktek -->
             <div class="tab-pane fade" id="pills-learning" role="tabpanel" aria-labelledby="pills-learning-tab">
+              <ul class="materi_list">
               @foreach($lampiran as $key => $lampiran)
-              <div class="timelines-content">
-              {{$lampiran->file}}
-              </div>
+                <li>
+                  <strong>{{$lampiran->nama}}</strong>
+                  <span class="pull-right"><a href="{{$lampiran->file}}" class="btn btn-info btn-md" download><i class="fa fa-download"></i> Download Video</a></span>
+                  <p><?=nl2br($lampiran->deskripsi);?></p>
+                </li>
               @endforeach
+              </ul>
             </div>
-
+ 
             <!-- Tab Diskusi -->
             <div class="tab-pane fade" id="pills-diskusi" role="tabpanel" aria-labelledby="pills-diskusi-tab">
               <div class="row box">
