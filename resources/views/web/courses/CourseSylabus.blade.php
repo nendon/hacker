@@ -261,7 +261,7 @@
               @foreach($lampiran as $key => $lampiran)
                 <li>
                   <strong>{{$lampiran->nama}}</strong>
-                  <span class="pull-right"><a href="{{$lampiran->file}}" class="btn btn-info btn-md" download><i class="fa fa-download"></i> Download Video</a></span>
+                  <span class="pull-right"><a href="{{$lampiran->file}}" class="btn btn-info btn-md" download><i class="fa fa-download"></i>Download</a></span>
                   <p><?=nl2br($lampiran->deskripsi);?></p>
                 </li>
               @endforeach
