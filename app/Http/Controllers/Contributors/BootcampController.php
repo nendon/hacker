@@ -139,6 +139,18 @@ class BootcampController extends Controller
                 $input['promote_video'] = '/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/cover/'. $request->video->getClientOriginalName();
                 $request->video->move(public_path('/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/cover/'), $input['promote_video']);
             }
+            if ($request->hasFile('file_problem')){
+                $input['picture_problem'] = '/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/picture_problem/'. $request->image->getClientOriginalName();
+                $request->file_problem->move(public_path('/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/picture_problem/'), $input['picture_problem']);
+            }
+            if ($request->hasFile('file_alasan')){
+                $input['picture_alasan'] = '/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/picture_alasan/'. $request->video->getClientOriginalName();
+                $request->file_alasan->move(public_path('/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/picture_alasan/'), $input['picture_alasan']);
+            }
+            if ($request->hasFile('file_desk')){
+                $input['picture_desk'] = '/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/picture_desk/'. $request->video->getClientOriginalName();
+                $request->file_desk->move(public_path('/assets/source/bootcamp/bootcamp-'.$request->input('boot_id').'/picture_desk/'), $input['picture_desk']);
+            }
             $input->save();
             $response['success'] = true;
         }

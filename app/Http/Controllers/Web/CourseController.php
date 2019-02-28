@@ -11,6 +11,7 @@ use App\Models\Section;
 use App\Models\VideoSection;
 use App\Models\ProjectSection;
 use App\Models\ProjectUser;
+use App\Models\BootcampLampiran;
 use DB;
 use Auth;
 use Datetime;
@@ -43,6 +44,8 @@ class CourseController extends Controller
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
         }
+        $lampiran = BootcampLampiran::where('bootcamp_id', $bcs->id)->get();
+
         return view('web.courses.CourseSylabus',[
             'course' => $courses,
             'bc' => $bcs,
@@ -50,6 +53,7 @@ class CourseController extends Controller
             'tutor' => $tutor,
             'mulai' => $mulai,
             'exp'  => $exp,
+            'lampiran' =>$lampiran,
         ]);
     }
     public function courseLesson($slug, $id)

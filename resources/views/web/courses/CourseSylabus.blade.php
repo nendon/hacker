@@ -99,9 +99,7 @@
           <li class="nav-item active">
             <a class="nav-link" id="pills-kurikulum-tab" data-toggle="pill" href="#pills-kurikulum" role="tab" aria-controls="pills-kurikulum" aria-selected="true">Kurikulum</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" id="pills-learning-tab" data-toggle="pill" href="#pills-learning" role="tab" aria-controls="pills-learning" aria-selected="false">Course Overview</a>
-          </li>
+        
           <li class="nav-item">
               <a class="nav-link" id="pills-learning-tab" data-toggle="pill" href="#pills-learning" role="tab" aria-controls="pills-learning" aria-selected="false">File Praktek</a>
           </li>
@@ -256,12 +254,15 @@
                   </ul>
             </div>
   
-            <!-- Tab Course Overview -->
-            <div class="tab-pane fade" id="pills-learning" role="tabpanel" aria-labelledby="pills-learning-tab">
-            </div>
-
+  
+          
             <!-- Tab File Praktek -->
             <div class="tab-pane fade" id="pills-learning" role="tabpanel" aria-labelledby="pills-learning-tab">
+              @foreach($lampiran as $key => $lampiran)
+              <div class="timelines-content">
+              {{$lampiran->file}}
+              </div>
+              @endforeach
             </div>
 
             <!-- Tab Diskusi -->
