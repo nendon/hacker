@@ -17,6 +17,7 @@ class ProgressController extends Controller
      */
     public function index()
     {
+        //menambahkan query untuk menampilkan tipe dan nama kelas bootcamp
         $uid = Auth::guard('contributors')->user()->id;
         $bootcamp = DB::table('contributors')
         ->leftJoin('bootcamp', 'bootcamp.contributor_id' ,'=', 'contributors.id')

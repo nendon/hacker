@@ -56,7 +56,7 @@ class ProjectController extends Controller
     {
         $user_roject = ProjectSection::join('project_user', 'project_section.id', 'project_user.project_section_id')
                         ->join('members', 'project_user.member_id', 'members.id')->where('project_section.section_id', $id)
-                        ->select('project_user.*', 'project_section.section_id as section_id',  'members.avatar as avatar', 'members.username as username')->get();
+                        ->select('project_user.*', 'project_section.section_id as section_id',  'members.avatar as avatar', 'members.username as username')->paginate(10);
         return view('contrib.siswa.project_submit', [
             'user_project' => $user_roject,
         ]);

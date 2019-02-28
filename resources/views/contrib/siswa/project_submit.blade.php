@@ -67,32 +67,10 @@
 
           </table>
         </div>
-
+        <!-- pagination link project submit yang ditambahkan -->
         <div class="row">
-          <div class="col-sm-6 col-xs-12">
-            <b>Halaman 1 dari 5</b>
-          </div>
-
-          <div class="col-sm-6 col-xs-12 text-right">
-            <nav aria-label="Page navigation">
-              <ul class="pagination m-0">
-                <li>
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true"><i class="fa fa-chevron-left"></i></span>
-                  </a>
-                </li>
-                <li><a href="#">1</a></li>
-                <li class="active"><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true"><i class="fa fa-chevron-right"></i></span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+          <div class="col-md-12 text-center">
+            {{ $user_project->links() }}
           </div>
         </div>
 
