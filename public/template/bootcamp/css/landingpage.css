@@ -36,34 +36,34 @@ h2.title{
 }
 
 
-/* Section Header */
-.header{
+/* Section headers */
+.headers{
     background: linear-gradient(to right,#05c8bc,#a652ec);
     padding: 40px 5%;
     color:#fff;
 }
-.header ul{
+.headers ul{
     background: transparent;
 }
-.header ul li, .header-header ul a{
+.headers ul li, .headers-headers ul a{
     color: #fff!important;
 }
-.header .breadcrumb>li+li:before{
+.headers .breadcrumb>li+li:before{
     content: "\003E";
     color: #fff;
 }
-.header span{
+.headers span{
     border-radius:20px;
     border:1px solid #fff;
     padding: 4px 20px;
     letter-spacing: 4px;
     font-weight: bold;
 }
-.header h2{
+.headers h2{
     margin-top: 40px;
     margin-bottom: 20px;
 }
-.header h4{
+.headers h4{
     font-weight: normal;
     margin-bottom: 40px;
 }

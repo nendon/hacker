@@ -11,7 +11,7 @@
       <div class="container w-100">
 
         <!-- Header -->
-        <div class="row header">
+        <div class="row headers">
           <div class="col-xs-12">
             <ul class="breadcrumb">
               <li><a href="#">Browse</a></li>
