@@ -83,15 +83,26 @@
                       Promotional Video
                       <input class="form-control dropify" type="file" data-default-file="{{asset($bootcamp->promote_video)}}" value="{{$bootcamp->promote_video}}"  id="video">
                     </div>
+                    Gambar Deskripsi Lengkap
+                      <input class="form-control dropify" type="file" data-default-file="{{asset($bootcamp->picture_desk)}}" value="{{$bootcamp->picture_desk}}" id="picture_desk">
+                    </div>
                     <div class="form-group">
                       Deskripsi Lengkap Bootcamp
                       <textarea class="form-control" type="text" id="desc"  cols="30" rows="10">  {{$bootcamp->deskripsi}}</textarea>
 
                     </div>
                     <div class="form-group">
+                    Gambar Problem
+                      <input class="form-control dropify" type="file" data-default-file="{{asset($bootcamp->picture_problem)}}" value="{{$bootcamp->cover}}" id="picture_problem">
+                    </div>
+                    <div class="form-group">
                       Problem yang dipecahkan
                       <textarea class="form-control" type="text" id="problem"  cols="30" rows="10">  {{$bootcamp->problem}}</textarea>
 
+                    </div>
+                    <div class="form-group">
+                    Gambar alasan bootcamp
+                      <input class="form-control dropify" type="file" data-default-file="{{asset($bootcamp->picture_alasan)}}" value="{{$bootcamp->picture_alasan}}" id="picture_alasan">
                     </div>
                     <div class="form-group">
                       Kenapa belajar bootcamp ini ?
@@ -173,12 +184,18 @@
       var silabus = $('#silabus').val();
       var file_data = $('#cover').prop("files")[0];
       var file_video = $('#video').prop("files")[0];
+      var file_problem = $('#picture_problem').prop("files")[0];
+      var file_alasan= $('#picture_alasan').prop("files")[0];
+      var file_desk = $('#picture_desk').prop("files")[0];
       var target = $('#target').val();
       var req = $('#require').val();
 
       dataform = new FormData();
       dataform.append( 'image', file_data);
       dataform.append( 'video', file_video);
+      dataform.append( 'file_problem', file_problem);
+      dataform.append( 'file_alasan', file_alasan);
+      dataform.append( 'file_desk', file_desk);
       dataform.append( 'title', title);
       dataform.append( 'desc', desc);
       dataform.append( 'problem', problem);

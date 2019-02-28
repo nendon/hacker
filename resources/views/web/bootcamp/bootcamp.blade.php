@@ -20,8 +20,11 @@
             </ul>
           </div>
           <div class="col-md-5 col-xs-12 mb-4 video-previews">
+          <a href="{{$bca->promote_video}}" data-toggle="modal" data-target="#ModalVideo">
             <img src="{{asset($bca->cover)}}" class="img-responsive img-rounded" alt="">
-            <a href="#" data-toggle="modal" data-target="#ModalVideo" class="btn"><img src="{{ asset('/template/web/img/play-button.svg') }}" class="img-play-size" alt=""></a>
+            <a href="{{$bca->promote_video}}" data-toggle="modal" data-target="#ModalVideo" class="btn"><img src="{{ asset('/template/web/img/play-button.svg') }}" class="img-play-size" alt="">
+           </a>
+          </a>
           </div>
           <div class="col-md-7 col-xs-12 mb-4">
             <span>Bootcamp</span>
@@ -42,7 +45,7 @@
         <div class="row section1">
           <div class="container">
             <div class="col-md-5 col-sm-8 col-xs-12 px-0">
-              <img src="{{asset('template/bootcamp/asset/2.jpg')}}" class="img-responsive" alt="">
+              <img src="{{asset($bca->picture_problem)}}" class="img-responsive" alt="">
             </div>
             <div class="col-md-7 col-sm-12 col-xs-12 px-5">
               <h3>Tahukan Anda?</h3>
@@ -57,7 +60,7 @@
       <div class="row section2">
         <div class="container">
           <div class="col-md-5 col-sm-8 col-xs-12 px-0 col-md-push-7 pull-md-right">
-            <img src="{{asset('template/bootcamp/asset/3.jpg')}}" class="img-responsive" alt="">
+            <img src="{{asset($bca->picture_desk)}}" class="img-responsive" alt="">
           </div>
 
           <div class="col-md-7 col-sm-12 col-xs-12 px-5 col-md-pull-5">
@@ -89,7 +92,7 @@
       <div class="row section3">
         <div class="container">
           <div class="col-md-5 col-sm-8 col-xs-12 px-0">
-            <img src="{{asset('template/bootcamp/asset/2.jpg')}}" class="img-responsive" alt="">
+            <img src="{{asset($bca->picture_alasan)}}" class="img-responsive" alt="">
           </div>
           <div class="col-md-7 col-sm-12 col-xs-12 px-5">
             <h3 class="mb-5">Bagaimana Bootcamp membantu anda</h3>
@@ -337,16 +340,12 @@
           <div class="col-xs-6">    
             <b>Untuk siapa bootcamp ini ?:</b>
             <p class="text-muted">
-              Seseorang yang ingin membuat data driven decisions atau tertarik
-              menjadi Data Analys, program ini sangat ideal untuk anda. Anda akan
-              belajar statistik, data wranglisng with Python, dan data visualization
+              {{$bca->audience}}
             </p>
     
             <b>Apa Prasyarat dan Persyaratan mengikuti bootcamp ini :</b>
             <p class="text-muted">
-              Agar berhasil dalam prgram ini, disarankan memiliki pengalaman :
-              Python programming, termasuk data analytis libraries (e.g., Numpy
-              anda Pandas), SQl Programming
+             {{$bca->pre_and_req}}
             </p>
           </div>
           
