@@ -134,6 +134,7 @@ a.collap{
 .sub-materi {
     margin: 0;
     padding: 10px 20px;
+    cursor: pointer;
 }
 .submateri a{
     color: #353535;
