@@ -291,7 +291,7 @@ a .kotak h4:hover{
 /*mengubah ukuran height*/
 .video iframe{
     width: 100%;
-    height: 450px;
+    height: 50%;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border: none;
