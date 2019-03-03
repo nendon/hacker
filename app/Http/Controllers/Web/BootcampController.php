@@ -38,10 +38,10 @@ class BootcampController extends Controller
 
 	public function bootcamp($slug)
     {
-        if (empty(Auth::guard('members')->user()->id)) {
-            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
-          }
-    	$bc = Bootcamp::where('status', 1)->where('slug', $slug)->with('contributor', 'course.section.video_section', 'course.section.project_section')->first();
+        $mem_id = isset(Auth::guard('members')->user()->id) ? Auth::guard('members')->user()->id : 0;
+        $bc = Bootcamp::where('status', 1)->where('slug', $slug)->with('contributor', 'course.section.video_section', 'course.section.project_section')->first();
+
+        $cart = Cart::where('member_id', $mem_id )->where('bootcamp_id', $bc->id)->first();
         $cs = Course::where('bootcamp_id', $bc->id)->first();
         // $courses = DB::table('course')->where('bootcamp_id', $bc->id)->get();
         $courses = Course::with('section.project_section', 'section.video_section')->where('bootcamp_id', $bc->id)->get();
@@ -56,7 +56,7 @@ class BootcampController extends Controller
             'bca' => $bc,
             'contributors' => $contributors,
             'course' => $courses,
-            // 'main_videos' => $main_videos,
+            'cart' => $cart,
             'tanggal' => $myFormatForView,
             'main_course' => $main_course,
         ]);
