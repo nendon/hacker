@@ -10,7 +10,7 @@
         <div class="container">
           <div class="row">
             <div class="col-xs-12">
-              <h6 class="mb-5">Training to Become a {{$bc->slug}} / Couse Part 1</h6>
+              <h6 class="mb-5">Training to Become a {{$bc->title}} / Couse Part 1</h6>
               <h2 class="mb-4">{{$course->title}}</h2>
               <h6>
                 {{$course->deskripsi}}
@@ -118,7 +118,7 @@
                     <div class="collapse" id="{{$section->id}}">
 
                       <ul class="lesson-detail">
-                        <?php
+                      <?php
                       foreach ($section->video_section as $key => $vs): ?>
                         <li>
                             <h4><i class="fas fa-play-circle"></i>{{$vs->title}}</h4>
@@ -147,8 +147,35 @@
                             </div>
                         </li>
                       <?php endforeach; ?>
+                      <!-- menambahkan code untuk memunculkan project -->
+                      <?php
+                      foreach ($section->project_section as $key => $ps): ?>
+                        <li>
+                            <h4><i class="fas fa-clipboard-list"></i>{{ $ps->title}}</h4>
+                            <div class="row">
+                              <div class="col-xs-10">
+                                {{$ps->deskripsi_project}}  
+                              </div>
+                              <div class="col-sm-1 col-xs-2 p-0">
+                                {{$ps->durasi}}
+                              </div>
+                                <?php 
+                                  $cek = DB::table('project_section')
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                                  ->where('project_section.id', $ps->id)
+                                  ->where('project_user.status', 2)
+                                  ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                                  ->first();
+                                  if($cek){        
+                                    ?>
+                                    <i class="fa fa-check-circle"></i>
+                                  <?php }else{ ?>
+                                    <i class="fa fa-circle"></i>
+                                <?php } ?>
+                            </div>
+                        </li>
+                      <?php endforeach; ?>
                       </ul>
-
                     </div>
                   </div>
                   <?php
