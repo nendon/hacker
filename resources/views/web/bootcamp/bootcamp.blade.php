@@ -36,6 +36,7 @@
             <h6 class="mb-5">oleh {{$contributors->username}}</h6>
             <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
             <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
+            <button id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp({{ $bca->id }})">Lihat Keranjang</button>
             <a href="{{$bca->silabus}}" class="btn btn-blue m-2">Download Silabus</a>
           </div>
         </div>
@@ -478,6 +479,7 @@
                 </ul>
                 <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
                 <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
+                <button id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp({{ $bca->id }})">Lihat Keranjang</button>
                 </div>  
             </div>
           </div>
@@ -642,5 +644,33 @@
       });
      });
     </script>
-    </script>
+
+<script>
+    var cek = localStorage.getItem('cart');
+    if(cek != null){
+      var results = JSON.parse(cek);
+      if (results.length > 0){
+        $.each(results, function(k,v) {
+              $('#beli-'+v['id']).hide();
+              $('#guest-'+v['id']).show();
+              $('#jual-'+v['id']).hide();
+              $('#tamu-'+v['id']).show();
+        });
+      }
+    }
+    @if($cart != null)
+    var cek = localStorage.getItem('cart');
+    if(cek != null){
+      var results = JSON.parse(cek);
+      if (results.length > 0){
+        $.each(results, function(k,v) {
+          $('#guest-'+v['id']).hide();
+          $('#tamu-'+v['id']).hide();
+        });
+      }
+    }
+    
+    @endif
+
+  </script>
 @endsection
