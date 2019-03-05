@@ -38,7 +38,7 @@
           <div class="row">
 
             <div class="col-xs-12 mt-5">
-              <h3 class="my-5">Bootcamp Programming Terbaru</h3>
+              <h3 class="my-5">Bootcamp {{$bucat->title}} Terbaru</h3>
               
               <div class="slick2 mt-5">
                 @foreach($new as $news)
@@ -121,7 +121,7 @@
                         <i class="fa fa-user"></i> {{count($has->bootcamp_member)}} Siswa
                       </li>
                       <li>
-                        <a href="#"> Selengkapnya</a>
+                        <a href="{{url('bootcamp/'.$has->slug)}}"> Selengkapnya</a>
                       </li>
                     </ul>
                   </div>
