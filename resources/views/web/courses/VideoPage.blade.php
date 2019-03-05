@@ -329,7 +329,7 @@
               <div class="player-end">
                 <div class="align-items-center">
                   <div class="col-xs-12 text-center">
-                    <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
+                    <h5>{{$materi->title}}</h5>
                     <h6>Berikutnya Why you should take this course</h6>
                     <a
                         data-url="{{$materi->file_video}}"
@@ -372,11 +372,11 @@
 
       const controls = `<div class="video-header">
         <div class="col-xs-8">
-          Become a {{$bc->slug}} <br>
+          {{$bc->title}} <br>
         </div>
         <div class="col-xs-3 p-0">
           <a href="CourseSylabus.html">
-            <i class="fa fa-chevron-left"></i> Course Part 1 {{$course->title}}
+            <i class="fa fa-chevron-left"></i> Course Part {{$course->position}} {{$course->title}}
           </a>
         </div>
         <div class="col-xs-1 p-0">
