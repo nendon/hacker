@@ -211,6 +211,13 @@ class CourseController extends Controller
             }
             $input->save();
             $response['success'] = true;
+
+            $member = Member::Find($uid);
+            $lesson = ProjectSection::Find($request->input('project_id'));
+            $contrib = Contributor::find($lessons->contributor_id);
+            $contrib->notify(new UserProject($member, $lesson, $contrib));
+            $member->notify(new UserNotifProject($member, $lesson, $contrib));
+
         }
         echo json_encode($response);
     }
