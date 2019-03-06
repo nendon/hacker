@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Bootcamp;
+use App\Models\BootcampCategory;
 use App\Models\Course;
 use App\Models\Section;
 use App\Models\Member;
@@ -40,7 +41,8 @@ class BootcampController extends Controller
     {
         $mem_id = isset(Auth::guard('members')->user()->id) ? Auth::guard('members')->user()->id : 0;
         $bc = Bootcamp::where('status', 1)->where('slug', $slug)->with('contributor', 'course.section.video_section', 'course.section.project_section')->first();
-
+        //menambahkan fungsi untuk memanggil kategori bootcamp
+        $boot_cat = BootcampCategory::where('id',$bc->bootcamp_category_id)->first();
         $cart = Cart::where('member_id', $mem_id )->where('bootcamp_id', $bc->id)->first();
         $cs = Course::where('bootcamp_id', $bc->id)->first();
         // $courses = DB::table('course')->where('bootcamp_id', $bc->id)->get();
@@ -54,6 +56,7 @@ class BootcampController extends Controller
         // dd($bc);
         return view('web.bootcamp.bootcamp',[
             'bca' => $bc,
+            'butcat' => $boot_cat,
             'contributors' => $contributors,
             'course' => $courses,
             'cart' => $cart,

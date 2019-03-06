@@ -14,9 +14,9 @@
         <div class="row headers">
           <div class="col-xs-12">
             <ul class="breadcrumb">
-              <li><a href="#">Browse</a></li>
-              <li><a href="#">{{$bca->title}}</a></li>
-              <li class="active">Data Analysis</li>
+              <li><a href="{{ url('browse/bootcamp') }}" style="color: white">Browse</a></li>
+              <li><a href="{{ url('browse/bootcamp/'.$butcat->slug) }}" style="color: white">{{$butcat->title}}</a></li>
+              <li class="active"><a href="{{ url('bootcamp/'.$bca->slug) }}" style="color: white">{{$bca->title}}</a></li>
             </ul>
           </div>
           <div class="col-md-5 col-xs-12 mb-4 video-previews">
@@ -27,9 +27,9 @@
           </a>
           </div>
           <div class="col-md-7 col-xs-12 mb-4">
-            <span>Bootcamp</span>
+           <a href="{{ url('browse/bootcamp/'.$butcat->slug) }}" style="color: white"><span>Bootcamp {{$butcat->title}}</span></a>
 
-            <h2>Bootcamp {{$bca->title}}</h2>
+            <h2>{{$bca->title}}</h2>
             <h4>
               {{$bca->sub_title}}
             </h4> 
