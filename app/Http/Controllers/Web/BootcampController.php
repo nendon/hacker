@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Input;
 use App\Notifications\UserCommentNotification;
 use App\Notifications\UserReplyNotification;
 use App\Notifications\NimbrungReplyNotification;
+use App\Notifications\UserReplyBootcamp;
+use App\Notifications\NimbrungReplyBootcamp;
+use App\Notifications\UserCommentBootcamp;
 use App\Mail\WaitingNotifMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -210,7 +213,7 @@ class BootcampController extends Controller
                     $member = Member::Find($mails->tanya);
                     $bootcamp = Bootcamp::Find($bootcamp->id);
                     $contrib = Contributor::find($bootcamp->contributor_id);
-                    $member->notify(new UserReplyNotification($member, $lesson, $contrib));
+                    $member->notify(new UserReplyBootcamp($member, $bootcamp, $contrib));
                    
                         }
                     }
@@ -230,7 +233,7 @@ class BootcampController extends Controller
                     $member = Member::Find($mails->jawab);
                     $boot = Bootcamp::Find($bootcamp->id);
                     $contrib = Contributor::find($bootcamp->contributor_id);
-                    $member->notify(new NimbrungReplyNotification($member, $boot, $contrib));
+                    $member->notify(new NimbrungReplyBootcamp($member, $boot, $contrib));
                    
                  
                         }
@@ -238,11 +241,11 @@ class BootcampController extends Controller
                    
                 }
             }
-                    // $member = Member::Find($member->id);
-                    // $comment = CommentBootcamp::Find($store->id);
-                    // $bootcamp = Bootcamp::find($bootcamp->id);
-                    // $contrib = Contributor::find($bootcamp->contributor_id);
-                    // $contrib->notify(new UserCommentNotification($member, $comment, $contrib, $bootcamp));
+                    $member = Member::Find($member->id);
+                    $comment = CommentBootcamp::Find($store->id);
+                    $bootcamp = Bootcamp::find($bootcamp->id);
+                    $contrib = Contributor::find($bootcamp->contributor_id);
+                    $contrib->notify(new UserCommentBootcamp($member, $comment, $contrib, $bootcamp));
                     
                     $response['success'] = true;
                 // }
