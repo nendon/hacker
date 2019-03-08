@@ -131,7 +131,7 @@
 
               <p class="text-muted">Kami membuat Program untuk menjadikan Anda seorang {{$bca->title}} dengan bantuan kurikulum yang terstruktur</p>
               <ul>
-                <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi 1-2 Bulan</li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi {{$target->target}} Hari</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> Projek</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{$bca->course->count()}}  Course</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt="">120 Jam Video</li>

@@ -43,8 +43,11 @@ class BootcampController extends Controller
         $bc = Bootcamp::where('status', 1)->where('slug', $slug)->with('contributor', 'course.section.video_section', 'course.section.project_section')->first();
         //menambahkan fungsi untuk memanggil kategori bootcamp
         $boot_cat = BootcampCategory::where('id',$bc->bootcamp_category_id)->first();
+        //menambahkan fungsi untuk menjumlahkan total hari
+        $target = Course::where('bootcamp_id', $bc->id)->select(DB::raw('sum(estimasi) as target'))->first();
+        
         $cart = Cart::where('member_id', $mem_id )->where('bootcamp_id', $bc->id)->first();
-        $cs = Course::where('bootcamp_id', $bc->id)->first();
+        // $cs = Course::where('bootcamp_id', $bc->id)->first();
         // $courses = DB::table('course')->where('bootcamp_id', $bc->id)->get();
         $courses = Course::with('section.project_section', 'section.video_section')->where('bootcamp_id', $bc->id)->get();
         // $main_videos = Section::with('video_section')->where('course_id', $cs->id)->get();
@@ -57,6 +60,7 @@ class BootcampController extends Controller
         return view('web.bootcamp.bootcamp',[
             'bca' => $bc,
             'butcat' => $boot_cat,
+            'target' => $target,
             'contributors' => $contributors,
             'course' => $courses,
             'cart' => $cart,
