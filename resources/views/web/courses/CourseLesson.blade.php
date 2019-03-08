@@ -10,13 +10,13 @@
         <div class="container">
           <div class="row">
             <div class="col-xs-12">
-              <h6 class="mb-5">Training to Become a {{$bc->title}} / Couse Part 1</h6>
+              <h6 class="mb-5">Training to Become a {{$bc->title}} / Course Part {{$course->position}}</h6>
               <h2 class="mb-4">{{$course->title}}</h2>
               <h6>
                 {{$course->deskripsi}}
               </h6>
               <br>
-              <button class="btn btn-second btn-lg mb-2">Mulai belajar</button>
+              <button class="btn btn-primary btn-lg mb-2">Mulai belajar</button>
             </div>
           </div>
         </div>
@@ -250,7 +250,6 @@
 
 
     <!-- Javascript -->
-    <script type="text/javascript" src="{{asset('js/jquery-2.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
     <script>
     $('.collap').click(function(e){
