@@ -26,7 +26,7 @@
                   <div class="bootcamp ">
                       @foreach($bootcamp as $result)
                       <div>
-                      <a href="bootcamp/{{$result->slug}}/courseSylabus" >
+                      <a href="bootcamp/{{$result->slug}}" >
                         <div class="card">
                           <div class="label">
                             Bootcamp
@@ -55,7 +55,7 @@
                                 <i class="fa fa-user"></i> {{count($result->bootcamp_member)}} Siswa
                               </li>
                               <li>
-                                <a style="color:blue:bold;" href="bootcamp/{{$result->slug}}/courseSylabus"> Selengkapnya <br/></a>
+                                <a style="color:blue:bold;" href="bootcamp/{{$result->slug}}"> Selengkapnya <br/></a>
                               </li>
                             </ul>
                           </div>
