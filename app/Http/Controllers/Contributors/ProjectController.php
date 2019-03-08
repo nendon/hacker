@@ -79,7 +79,7 @@ class ProjectController extends Controller
     }
     public function saveProject(Request $request){
         $response = array();
-        if (empty(Auth::guard('members')->user()->id)) {
+        if (empty(Auth::guard('contributors')->user()->id)) {
             $response['success'] = false;
         } else {
             
@@ -92,6 +92,8 @@ class ProjectController extends Controller
             $input['contributor_id'] = $uid;
                    $input->save();
             $response['success'] = true;
+
+            
         }
         echo json_encode($response);
     }
@@ -105,6 +107,12 @@ class ProjectController extends Controller
             $input['status'] = $request->input('status');
             $input->save();
             $response['status'] = $request->input('status');
+
+            $uid = Auth::guard('contributors')->user()->id;
+            $lesson = ProjectUser::Find($request->input('id'));
+            $member = Member::Find($lesson->member_id);
+            $contrib = Contributor::find($uid);
+            $member->notify(new ContribProject($member, $lesson, $contrib));
         }
         echo json_encode($response);
     }
