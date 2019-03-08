@@ -18,6 +18,7 @@ use App\Models\CommentBootcamp;
 use App\Models\Lesson;
 use App\Notifications\ContribReplyNotification;
 use App\Notifications\ContriReplyNotification;
+use App\Notifications\ContriReplyBootcamp;
 use Auth;
 
 class ComentsController extends Controller
@@ -249,9 +250,9 @@ class ComentsController extends Controller
                ]);
 
                $member = Member::Find($mails->jawab);
-               $lessonn = Lesson::find($lessons->id);
+               $lessonn = bootcamp::find($lesson_id);
                $contrib = Contributor::find($lessons->contributor_id);
-               $member->notify(new ContriReplyNotification($member, $lessonn, $contrib));
+               $member->notify(new ContriReplyBootcamp($member, $lessonn, $contrib));
        
                 }
                 }

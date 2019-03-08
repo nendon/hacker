@@ -34,8 +34,11 @@
               {{$bca->sub_title}}
             </h4> 
             <h6 class="mb-5">oleh {{$contributors->username}}</h6>
-            <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
-            <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
+            <?php if(($cart != null)){ ?>
+            <a href="{{ url('cart') }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
+            <?php }else{ ?>          
+            <button id="beli-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Beli Tutorial</button> &nbsp;&nbsp;&nbsp;
+            <?php } ?>
             <button id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp({{ $bca->id }})">Lihat Keranjang</button>
             <a href="{{$bca->silabus}}" class="btn btn-blue m-2">Download Silabus</a>
           </div>
@@ -477,7 +480,6 @@
                   <li>Free Update</li>
                   <li>Sertifikat</li>
                 </ul>
-                <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
                 <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
                 <button id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp({{ $bca->id }})">Lihat Keranjang</button>
                 </div>  
