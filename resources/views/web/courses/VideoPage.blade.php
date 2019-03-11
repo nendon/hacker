@@ -74,11 +74,43 @@
                         onclick="changeVideo(this), saveHistory(this)"
                     >
                       <div class="sub-materi row">
-                        <div class="col-xs-10 px-0">
+                        <!-- mengubah col-xs-10 jadi 8 -->
+                        <div class="col-xs-8 px-0">
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
                         </div>
-                        <div class="col-xs-2 px-0 text-right">
-                          {{$materi->durasi}}
+                        <!-- mengubah col-xs-2 jadi 0 -->
+                        <div class="col-xs-0 px-0 text-right">
+                          <!-- {{$materi->durasi}} -->
+                           <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
+                                <?php 
+                                    $durasi = $materi->durasi ;
+                                    $convert = $durasi / 60;
+                                    if($convert<1){
+                                      if ($durasi<10) {
+                                        echo "00:0$durasi:00";
+                                      }else{
+                                        echo "00:$durasi:00";
+                                      }
+                                    } else{
+                                      if ($durasi>=60) {
+                                        $jamConvert = $durasi - 60;
+                                        if ($jamConvert == 0) {
+                                          echo "01:00:00";
+                                        }elseif ($jamConvert > 0 && $jamConvert < 60) {
+                                          if ($jamConvert<10) {
+                                            echo "01:0$jamConvert:00";
+                                          }else{
+                                            echo "01:$jamConvert:00";
+                                          }
+                                        }else{
+                                          echo "00:00:00";
+                                        } 
+                                      }else{
+                                        echo "00:00:00";
+                                      }
+                                    }
+
+                                ?>
                           <?php 
                           $history = DB::table('video_section')
                           ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
