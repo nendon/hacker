@@ -127,7 +127,37 @@
                                 {{$vs->deskripsi_video}}  
                               </div>
                               <div class="col-sm-1 col-xs-2 p-0">
-                                {{$vs->durasi}}
+                              <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
+                                <?php 
+                                    $durasi = $vs->durasi ;
+                                    $convert = $durasi / 60;
+                                    if($convert<1){
+                                      if ($durasi<10) {
+                                        echo "00:0$durasi:00";
+                                      }else{
+                                        echo "00:$durasi:00";
+                                      }
+                                    } else{
+                                      if ($durasi>=60) {
+                                        $jamConvert = $durasi - 60;
+                                        if ($jamConvert == 0) {
+                                          echo "01:00:00";
+                                        }elseif ($jamConvert > 0 && $jamConvert < 60) {
+                                          if ($jamConvert<10) {
+                                            echo "01:0$jamConvert:00";
+                                          }else{
+                                            echo "01:$jamConvert:00";
+                                          }
+                                        }else{
+                                          echo "00:00:00";
+                                        } 
+                                      }else{
+                                        echo "00:00:00";
+                                      }
+                                    }
+
+                                ?>
+                                <!-- {{$vs->durasi}} -->
                               </div>
                               <div class="col-xs-1 p-0">
                               <?php

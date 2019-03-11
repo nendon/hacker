@@ -54,7 +54,7 @@
                  <div class="number-circle"><?php echo $a ;?></div>
                   <div class="title">
                      {{$section->title}}
-                    <h6><span class="fa fa-clock"></span> 40:48</h6>
+                    <h6><span class="fa fa-clock"></span> {{$vsections->durasi}}</h6>
                   </div>
                   <i class="icon-collap fa fa-chevron-down"></i>
                 </a>

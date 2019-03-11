@@ -137,6 +137,8 @@ class CourseController extends Controller
         $courses = Course::where('id', $sect->course_id)->first();
         $section = Section::with('video_section')->where('course_id', $courses->id)->orderBy('position', 'asc')->get();
         $vsection = $section->first()->video_section->first();
+        //tes total waktu video
+        $vsections = $section->first()->video_section->first()->where('section_id', $sect->id)->select(DB::raw('sum(durasi) as durasi'))->first();
         $psection = Section::with('project_section')->where('course_id', $courses->id)->get();
         // $vmateri = DB::table('video_section')->where('section_id', $vsection->id)->get();
 
@@ -157,6 +159,7 @@ class CourseController extends Controller
             'stn' => $section,
             'psection' => $psection,
             'vsection' => $vsection,
+            'vsections' => $vsections,
 
         ]);
     }

@@ -44,7 +44,7 @@
                 @foreach($new as $news)
                 <div>
                   <div class="row box sm-flex p-0 mx-0">
-                    <div class="col-sm-4 col-xs-12 p-0 preview" style="background: url({{asset($news->cover)}}); background-size:cover;">
+                    <div class="col-sm-4 col-xs-12 p-0 preview" style="background: url({{asset($news->cover)}});background-size:cover;">
                       <div class="label">
                         Bootcamp
                       </div>
