@@ -54,7 +54,9 @@
                  <div class="number-circle"><?php echo $a ;?></div>
                   <div class="title">
                      {{$section->title}}
-                    <h6><span class="fa fa-clock"></span> {{$vsections->durasi}}</h6>
+                    <h6><span class="fa fa-clock"></span><?php 
+                                echo gmdate(" i:s", $vsections->durasi).":00";
+                                ?></h6>
                   </div>
                   <i class="icon-collap fa fa-chevron-down"></i>
                 </a>
@@ -83,33 +85,7 @@
                           <!-- {{$materi->durasi}} -->
                            <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
                                 <?php 
-                                    $durasi = $materi->durasi ;
-                                    $convert = $durasi / 60;
-                                    if($convert<1){
-                                      if ($durasi<10) {
-                                        echo "00:0$durasi:00";
-                                      }else{
-                                        echo "00:$durasi:00";
-                                      }
-                                    } else{
-                                      if ($durasi>=60) {
-                                        $jamConvert = $durasi - 60;
-                                        if ($jamConvert == 0) {
-                                          echo "01:00:00";
-                                        }elseif ($jamConvert > 0 && $jamConvert < 60) {
-                                          if ($jamConvert<10) {
-                                            echo "01:0$jamConvert:00";
-                                          }else{
-                                            echo "01:$jamConvert:00";
-                                          }
-                                        }else{
-                                          echo "00:00:00";
-                                        } 
-                                      }else{
-                                        echo "00:00:00";
-                                      }
-                                    }
-
+                                echo gmdate("i:s", $materi->durasi).":00";
                                 ?>
                           <?php 
                           $history = DB::table('video_section')
