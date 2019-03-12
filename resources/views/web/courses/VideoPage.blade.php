@@ -54,9 +54,17 @@
                  <div class="number-circle"><?php echo $a ;?></div>
                   <div class="title">
                      {{$section->title}}
-                    <h6><span class="fa fa-clock"></span><?php 
-                                echo gmdate(" i:s", $vsections->durasi).":00";
-                                ?></h6>
+                    <h6><span class="fa fa-clock"></span>
+                      <!-- menambahkan fungsi untuk memanggil total menit section -->
+                      <?php 
+                          $totalmenit = DB::table('video_section')
+                          ->where('section_id', $section->id)
+                          ->select(DB::raw('sum(durasi) as total'))
+                          ->first();
+
+                          echo gmdate("i:s", $totalmenit->total).":00";
+                      ?>
+                    </h6>
                   </div>
                   <i class="icon-collap fa fa-chevron-down"></i>
                 </a>
