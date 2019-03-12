@@ -95,7 +95,16 @@
                           <h4>{{$section->title}}</h4>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                          1 Jam 20 Menit
+                        <!-- menambahkan code untuk mendapatkan total jam dan menit -->
+                          <?php 
+                              $totalmenit = DB::table('video_section')
+                              ->where('section_id', $section->id)
+                              ->select(DB::raw('sum(durasi) as total'))
+                              ->first();
+
+                              echo gmdate("i", $totalmenit->total)." Jam ".gmdate("s",$totalmenit->total)." Menit";
+                          ?>
+                         <!-- {{$totalmenit->total}} Jam 20 Menit -->
                         </div>
                         <div class="col-md-2 col-sm-5 col-xs-5 mt-3">
                             <div class="progress">
