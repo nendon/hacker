@@ -187,8 +187,30 @@
                             </h6>
 
                             <br>
+                            <!-- Menambahkan code untuk pembagian deadline percourse -->
+                            <?php
+                              $dead = $bc->course->count();
+                              $line = $deadline ;
+                              if ($persen == 100) {
+                                $deadlines = 0;
+                              }else{
+                                 $done = $dead - 1;
+                                $deadlines = $line / $done;
+
+                              }
+                             
+                            ?>
+                            <!-- Membulatkan hasil pembagian deadline -->
+                            <small class="text-muted">{{$courses->estimasi}} Hari </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline <?php 
+                            if($deadlines == 0 ){
+                              echo "Expired"; 
+                            }else{
+                              $nilai = $deadlines; 
+                              $bulatkan = round($nilai);
+                              echo "$bulatkan  Hari";
+                            }
+                            ?></small>
                             
-                            <small class="text-muted">{{$course->estimasi}} Jam </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline 2 Hari</small>
                                 
                             <br><br>
                             <?php

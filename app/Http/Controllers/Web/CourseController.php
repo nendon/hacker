@@ -47,7 +47,32 @@ class CourseController extends Controller
             return redirect('bootcamp/'.$bcs->slug);
         }
         $lampiran = BootcampLampiran::where('bootcamp_id', $bcs->id)->get();
+        //penambahan fungsi untuk membantu pembagian deadline per course
+        if(!$tutor->start_at){
 
+        $update = BootcampMember::find($tutor->id);
+        $update['start_at'] = $now;
+        $update['target'] = $target->target;
+        $update->save();
+        $response['success'] = true;
+        }
+
+        if($tutor->expired_at){
+
+        $exp = BootcampMember::where('bootcamp_id', $bcs->id)
+               ->where('member_id', Auth::guard('members')->user()->id)
+               ->where('expired_at', '<', $now)
+               ->first();
+
+        $awal = date_create();
+        $akhir = date_create($tutor->expired_at);
+        $diff = date_diff($awal, $akhir);
+        $deadline = $diff->format('%d');
+        }else{
+            $exp = '';
+            $deadline = '';
+        }
+        //
         return view('web.courses.CourseSylabus',[
             'course' => $courses,
             'bc' => $bcs,
@@ -56,6 +81,8 @@ class CourseController extends Controller
             'mulai' => $mulai,
             'exp'  => $exp,
             'lampiran' =>$lampiran,
+            'deadline' => $deadline ,
+            
         ]);
     }
     public function courseLesson($slug, $id)
