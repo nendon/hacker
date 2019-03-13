@@ -336,12 +336,12 @@
             return old=='+ Tampilkan Lebih Banyak' ?  '- Tampilkan Lebih Sedikit' : '+ Tampilkan Lebih Banyak';
         });
     });
-    $('#pills-kurikulum-tab').on('click', function(e){
-      $('.header').css("background-image", "url(img/bg-head.jpg)");
-    });
-    $('#pills-diskusi-tab').on('click', function(e){
-      var img = $('.header').css("background-image", "url(img/bg-head2.jpg)");
-    });
+    // $('#pills-kurikulum-tab').on('click', function(e){
+    //   $('.header').css("background-image", "url(img/bg-head.jpg)");
+    // });
+    // $('#pills-diskusi-tab').on('click', function(e){
+    //   var img = $('.header').css("background-image", "url(img/bg-head2.jpg)");
+    // });
 
     $(document).on('ready',function () {
     getComments();
