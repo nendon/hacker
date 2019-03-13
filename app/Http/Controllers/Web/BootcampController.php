@@ -78,15 +78,73 @@ class BootcampController extends Controller
             return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
           }
           
-          $mem_id = Auth::guard('members')->user()->id;
-         
-          $bootcamp = BootcampMember::join('bootcamp','bootcamp.id', '=', 'bootcamp_member.bootcamp_id')
+        $mem_id = Auth::guard('members')->user()->id;
+        
+        $bootcamp = BootcampMember::join('bootcamp','bootcamp.id', '=', 'bootcamp_member.bootcamp_id')
                     ->join('contributors', 'contributors.id', '=', 'bootcamp.contributor_id')
-                    ->where('member_id', $mem_id )
-                    ->get(); 
-          $belitut = TutorialMember::join('lessons','lessons.id', '=', 'tutorial_member.lesson_id')
-                          ->join('contributors', 'contributors.id', '=', 'lessons.contributor_id')
-                          ->where('member_id', '=',  $mem_id)->get();
+                    ->join('course', 'course.bootcamp_id', 'bootcamp.id')
+                    ->join('section', 'section.course_id', 'course.id')
+                    ->join('video_section', 'video_section.section_id', 'section.id')
+                    ->join('project_section', 'project_section.section_id', 'section.id')
+                    ->leftjoin('history', function($join){
+                        $join->on('video_section.id', '=', 'history.video_id')
+                        ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                    ->where('bootcamp_member.member_id', $mem_id )
+                    ->select('bootcamp.id as id', 'bootcamp.cover as cover', 'bootcamp.slug as slug', 'contributors.avatar as avatar', 'contributors.username as username','bootcamp.title as title', DB::raw('count(history.id) as hasil'), DB::raw('count(video_section.id) as target'))
+                    ->groupby('bootcamp.id', 'bootcamp.cover', 'contributors.avatar','bootcamp.slug', 'contributors.username','bootcamp.title')
+                    ->get();  
+
+        $full_boot = BootcampMember::join('bootcamp','bootcamp.id', '=', 'bootcamp_member.bootcamp_id')
+                    ->join('contributors', 'contributors.id', '=', 'bootcamp.contributor_id')
+                    ->join('course', 'course.bootcamp_id', 'bootcamp.id')
+                    ->join('section', 'section.course_id', 'course.id')
+                    ->join('video_section', 'video_section.section_id', 'section.id')
+                    ->join('project_section', 'project_section.section_id', 'section.id')
+                    ->leftjoin('history', function($join){
+                        $join->on('video_section.id', '=', 'history.video_id')
+                        ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                    ->where('bootcamp_member.member_id', $mem_id )
+                    ->select('bootcamp.id as id', 'bootcamp.cover as cover', 'bootcamp.slug as slug','contributors.avatar as avatar', 'contributors.username as username','bootcamp.title as title', DB::raw('count(history.id) as hasil'), DB::raw('count(video_section.id) as target'))
+                    ->groupby('bootcamp.id', 'bootcamp.cover', 'bootcamp.slug', 'contributors.avatar', 'contributors.username','bootcamp.title')
+                    ->get();  
+        
+        $last = BootcampMember::join('bootcamp','bootcamp.id', '=', 'bootcamp_member.bootcamp_id')
+                ->join('contributors', 'contributors.id', '=', 'bootcamp.contributor_id')
+                ->join('course', 'course.bootcamp_id', 'bootcamp.id')
+                ->join('section', 'section.course_id', 'course.id')
+                ->join('video_section', 'video_section.section_id', 'section.id')
+                ->join('project_section', 'project_section.section_id', 'section.id')
+                ->join('history', 'video_section.id', '=', 'history.video_id')
+                ->where('bootcamp_member.member_id', $mem_id )
+                ->select('bootcamp.title as title', 'bootcamp.cover as cover', 'bootcamp.slug', 'course.id as id_course', 'course.title as course_title' )
+                ->orderby('history.created_at', 'desc')
+                ->first();       
+
+        $last_course =   BootcampMember::join('bootcamp','bootcamp.id', '=', 'bootcamp_member.bootcamp_id')
+                        ->join('contributors', 'contributors.id', '=', 'bootcamp.contributor_id')
+                        ->join('course', 'course.bootcamp_id', 'bootcamp.id')
+                        ->join('section', 'section.course_id', 'course.id')
+                        ->join('video_section', 'video_section.section_id', 'section.id')
+                        ->join('project_section', 'project_section.section_id', 'section.id')
+                        ->leftjoin('history', function($join){
+                            $join->on('video_section.id', '=', 'history.video_id')
+                            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                        ->where('bootcamp_member.member_id', $mem_id )->where('course.id', $last->id_course)
+                        ->select('section.id as id', DB::raw('count(history.id) as hasil'), DB::raw('count(video_section.id) as target'))
+                        ->groupby('section.id')
+                        ->get();
+                        
+                        
+        $belitut =  TutorialMember::join('lessons','lessons.id', '=', 'tutorial_member.lesson_id')
+                    ->join('contributors', 'contributors.id', '=', 'lessons.contributor_id')
+                    ->join('videos', 'lessons.id', '=', 'videos.lessons_id')
+                    ->leftjoin('viewers', function($join){
+                          $join->on('videos.id', '=', 'viewers.video_id')
+                          ->where('viewers.member_id', '=', Auth::guard('members')->user()->id);})
+                    ->select( DB::raw('count(distinct viewers.video_id) as hasil, count(distinct videos.id) as target'),'lessons.title as title', 'lessons.image as image', 'lessons.id as lesson_id', 'lessons.slug as slug', 'contributors.avatar as avatar', 'contributors.username as username')
+                    ->where('tutorial_member.member_id', '=',  $mem_id)
+                    ->groupby('lessons.title', 'lessons.image', 'lessons.id', 'lessons.slug',  'contributors.avatar', 'contributors.username')
+                    ->get();
   
           $get_lessons = Lesson::join('videos', 'lessons.id', '=', 'videos.lessons_id')
                        ->join('viewers', 'videos.id', '=', 'viewers.video_id')
@@ -104,10 +162,18 @@ class BootcampController extends Controller
                        ->leftjoin('viewers', function($join){
                           $join->on('videos.id', '=', 'viewers.video_id')
                           ->where('viewers.member_id', '=', Auth::guard('members')->user()->id);})
-                       ->select(DB::raw('count(distinct viewers.video_id) as id_count, count(distinct videos.id) as vid_id, lessons.title, lessons.image, lessons.id, lessons.slug'))
+                       ->select(DB::raw('count(distinct viewers.video_id) as id_count, count(distinct videos.id) as vid_id, lessons.title, lessons.image, lessons.id, lessons.slug as slug'))
                        ->groupby('lessons.title', 'lessons.image', 'lessons.id', 'lessons.slug')
                        ->having(DB::raw('count(distinct viewers.video_id)'), '=', DB::raw('count(distinct videos.id)'))                   
                        ->get();
+         $tes = Lesson::join('videos', 'lessons.id', '=', 'videos.lessons_id')
+                    ->leftjoin('viewers', function($join){
+                        $join->on('videos.id', '=', 'viewers.video_id')
+                        ->where('viewers.member_id', '=', Auth::guard('members')->user()->id);})
+                    ->select(DB::raw('count(distinct viewers.video_id) as id_count, count(distinct videos.id) as vid_id, lessons.title, lessons.image, lessons.id, lessons.slug'))
+                    ->groupby('lessons.title', 'lessons.image', 'lessons.id', 'lessons.slug')
+                    ->having(DB::raw('count(distinct viewers.video_id)'), '=', DB::raw('count(distinct videos.id)'))                   
+                    ->get();
   
          if(!empty($last_videos)){
          $last_lessons = Lesson::where('lessons.id', '=', $last_videos->lessons_id)->first();
@@ -134,6 +200,10 @@ class BootcampController extends Controller
             'belitut' => $belitut,
             'lessons' => $get_lessons,
             'full' => $get_full,
+            'last_course' => $last_course,
+            'full_boot' => $full_boot,
+            'last' => $last,
+            'tes' => $tes,
         ]);
     }
     public function doComment(Request $request)
