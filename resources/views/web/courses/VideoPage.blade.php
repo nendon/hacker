@@ -75,7 +75,7 @@
                 <?php
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
-                  <li>
+                  <li> 
                     <a
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
@@ -370,7 +370,6 @@
       $('#footer').addClass('hide')
     });
 </script>
-
     <!-- JavaScript -->
     <script type="text/javascript" src="{{asset('assets/js/jquery-2.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -492,6 +491,7 @@
         }]
       };
     }
+
     function getComments() {
       $.ajax({
           type    :'GET',
@@ -637,6 +637,8 @@
         url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
         data: data
       });
+      $( "#pills-materi" ).load(window.location.href + " #pills-materi" ); $( "#pills-materi" ).load(window.location.href + " #pills-materi" );
+
     }
     
     $('.collap').click(function(e){
@@ -654,5 +656,6 @@
     setInterval(function(){
       getComments();
     }, 5000); 
+    
     </script>
 @endsection()
