@@ -7,9 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Contributor;
+use App\Models\Bootcamp;
 use App\Models\ProjectSection;
 use App\Models\Member;
-use App\Models\ProjectUser;
 
 class ContribProject extends Notification
 {
@@ -20,9 +20,10 @@ class ContribProject extends Notification
      *
      * @return void
      */
-    public function __construct(Member $member, ProjectSection $project,  Contributor $contrib)
+    public function __construct(Member $member, Bootcamp $bootcamp, ProjectSection $project,  Contributor $contrib)
     {
         $this->member = $member;
+        $this->bootcamp = $bootcamp;
         $this->project = $project;
         $this->contrib = $contrib;
     }
@@ -46,12 +47,15 @@ class ContribProject extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/bootcamp/course/'.$this->project->section_id);
+        $url = url('/bootcamp/'.$this->bootcamp->slug.'/projectSubmit/'.$this->project->section_id);
+        $url2 = url('/bootcamp/'.$this->bootcamp->slug.'/courseSylabus');
+
         return (new MailMessage)
-                    ->subject('Notification From Cilsy Fiolution')
+                    ->subject('Project anda sudah di review')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Halo, %s projectmu sudah di review oleh Instruktur %s,',$this->member->username, $this->project->komentar_user))
-                    ->action('lihat lengkapnya', $url)
+                    ->line('Selamat! Tugas/Project Anda telah di ACC oleh Instruktur. Sekarang Anda bisa melanjutkan pembelajaran ke materi berikutnya.')
+                    ->action('Lihat Hasil Review Project', $url)
+                    ->action('Akses Materi Berikutnya', $url2)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 

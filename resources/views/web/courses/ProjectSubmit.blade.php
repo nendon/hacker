@@ -374,7 +374,11 @@
       </div>
 
     </section>
-    
+    <script>
+    $(document).on('ready',function () {
+          $('#footer').addClass('hide')
+        });
+    </script>
     <script>
       
     //function Menu sidebar    

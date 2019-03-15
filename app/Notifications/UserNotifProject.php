@@ -10,6 +10,7 @@ use App\Models\Contributor;
 use App\Models\ProjectSection;
 use App\Models\Member;
 use App\Models\ProjectUser;
+use App\Models\Bootcamp;
 
 class UserNotifProject extends Notification
 {
@@ -20,11 +21,12 @@ class UserNotifProject extends Notification
      *
      * @return void
      */
-    public function __construct(Member $member, ProjectSection $project,  Contributor $contrib)
+    public function __construct(Member $member,Bootcamp $bootcamp, ProjectSection $project,  Contributor $contrib)
     {
         $this->member = $member;
         $this->project = $project;
         $this->contrib = $contrib;
+        $this->bootcamp = $bootcamp;
     }
 
     /**
@@ -48,11 +50,11 @@ class UserNotifProject extends Notification
     {
         $url = url('/bootcamp/course/');
         return (new MailMessage)
-                    ->subject('Notification From Cilsy Fiolution')
+                    ->subject(sprintf('Project Anda telah dikirim untuk Bootcamp %s', $this->bootcamp->title))
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Halo, %s Terima kasih sudah mengupload project %s, akan diperiksa instruktur %s',$this->member->username, $this->project->title, $this->contrib->username))
-                    ->action('lihat lengkapnya', $url)
-                    ->line('Terima Kasih telah menggunakan aplikasi kami!');
+                    ->line('Harap menunggu dalam 1x24 jam untuk mendapatkan hasilnya dari pemeriksaan Instruktur. Apabila di ACC oleh instruktur, maka Anda bisa melanjutkan pembelajaran ke materi berikutnya. Apabila di tolak, maka Anda bisa kerjakan ulang dan submit ulang sesuai hasil komentar yang diberikan oleh Instruktur.')
+                    ->action('lihat Dashboard', $url)
+                    ->line('Terima Kasih telah menggunakan aplikasi kami! Anda akan mendapatkan pemberitahuannya melalui email.');
     }
 
     /**

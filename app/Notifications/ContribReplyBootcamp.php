@@ -10,7 +10,7 @@ use App\Models\Contributor;
 use App\Models\Bootcamp;
 use App\Models\Member;
 
-class UserReplyBootcamp extends Notification
+class ContribReplyBootcamp extends Notification
 {
     use Queueable;
 
@@ -47,10 +47,10 @@ class UserReplyBootcamp extends Notification
     {
         $url = url('/bootcamp/'.$this->lesson->slug.'/courseSylabus');
         return (new MailMessage)
-                    ->subject('Anda Menerima pesan baru')
+                    ->subject('Anda menerima Pesan Baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Pesan Anda telah mendapatkan balasan baru pada Bootcamp %s,  Silahkan klik tombol dibawah ini untuk membukanya',$this->member->username, $this->lesson->title))
-                    ->action('Balas Komentar', $url)
+                    ->line(sprintf('telah menjawab Pertanyaan pada Bootcamp %s,', $this->contrib->username, $this->lesson->title))
+                    ->action('Lihat Diskusi', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 

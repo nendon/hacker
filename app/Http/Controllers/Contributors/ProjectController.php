@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectUser;
 use App\Models\ProjectSection;
+use App\Models\Member;
+use App\Models\Contributor;
 use App\Notifications\ContribProject;
 use Auth;
 
@@ -111,9 +113,20 @@ class ProjectController extends Controller
 
             $uid = Auth::guard('contributors')->user()->id;
             $lesson = ProjectUser::Find($request->input('id'));
+            $mem = ProjectUser::where('id', $request->input('id'))->first();
+            $section = ProjectSection::Find($lesson->project_section_id);
+
+            $bc = Section::join('course', 'course.id', 'section.course_id')
+                  ->join('bootcamp', 'bootcamp.id', 'course.bootcamp_id')
+                  ->where('section.id', $lesson->project_section_id)->first();
             $member = Member::Find($lesson->member_id);
+            $bootcamp = Bootcamp::Find($bc->bootcamp_id ); 
             $contrib = Contributor::find($uid);
-            $member->notify(new ContribProject($member, $lesson, $contrib));
+            if($request->input('status') == 2){
+            $member->notify(new ContribProject($member,$bootcamp,  $section, $contrib));
+            }else{
+                $member->notify(new ContribProjectTolak($member,$bootcamp,  $section, $contrib));
+            }
         }
         echo json_encode($response);
     }

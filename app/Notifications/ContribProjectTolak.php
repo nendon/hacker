@@ -8,9 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Contributor;
 use App\Models\Bootcamp;
+use App\Models\ProjectSection;
 use App\Models\Member;
 
-class UserReplyBootcamp extends Notification
+class ContribProjectTolak extends Notification
 {
     use Queueable;
 
@@ -19,10 +20,11 @@ class UserReplyBootcamp extends Notification
      *
      * @return void
      */
-    public function __construct(Member $member, Bootcamp $lesson, Contributor $contrib)
+    public function __construct(Member $member, Bootcamp $bootcamp, ProjectSection $project,  Contributor $contrib)
     {
         $this->member = $member;
-        $this->lesson = $lesson;
+        $this->bootcamp = $bootcamp;
+        $this->project = $project;
         $this->contrib = $contrib;
     }
 
@@ -45,12 +47,14 @@ class UserReplyBootcamp extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/bootcamp/'.$this->lesson->slug.'/courseSylabus');
+        $url = url('/bootcamp/'.$this->bootcamp->slug.'/projectSubmit/'.$this->project->section_id);
+
         return (new MailMessage)
-                    ->subject('Anda Menerima pesan baru')
+                    ->subject('Project anda ditolak')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Pesan Anda telah mendapatkan balasan baru pada Bootcamp %s,  Silahkan klik tombol dibawah ini untuk membukanya',$this->member->username, $this->lesson->title))
-                    ->action('Balas Komentar', $url)
+                    ->line('Sayang sekali Tugas/Project Anda masih belum di luluskan oleh Instruktur. Silahkan cek komentar tambahan dari Instruktur untuk mendapatkan insight tambahan.Anda bisa coba submit ulang Tugas/Project setelah dirasa lebih siap.
+                    ')
+                    ->action('Lihat Hasil Review Project', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 
