@@ -51,7 +51,7 @@ class UserProject extends Notification
         return (new MailMessage)
                     ->subject(sprintf('Murid Anda mengirimkan Project Baru di Bootcamp %s', $this->bootcamp->title ))
                     ->greeting(sprintf('Hello %s', $this->contrib->username))
-                    ->line(sprintf('Murid Anda yang bernama %s telah mengirimkan tugas/project baru untuk Bootcamp %s, mengerjakan projek %s . Harap untuk segera memeriksa dan memberikan hasilnya maksimal dalam 1x24 jam agar mereka dapat melanjutkan kembali pembelajaran.',$this->member->username,  $this->$bootcamp->title, $this->project->title))
+                    ->line(sprintf('Murid Anda yang bernama %s telah mengirimkan tugas/project baru untuk Bootcamp %s, mengerjakan projek %s . Harap untuk segera memeriksa dan memberikan hasilnya maksimal dalam 1x24 jam agar mereka dapat melanjutkan kembali pembelajaran.',$this->member->username,  $this->bootcamp->title, $this->project->title))
                     ->action('Periksa Project', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }

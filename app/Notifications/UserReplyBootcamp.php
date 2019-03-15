@@ -45,11 +45,11 @@ class UserReplyBootcamp extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/lessons/'.$this->lesson->slug);
+        $url = url('/bootcamp/'.$this->lesson->slug.'/courseSylabus');
         return (new MailMessage)
-                    ->subject('Pesan baru untuk pertanyaanmu')
+                    ->subject('Anda Menerima pesan baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Halo, %s User lain telah membalas pertanyaan anda pada Bootcamp %s,',$this->member->username, $this->lesson->title))
+                    ->line(sprintf('Pesan Anda telah mendapatkan balasan baru pada Bootcamp %s,  Silahkan klik tombol dibawah ini untuk membukanya',$this->member->username, $this->lesson->title))
                     ->action('Balas Komentar', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
