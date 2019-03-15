@@ -47,9 +47,9 @@ class NimbrungReplyBootcamp extends Notification
     {
         $url = url('/bootcamp/'.$this->lesson->slug.'/courseSylabus');
         return (new MailMessage)
-                    ->subject('Notification From Cilsy Fiolution')
+                    ->subject('Anda menerima Pesan Baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Halo, %s Ada tanggapan dari komentar kamu di bootcamp %s,', $this->member->username, $this->lesson->title))
+                    ->line(sprintf('Halo, %s Pesan Anda telah mendapatkan balasan baru. Silahkan klik tombol dibawah ini untuk membukanya di bootcamp %s,', $this->member->username, $this->lesson->title))
                     ->action('Balas Komentar', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }

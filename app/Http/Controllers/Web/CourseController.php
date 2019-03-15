@@ -8,6 +8,9 @@ use App\Models\Course;
 use App\Models\Bootcamp;
 use App\Models\BootcampMember;
 use App\Models\Section;
+use App\Models\Member;
+use App\Models\Contributor;
+
 use App\Models\VideoSection;
 use App\Models\ProjectSection;
 use App\Models\ProjectUser;
@@ -247,9 +250,13 @@ class CourseController extends Controller
 
             $member = Member::Find($uid);
             $lesson = ProjectSection::Find($request->input('project_id'));
-            $contrib = Contributor::find($lessons->contributor_id);
-            $contrib->notify(new UserProject($member, $lesson, $contrib));
-            $member->notify(new UserNotifProject($member, $lesson, $contrib));
+            $bc = Section::join('course', 'course.id', 'section.course_id')
+                  ->join('bootcamp', 'bootcamp.id', 'course.bootcamp_id')
+                  ->where('section.id', $lesson->section_id)->first();
+            $bootcamp = Bootcamp::Find($bc->bootcamp_id ); 
+            $contrib = Contributor::find($bc->contributor_id);
+            $contrib->notify(new UserProject($member, $lesson, $bootcamp, $contrib));
+            $member->notify(new UserNotifProject($member, $lesson, $bootcamp, $contrib));
 
         }
         echo json_encode($response);

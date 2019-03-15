@@ -267,6 +267,12 @@ class BootcampController extends Controller
                              ->get();
                             
             if($parent_id != null){
+                $member = Member::Find($member->id);
+                $comment = CommentBootcamp::Find($store->id);
+                $bootcamp = Bootcamp::find($bootcamp->id);
+                $contrib = Contributor::find($bootcamp->contributor_id);
+                $contrib->notify(new UserCommentBootcamp($member, $comment, $contrib, $bootcamp));
+
                 foreach ($getemailchild as $mails) {
                     if( $mails->tanya !=$input['member_id'] ){
                         if($mails->tanya != $mails->jawab){
@@ -284,7 +290,8 @@ class BootcampController extends Controller
                     $bootcamp = Bootcamp::Find($bootcamp->id);
                     $contrib = Contributor::find($bootcamp->contributor_id);
                     $member->notify(new UserReplyBootcamp($member, $bootcamp, $contrib));
-                   
+                    
+
                         }
                     }
 
@@ -310,7 +317,7 @@ class BootcampController extends Controller
                     }
                    
                 }
-            }
+            }else{
                     $member = Member::Find($member->id);
                     $comment = CommentBootcamp::Find($store->id);
                     $bootcamp = Bootcamp::find($bootcamp->id);
@@ -320,6 +327,7 @@ class BootcampController extends Controller
                     $response['success'] = true;
                 // }
             }
+         }
         }
         echo json_encode($response);
     }

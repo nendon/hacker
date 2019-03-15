@@ -7,12 +7,10 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Contributor;
-use App\Models\ProjectSection;
-use App\Models\Member;
-use App\Models\ProjectUser;
 use App\Models\Bootcamp;
+use App\Models\Member;
 
-class UserNotifProject extends Notification
+class ContribReplyBootcamp extends Notification
 {
     use Queueable;
 
@@ -21,12 +19,11 @@ class UserNotifProject extends Notification
      *
      * @return void
      */
-    public function __construct(Member $member,Bootcamp $bootcamp, ProjectSection $project,  Contributor $contrib)
+    public function __construct(Member $member, Bootcamp $lesson, Contributor $contrib)
     {
         $this->member = $member;
-        $this->project = $project;
+        $this->lesson = $lesson;
         $this->contrib = $contrib;
-        $this->bootcamp = $bootcamp;
     }
 
     /**
@@ -48,13 +45,13 @@ class UserNotifProject extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/bootcamp/course/');
+        $url = url('/bootcamp/'.$this->lesson->slug.'/courseSylabus');
         return (new MailMessage)
-                    ->subject(sprintf('Project Anda telah dikirim untuk Bootcamp %s', $this->bootcamp->title))
+                    ->subject('Anda menerima Pesan Baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line('Harap menunggu dalam 1x24 jam untuk mendapatkan hasilnya dari pemeriksaan Instruktur. Apabila di ACC oleh instruktur, maka Anda bisa melanjutkan pembelajaran ke materi berikutnya. Apabila di tolak, maka Anda bisa kerjakan ulang dan submit ulang sesuai hasil komentar yang diberikan oleh Instruktur.')
-                    ->action('lihat lengkapnya', $url)
-                    ->line('Terima Kasih telah menggunakan aplikasi kami! Anda akan mendapatkan pemberitahuannya melalui email.');
+                    ->line(sprintf('telah menjawab Pertanyaan pada Bootcamp %s,', $this->contrib->username, $this->lesson->title))
+                    ->action('Lihat Diskusi', $url)
+                    ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 
     /**

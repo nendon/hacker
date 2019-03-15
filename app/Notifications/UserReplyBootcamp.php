@@ -47,7 +47,7 @@ class UserReplyBootcamp extends Notification
     {
         $url = url('/lessons/'.$this->lesson->slug);
         return (new MailMessage)
-                    ->subject('Notification From Cilsy Fiolution')
+                    ->subject('Pesan baru untuk pertanyaanmu')
                     ->greeting(sprintf('Hello %s', $this->member->username))
                     ->line(sprintf('Halo, %s User lain telah membalas pertanyaan anda pada Bootcamp %s,',$this->member->username, $this->lesson->title))
                     ->action('Balas Komentar', $url)

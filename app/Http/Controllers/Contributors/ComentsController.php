@@ -20,6 +20,7 @@ use App\Models\Lesson;
 use App\Notifications\ContribReplyNotification;
 use App\Notifications\ContriReplyNotification;
 use App\Notifications\ContriReplyBootcamp;
+use App\Notifications\ContribReplyBootcamp;
 use Auth;
 
 class ComentsController extends Controller
@@ -251,20 +252,20 @@ class ComentsController extends Controller
                ]);
 
                $member = Member::Find($mails->jawab);
+               $tanya = Member::Find($mails->tanya);
                $lessonn = Bootcamp::find($lesson_id);
                $contrib = Contributor::find($lessons->contributor_id);
                $member->notify(new ContriReplyBootcamp($member, $lessonn, $contrib));
-       
-                }
-                }
-            }
-            }
-        }
-      //  $member = Member::Find($notify->member_id);
-      //  $lessonn = Lesson::find($lessons->id);
-      //  $contrib = Contributor::find($lessons->contributor_id);
-      //  $member->notify(new ContribReplyNotification($member, $lessonn, $contrib));
+               $tanya->notify(new ContriReplyBootcamp($tanya, $lessonn, $contrib));
 
+                }
+                }
+            }
+            }
+           
+     
+        }
+      
 
         $check=DB::table('comments_bootcamp')->where('parent_id',$comment_id)->get();
 
