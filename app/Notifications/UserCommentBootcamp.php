@@ -20,7 +20,7 @@ class UserCommentBootcamp extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Member $member, Comment $comment, Contributor $contrib, Bootcamp $lesson)
+    public function __construct(Member $member, CommentBootcamp $comment, Contributor $contrib, Bootcamp $lesson)
     {
         $this->member = $member;
         $this->comment = $comment;
@@ -57,9 +57,9 @@ class UserCommentBootcamp extends Notification implements ShouldQueue
     {
         $url = url('/contributor/comments/detail/'.$this->comment->id);
         return (new MailMessage)
-                    ->subject('Notification From Cilsy Fiolution')
+                    ->subject('Pesan baru dari Murid Anda di Bootcamp %s', $this->lesson->title)
                     ->greeting(sprintf('Hello %s', $this->contrib->first_name))
-                    ->line(sprintf('Halo, User dengan nama %s telah berkomentar pada bootcamp %s, silahkan Balas komentar user tersebut', $this->member->username, $this->lesson->title))
+                    ->line(sprintf('User dengan nama %s telah berkomentar pada bootcamp %s, silahkan Balas komentar user tersebut', $this->member->username, $this->lesson->title))
                     ->action('Balas Komentar', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }

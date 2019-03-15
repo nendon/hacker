@@ -42,8 +42,8 @@
         <h5>Nama Siswa</h5>
         <div class="list-group">
             <?php $__currentLoopData = $list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lists): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <a href="<?php echo e(url('contributor/project/submit/'.$lists->project_section_id.'/detail/'.$lists->id)); ?>" class="list-group-item <?php echo e(request()->is('contributor/project/submit/'.$lists->project_section_id.'/detail/'.$lists->id) ? 'active' : ''); ?>">
-                <img src="img/user.png" class="img-table" alt=""> <?php echo e($lists->member->username); ?></a>
+            <a href="<?php echo e(url('contributor/project/submit/'.$lists->section_id.'/detail/'.$lists->id)); ?>" class="list-group-item <?php echo e(request()->is('contributor/project/submit/'.$lists->section_id.'/detail/'.$lists->id) ? 'active' : ''); ?>">
+                <img src="img/user.png" class="img-table" alt=""> <?php echo e($lists->username); ?></a>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
       </div>

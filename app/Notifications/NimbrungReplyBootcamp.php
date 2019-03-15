@@ -45,7 +45,7 @@ class NimbrungReplyBootcamp extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/lessons/'.$this->lesson->slug);
+        $url = url('/bootcamp/'.$this->lesson->slug.'/courseSylabus');
         return (new MailMessage)
                     ->subject('Notification From Cilsy Fiolution')
                     ->greeting(sprintf('Hello %s', $this->member->username))

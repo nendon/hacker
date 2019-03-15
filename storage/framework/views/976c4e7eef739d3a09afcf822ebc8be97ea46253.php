@@ -114,8 +114,8 @@
           <div class="project-content col-xs-12 p-0">
             <div class="header">
               <div class="col-xs-11 pl-5">
-                Become a <?php echo e($bc->slug); ?> <br>
-                <small><?php echo e($vsection->title); ?></small>
+                <?php echo e($bc->title); ?> <br>
+                <small><?php echo e($course->title); ?></small>
               </div>
               <div class="col-xs-1 px-4">
                 <button type="button" class="plyr__control btn btn-outline-primary px-4" onClick="sidebarShow()"><i class="fa fa-bars"></i></button>
@@ -125,16 +125,17 @@
             <div class="row px-5 pt-4">
               
               <div class="col-xs-12">
-                  <h4><?php echo e($project->title); ?></h4>
+                  <h3><?php echo e($project->title); ?></h3>
 
-                  <h4>Couse <?php echo e($vsection->title); ?>: Final Projek</h4>
-                  
+                  <h4><b>Instruksi: <br/></b><br/> <?php echo e($project->instruksi); ?></h4>
+                  <br/>
+                  <br/>
                   <input type="file" id="file" name="file">
                   
                   <h5>Komentar</h5>
                   <textarea class="form-control" name="komentar" id="komentar" cols="100" rows="2"></textarea>
                   
-                  <button class="btn btn-primary my-4" onclick="saveProject(<?php echo e($project->section_id); ?>)">Submit Projek</button>
+                  <button class="btn btn-primary my-4" onclick="saveProject(<?php echo e($project->id); ?>)">Submit Projek</button>
                   
               </div>
             </div> 

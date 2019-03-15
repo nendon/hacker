@@ -195,7 +195,8 @@ class CourseController extends Controller
             return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
           }
         $bcs = Bootcamp::where('slug', $slug)->first();
-        $section = Section::with('video_section')->where('id', $id)->get();
+        $sect = Section::where('id', $id)->first();
+        $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $vsection = $section->first()->video_section->first();
         $psection = Section::with('project_section')->where('id', $id)->get();
         // $ps = ProjectSection::

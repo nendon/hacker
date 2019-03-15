@@ -26,6 +26,7 @@
                   <div class="bootcamp ">
                       <?php $__currentLoopData = $bootcamp; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                       <div>
+                      <a href="bootcamp/<?php echo e($result->slug); ?>" >
                         <div class="card">
                           <div class="label">
                             Bootcamp
@@ -56,11 +57,12 @@
                                 <i class="fa fa-user"></i> <?php echo e(count($result->bootcamp_member)); ?> Siswa
                               </li>
                               <li>
-                                <a href="#"> Selengkapnya</a>
+                                <a style="color:blue:bold;" href="bootcamp/<?php echo e($result->slug); ?>"> Selengkapnya <br/></a>
                               </li>
                             </ul>
                           </div>
                         </div>
+                      </a>  
                       </div>
                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                   </div>

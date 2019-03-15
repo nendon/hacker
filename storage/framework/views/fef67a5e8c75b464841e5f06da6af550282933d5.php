@@ -8,30 +8,37 @@
       <div class="container w-100">
 
         <!-- Header -->
-        <div class="row header">
+        <div class="row headers">
           <div class="col-xs-12">
             <ul class="breadcrumb">
-              <li><a href="#">Browse</a></li>
-              <li><a href="#"><?php echo e($bca->title); ?></a></li>
-              <li class="active">Data Analysis</li>
+              <li><a href="<?php echo e(url('browse/bootcamp')); ?>" style="color: white">Browse</a></li>
+              <li><a href="<?php echo e(url('browse/bootcamp/'.$butcat->slug)); ?>" style="color: white"><?php echo e($butcat->title); ?></a></li>
+              <li class="active"><a href="<?php echo e(url('bootcamp/'.$bca->slug)); ?>" style="color: white"><?php echo e($bca->title); ?></a></li>
             </ul>
           </div>
           <div class="col-md-5 col-xs-12 mb-4 video-previews">
+          <a href="<?php echo e($bca->promote_video); ?>" data-toggle="modal" data-target="#ModalVideo">
             <img src="<?php echo e(asset($bca->cover)); ?>" class="img-responsive img-rounded" alt="">
-            <a href="#" data-toggle="modal" data-target="#ModalVideo" class="btn"><img src="<?php echo e(asset('/template/web/img/play-button.svg')); ?>" class="img-play-size" alt=""></a>
+            <a href="<?php echo e($bca->promote_video); ?>" data-toggle="modal" data-target="#ModalVideo" class="btn"><img src="<?php echo e(asset('/template/web/img/play-button.svg')); ?>" class="img-play-size" alt="">
+           </a>
+          </a>
           </div>
           <div class="col-md-7 col-xs-12 mb-4">
-            <span>Bootcamp</span>
+           <a href="<?php echo e(url('browse/bootcamp/'.$butcat->slug)); ?>" style="color: white"><span>Bootcamp <?php echo e($butcat->title); ?></span></a>
 
-            <h2>Bootcamp <?php echo e($bca->title); ?></h2>
+            <h2><?php echo e($bca->title); ?></h2>
             <h4>
-              <?php echo e($bca->deskripsi); ?>
+              <?php echo e($bca->sub_title); ?>
 
             </h4> 
             <h6 class="mb-5">oleh <?php echo e($contributors->username); ?></h6>
-            <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
-            <button id="beli-<?php echo e($bca->id); ?>" class="btn btn-blue" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)">Daftar Sekarang</button>
-            <button class="btn btn-blue m-2">Download Silabus</button>
+            <?php if(($cart != null)){ ?>
+            <a href="<?php echo e(url('cart')); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
+            <?php }else{ ?>          
+            <button id="beli-<?php echo e($bca->id); ?>" class="btn btn-blue" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)"><i class="fa fa-shopping-cart"></i> Beli Tutorial</button> &nbsp;&nbsp;&nbsp;
+            <?php } ?>
+            <button id="guest-<?php echo e($bca->id); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)">Lihat Keranjang</button>
+            <a href="<?php echo e($bca->silabus); ?>" class="btn btn-blue m-2">Download Silabus</a>
           </div>
         </div>
 
@@ -40,35 +47,15 @@
         <div class="row section1">
           <div class="container">
             <div class="col-md-5 col-sm-8 col-xs-12 px-0">
-              <img src="<?php echo e(asset('template/bootcamp/asset/2.jpg')); ?>" class="img-responsive" alt="">
+              <img src="<?php echo e(asset($bca->picture_problem)); ?>" class="img-responsive" alt="">
             </div>
             <div class="col-md-7 col-sm-12 col-xs-12 px-5">
               <h3>Tahukan Anda?</h3>
               <p>
-              Ketika server yang Anda kelola down akan butuh waktu cukup lama untuk
-              mengembalikannya online. Dan ternyata kalau Anda mau menambah layanan / aplikasi
-              baru, ya harus install PC Server baru. Boros waktu, apalagi biaya membengkak. Banyak
-              sekali server yang tumbang karena ulah hacker yang berusaha menerobos masuk.
-              Mungkin Anda sudah tau ahwa solusinya adalah dengan virtualisasi, tapi tidak paham
-              cara implementasinya. Apakah Anda salah satunya ??
+              <?php echo e($bca->problem); ?>
+
               </p>
 
-              <br>
-              <h5>Anda Merasakan Ini?</h5>
-              <p>
-              Anda sebagai pemula bingung mulai dari mana belajar seluk belu virtualisasi server
-              karena tutorial di internet bertebaran secara acak ?
-              </p>
-
-              <p>  
-              Server ditempat Anda sering bermasalah, bahkan down karena banyaknya hujan
-              serangan dari luar, sehinggan user komplain ?
-              </p>
-
-              <p>  
-              Bingung bagaimana membuat server yang tangguh + memiliki keamanan baik + hemat
-              biaya pembuatan ?
-              </p>
             </div>
           </div>
       </div>
@@ -76,7 +63,7 @@
       <div class="row section2">
         <div class="container">
           <div class="col-md-5 col-sm-8 col-xs-12 px-0 col-md-push-7 pull-md-right">
-            <img src="<?php echo e(asset('template/bootcamp/asset/3.jpg')); ?>" class="img-responsive" alt="">
+            <img src="<?php echo e(asset($bca->picture_desk)); ?>" class="img-responsive" alt="">
           </div>
 
           <div class="col-md-7 col-sm-12 col-xs-12 px-5 col-md-pull-5">
@@ -84,7 +71,7 @@
 
             <ul id="about">
                 <li class="panel">
-                    <a href="#about1" data-toggle="collapse" data-parent="#about" class="collapsed">
+                    <a  style="color:#2ba8e2" href="#about1" data-toggle="collapse" data-parent="#about" class="collapsed">
                       Deskripsi
                     </a>
                     <p id="about1" class="collapse in">
@@ -93,16 +80,12 @@
                     </p>
                 </li>
                 <li class="panel">
-                    <a href="#about2" data-toggle="collapse" data-parent="#about">
+                    <a  style="color:#2ba8e2" href="#about2" data-toggle="collapse" data-parent="#about">
                       Kenapa harus belajar <?php echo e($bca->title); ?>?
                     </a>
                     <p id="about2" class="collapse">
-                        Program akan membantu Anda, menguasai keterampilan dan tools seperti
-                        Statistik, pengujian Hipotesis, Clustering, Decision tree, Linear dan Regresi
-                        logistik, R Studio, Visualisasi Data, model Regresi, Hadoop, Spark, PROC SQL,
-                        SAS Macro, prosedur statistik, tools dan analisis, dan masih banyak lagi.
-                        Keterampilan ini akan membantu Anda mempersiapkan diri untuk seorang
-                        Data Scientist.
+                       <?php echo e($bca->alasan); ?>
+
                     </p>
                 </li>
             </ul>
@@ -114,7 +97,7 @@
       <div class="row section3">
         <div class="container">
           <div class="col-md-5 col-sm-8 col-xs-12 px-0">
-            <img src="<?php echo e(asset('template/bootcamp/asset/2.jpg')); ?>" class="img-responsive" alt="">
+            <img src="<?php echo e(asset($bca->picture_alasan)); ?>" class="img-responsive" alt="">
           </div>
           <div class="col-md-7 col-sm-12 col-xs-12 px-5">
             <h3 class="mb-5">Bagaimana Bootcamp membantu anda</h3>
@@ -152,12 +135,12 @@
 
               <p class="text-muted">Kami membuat Program untuk menjadikan Anda seorang <?php echo e($bca->title); ?> dengan bantuan kurikulum yang terstruktur</p>
               <ul>
-                <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Estimasi.svg')); ?>" alt="">Estimasi 1-2 Bulan</li>
+                <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Estimasi.svg')); ?>" alt="">Estimasi <?php echo e($target->target); ?> Hari</li>
                 <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Projek.svg')); ?>" alt=""> Projek</li>
                 <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Course.svg')); ?>" alt=""><?php echo e($bca->course->count()); ?>  Course</li>
                 <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Waktu.svg')); ?>" alt="">120 Jam Video</li>
               </ul>
-              <button class="btn btn-blue">Download Silabus</button>
+              <a href="<?php echo e($bca->silabus); ?>" class="btn btn-blue">Download Silabus</a>
 
           </div>
 
@@ -367,16 +350,14 @@
           <div class="col-xs-6">    
             <b>Untuk siapa bootcamp ini ?:</b>
             <p class="text-muted">
-              Seseorang yang ingin membuat data driven decisions atau tertarik
-              menjadi Data Analys, program ini sangat ideal untuk anda. Anda akan
-              belajar statistik, data wranglisng with Python, dan data visualization
+              <?php echo e($bca->audience); ?>
+
             </p>
     
             <b>Apa Prasyarat dan Persyaratan mengikuti bootcamp ini :</b>
             <p class="text-muted">
-              Agar berhasil dalam prgram ini, disarankan memiliki pengalaman :
-              Python programming, termasuk data analytis libraries (e.g., Numpy
-              anda Pandas), SQl Programming
+             <?php echo e($bca->pre_and_req); ?>
+
             </p>
           </div>
           
@@ -507,8 +488,8 @@
                   <li>Free Update</li>
                   <li>Sertifikat</li>
                 </ul>
-                <a id="#" href="# " class="btn" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" >Lihat Keranjang</a>        
                 <button id="beli-<?php echo e($bca->id); ?>" class="btn btn-blue" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)">Daftar Sekarang</button>
+                <button id="guest-<?php echo e($bca->id); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)">Lihat Keranjang</button>
                 </div>  
             </div>
           </div>
@@ -673,6 +654,34 @@
       });
      });
     </script>
-    </script>
+
+<script>
+    var cek = localStorage.getItem('cart');
+    if(cek != null){
+      var results = JSON.parse(cek);
+      if (results.length > 0){
+        $.each(results, function(k,v) {
+              $('#beli-'+v['id']).hide();
+              $('#guest-'+v['id']).show();
+              $('#jual-'+v['id']).hide();
+              $('#tamu-'+v['id']).show();
+        });
+      }
+    }
+    <?php if($cart != null): ?>
+    var cek = localStorage.getItem('cart');
+    if(cek != null){
+      var results = JSON.parse(cek);
+      if (results.length > 0){
+        $.each(results, function(k,v) {
+          $('#guest-'+v['id']).hide();
+          $('#tamu-'+v['id']).hide();
+        });
+      }
+    }
+    
+    <?php endif; ?>
+
+  </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('web.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

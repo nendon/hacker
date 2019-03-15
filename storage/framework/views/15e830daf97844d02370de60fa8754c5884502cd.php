@@ -26,9 +26,30 @@
           <div class="tab-pane fade active in" id="pills-materi" role="tabpanel" aria-labelledby="pills-materi-tab">
           <?php
              $a = 1;
-             foreach ($stn as $key => $section): ?>
+             foreach ($stn as $key => $section): 
+              $valid = DB::table('section')
+              ->join('video_section', 'section.id','video_section.section_id')
+              ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+              ->leftjoin('project_user', function($join){
+               $join->on('project_section.id', '=', 'project_user.project_section_id')
+               ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+              ->leftjoin('history', function($join){
+                 $join->on('video_section.id', '=', 'history.video_id')
+                 ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+              ->where('section.id', $section->id)
+              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+              ->groupby('section.id', 'section.position')
+              ->first();
+             $persen = number_format($valid->hasil / $valid->project*100); 
+             
+             $n = $valid->posisi;
+             $sect = $valid->section;
+
+             ?>
+             
               <div class="video-materi">
                 <a class="collap" id="<?php echo "materi-".$a ?>" data-toggle="collapse" href="#<?php echo e($section->id); ?>" role="button">
+               
                  <div class="number-circle"><?php echo $a ;?></div>
                   <div class="title">
                      <?php echo e($section->title); ?>
@@ -38,6 +59,7 @@
                   <i class="icon-collap fa fa-chevron-down"></i>
                 </a>
               </div>
+              <?php if($valid->project == $valid->hasil)    {   ?>
               <div class="collapse submateri" id="<?php echo e($section->id); ?>">
                 <ul>
                 <?php
@@ -59,7 +81,15 @@
                         <div class="col-xs-2 px-0 text-right">
                           <?php echo e($materi->durasi); ?>
 
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
                           <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
                         </div>
                       </div>
                     </a>
@@ -76,7 +106,19 @@
 
                       </div>
                       <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                         $cek = DB::table('project_section')
+                         ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                         ->where('project_section.id', $project->id)
+                         ->where('project_user.status', 2)
+                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                         ->first();
+                          if($cek){        
+                          ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
                       </div>
                     </div>
                   </a >
@@ -84,6 +126,166 @@
                 <?php endforeach; ?>
                 </ul>
               </div>
+              <?php }else{
+                        
+              if($valid->posisi == '1'){ ?>
+              <div class="collapse submateri" id="<?php echo e($section->id); ?>">
+                <ul>
+                <?php
+                 $i = 1;
+                 foreach ($section->video_section as $key => $materi): ?>
+                  <li>
+                    <a
+                        data-url="<?php echo e($materi->file_video); ?>"
+                        data-title="<?php echo e($materi->title); ?>"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> <?php echo e($materi->title); ?>
+
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                          <?php echo e($materi->durasi); ?>
+
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <?php $i++;?>
+                  <?php endforeach; ?>
+                  <?php
+                  foreach ($section->project_section as $key => $project): ?>
+                  <li>
+                  <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id)); ?>">
+                    <div class="sub-materi row">
+                      <div class="col-xs-10 px-0">
+                        <i class="fas fa-clipboard-list"></i>  <?php echo e($project->title); ?>
+
+                      </div>
+                      <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                          $cek = DB::table('project_section')
+                          ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                          ->where('project_section.id', $project->id)
+                          ->where('project_user.status', 2)
+                          ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                          ->first();
+                          if($cek){        
+                          ?>
+                        <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </a >
+                </li>
+                <?php endforeach; ?>
+                </ul>
+              </div>
+              <?php }else{
+                 $n = $valid->posisi-1;
+                 $sect = $valid->section-1;
+                 
+                 $lihat = DB::table('section')
+                         ->join('video_section', 'section.id','video_section.section_id')
+                         ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                         ->leftjoin('project_user', function($join){
+                         $join->on('project_section.id', '=', 'project_user.project_section_id')
+                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                         ->where('project_user.status', '2');})
+                         ->leftjoin('history', function($join){
+                           $join->on('video_section.id', '=', 'history.video_id')
+                           ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                         ->where('section.id', $sect)->where('section.position', $n)
+                         ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                         ->groupby('section.id')
+                         ->first();
+              if($lihat->project == $lihat->hasil){ ?>
+               <div class="collapse submateri" id="<?php echo e($section->id); ?>">
+                <ul>
+                <?php
+                 $i = 1;
+                 foreach ($section->video_section as $key => $materi): ?>
+                  <li>
+                    <a
+                        data-url="<?php echo e($materi->file_video); ?>"
+                        data-title="<?php echo e($materi->title); ?>"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> <?php echo e($materi->title); ?>
+
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                          <?php echo e($materi->durasi); ?>
+
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <?php $i++;?>
+                  <?php endforeach; ?>
+                  <?php
+                  foreach ($section->project_section as $key => $project): ?>
+                  <li>
+                  <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id)); ?>">
+                    <div class="sub-materi row">
+                      <div class="col-xs-10 px-0">
+                        <i class="fas fa-clipboard-list"></i>  <?php echo e($project->title); ?>
+
+                      </div>
+                      <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                          $cek = DB::table('project_section')
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                                  ->where('project_section.id', $project->id)
+                                  ->where('project_user.status', 2)
+                                  ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                                  ->first();
+                        
+                                  if($cek){        
+                          ?>
+                        <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </a >
+                </li>
+                <?php endforeach; ?>
+                </ul>
+               </div>
+              <?php }else{ ?>
+                <a disabled class="btn btn-primary float-right disable">Terkunci</a>
+              <?php } 
+              }
+            }?>           
               <?php $a++;?>
                   <?php endforeach; ?>
           </div>
@@ -93,17 +295,29 @@
               <div class="row box m-4">
                 <div class="col-xs-12">
                   <h6>Buat Pertanyaan</h6>
-                  <textarea class="form-control" name="pertanyaan" id="pertanyaan" cols="30" rows="10"></textarea>
-                  <br>
-                  <button class="btn btn-primary mb-2">Upload Gambar</button>
-                  <button class="btn btn-primary mb-2">Tambah Pertanyaan</button>
+                  <form id="form-comment" class="mb-25" enctype="multipart/form-data" method="POST">
+                        <?php echo csrf_field(); ?> 
+                        <?php echo e(method_field('POST')); ?>
+
+                        <input type="hidden" name="bootcamp_id" value="<?php echo e($bc->id); ?>">
+                        <input type="hidden" name="parent_id" value="0"> 
+                        <div class="form-group">
+                          <textarea style="white-space: pre-line" rows="8" cols="80" class="form-control" name="body" id="textbody0"></textarea>
+                        </div>
+                       
+                        <input class="inputfile" type="file" name="image" id="file" data-multiple-caption="{count} files selected" multiple="multiple"/>
+                        <label for="file"><i class="fa fa-upload"></i><span>Upload File</span></label>
+                       
+                      <button type="button" class="btn btn-primary upload-image" onclick="doComment(<?php echo e($bc->id); ?>, 0)">Tambah Pertanyaan</button> 
+                  </form><!--./ Comment Form -->
                 </div>
 
                 <hr class="mb-5">
 
                 <div class="col-xs-12">
-                  <hr>
-                  <span class="text-muted">Saat ini belum ada diskusi</span>
+                <div id="comments-lists">
+                    <p>Memuat Pertanyaan . . .</p>
+                </div>
                 </div>
 
               </div>
@@ -119,19 +333,20 @@
 
             <!-- THE VIDEO PLAYER -->
               <video id="player" playsinline controls>
-                
                 <source  src="" type="video/mp4">
               </video>
 
               <div class="player-end">
                 <div class="align-items-center">
                   <div class="col-xs-12 text-center">
-                    <h5>Anda telah menyelesaikan Why you should trust me your instructor</h5>
+                    <h5><?php echo e($materi->title); ?></h5>
                     <h6>Berikutnya Why you should take this course</h6>
                     <a
                         data-url="<?php echo e($materi->file_video); ?>"
                         data-title="<?php echo e($materi->title); ?>"
-                        onClick="changeVideo(this)"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onClick="changeVideo(this), saveHistory(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
                   </div>
@@ -144,7 +359,11 @@
       </div>
 
     </section>
-
+<script>
+ $(document).on('ready',function () {
+      $('#footer').addClass('hide')
+    });
+</script>
 
     <!-- JavaScript -->
     <script type="text/javascript" src="<?php echo e(asset('assets/js/jquery-2.2.1.min.js')); ?>"></script>
@@ -159,14 +378,15 @@
           $("#wrapper").addClass('toggled');
         }
       }
+     
 
       const controls = `<div class="video-header">
         <div class="col-xs-8">
-          Become a <?php echo e($bc->slug); ?> <br>
+          <?php echo e($bc->title); ?> <br>
         </div>
         <div class="col-xs-3 p-0">
           <a href="CourseSylabus.html">
-            <i class="fa fa-chevron-left"></i> Course Part 1 <?php echo e($course->title); ?>
+            <i class="fa fa-chevron-left"></i> Course Part <?php echo e($course->position); ?> <?php echo e($course->title); ?>
 
           </a>
         </div>
@@ -209,7 +429,17 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-        
+        <a
+            data-url="<?php echo e($materi->file_video); ?>"
+            data-title="<?php echo e($materi->title); ?>"
+            data-video_id="<?php echo e($materi->id); ?>"
+            data-section_id="<?php echo e($materi->section_id); ?>"
+            onClick="changeVideo(this), saveHistory(this)"
+            class="btn btn-next"
+        >
+            Lanjutkan <i class="fa fa-step-forward"></i>
+            <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
+        </a>
     </div>
     `;
 
@@ -257,15 +487,153 @@
         }]
       };
     }
-
-    function saveHistory(attr) {
-      let save = "127.0.0.1:8000/bootstrap/" + "<?php echo e($bc->slug); ?>" +
-          "/saveHistory?" +
-          "section_id=" + $(attr).data('section_id') +
-          "&video_id=" + $(attr).data('video_id');
-      console.log(save);
+    function getComments() {
+      $.ajax({
+          type    :'GET',
+          url     :'<?php echo e(url("bootcamp/coments/getComments/".$bc->id)); ?>',
+          success:function(data){
+            if (data == '') {
+              $('#comments-lists').html('Tidak Ada Pertanyaan');
+            }else {
+              $('#comments-lists').html(data);
+            }
+          }
+      });
     }
 
+    function doComment(bootcamp_id, parent_id) {
+    var body = $('#textbody'+parent_id).val();
+    var file_data = $('#file').prop("files")[0];
+    dataform = new FormData();
+    dataform.append( 'image', file_data);
+    dataform.append( 'body', body);
+    dataform.append( 'bootcamp_id', bootcamp_id);
+    dataform.append( 'parent_id', parent_id);
+
+    if (body == '') {
+      alert('Harap Isi form !')
+    }else {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax({
+          type    :"POST",
+          url     :'<?php echo e(url("/bootcamp/coments/doComment")); ?>',
+          data    : dataform,
+          dataType : 'json',
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+               swal({
+                title: "Memuat Pertanyaan",
+                text: "Mohon Tunggu sebentar Pertanyaan anda sedang dimuat",
+                imageUrl: "<?php echo e(asset('template/web/img/loading.gif')); ?>",
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            // Show image container
+          },
+          success:function(data){
+            if (data.success == false) {
+               window.location.href = '<?php echo e(url("member/signin")); ?>';
+            }else if (data.success == true) {
+              $('#textbody'+parent_id).val('');
+              $('.inputfile').each(function() {
+                var $input	 = $(this),
+                    $label	 = $input.next('label'),
+                    labelVal = $label.html();
+                    $label.find('span').html('Upload Image');
+              });
+              swal({
+                title: "Pertanyaan berhasil terkirim!",
+                showConfirmButton: true,
+                timer: 3000
+              });
+              
+              getComments();
+            }
+          }
+      });
+    }
+  }
+  function replyComment(bootcamp_id, parent_id) {
+    var body = $('#textbody'+parent_id).val();
+    var file_data = $('#file-2').prop("files")[0];
+    dataform = new FormData();
+    dataform.append( 'image', file_data);
+    dataform.append( 'body', body);
+    dataform.append( 'bootcamp_id', bootcamp_id);
+    dataform.append( 'parent_id', parent_id);
+
+    if (body == '') {
+      alert('Harap Isi form !')
+    }else {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax({
+          type    :"POST",
+          url     :'<?php echo e(url("/bootcamp/coments/doComment")); ?>',
+          data    : dataform,
+          dataType : 'json',
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+               swal({
+                title: "Memuat Pertanyaan",
+                text: "Mohon Tunggu sebentar Pertanyaan anda sedang dimuat",
+                imageUrl: "<?php echo e(asset('template/web/img/loading.gif')); ?>",
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            // Show image container
+          },
+          success:function(data){
+            if (data.success == false) {
+               window.location.href = '<?php echo e(url("member/signin")); ?>';
+            }else if (data.success == true) {
+              $('#textbody'+parent_id).val('');
+              $('.inputfile').each(function() {
+                var $input	 = $(this),
+                    $label	 = $input.next('label'),
+                    labelVal = $label.html();
+                    $label.find('span').html('Upload Image');
+              });
+              swal({
+                title: "Pertanyaan berhasil terkirim!",
+                showConfirmButton: true,
+                timer: 3000
+              });
+              
+              getComments();
+            }
+          }
+      });
+    }
+  }
+ 
+    function saveHistory(attr) {
+      let data = {
+        video_id: $(attr).data('video_id'),
+        section_id: $(attr).data('section_id')
+      };
+
+      // set base url for global usage
+      let loc = window.location;
+      let baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/bootcamp/";
+
+      // use ajax to access save query
+      $.ajax({
+        type: "GET",
+        url: baseUrl + '<?php echo e($bc->slug); ?>' +"/saveHistory",
+        data: data
+      });
+    }
+    
     $('.collap').click(function(e){
       var datatarget =  $(this).attr("href");
       var idtarget =  $(this).attr("id");
@@ -275,8 +643,12 @@
 
       $(datatarget).on('hidden.bs.collapse', function() {
         $('#'+idtarget+' i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-      });
+      }); 
     });
+
+    setInterval(function(){
+      getComments();
+    }, 5000); 
     </script>
 <?php $__env->stopSection(); ?>
 

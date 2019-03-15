@@ -9,7 +9,7 @@
         <div class="container">
           <div class="row">
             <div class="col-xs-12">
-              <h6 class="mb-5">Training to Become a <?php echo e($bc->slug); ?> / Couse Part 1</h6>
+              <h6 class="mb-5">Training to Become a <?php echo e($bc->title); ?> / Couse Part 1</h6>
               <h2 class="mb-4"><?php echo e($course->title); ?></h2>
               <h6>
                 <?php echo e($course->deskripsi); ?>
@@ -71,7 +71,8 @@
                    ->leftjoin('project_section', 'section.id', 'project_section.section_id')
                    ->leftjoin('project_user', function($join){
                     $join->on('project_section.id', '=', 'project_user.project_section_id')
-                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                    ->where('project_user.status', '2');})
                    ->leftjoin('history', function($join){
                       $join->on('video_section.id', '=', 'history.video_id')
                       ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
@@ -118,7 +119,7 @@
                     <div class="collapse" id="<?php echo e($section->id); ?>">
 
                       <ul class="lesson-detail">
-                        <?php
+                      <?php
                       foreach ($section->video_section as $key => $vs): ?>
                         <li>
                             <h4><i class="fas fa-play-circle"></i><?php echo e($vs->title); ?></h4>
@@ -148,8 +149,36 @@
                             </div>
                         </li>
                       <?php endforeach; ?>
-                      </ul>
+                      <!-- menambahkan code untuk memunculkan project -->
+                      <?php
+                      foreach ($section->project_section as $key => $ps): ?>
+                        <li>
+                            <h4><i class="fas fa-clipboard-list"></i><?php echo e($ps->title); ?></h4>
+                            <div class="row">
+                              <div class="col-xs-10">
+                                <?php echo e($ps->deskripsi_project); ?>  
+                              </div>
+                              <div class="col-sm-1 col-xs-2 p-0">
+                                <?php echo e($ps->durasi); ?>
 
+                              </div>
+                                <?php 
+                                  $cek = DB::table('project_section')
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                                  ->where('project_section.id', $ps->id)
+                                  ->where('project_user.status', 2)
+                                  ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                                  ->first();
+                                  if($cek){        
+                                    ?>
+                                    <i class="fa fa-check-circle"></i>
+                                  <?php }else{ ?>
+                                    <i class="fa fa-circle"></i>
+                                <?php } ?>
+                            </div>
+                        </li>
+                      <?php endforeach; ?>
+                      </ul>
                     </div>
                   </div>
                   <?php
@@ -178,7 +207,8 @@
                                     ->leftjoin('project_section', 'section.id', 'project_section.section_id')
                                     ->leftjoin('project_user', function($join){
                                     $join->on('project_section.id', '=', 'project_user.project_section_id')
-                                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                                    ->where('project_user.status', '2');})
                                     ->leftjoin('history', function($join){
                                       $join->on('video_section.id', '=', 'history.video_id')
                                       ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
