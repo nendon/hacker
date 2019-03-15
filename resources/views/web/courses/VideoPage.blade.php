@@ -62,7 +62,7 @@
                           ->select(DB::raw('sum(durasi) as total'))
                           ->first();
 
-                          echo "00:".gmdate("i:s", $totalmenit->total);
+                          echo gmdate("H:i:s", $totalmenit->total)  ;
                       ?>
                     </h6>
                   </div>
@@ -75,7 +75,7 @@
                 <?php
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
-                  <li> 
+                  <li>
                     <a
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
@@ -93,7 +93,7 @@
                           <!-- {{$materi->durasi}} -->
                            <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
                                 <?php 
-                                echo "00:".gmdate("i:s", $materi->durasi);
+                                echo gmdate("H:i:s", $materi->durasi);
                                 ?>
                           <?php 
                           $history = DB::table('video_section')
@@ -370,6 +370,7 @@
       $('#footer').addClass('hide')
     });
 </script>
+
     <!-- JavaScript -->
     <script type="text/javascript" src="{{asset('assets/js/jquery-2.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -491,7 +492,6 @@
         }]
       };
     }
-
     function getComments() {
       $.ajax({
           type    :'GET',
@@ -637,8 +637,6 @@
         url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
         data: data
       });
-      $( "#pills-materi" ).load(window.location.href + " #pills-materi" ); $( "#pills-materi" ).load(window.location.href + " #pills-materi" );
-
     }
     
     $('.collap').click(function(e){
@@ -656,6 +654,5 @@
     setInterval(function(){
       getComments();
     }, 5000); 
-    
     </script>
 @endsection()

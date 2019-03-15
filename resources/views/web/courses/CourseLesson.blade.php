@@ -10,7 +10,7 @@
         <div class="container">
           <div class="row">
             <div class="col-xs-12">
-              <h6 class="mb-5">Training to Become a {{$bc->title}} / Course Part {{$course->position}}</h6>
+              <h6 class="mb-5">{{$bc->title}} / Course Part {{$course->position}}</h6>
               <h2 class="mb-4">{{$course->title}}</h2>
               <h6>
                 {{$course->deskripsi}}
@@ -102,7 +102,7 @@
                               ->select(DB::raw('sum(durasi) as total'))
                               ->first();
 
-                              echo gmdate("i", $totalmenit->total)." Jam ".gmdate("s",$totalmenit->total)." Menit";
+                              echo gmdate("H", $totalmenit->total)." Jam ".gmdate("i", $totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik";
                           ?>
                          <!-- {{$totalmenit->total}} Jam 20 Menit -->
                         </div>
@@ -138,7 +138,7 @@
                               <div class="col-sm-1 col-xs-2 p-0">
                               <!-- menambahkan fungsi untuk mengubah durasi menit ke format -->
                                 <?php 
-                                echo gmdate("i:s", $vs->durasi).":00";
+                                echo gmdate("H:i:s", $vs->durasi);
                                 ?>
                               </div>
                               <div class="col-xs-1 p-0">
