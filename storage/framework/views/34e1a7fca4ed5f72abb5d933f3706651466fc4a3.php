@@ -38,7 +38,7 @@
           <div class="row">
 
             <div class="col-xs-12 mt-5">
-              <h3 class="my-5">Bootcamp Programming Terbaru</h3>
+              <h3 class="my-5">Bootcamp <?php echo e($bucat->title); ?> Terbaru</h3>
               
               <div class="slick2 mt-5">
                 <?php $__currentLoopData = $new; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -125,7 +125,7 @@
                         <i class="fa fa-user"></i> <?php echo e(count($has->bootcamp_member)); ?> Siswa
                       </li>
                       <li>
-                        <a href="#"> Selengkapnya</a>
+                        <a href="<?php echo e(url('bootcamp/'.$has->slug)); ?>"> Selengkapnya</a>
                       </li>
                     </ul>
                   </div>

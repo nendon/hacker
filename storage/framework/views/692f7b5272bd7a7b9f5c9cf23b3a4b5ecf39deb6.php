@@ -46,7 +46,7 @@
                       <input class="form-control" type="text" name="title" id="judul" value="<?php echo e($bootcamp->title); ?>" >
                     </div>
                     <div class="form-group">
-                      Sub Judul
+                      Sub Judul (Deskripsi Singkat)
                       <input class="form-control" type="text" name="subjudul" id="subjudul" value="<?php echo e($bootcamp->sub_title); ?>" >
                     </div>
                     <div class="form-group">
@@ -82,9 +82,30 @@
                       Promotional Video
                       <input class="form-control dropify" type="file" data-default-file="<?php echo e(asset($bootcamp->promote_video)); ?>" value="<?php echo e($bootcamp->promote_video); ?>"  id="video">
                     </div>
+                    Gambar Deskripsi Lengkap
+                      <input class="form-control dropify" type="file" data-default-file="<?php echo e(asset($bootcamp->picture_desk)); ?>" value="<?php echo e($bootcamp->picture_desk); ?>" id="picture_desk">
+                    </div>
                     <div class="form-group">
-                      Deskripsi Bootcamp
+                      Deskripsi Lengkap Bootcamp
                       <textarea class="form-control" type="text" id="desc"  cols="30" rows="10">  <?php echo e($bootcamp->deskripsi); ?></textarea>
+
+                    </div>
+                    <div class="form-group">
+                    Gambar Problem
+                      <input class="form-control dropify" type="file" data-default-file="<?php echo e(asset($bootcamp->picture_problem)); ?>" value="<?php echo e($bootcamp->cover); ?>" id="picture_problem">
+                    </div>
+                    <div class="form-group">
+                      Problem yang dipecahkan
+                      <textarea class="form-control" type="text" id="problem"  cols="30" rows="10">  <?php echo e($bootcamp->problem); ?></textarea>
+
+                    </div>
+                    <div class="form-group">
+                    Gambar alasan bootcamp
+                      <input class="form-control dropify" type="file" data-default-file="<?php echo e(asset($bootcamp->picture_alasan)); ?>" value="<?php echo e($bootcamp->picture_alasan); ?>" id="picture_alasan">
+                    </div>
+                    <div class="form-group">
+                      Kenapa belajar bootcamp ini ?
+                      <textarea class="form-control" type="text" id="alasan"  cols="30" rows="10">  <?php echo e($bootcamp->alasan); ?></textarea>
 
                     </div>
                     <button class="btn btn-green pull-right" onclick="saveDetail(<?php echo e($bootcamp->id); ?>)">+ Simpan</button>
@@ -103,6 +124,10 @@
                     <div class="form-group">
                       Preusite and Requirement
                       <input class="form-control" type="text" name="require" id="require" value="<?php echo e($bootcamp->pre_and_req); ?>" placeholder="Contoh: Harus memiliki Laptop dan Mikrotik" >
+                    </div>
+                    <div class="form-group">
+                      Link download Silabus
+                      <input class="form-control" type="text" name="silabus" id="silabus" value="<?php echo e($bootcamp->silabus); ?>" >
                     </div>
                     <button class="btn btn-green pull-right" onclick="saveDetail(<?php echo e($bootcamp->id); ?>)">+ Simpan</button>
                   </div>
@@ -154,16 +179,28 @@
       var subkat = $('#sub_kat_id').val();
       var kat = $('#kat_id').val();
       var desc = $('#desc').val();
+      var problem = $('#problem').val();
+      var alasan = $('#alasan').val();
+      var silabus = $('#silabus').val();
       var file_data = $('#cover').prop("files")[0];
       var file_video = $('#video').prop("files")[0];
+      var file_problem = $('#picture_problem').prop("files")[0];
+      var file_alasan= $('#picture_alasan').prop("files")[0];
+      var file_desk = $('#picture_desk').prop("files")[0];
       var target = $('#target').val();
       var req = $('#require').val();
 
       dataform = new FormData();
       dataform.append( 'image', file_data);
       dataform.append( 'video', file_video);
+      dataform.append( 'file_problem', file_problem);
+      dataform.append( 'file_alasan', file_alasan);
+      dataform.append( 'file_desk', file_desk);
       dataform.append( 'title', title);
       dataform.append( 'desc', desc);
+      dataform.append( 'problem', problem);
+      dataform.append( 'alasan', alasan);
+      dataform.append( 'silabus', silabus);
       dataform.append( 'subjud', subjud);
       dataform.append( 'subkat', subkat);
       dataform.append( 'kat', kat);

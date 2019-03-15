@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap.min.css')); ?>">
+   <!--  <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap.min.css')); ?>"> -->
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">    
     <!-- Font OpenSans Reguler -->
@@ -100,9 +100,6 @@
             <a class="nav-link" id="pills-kurikulum-tab" data-toggle="pill" href="#pills-kurikulum" role="tab" aria-controls="pills-kurikulum" aria-selected="true">Kurikulum</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-learning-tab" data-toggle="pill" href="#pills-learning" role="tab" aria-controls="pills-learning" aria-selected="false">Course Overview</a>
-          </li>
-          <li class="nav-item">
               <a class="nav-link" id="pills-learning-tab" data-toggle="pill" href="#pills-learning" role="tab" aria-controls="pills-learning" aria-selected="false">File Praktek</a>
           </li>
           <li class="nav-item">
@@ -120,12 +117,38 @@
             <div class="tab-pane fade active in" id="pills-kurikulum" role="tabpanel" aria-labelledby="pills-kurikulum-tab">
               <ul class="timelines">
                 <?php
-                     $i = 1;
+                     $i =1;
                      foreach ($cs as $key => $courses): 
                       ?>
 
                   <li>           
-                      <div class="timelines-number"><?php echo $i; ?></div>
+                      <div class="timelines-number"><?php echo $i; 
+                       DB::table('course')->where('course.id',$courses->id)
+                        ->update([
+                         'position' => $i,
+                       ]);
+                      $valid = DB::table('course')
+                        ->join('section', 'course.id', 'section.course_id')
+                        ->join('video_section', 'section.id','video_section.section_id')
+                        ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                        ->leftjoin('project_user', function($join){
+                        $join->on('project_section.id', '=', 'project_user.project_section_id')
+                        ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                        ->where('project_user.status', '2');})
+                        ->leftjoin('history', function($join){
+                          $join->on('video_section.id', '=', 'history.video_id')
+                          ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                        ->where('course.id', $courses->id)
+                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                        ->groupby('course.id', 'course.position')
+                        ->first();
+
+                        
+                            $persen = 0;
+                            $persen = number_format($valid->hasil / $valid->project*100); 
+                         
+
+                      ?></div>
                       <div class="timelines-content">
                         <div class="row row-eq-height box p-0">
                           
@@ -135,21 +158,25 @@
                           <?php } else {?>
                           <div class="col-sm-4 col-xs-12 p-0" style="background: url(<?php echo e(asset('template/web/img/no-image-available.png')); ?>);background-size:cover;min-height: 250px"></div>
                           <?php }?> 
-                          
+                          <?php
+                              ?>
                           <div class="col-sm-8 col-xs-12">
 
                             <div class="row mt-3">
                               <div class="col-xs-6">
                                 <h5>Course Part <?php echo $i; ?></h5> <?php $i++;?>
                               </div>
+                             
                               <div class="col-xs-5 mt-4">
                                   <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: <?php echo e($persen); ?>%" aria-value ="0" aria-valuemin="0" aria-valuemax="100"></div>
                                   </div>
                               </div>
                               <div class="col-xs-1 p-0 pt-2">
-                                0%
+                              <?php echo e($persen); ?>%
                               </div>
+                             
+
                             </div>
                               
                             <br>
@@ -165,25 +192,83 @@
                             <small class="text-muted"><?php echo e($course->estimasi); ?> Jam </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline 2 Hari</small>
                                 
                             <br><br>
+                            <?php
+                            
+                              $n = $valid->posisi;
+                              $sect = $valid->section;
 
-                            <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id)); ?>" class="btn btn-primary mb-4">Mulai Belajar</a>
+                              ?>
+                            <?php 
+                        if($valid->project == $valid->hasil)    {   ?> 
+                            <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id)); ?>" class="btn btn-primary  float-right mb-4">Selesai Belajar</a>
+                        <?php }else{
+                        
+                          if($valid->posisi == '1'){ ?>
+                            <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id)); ?>" class="btn btn-primary  float-right mb-4">Mulai Belajar</a>
+                          <?php }else{
+                            $n = $valid->posisi-1;
+                            $sect = $valid->section-1;
+                            
+                            $lihat = DB::table('course')
+                                    ->join('section', 'course.id', 'section.course_id')
+                                    ->join('video_section', 'section.id','video_section.section_id')
+                                    ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                                    ->leftjoin('project_user', function($join){
+                                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+                                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                                    ->where('project_user.status', '2');})
+                                    ->leftjoin('history', function($join){
+                                      $join->on('video_section.id', '=', 'history.video_id')
+                                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->where('course.id', $sect)->where('course.position', $n)
+                                    ->select('course.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                                    ->groupby('course.id')
+                                    ->first();
+                                  
+                            if($lihat->project == $lihat->hasil){ 
+                              if(!$exp){
+                              ?>
+                            <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id)); ?>" class="btn btn-primary  float-right mb-4">Mulai Belajar</a>
+                            <?php 
+                              }else{ ?>
+                            <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/courseLesson/'.$courses->id)); ?>" class="btn btn-primary  float-right mb-4">Retake</a>
+                           <?php     
+                              }
+                          }else{ ?>
+                        <a disabled class="btn btn-primary float-right disable">Belum Terbuka</a>
+
+                         
+                            <?php }
+                        }
+                        
+                        }
+                         ?>
                           </div>
                         </div>
                       </div>
                           
-                          <?php endforeach; ?>
+                          <?php 
+                       
+                        endforeach; ?>
                   </li>
                   </ul>
             </div>
   
-            <!-- Tab Course Overview -->
+  
+          
+            <!-- Tab File Praktek List materi praktek -->
             <div class="tab-pane fade" id="pills-learning" role="tabpanel" aria-labelledby="pills-learning-tab">
+              <ul class="materi_list">
+              <?php $__currentLoopData = $lampiran; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $lampiran): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <li>
+                  <strong><?php echo e($lampiran->nama); ?></strong>
+                  <span class="pull-right"><a href="<?php echo e($lampiran->file); ?>" class="btn btn-info btn-md" download><i class="fa fa-download"></i>Download</a></span>
+                  <p><?=nl2br($lampiran->deskripsi);?></p>
+                </li>
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+              </ul>
             </div>
-
-            <!-- Tab File Praktek -->
-            <div class="tab-pane fade" id="pills-learning" role="tabpanel" aria-labelledby="pills-learning-tab">
-            </div>
-
+ 
             <!-- Tab Diskusi -->
             <div class="tab-pane fade" id="pills-diskusi" role="tabpanel" aria-labelledby="pills-diskusi-tab">
               <div class="row box">

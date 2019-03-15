@@ -49,7 +49,7 @@
 
             <?php $__currentLoopData = $user_project; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
-              <td><img src="<?php echo e(asset($user->member->avatar)); ?>"class="img-table img-responsive" alt=""> <?php echo e($user->member->username); ?></td>
+              <td><img src="<?php echo e(asset($user->avatar)); ?>"class="img-table img-responsive" alt=""> <?php echo e($user->username); ?></td>
               <td><?php echo e($user->komentar_user); ?></td>
               <td><?php echo e(date("jS F Y", strtotime($user->created_at))); ?></td>
               <?php if($user->status == 0): ?>
@@ -59,39 +59,18 @@
               <?php elseif($user->status == 2): ?>
               <td><span class="c-green">Lulus</span></td>
               <?php endif; ?>
-              <td><a href="<?php echo e(url('contributor/project/submit/'.$user->project_section_id.'/detail/'.$user->id)); ?>" class="btn btn-green"><i class="fa fa-eye"></i> Lihat</a></td>
+              <td><a href="<?php echo e(url('contributor/project/submit/'.$user->section_id.'/detail/'.$user->id)); ?>" class="btn btn-green"><i class="fa fa-eye"></i> Lihat</a></td>
             </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
           </table>
         </div>
-
+        <!-- pagination link project submit yang ditambahkan -->
         <div class="row">
-          <div class="col-sm-6 col-xs-12">
-            <b>Halaman 1 dari 5</b>
-          </div>
+          <div class="col-md-12 text-center">
+            <?php echo e($user_project->links()); ?>
 
-          <div class="col-sm-6 col-xs-12 text-right">
-            <nav aria-label="Page navigation">
-              <ul class="pagination m-0">
-                <li>
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true"><i class="fa fa-chevron-left"></i></span>
-                  </a>
-                </li>
-                <li><a href="#">1</a></li>
-                <li class="active"><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true"><i class="fa fa-chevron-right"></i></span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
         </div>
 

@@ -28,7 +28,7 @@ class WaitingNotifMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Notification From Cilsy Fiolution')
+        return $this->subject('Pesan Anda berhasil di posting!')
                     ->view('mail.waiting_mail');
     }
 }
