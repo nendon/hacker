@@ -187,29 +187,21 @@
                             </h6>
 
                             <br>
-                            <!-- Menambahkan code untuk pembagian deadline percourse -->
                             <?php
-                              $dead = $bc->course->count();
-                              $line = $deadline ;
-                              if ($persen == 100) {
-                                $deadlines = 0;
-                              }else{
-                                 $done = $dead - 1;
-                                $deadlines = $line / $done;
-
-                              }
-                             
+                              $totalmenit = DB::table('course')
+                              ->join('section', 'course.id', 'section.course_id')
+                              ->join('video_section', 'section.id','video_section.section_id')
+                              ->where('course.id', $courses->id)
+                              ->select(DB::raw('sum( DISTINCT video_section.durasi) as durasi'))
+                              ->first();
+                              echo gmdate("H", $totalmenit->durasi)." Jam ".gmdate("i", $totalmenit->durasi)." Menit ".gmdate("s", $totalmenit->durasi)." Detik";
                             ?>
-                            <!-- Membulatkan hasil pembagian deadline -->
-                            <small class="text-muted">{{$courses->estimasi}} Hari </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline <?php 
-                            if($deadlines == 0 ){
-                              echo "Expired"; 
-                            }else{
-                              $nilai = $deadlines; 
-                              $bulatkan = round($nilai);
-                              echo "$bulatkan  Hari";
-                            }
-                            ?></small>
+                            <small class="text-muted"> 
+                              
+                            </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline {{$courses->estimasi}} Hari
+                           
+                              
+                            </small>
                             
                                 
                             <br><br>
