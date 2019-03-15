@@ -34,7 +34,7 @@
 
               <div class="kategori">
                 @foreach($boot as $boots)
-                <a href="{{url('browse/bootcamp/'.$boots->slug)}}" style="text-decoration:none;">
+               <a href="{{url('bootcamp/'.$boots->slug)}}" style="text-decoration:none; color:black;">
                 <div>
                   <div class="kotak" style="background:url({{asset($boots->cover)}}); background-size:cover;">
                     <h4 style="font-weight: bold';">{{$boots->title}}</h4>
@@ -55,7 +55,7 @@
                     {!! nl2br($key->meta_desc) !!}
               </p>
 
-              <div class="programming ">
+              <div class="programming" width="0px">
                 @foreach($key->bootcamp as $result)
                 <a href="{{url('bootcamp/'.$result->slug)}}" style="text-decoration:none; color:black;">                
                 <div>

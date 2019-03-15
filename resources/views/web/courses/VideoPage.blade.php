@@ -62,7 +62,7 @@
                           ->select(DB::raw('sum(durasi) as total'))
                           ->first();
 
-                          echo gmdate("i:s", $totalmenit->total).":00";
+                          echo "00:".gmdate("i:s", $totalmenit->total);
                       ?>
                     </h6>
                   </div>
@@ -93,7 +93,7 @@
                           <!-- {{$materi->durasi}} -->
                            <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
                                 <?php 
-                                echo gmdate("i:s", $materi->durasi).":00";
+                                echo "00:".gmdate("i:s", $materi->durasi);
                                 ?>
                           <?php 
                           $history = DB::table('video_section')
@@ -345,7 +345,7 @@
               <div class="player-end">
                 <div class="align-items-center">
                   <div class="col-xs-12 text-center">
-                    <h5>{{$materi->title}}</h5>
+                    <h5>{{$vsection->title}}</h5>
                     <h6>Berikutnya Why you should take this course</h6>
                     <a
                         data-url="{{$materi->file_video}}"
