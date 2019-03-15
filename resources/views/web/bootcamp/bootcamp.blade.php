@@ -179,18 +179,27 @@
                               <li>
                                 <div class="lesson-number">Lesson <h3 class="m-0"><?php echo $no; ?></h3></div>
                                 <div class="lesson-content">
-                                <h4>{{$sections->title}}</h4>
-                                <p class="mb-5">
-                                  {{$sections->deskripsi}}
-                                </p>
-                                <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt=""> {{ count($sections->video_section) }} Video (Total min), {{ count($sections->project_section) }} Projek
+                                  <h4>{{$sections->title}}</h4>
+                                    <p class="mb-5">
+                                      {{$sections->deskripsi}}
+                                    </p>
+                                    <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt=""> {{ count($sections->video_section) }} Video (<?php 
+                                        $totalmenit = DB::table('video_section')
+                                        ->where('section_id', $sections->id)
+                                        ->select(DB::raw('sum(durasi) as total'))
+                                        ->first();
+                                        $convert = $totalmenit->total / 60;
+                                        if ($convert > 0) {
+                                          $hasil = round($convert);
+                                          echo "$hasil Menit";
+                                        }
+                                    ?>), {{ count($sections->project_section) }} Projek
                                 </div>
                                 <?php 
                                   $no++;
                                   endforeach; 
                                 ?>
                               </li>
-
                           </ul>
                         </div>
                     </div>
