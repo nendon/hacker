@@ -482,6 +482,6 @@
 
     setInterval(function(){
       getComments();
-    }, 20000);
+    }, 10000);
     </script>
 @endsection()
