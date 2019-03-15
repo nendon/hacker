@@ -53,7 +53,7 @@ class UserNotifProject extends Notification
                     ->subject(sprintf('Project Anda telah dikirim untuk Bootcamp %s', $this->bootcamp->title))
                     ->greeting(sprintf('Hello %s', $this->member->username))
                     ->line('Harap menunggu dalam 1x24 jam untuk mendapatkan hasilnya dari pemeriksaan Instruktur. Apabila di ACC oleh instruktur, maka Anda bisa melanjutkan pembelajaran ke materi berikutnya. Apabila di tolak, maka Anda bisa kerjakan ulang dan submit ulang sesuai hasil komentar yang diberikan oleh Instruktur.')
-                    ->action('lihat lengkapnya', $url)
+                    ->action('lihat Dashboard', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami! Anda akan mendapatkan pemberitahuannya melalui email.');
     }
 

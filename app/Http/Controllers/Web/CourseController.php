@@ -255,8 +255,8 @@ class CourseController extends Controller
                   ->where('section.id', $lesson->section_id)->first();
             $bootcamp = Bootcamp::Find($bc->bootcamp_id ); 
             $contrib = Contributor::find($bc->contributor_id);
-            $contrib->notify(new UserProject($member, $lesson, $bootcamp, $contrib));
-            $member->notify(new UserNotifProject($member, $lesson, $bootcamp, $contrib));
+            $contrib->notify(new UserProject($member, $lesson,$bootcamp, $contrib));
+            $member->notify(new UserNotifProject($member,  $bootcamp, $lesson, $contrib));
 
         }
         echo json_encode($response);
