@@ -62,7 +62,7 @@
                           ->select(DB::raw('sum(durasi) as total'))
                           ->first();
 
-                          echo gmdate("H:i:s", $totalmenit->total)  ;
+                          echo gmdate("H:i:s", $totalmenit->total);
                       ?>
                     </h6>
                   </div>
