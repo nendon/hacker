@@ -34,7 +34,7 @@
 
               <div class="kategori">
                 @foreach($boot as $boots)
-               <a href="{{url('bootcamp/'.$boots->slug)}}" style="text-decoration:none; color:black;">
+               <a href="{{url('browse/bootcamp/'.$boots->slug)}}" style="text-decoration:none; color:black;">
                 <div>
                   <div class="kotak" style="background:url({{asset($boots->cover)}}); background-size:cover;">
                     <h4 style="font-weight: bold';">{{$boots->title}}</h4>
