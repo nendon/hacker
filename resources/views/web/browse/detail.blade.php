@@ -1,4 +1,4 @@
-@extends('web.app')
+ @extends('web.app')
 @section('title','Browse Bootcamp')
 <link rel="stylesheet" href="{{asset('css/halaman.css')}}">
 {{--  <link rel="stylesheet" href="{{asset('css/slick.css')}}">  --}}

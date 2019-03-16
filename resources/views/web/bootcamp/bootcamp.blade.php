@@ -137,7 +137,24 @@
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi {{$target->target}} Hari</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> Projek</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{$bca->course->count()}}  Course</li>
-                <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt="">120 Jam Video</li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt="">
+                   <?php
+                    foreach ($course as $key => $courses):
+                      foreach ($courses->section as $key => $sections): 
+                        $totaljam = DB::table('video_section')
+                        ->where('section_id', $sections->id)
+                        ->select(DB::raw('sum(durasi) as total'))
+                        ->first();
+                        $convert = $totaljam->total / 3600;
+                        if ($convert > 0) {
+                          $hasil = round($convert);
+                          $hasil++;
+                        }
+                      endforeach;
+                    endforeach;  
+                      echo "$hasil Jam Video";
+                    ?>
+                </li>
               </ul>
               <a href="{{$bca->silabus}}" class="btn btn-blue">Download Silabus</a>
 
