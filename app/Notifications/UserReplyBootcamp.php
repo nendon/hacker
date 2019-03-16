@@ -49,8 +49,8 @@ class UserReplyBootcamp extends Notification
         return (new MailMessage)
                     ->subject('Anda Menerima pesan baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Pesan Anda telah mendapatkan balasan baru pada Bootcamp %s,  Silahkan klik tombol dibawah ini untuk membukanya',$this->member->username, $this->lesson->title))
-                    ->action('Balas Komentar', $url)
+                    ->line('Pesan Anda telah mendapatkan balasan baru. Silahkan klik tombol dibawah ini untuk membukanya.')
+                    ->action('Balas Pesan', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 

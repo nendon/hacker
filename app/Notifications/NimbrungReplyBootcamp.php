@@ -49,8 +49,8 @@ class NimbrungReplyBootcamp extends Notification
         return (new MailMessage)
                     ->subject('Anda menerima Pesan Baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Halo, %s Pesan Anda telah mendapatkan balasan baru. Silahkan klik tombol dibawah ini untuk membukanya di bootcamp %s,', $this->member->username, $this->lesson->title))
-                    ->action('Balas Komentar', $url)
+                    ->line('Pesan Anda telah mendapatkan balasan baru. Silahkan klik tombol dibawah ini untuk membukanya.')
+                    ->action('Balas Pesan', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 
