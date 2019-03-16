@@ -2,7 +2,9 @@
 @section('title','Browse Bootcamp')
 {{--  <link rel="stylesheet" href="{{asset('css/slick.css')}}">  --}}
 <style>
-        
+a.divlink { 
+ width:25%px;
+}        
 </style>
 @section('content')
 <!-- Main -->
@@ -56,14 +58,14 @@
               </p>
 
               <div class="programming" width="0px">
-                @foreach($key->bootcamp as $result)
-                <a href="{{url('bootcamp/'.$result->slug)}}" style="text-decoration:none; color:black;">                
+                @foreach($key->bootcamp as $result)                
                 <div>
+                  <a href="{{url('bootcamp/'.$result->slug)}}" class="divlink" style="text-decoration:none; color:black;">
                   <div class="card">
                     <div class="label">
                       Bootcamp
                     </div>
-                    <img src="{{asset($result->cover)}}" class="card-img-top img-responsive" alt="..." style="background-size:cover;">
+                    <img src="{{asset($result->cover)}}" class="card-img-top img-responsive" alt="" style="background-size:cover;">
                     <div class="card-body">
                       <div class="card-author">
                         <img src="{{asset($result->contributor->avatar)}}" class="img-author" alt="">
@@ -88,8 +90,8 @@
                       </ul>
                     </div>
                   </div>
+                 </a>
                 </div>
-                </a>
                 @endforeach()
               </div>
             </div>
