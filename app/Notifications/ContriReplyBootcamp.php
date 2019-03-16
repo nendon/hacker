@@ -45,12 +45,12 @@ class ContriReplyBootcamp extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/Bootcamp/'.$this->lesson->slug.'/courseSylabus');
+        $url = url('/bootcamp/'.$this->lesson->slug.'/courseSylabus');
         return (new MailMessage)
                     ->subject('Anda menerima Pesan baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
                     ->line(sprintf('Pesan Anda telah mendapatkan balasan baru. %s Kontributor telah membalas anda pada bootcamp %s,',$this->member->username, $this->lesson->title))
-                    ->action('Balas Komentar', $url)
+                    ->action('Balas Pesan', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 
