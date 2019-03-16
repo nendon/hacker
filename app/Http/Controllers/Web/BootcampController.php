@@ -324,11 +324,13 @@ class BootcampController extends Controller
                     $contrib = Contributor::find($bootcamp->contributor_id);
                     $contrib->notify(new UserCommentBootcamp($member, $comment, $contrib, $bootcamp));
                     
-                    $response['success'] = true;
+
                 // }
             }
+            $response['success'] = true;
          }
         }
+        
         echo json_encode($response);
     }
 
