@@ -265,6 +265,13 @@ class ComentsController extends Controller
            
      
         }
+           
+            $member = Member::Find($notify->member_id);
+            $lessonn = Bootcamp::find($lesson_id);
+            $contrib = Contributor::find($lessons->contributor_id);
+            $member->notify(new ContriReplyBootcamp($member, $lessonn, $contrib));
+
+        
       
 
         $check=DB::table('comments_bootcamp')->where('parent_id',$comment_id)->get();
