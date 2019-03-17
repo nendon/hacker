@@ -377,6 +377,7 @@
     <script>
     $(document).on('ready',function () {
           $('#footer').addClass('hide')
+          getComments();
         });
     </script>
     <script>
@@ -583,8 +584,6 @@
     }
   }
 
-  setInterval(function(){
-      getComments();
-    }, 5000); 
+
     </script>
 @endsection()

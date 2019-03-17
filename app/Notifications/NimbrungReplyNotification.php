@@ -50,7 +50,7 @@ class NimbrungReplyNotification extends Notification
                     ->subject('Notification From Cilsy Fiolution')
                     ->greeting(sprintf('Hello %s', $this->member->username))
                     ->line(sprintf('Halo, %s Ada tanggapan dari komentar kamu di %s,', $this->member->username, $this->lesson->title))
-                    ->action('Balas Komentar', $url)
+                    ->action('Balas Pesan', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 

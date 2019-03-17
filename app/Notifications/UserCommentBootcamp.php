@@ -59,9 +59,9 @@ class UserCommentBootcamp extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->subject(sprintf('Pesan baru dari Murid Anda di Bootcamp %s', $this->lesson->title))
                     ->greeting(sprintf('Hello %s', $this->contrib->first_name))
-                    ->line(sprintf('User dengan nama %s telah berkomentar pada bootcamp %s, Harap untuk segera memberikan jawaban maksimal dalam 1x24 jam agar masalah mereka dapat segera teratasi.
+                    ->line(sprintf('Murid Anda yang bernama %s telah mengirimkan pesan baru untuk Bootcamp %s, Harap untuk segera memberikan jawaban maksimal dalam 1x24 jam agar masalah mereka dapat segera teratasi.
                     ', $this->member->username, $this->lesson->title))
-                    ->action('Balas Komentar', $url)
+                    ->action('Balas Pesan', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
 
