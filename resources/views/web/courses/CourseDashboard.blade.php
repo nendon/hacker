@@ -1,5 +1,5 @@
 @extends('web.app')
-@section('title','Dashboard')
+@section('title','Dashboard Belajar Saya')
 @section('content')
     <!-- Main -->
     <main>

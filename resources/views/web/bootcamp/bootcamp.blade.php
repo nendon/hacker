@@ -149,6 +149,8 @@
                         if ($convert > 0) {
                           $hasil = round($convert);
                           $hasil++;
+                        }else{
+                          $hasil = 0;
                         }
                       endforeach;
                     endforeach;  
@@ -209,6 +211,9 @@
                                         if ($convert > 0) {
                                           $hasil = round($convert);
                                           echo "$hasil Menit";
+                                        }else{
+                                          $hasil = 0;
+                                          echo "$hasil";
                                         }
                                     ?>), {{ count($sections->project_section) }} Projek
                                 </div>

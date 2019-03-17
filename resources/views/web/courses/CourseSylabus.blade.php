@@ -1,5 +1,5 @@
 @extends('web.app')
-@section('title','Silabus')
+@section('title','Silabus Bootcamp - '.$bc->title)
 @section('content')
 <!doctype html>
 <html lang="en">

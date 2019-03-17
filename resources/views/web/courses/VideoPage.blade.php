@@ -1,5 +1,5 @@
 @extends('web.app')
-@section('title','')
+@section('title','Belajar Course '.$course->title.' - '.$bc->title)
 @section('content')
     <section id="wrapper">
 
