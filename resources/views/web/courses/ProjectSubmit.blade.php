@@ -350,22 +350,35 @@
             </div>
             
             <div class="row px-5 pt-4">
-              {{--  <div class="w-100 px-5 py-4">
-                  <i class="fa fa-check-circle c-blue"></i> Selamat Anda telah lolos dalam Final Projek Course Linux Fundamental <a href="{{ url('Bootcamp/ProjectView') }}" class="btn btn-outline-primary">Lihat Hasil Preview</a>
-              </div>  --}}
+            @if($projectUser)
+              @if($projectUser->status == 2)
+              <div class="w-100 px-5 py-4">
+                  <i class="fa fa-check-circle c-blue"><b> Selamat Anda Lolos dalam project lessons {{$sec->title}}</b></i>  <a href="{{ url('bootcamp/projectView/'.$sec->id) }}" class="btn btn-outline-primary">Lihat Hasil Preview</a>
+              </div> 
+              @elseif($projectUser->status == 0)
+              <div class="w-100 px-5 py-4">
+                  <i class="fa fa-circle ml-2"></i><b> Project anda sedang di review oleh Instruktur dan Team Project Review</b> <a href="{{ url('bootcamp/projectView/'.$sec->id) }}" class="btn btn-outline-primary">Batal Submission</a>
+              </div> 
+              @else
+              <div class="w-100 px-5 py-4">
+                  <i class="fa fa-check-circle c-red"><b> Maaf anda belum berhasil dalam project lessons {{$sec->title}}. Mohon upload ulang project agar bisa melanjutkan</b></i>  <a href="{{ url('bootcamp/projectView/'.$sec->id) }}" class="btn btn-outline-primary">Lihat Hasil Preview</a>
+              </div> 
+              @endif
+            @endif
               <div class="col-xs-12">
                   <h3>{{$project->title}}</h3>
 
                   <h4><b>Instruksi: <br/></b><br/> {{$project->instruksi}}</h4>
                   <br/>
                   <br/>
-                  <input type="file" id="file" name="file">
+                  <div id="komen">
+                  <input type="file" id="files" name="files">
                   
                   <h5>Komentar</h5>
                   <textarea class="form-control" name="komentar" id="komentar" cols="100" rows="2"></textarea>
                   
                   <button class="btn btn-primary my-4" onclick="saveProject({{ $project->id}})">Submit Projek</button>
-                  
+                  </div>
               </div>
             </div> 
           </div>
@@ -379,6 +392,8 @@
           $('#footer').addClass('hide')
           getComments();
         });
+
+  
     </script>
     <script>
       
@@ -407,7 +422,7 @@
     //fungsi untuk save project
     function saveProject(project_id) {
       var body = $('#komentar').val();
-      var file_data = $('#file').prop("files")[0];
+      var file_data = $('#files').prop("files")[0];
       dataform = new FormData();
       dataform.append( 'file', file_data);
       dataform.append( 'body', body);
@@ -450,6 +465,8 @@
                   timer: 3000
                 });
               }
+
+              $('#komen').addClass('hide');
             }
         });
       }
@@ -583,7 +600,6 @@
       });
     }
   }
-
-
+  
     </script>
 @endsection()

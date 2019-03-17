@@ -207,7 +207,8 @@ class CourseController extends Controller
         $course = Course::where('id',$sect->course_id)->first();
         
         $project = ProjectSection::where('section_id', $id)->first();
-        // dd($psection);
+        $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->first();
+
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
 
         if(!$tutor){
@@ -220,7 +221,9 @@ class CourseController extends Controller
             'psection' => $psection,
             'vsection' => $vsection,
             'project' => $project,
+            'sec' =>$sect,
             'course' =>$course ,
+            'projectUser' => $projectUser,
 
         ]);
     }

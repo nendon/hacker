@@ -31,32 +31,32 @@
                 <ul class="project-preview">
                   <li>
                     1. OS dan Instalasi: Ubuntu 16.04
-                    <ul>
+                    <!-- <ul>
                       <li>Link Download dimana dan langkah-langkah untuk membuat USB booting</li>
                       <li>Partisi/100gb/home1TB,swap 2GB</li>
                       <li>Dual boot dengan windows 7</li>
-                    </ul>
+                    </ul> -->
                   </li>
                   <li>
                     2. Topologi dan jaringan
-                    <ul>
+                    <!-- <ul>
                       <li>Desain topologi dan alokasi ip nya serta bagaimana agar koneksi ke internet</li>
                       <li>Bagaimana langkah mengkoneksikannya ke jaringan kabel agar seluruhnya terhubung</li>
-                    </ul>
+                    </ul> -->
                   </li>
                   <li>
                     3. Apps
                     <ul>
-                      <li>
+                      <!-- <li>
                         Instalasi pengganti Photoshop, Microsoft office dan Corel Draw semuanya melalui CLI
-                      </li>
+                      </li> -->
                     </ul>
                   </li>
                   <li>
                     4. CLI
-                    <ul>
+                    <!-- <ul>
                       <li>Buatkan 1 folder berisi text welcome.txt di folder /home yang berisi : Selamat datang di Ubuntu kami!. Semuanya harus pake CLI</li>
-                    </ul>
+                    </ul> -->
                   </li>
                 </ul>
 

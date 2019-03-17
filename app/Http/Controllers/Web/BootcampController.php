@@ -36,6 +36,8 @@ use App\Models\Comment;
 use App\Models\Cart;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
+use App\Models\ProjectSection;
+use App\Models\ProjectUser;
 use Validator;
 class BootcampController extends Controller
 {
@@ -69,6 +71,15 @@ class BootcampController extends Controller
             'cart' => $cart,
             'tanggal' => $myFormatForView,
             'main_course' => $main_course,
+        ]);
+    }
+    public function projectView($id)
+    {
+        $project = ProjectSection::where('section_id', $id)->first();
+        $projectUser = ProjectUser::where('project_section_id', $project->id)->first();
+        return view('web.courses.ProjectView',[
+            'project' => $project,
+            'projectUser' => $projectUser,
         ]);
     }
     public function member()
