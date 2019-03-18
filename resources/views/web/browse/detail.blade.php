@@ -4,7 +4,11 @@
 {{--  <link rel="stylesheet" href="{{asset('css/slick.css')}}">  --}}
 <link rel="stylesheet" href="{{asset('css/slick-theme.css')}}">
 <style>
-        
+/* a.divlink { 
+   display:block;
+   width:200%;
+   float:left;
+}     */
 </style>
 @section('content')
     <main>
@@ -43,6 +47,7 @@
               <div class="slick2 mt-5">
                 @foreach($new as $news)
                 <div>
+                  <a href="{{url('bootcamp/'.$news->slug)}}" >
                   <div class="row box sm-flex p-0 mx-0">
                     <div class="col-sm-4 col-xs-12 p-0 preview" style="background: url({{asset($news->cover)}});background-size:cover;">
                       <div class="label">
@@ -80,6 +85,7 @@
                       </div>
                     </div>
                   </div>
+                  </a>
                 </div>
                 @endforeach()
               </div>

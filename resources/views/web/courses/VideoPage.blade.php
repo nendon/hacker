@@ -90,7 +90,7 @@
                         </div>
                         <!-- mengubah col-xs-2 jadi 0 -->
                         <div class="col-xs-0 px-0 text-right">
-                          <!-- {{$materi->durasi}} -->
+                          <!-- yang ini kak -->
                            <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
                                 <?php 
                                 echo gmdate("H:i:s", $materi->durasi);
@@ -348,12 +348,16 @@
                     <?php 
                       $count = 0;
                       $next = DB::table('video_section')
-                      ->where('id',$vsection->section_id)
+                      ->where('section_id',$vsection->section_id)
+                      ->where('id', $vsection->id)
                       ->get();
-                      echo "<h5>$vsection->title</h5>";
                       foreach ($next as $key => $value) :
-                      if ($count==2) break;
-                      echo "<h6>Berikutnya $value->title</h6>";
+                      if ($count == 1) {
+                        echo "<h6>Berikutnya $value->title</h6>";
+                      }else{
+                        echo "<h5>$value->title</h5>";
+                      }
+                      if ($count==1)break; 
                       $count++;
                       endforeach;
                     ?>
