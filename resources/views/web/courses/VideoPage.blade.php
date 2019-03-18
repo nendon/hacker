@@ -93,7 +93,7 @@
                           <!-- yang ini kak -->
                            <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
                                 <?php 
-                                echo gmdate("H:i:s", $materi->durasi);
+                                  echo gmdate("H:i:s", $materi->durasi);
                                 ?>
                           <?php 
                           $history = DB::table('video_section')
@@ -160,7 +160,9 @@
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
                         </div>
                         <div class="col-xs-2 px-0 text-right">
-                          {{$materi->durasi}}
+                          <?php 
+                            echo gmdate("H:i:s", $materi->durasi);
+                          ?>
                           <?php 
                           $history = DB::table('video_section')
                           ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
@@ -242,7 +244,9 @@
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
                         </div>
                         <div class="col-xs-2 px-0 text-right">
-                          {{$materi->durasi}}
+                          <?php 
+                            echo gmdate("H:i:s", $materi->durasi);
+                          ?>
                           <?php 
                           $history = DB::table('video_section')
                           ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
