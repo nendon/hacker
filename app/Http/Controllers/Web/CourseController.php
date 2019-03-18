@@ -207,7 +207,7 @@ class CourseController extends Controller
         $course = Course::where('id',$sect->course_id)->first();
         
         $project = ProjectSection::where('section_id', $id)->first();
-        $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->first();
+        $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->orderby('created_at', 'desc')->first();
 
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
 

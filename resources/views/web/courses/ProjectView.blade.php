@@ -5,7 +5,7 @@
     <!-- Section Header -->
     <section class="header">
         <i class="fa fa-circle"></i>
-        <a href="{{ url('Bootcamp/Course') }}">Dashboard</a>
+        <a style="color:white;" href="{{ url('bootcamp/course') }}">Dashboard</a>
     </section>
 
     <!-- Section Content -->
@@ -14,9 +14,9 @@
 
         <div class="row">
           <div class="col-xs-12 text-center">
-            <h4 class="c-blue">Linux Fundamental </h4>
-            <h4 class="c-blue"> Final Projek</h4>
-            <h5 class="text-muted">Become System Administrator Profesional</h5>
+            <h4 class="c-blue">Bootcamp {{$bcs->title}}</h4>
+            <h4 class="c-blue">Course {{$course->title}}</h4>
+            <h5 class="text-muted">Lessons {{$sect->title}}</h5>
           </div>
         </div>
 
@@ -25,49 +25,41 @@
           <div class="col-xs-12">
             <div class="card">
               <div class="card-header">
-                <h5>Project Preview</h5>
+                <h5>Project Preview {{$project->title}}</h5>
               </div>
               <div class="card-body">
-                <ul class="project-preview">
-                  <li>
-                    1. OS dan Instalasi: Ubuntu 16.04
-                    <!-- <ul>
-                      <li>Link Download dimana dan langkah-langkah untuk membuat USB booting</li>
-                      <li>Partisi/100gb/home1TB,swap 2GB</li>
-                      <li>Dual boot dengan windows 7</li>
-                    </ul> -->
-                  </li>
-                  <li>
-                    2. Topologi dan jaringan
-                    <!-- <ul>
-                      <li>Desain topologi dan alokasi ip nya serta bagaimana agar koneksi ke internet</li>
-                      <li>Bagaimana langkah mengkoneksikannya ke jaringan kabel agar seluruhnya terhubung</li>
-                    </ul> -->
-                  </li>
-                  <li>
-                    3. Apps
-                    <ul>
-                      <!-- <li>
-                        Instalasi pengganti Photoshop, Microsoft office dan Corel Draw semuanya melalui CLI
-                      </li> -->
-                    </ul>
-                  </li>
-                  <li>
-                    4. CLI
-                    <!-- <ul>
-                      <li>Buatkan 1 folder berisi text welcome.txt di folder /home yang berisi : Selamat datang di Ubuntu kami!. Semuanya harus pake CLI</li>
-                    </ul> -->
-                  </li>
-                </ul>
 
-                <div class="komentar mx-4">
-                  Komentar
-                  <div class="textarea">
-                      Tidak Ada Komentar
+                @foreach($projectUser as $key => $projectUser )
+                <div class="card" >
+                  @if($projectUser->status == 1)
+                  <br>
+                  <div class="col-xs-2 px-50 text-left" style="color:red;"> Gagal ! <br>
+                  <i class="fa fa-circle ml-2"> </i> {{$projectUser->komentar_user}} 
                   </div>
+                  <div class="col-xs-2 px-50 text-left">
+                  pesan dari kontributor : {{$projectUser->komentar_contributor}} 
+                  </div>
+                  @elseif($projectUser->status == 2) 
+                  
+                  <br>
+                  
+                  <div class="col-xs-2 px-50 text-left" style="color:blue;">  Berhasil ! <br>
+                  <i class="fa fa-check-circle ml-2 c-blue"> </i> {{$projectUser->komentar_user}} 
+                  </div>
+                  <div class="col-xs-2 px-50 text-left">
+                  pesan dari kontributor : {{$projectUser->komentar_contributor}} 
+                  </div>
+                  @endif 
+                  <br>
+                  <br>
                 </div>
-              </div>
-            </div>
+                @endforeach
+              
+              <br><br>
+                
+                
+             
+           </div> 
           </div>
         </div>
 

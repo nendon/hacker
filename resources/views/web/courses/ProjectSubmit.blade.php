@@ -371,6 +371,18 @@
                   <h4><b>Instruksi: <br/></b><br/> {{$project->instruksi}}</h4>
                   <br/>
                   <br/>
+                  @if($projectUser)
+                    @if($projectUser->status != "2")
+                    <div id="komen">
+                    <input type="file" id="files" name="files">
+                    
+                    <h5>Komentar</h5>
+                    <textarea class="form-control" name="komentar" id="komentar" cols="100" rows="2"></textarea>
+                    
+                    <button class="btn btn-primary my-4" onclick="saveProject({{ $project->id}})">Submit Projek</button>
+                    </div>
+                    @endif
+                  @else
                   <div id="komen">
                   <input type="file" id="files" name="files">
                   
@@ -379,6 +391,7 @@
                   
                   <button class="btn btn-primary my-4" onclick="saveProject({{ $project->id}})">Submit Projek</button>
                   </div>
+                  @endif
               </div>
             </div> 
           </div>

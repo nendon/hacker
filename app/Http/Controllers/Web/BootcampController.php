@@ -75,11 +75,24 @@ class BootcampController extends Controller
     }
     public function projectView($id)
     {
+        if (empty(Auth::guard('members')->user()->id)) {
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+          }
         $project = ProjectSection::where('section_id', $id)->first();
-        $projectUser = ProjectUser::where('project_section_id', $project->id)->first();
+        $projectUser = ProjectUser::where('project_section_id', $project->id)
+                       ->where('member_id', Auth::guard('members')->user()->id)
+                       ->where('status', '<>', '0')->get();
+        $sect = Section::where('id', $id)->first();           
+        $course = Course::where('id',$sect->course_id)->first();
+        $bcs = Bootcamp::where('id', $course->bootcamp_id)->first();
+
         return view('web.courses.ProjectView',[
             'project' => $project,
             'projectUser' => $projectUser,
+            'sect' => $sect,
+            'course' => $course,
+            'bcs' => $bcs,
+
         ]);
     }
     public function member()
