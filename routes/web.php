@@ -101,9 +101,7 @@ Route::get('/tentang', function () {
 //bootcamp
 
 
-Route::get('/bootcamp/projectView', function () {
-	return view('web.courses.ProjectView');
-});
+Route::get('/bootcamp/projectView/{id}', 'Web\BootcampController@projectView');
 
 Route::get('/bootcamp/course', 'Web\BootcampController@member');
 Route::get('bootcamp/{bootcamp}', 'Web\BootcampController@bootcamp');

@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectUser;
 use App\Models\ProjectSection;
+use App\Models\Section;
+use App\Models\Bootcamp;
 use App\Models\Member;
 use App\Models\Contributor;
 use App\Notifications\ContribProject;
+use App\Notifications\ContribProjectTolak;
 use Auth;
 
 
@@ -21,11 +24,16 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        if (empty(Auth::guard('contributors')->user()->id)) {
+            return redirect('contributor/login');
+        } else {
+            
         $uid = Auth::guard('contributors')->user()->id;
         $project = ProjectSection::where('contributor_id', $uid)->paginate(5);
         return view('contrib.siswa.project', [
             'project' => $project
         ]);
+        }
     }
 
     /**
