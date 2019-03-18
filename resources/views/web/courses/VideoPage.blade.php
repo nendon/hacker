@@ -345,8 +345,18 @@
               <div class="player-end">
                 <div class="align-items-center">
                   <div class="col-xs-12 text-center">
-                    <h5>{{$vsection->title}}</h5>
-                    <h6>Berikutnya Why you should take this course</h6>
+                    <?php 
+                      $count = 0;
+                      $next = DB::table('video_section')
+                      ->where('id',$vsection->section_id)
+                      ->get();
+                      echo "<h5>$vsection->title</h5>";
+                      foreach ($next as $key => $value) :
+                      if ($count==2) break;
+                      echo "<h6>Berikutnya $value->title</h6>";
+                      $count++;
+                      endforeach;
+                    ?>
                     <a
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
