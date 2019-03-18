@@ -126,8 +126,7 @@ class ProjectController extends Controller
             $input = ProjectUser::find($request->input('id'));
             $input['status'] = $request->input('status');
             $input->save();
-            $response['status'] = $request->input('status');
-
+            
             $uid = Auth::guard('contributors')->user()->id;
             $lesson = ProjectUser::Find($request->input('id'));
             $mem = ProjectUser::where('id', $request->input('id'))->first();
@@ -135,7 +134,7 @@ class ProjectController extends Controller
 
             $bc = Section::join('course', 'course.id', 'section.course_id')
                   ->join('bootcamp', 'bootcamp.id', 'course.bootcamp_id')
-                  ->where('section.id', $lesson->project_section_id)->first();
+                  ->where('section.id', $section->section_id)->first();
             $member = Member::Find($lesson->member_id);
             $bootcamp = Bootcamp::Find($bc->bootcamp_id ); 
             $contrib = Contributor::find($uid);
@@ -144,6 +143,8 @@ class ProjectController extends Controller
             }else{
                 $member->notify(new ContribProjectTolak($member,$bootcamp,  $section, $contrib));
             }
+            
+            $response['status'] = $request->input('status');
         }
         echo json_encode($response);
     }
