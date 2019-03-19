@@ -33,7 +33,7 @@
                 <div class="card" >
                   @if($projectUser->status == 1)
                   <br>
-                  <div class="col-xs-2 px-100 text-left" style="width: 100%;"> <?php echo date_format($projectUser->created_at,"d F Y - H:i:s"); ?></div>
+                  <div class="col-xs-2 px-100 text-left" style="width: 100%;">Tanggal submit project : <?php echo date_format($projectUser->created_at,"d F Y - H:i:s"); ?></div>
                   <br>
                   <div class="col-xs-2 px-100 text-left" style="color:red;width: 100%;"> Project Anda belum lolos review ! <br>
                   <i class="fa fa-circle ml-2"> </i> {{$projectUser->komentar_user}} 
@@ -44,7 +44,7 @@
                   @elseif($projectUser->status == 2) 
                   
                   <br>
-                  <div class="col-xs-2 px-100 text-left" style="width: 100%;"> <?php echo date_format($projectUser->created_at,"d F Y - H:i:s"); ?> </div>
+                  <div class="col-xs-2 px-100 text-left" style="width: 100%;">Tanggal submit project : <?php echo date_format($projectUser->created_at,"d F Y - H:i:s"); ?> </div>
                   <br>
                   <div class="col-xs-2 px-100 text-left" style="color:blue;width: 100%;">  Project Anda telah berhasil lolos review ! <br>
                   <i class="fa fa-check-circle ml-2 c-blue"> </i> {{$projectUser->komentar_user}} 
