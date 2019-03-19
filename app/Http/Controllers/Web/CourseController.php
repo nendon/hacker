@@ -251,13 +251,15 @@ class CourseController extends Controller
             $response['success'] = true;
 
             $member = Member::Find($uid);
+            $cariuser = ProjectUser::where('komentar_user', $request->input('body'))->where('member_id',$uid)->where('status', 0)->first();
+            $user = ProjectUser::Find($cariuser->id);
             $lesson = ProjectSection::Find($request->input('project_id'));
             $bc = Section::join('course', 'course.id', 'section.course_id')
                   ->join('bootcamp', 'bootcamp.id', 'course.bootcamp_id')
                   ->where('section.id', $lesson->section_id)->first();
             $bootcamp = Bootcamp::Find($bc->bootcamp_id ); 
             $contrib = Contributor::find($bc->contributor_id);
-            $contrib->notify(new UserProject($member, $lesson,$bootcamp, $contrib));
+            $contrib->notify(new UserProject($member, $lesson, $user, $bootcamp, $contrib));
             $member->notify(new UserNotifProject($member,  $bootcamp, $lesson, $contrib));
 
         }

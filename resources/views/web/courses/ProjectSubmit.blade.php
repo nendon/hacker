@@ -349,7 +349,7 @@
               </div>
             </div>
             
-            <div class="row px-5 pt-4">
+            <div id="cek_review" class="row px-5 pt-4">
             @if($projectUser)
               @if($projectUser->status == 2)
               <div class="w-100 px-5 py-4">
@@ -372,8 +372,8 @@
                   <br/>
                   <br/>
                   @if($projectUser)
-                    @if($projectUser->status != "2")
-                    <div id="komen">
+                    @if($projectUser->status == "1")
+                    <div>
                     <input type="file" id="files" name="files">
                     
                     <h5>Komentar</h5>
@@ -383,7 +383,7 @@
                     </div>
                     @endif
                   @else
-                  <div id="komen">
+                  <div>
                   <input type="file" id="files" name="files">
                   
                   <h5>Komentar</h5>
@@ -478,8 +478,8 @@
                   timer: 3000
                 });
               }
-
-              $('#komen').addClass('hide');
+              $("#cek_review").load(location.href+ ' #cek_review');
+              
             }
         });
       }

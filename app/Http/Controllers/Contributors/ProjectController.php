@@ -67,21 +67,21 @@ class ProjectController extends Controller
     {
         if (empty(Auth::guard('contributors')->user()->id)) {
             return redirect('contributor/login');
-        } else {
+        } 
         $user_roject = ProjectSection::join('project_user', 'project_section.id', 'project_user.project_section_id')
                         ->join('members', 'project_user.member_id', 'members.id')->where('project_section.section_id', $id)
                         ->select('project_user.*', 'project_section.section_id as section_id',  'members.avatar as avatar', 'members.username as username')->paginate(10);
         return view('contrib.siswa.project_submit', [
             'user_project' => $user_roject,
         ]);
-        }
+    
     }
 
     public function detail($sectionid, $id)
     {
         if (empty(Auth::guard('contributors')->user()->id)) {
             return redirect('contributor/login');
-        } else {
+        } 
         $list_project = ProjectSection::join('project_user', 'project_section.id', 'project_user.project_section_id')
                         ->join('members', 'project_user.member_id', 'members.id')->where('project_section.section_id', $sectionid)
                         ->select('project_user.*', 'project_section.section_id as section_id',  'members.avatar as avatar', 'members.username as username')->get();
@@ -95,13 +95,13 @@ class ProjectController extends Controller
             'section' => $section_project,
             'list' => $list_project
         ]);
-        }
+       
     }
     public function saveProject(Request $request){
         $response = array();
         if (empty(Auth::guard('contributors')->user()->id)) {
             $response['success'] = false;
-        } else {
+        }
             
            
             $uid = Auth::guard('contributors')->user()->id;
@@ -114,14 +114,14 @@ class ProjectController extends Controller
             $response['success'] = true;
 
             
-        }
+       
         echo json_encode($response);
     }
     public function acc(Request $request){
         $response = array();
         if (empty(Auth::guard('contributors')->user()->id)) {
             $response['status'] = 0;
-        } else {
+        } 
    
             $input = ProjectUser::find($request->input('id'));
             $input['status'] = $request->input('status');
@@ -145,7 +145,7 @@ class ProjectController extends Controller
             }
             
             $response['status'] = $request->input('status');
-        }
+       
         echo json_encode($response);
     }
 
