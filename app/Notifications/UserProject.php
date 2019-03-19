@@ -20,10 +20,11 @@ class UserProject extends Notification
      *
      * @return void
      */
-    public function __construct(Member $member, ProjectSection $project,  Bootcamp $bootcamp,  Contributor $contrib)
+    public function __construct(Member $member, ProjectSection $project, ProjectUser $user ,  Bootcamp $bootcamp,  Contributor $contrib)
     {
         $this->member = $member;
         $this->project = $project;
+        $this->user = $user;
         $this->contrib = $contrib;
         $this->bootcamp = $bootcamp;
     }
@@ -47,7 +48,7 @@ class UserProject extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/contributor/project/submit/'.$this->project->section_id.'/detail/'.$this->project->id);
+        $url = url('/contributor/project/submit/'.$this->project->section_id.'/detail/'.$this->user->id);
         return (new MailMessage)
                     ->subject(sprintf('Murid Anda mengirimkan Project Baru di Bootcamp %s', $this->bootcamp->title ))
                     ->greeting(sprintf('Hello %s', $this->contrib->username))

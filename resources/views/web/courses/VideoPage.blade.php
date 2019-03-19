@@ -409,7 +409,7 @@
           {{$bc->title}} <br>
         </div>
         <div class="col-xs-3 p-0">
-          <a href="CourseSylabus.html">
+          <a href="{{url('/bootcamp/'.$bc->slug.'/courseSylabus')}}">
             <i class="fa fa-chevron-left"></i> Course Part {{$course->position}} {{$course->title}}
           </a>
         </div>
