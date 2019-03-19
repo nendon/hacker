@@ -135,28 +135,9 @@
               <p class="text-muted">Kami membuat Program untuk menjadikan Anda seorang {{$bca->title}} dengan bantuan kurikulum yang terstruktur</p>
               <ul>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi {{$target->target}} Hari</li>
-                <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> Projek</li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> {{$project_bootcamp->durasi}} Projek</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{$bca->course->count()}}  Course</li>
-                <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt="">
-                   <?php
-                    foreach ($course as $key => $courses):
-                      foreach ($courses->section as $key => $sections): 
-                        $totaljam = DB::table('video_section')
-                        ->where('section_id', $sections->id)
-                        ->select(DB::raw('sum(durasi) as total'))
-                        ->first();
-                        $convert = $totaljam->total / 3600;
-                        if ($convert > 0) {
-                          $hasil = round($convert);
-                          $hasil++;
-                        }else{
-                          $hasil = 0;
-                        }
-                      endforeach;
-                    endforeach;  
-                      echo "$hasil Jam Video";
-                    ?>
-                </li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt=""> <?php echo gmdate("H", $durasi_bootcamp->durasi)." Jam ".gmdate("i", $durasi_bootcamp->durasi)." Menit ".gmdate("s", $durasi_bootcamp->durasi)." Detik"; ?></li>
               </ul>
               <a href="{{$bca->silabus}}" class="btn btn-blue">Download Silabus</a>
 
@@ -207,10 +188,10 @@
                                         ->where('section_id', $sections->id)
                                         ->select(DB::raw('sum(durasi) as total'))
                                         ->first();
-                                        $convert = $totalmenit->total / 60;
+                                        $convert = $totalmenit->total;
                                         if ($convert > 0) {
                                           $hasil = round($convert);
-                                          echo "$hasil Menit";
+                                          echo gmdate("H",$hasil)." Jam ".gmdate("i",$hasil)." Menit ".gmdate("s",$hasil)." Detik ";
                                         }else{
                                           $hasil = 0;
                                           echo "$hasil";

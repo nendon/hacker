@@ -50,7 +50,18 @@ class BootcampController extends Controller
         $boot_cat = BootcampCategory::where('id',$bc->bootcamp_category_id)->first();
         //menambahkan fungsi untuk menjumlahkan total hari
         $target = Course::where('bootcamp_id', $bc->id)->select(DB::raw('sum(estimasi) as target'))->first();
-        
+        $durasi_bootcamp = Bootcamp::join('course', 'bootcamp.id', 'course.bootcamp_id')
+          ->join('section', 'course.id', 'section.course_id')
+          ->join('video_section', 'section.id','video_section.section_id')
+          ->where('course.bootcamp_id', $bc->id)
+          ->Select( DB::raw('sum(durasi) as durasi'))
+          ->first();
+        $project_bootcamp = Bootcamp::join('course', 'bootcamp.id', 'course.bootcamp_id')
+          ->join('section', 'course.id', 'section.course_id')
+          ->join('project_section', 'section.id','project_section.section_id')
+          ->where('course.bootcamp_id', $bc->id)
+          ->Select(DB::raw('count(section_id) as durasi'))
+          ->first(); 
         $cart = Cart::where('member_id', $mem_id )->where('bootcamp_id', $bc->id)->first();
         // $cs = Course::where('bootcamp_id', $bc->id)->first();
         // $courses = DB::table('course')->where('bootcamp_id', $bc->id)->get();
@@ -71,6 +82,8 @@ class BootcampController extends Controller
             'cart' => $cart,
             'tanggal' => $myFormatForView,
             'main_course' => $main_course,
+            'project_bootcamp' => $project_bootcamp,
+            'durasi_bootcamp' =>  $durasi_bootcamp,
         ]);
     }
     public function projectView($id)
