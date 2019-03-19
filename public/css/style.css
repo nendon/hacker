@@ -466,7 +466,7 @@ html{
 .video-header{
     z-index: 3;
     position: absolute;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.12);
     transition: opacity .4s ease-in-out, transform .4s ease-in-out;
     width: 100%;
     color:#fff;
