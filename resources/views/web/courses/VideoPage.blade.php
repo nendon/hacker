@@ -655,6 +655,7 @@
         url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
         data: data
       });
+      $( "#pills-materi" ).load(window.location.href + " #pills-materi" ); 
     }
     
     $('.collap').click(function(e){
