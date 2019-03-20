@@ -116,13 +116,15 @@ class CourseController extends Controller
         $response['success'] = true;
         
         }
-
-        $members = Member::Find($member);
-        $bootcamp = Bootcamp::Find($bcs->id ); 
+        $members = Member::find($member);
+        $bootcamp = Bootcamp::find($bcs->id ); 
         $member_boot = BootcampMember::find($tutor->id);
+        // $sections = Section::find($bc->section->id);
+        $course = Course::find($courses->id);
         
        //penambahan email untuk pemberitahuan memulai belajar
-        $members->notify(new MemulaiCourse($members, $bootcamp, $member_boot,  $section, $contrib));
+        $members->notify(new MemulaiCourse($members, $bootcamp, $member_boot, $course));
+
         if($tutor->expired_at){
 
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)

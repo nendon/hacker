@@ -21,12 +21,11 @@ class MemulaiCourse extends Notification
      *
      * @return void
      */
-    public function __construct(Member $member, Bootcamp $bootcamp, BootcampMember $bootcampMember, Section $section,  Course $course)
+    public function __construct(Member $member, Bootcamp $bootcamp, BootcampMember $bootcampMember, Course $course)
     {
         $this->member = $member;
         $this->bootcamp = $bootcamp;
         $this->bootcampMember = $bootcampMember;
-        $this->section = $section;
         $this->course = $course;
     }
 
@@ -49,16 +48,19 @@ class MemulaiCourse extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/bootcamp/'.$this->bootcamp->slug.'/projectSubmit/'.$this->project->section_id);
-        $url2 = url('/bootcamp/'.$this->bootcamp->slug.'/courseSylabus');
+        $url = url('/bootcamp/'.$this->bootcamp->slug.'/courseSylabus/');
 
         return (new MailMessage)
-                    ->subject(sprintf('Anda telah memulai Course %s %s dalam Bootcamp %s di Cilsy', $this->section->title, $this->course->title, $this->bootcamp->title))
+                    ->subject(sprintf('Anda telah memulai Course %s %s dalam Bootcamp %s di Cilsy', $this->course->position, $this->course->title, $this->bootcamp->title))
                     ->greeting(sprintf('Good job %s', $this->member->username))
-                    ->line('Selamat! Tugas/Project Anda telah di ACC oleh Instruktur. Sekarang Anda bisa melanjutkan pembelajaran ke materi berikutnya.')
-                    ->action('Lihat Hasil Review Project', $url)
-                    ->action('Akses Materi Berikutnya', $url2)
-                    ->line('Terima Kasih telah menggunakan aplikasi kami!');
+                    ->line(sprintf('Anda telah selangkah lebih dekat dalam perjalanan menyelesaikan Bootcamp <nama %s.', $this->bootcamp->title))
+                    ->line(sprintf('Dalam Course %s, Anda akan mempelajari : %s', $this->course->title, $this->course->deskripsi))
+                    ->line(sprintf('Dan waktu untuk menyelesaikan Course ini adalah : %s Hari', $this->course->estimasi))
+                    ->line(sprintf('Deadline : %s', $this->bootcampMember->target))
+                    ->line('Segera pelajari seluruh materi course ini dan kerjakan exercise/project yang diberikan sebelum deadline diatas untuk bisa lanjut ke materi Course berikutnya ya.')
+                    ->line('Keep going dan tetap semangat!')
+                    ->action('Mulai Belajar', $url);
+                    
     }
 
     /**
