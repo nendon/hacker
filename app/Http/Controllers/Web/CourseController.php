@@ -19,6 +19,7 @@ use DB;
 use Auth;
 use Datetime;
 use App\Notifications\UserProject;
+use App\Notifications\MemulaiCourse;
 use App\Notifications\UserNotifProject;
 
 
@@ -113,8 +114,15 @@ class CourseController extends Controller
         $update['target'] = $target->target;
         $update->save();
         $response['success'] = true;
+        
         }
 
+        $members = Member::Find($member);
+        $bootcamp = Bootcamp::Find($bcs->id ); 
+        $member_boot = BootcampMember::find($tutor->id);
+        
+       //penambahan email untuk pemberitahuan memulai belajar
+        $members->notify(new MemulaiCourse($members, $bootcamp, $member_boot,  $section, $contrib));
         if($tutor->expired_at){
 
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
