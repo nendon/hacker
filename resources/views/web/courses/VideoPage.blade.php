@@ -1,6 +1,9 @@
-@extends('web.app')
+
+@extends('web.apps')
+
 @section('title','Belajar Course '.$course->title.' - '.$bc->title)
 @section('content')
+
     <section id="wrapper">
 
       <!-- THE PLAYLIST -->
@@ -364,7 +367,21 @@
                       if ($count==1)break; 
                       $count++;
                       endforeach;
-                    ?>
+
+                      $full_hist = DB::table('video_section')
+                          ->leftjoin('history', function($join){
+                            $join->on('video_section.id', '=', 'history.video_id')
+                            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                          ->where('video_section.section_id', $vsection->section_id)
+                          ->select(DB::raw('count(video_section.id) as target '), DB::raw('count(history.video_id) as hasil'))
+                          ->first();
+                      if($full_hist){
+                      if($full_hist->target == $full_hist->hasil){
+                      ?>
+                      <a  class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$vsection->section_id) }}">
+                      Lanjutkan <i class="fa fa-step-forward"></i>
+                      </a>
+                      <?php }else{ ?>
                     <a
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
@@ -373,6 +390,9 @@
                         onClick="changeVideo(this), saveHistory(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
+
+                      <?php }
+                      } ?>
                   </div>
                 </div>
               </div>
@@ -383,11 +403,7 @@
       </div>
 
     </section>
-<script>
- $(document).on('ready',function () {
-      $('#footer').addClass('hide')
-    });
-</script>
+
 
     <!-- JavaScript -->
     <script type="text/javascript" src="{{asset('assets/js/jquery-2.2.1.min.js')}}"></script>
@@ -452,6 +468,21 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
+              <?php 
+                $full_hist = DB::table('video_section')
+                    ->leftjoin('history', function($join){
+                      $join->on('video_section.id', '=', 'history.video_id')
+                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                    ->where('video_section.section_id', $materi->section_id)
+                    ->select(DB::raw('count(video_section.id) as target , count(history.video_id) as hasil'))
+                    ->first();
+                     
+                if($full_hist->target == $full_hist->hasil){
+                ?>
+                <a class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$materi->section_id) }}">
+                Lanjutkan <i class="fa fa-step-forward"></i>
+                </a>
+                <?php }else{ ?>
         <a
             data-url="{{$materi->file_video}}"
             data-title="{{$materi->title}}"
@@ -463,6 +494,7 @@
             Lanjutkan <i class="fa fa-step-forward"></i>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
         </a>
+                      <?php } ?>
     </div>
     `;
 

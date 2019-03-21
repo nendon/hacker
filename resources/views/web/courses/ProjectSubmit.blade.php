@@ -357,7 +357,7 @@
               </div> 
               @elseif($projectUser->status == 0)
               <div class="w-100 px-5 py-4">
-                  <i class="fa fa-circle ml-2"></i><b> Project anda sedang di review oleh Instruktur dan Team Project Review</b> <a href="{{ url('bootcamp/projectView/'.$sec->id) }}" class="btn btn-outline-primary">Batal Submission</a>
+                  <i class="fa fa-circle ml-2"></i><b> Project anda sedang di review oleh Instruktur dan Team Project Review</b> 
               </div> 
               @else
               <div class="w-100 px-5 py-4">
