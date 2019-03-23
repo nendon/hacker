@@ -119,12 +119,38 @@ class CourseController extends Controller
         $members = Member::find($member);
         $bootcamp = Bootcamp::find($bcs->id ); 
         $member_boot = BootcampMember::find($tutor->id);
-        // $sections = Section::find($bc->section->id);
         $course = Course::find($courses->id);
         
-       //penambahan email untuk pemberitahuan memulai belajar
-        $members->notify(new MemulaiCourse($members, $bootcamp, $member_boot, $course));
+        $valid = DB::table('course')
+                        ->join('section', 'course.id', 'section.course_id')
+                        ->join('video_section', 'section.id','video_section.section_id')
+                        ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                        ->leftjoin('project_user', function($join){
+                        $join->on('project_section.id', '=', 'project_user.project_section_id')
+                        ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                        ->where('project_user.status', '2');})
+                        ->leftjoin('history', function($join){
+                          $join->on('video_section.id', '=', 'history.video_id')
+                          ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                        ->where('course.id', $courses->id)
+                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                        ->groupby('course.id', 'course.position')
+                        ->first();
 
+                        
+                        $persen = 0;
+                        $persen = number_format($valid->hasil / $valid->project*100); 
+                        if ($persen == 0){
+                              $value = 0;
+                            }else{
+                              $value = 1;
+                            }
+       //penambahan email untuk pemberitahuan memulai belajar
+        if ($value == 0) {
+            $members->notify(new MemulaiCourse($members, $bootcamp, $member_boot, $course));
+        }
+        
+ 
         if($tutor->expired_at){
 
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)

@@ -48,15 +48,15 @@ class MemulaiCourse extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/bootcamp/'.$this->bootcamp->slug.'/courseSylabus/');
+        $url = url('/bootcamp/'.$this->bootcamp->slug.'/courseLesson/'.$this->course->id);
 
         return (new MailMessage)
                     ->subject(sprintf('Anda telah memulai Course %s %s dalam Bootcamp %s di Cilsy', $this->course->position, $this->course->title, $this->bootcamp->title))
                     ->greeting(sprintf('Good job %s', $this->member->username))
-                    ->line(sprintf('Anda telah selangkah lebih dekat dalam perjalanan menyelesaikan Bootcamp <nama %s.', $this->bootcamp->title))
+                    ->line(sprintf('Anda telah selangkah lebih dekat dalam perjalanan menyelesaikan Bootcamp %s.', $this->bootcamp->title))
                     ->line(sprintf('Dalam Course %s, Anda akan mempelajari : %s', $this->course->title, $this->course->deskripsi))
                     ->line(sprintf('Dan waktu untuk menyelesaikan Course ini adalah : %s Hari', $this->course->estimasi))
-                    ->line(sprintf('Deadline : %s', $this->bootcampMember->target))
+                    ->line(sprintf('Deadline : %s Hari', $this->bootcampMember->target))
                     ->line('Segera pelajari seluruh materi course ini dan kerjakan exercise/project yang diberikan sebelum deadline diatas untuk bisa lanjut ke materi Course berikutnya ya.')
                     ->line('Keep going dan tetap semangat!')
                     ->action('Mulai Belajar', $url);

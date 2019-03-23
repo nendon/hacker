@@ -145,8 +145,7 @@
 
                         
                             $persen = 0;
-                            $persen = number_format($valid->hasil / $valid->project*100); 
-                         
+                            $persen = number_format($valid->hasil / $valid->project*100);  
 
                       ?></div>
                       <div class="timelines-content">
@@ -176,7 +175,7 @@
                               {{$persen}}%
                               </div>
                              
-
+ 
                             </div>
                               
                             <br>
