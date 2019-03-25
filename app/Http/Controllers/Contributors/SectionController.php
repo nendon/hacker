@@ -8,6 +8,7 @@ use App\Models\ProjectSection;
 use App\Models\Section;
 use App\Models\VideoSection;
 use Auth;
+use DB;
 use DateTime;
 use FFMpeg;
 use Illuminate\Http\Request;
