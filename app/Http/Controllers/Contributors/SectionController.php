@@ -114,7 +114,7 @@ class SectionController extends Controller
             $section->title = $title;
             $section->deskripsi_video = $desk;
             if($check){ 
-            $section->position = $position+1;
+            $section->position = $check+1;
             }
             $section->save();
             $response['success'] = true;
