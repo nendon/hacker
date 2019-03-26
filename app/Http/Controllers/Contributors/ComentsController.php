@@ -256,7 +256,7 @@ class ComentsController extends Controller
                $lessonn = Bootcamp::find($lesson_id);
                $contrib = Contributor::find($lessons->contributor_id);
                $member->notify(new ContriReplyBootcamp($member, $lessonn, $contrib));
-               $tanya->notify(new ContriReplyBootcamp($tanya, $lessonn, $contrib));
+               //$tanya->notify(new ContriReplyBootcamp($tanya, $lessonn, $contrib));
 
                 }
                 }

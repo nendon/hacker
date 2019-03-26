@@ -49,7 +49,7 @@ class ContriReplyBootcamp extends Notification
         return (new MailMessage)
                     ->subject('Anda menerima Pesan baru')
                     ->greeting(sprintf('Hello %s', $this->member->username))
-                    ->line(sprintf('Pesan Anda telah mendapatkan balasan baru. %s Kontributor telah membalas anda pada bootcamp %s,',$this->member->username, $this->lesson->title))
+                    ->line('Pesan Anda telah mendapatkan balasan baru. Silahkan klik tombol dibawah ini untuk membukanya.')
                     ->action('Balas Pesan', $url)
                     ->line('Terima Kasih telah menggunakan aplikasi kami!');
     }
