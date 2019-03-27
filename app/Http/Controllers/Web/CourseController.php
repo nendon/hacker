@@ -246,6 +246,13 @@ class CourseController extends Controller
         $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->orderby('created_at', 'desc')->first();
 
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
+        $full_hist = DB::table('video_section')
+        ->leftjoin('history', function($join){
+          $join->on('video_section.id', '=', 'history.video_id')
+          ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+        ->where('video_section.section_id',  $sect ->id)
+        ->select(DB::raw('count(video_section.id) as target '), DB::raw('count(history.video_id) as hasil'))
+        ->first();
 
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
@@ -260,6 +267,7 @@ class CourseController extends Controller
             'sec' =>$sect,
             'course' =>$course ,
             'projectUser' => $projectUser,
+            'hist' => $full_hist,
 
         ]);
     }
