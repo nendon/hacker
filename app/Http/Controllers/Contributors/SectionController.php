@@ -108,13 +108,13 @@ class SectionController extends Controller
 
             $check = VideoSection::where('section_id',  Input::get('section_id'))
                     ->select(DB::raw('max(position) as posisi'))
-                    ->get();
+                    ->first();
 
             $section = VideoSection::find($video_id);
             $section->title = $title;
             $section->deskripsi_video = $desk;
             if($check){ 
-            $section->position = $check+1;
+            $section->position = $check->posisi+1;
             }
             $section->save();
             $response['success'] = true;
