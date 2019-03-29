@@ -556,7 +556,7 @@
     }
 
     function changeVideo(attr){
-      const defaultUrl = 'http://localhost:8000';
+      const defaultUrl = 'https://dev.cilsy.id';
       $('.player-end').css('display', 'none');
           $.ajaxSetup({
               headers: {
