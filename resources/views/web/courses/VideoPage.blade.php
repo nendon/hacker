@@ -569,7 +569,7 @@
             data: {video_id: $(attr).data('video_id'),
                     section_id: $(attr).data('section_id')},
             success: function(result){
-                $('a').data('url', result.url);
+                $('a').data('url', defaultUrl+result.url);
                 player.source = {
                 type: 'video',
                 title: result.title,
