@@ -146,7 +146,7 @@
                               
                               $cek = DB::table('section')->join('video_section', 'section.id', 'video_section.section_id')
                               ->leftjoin('history', 'video_section.id', 'history.video_id')
-                              ->where('video_section.id', $vs->id)->get();
+                              ->where('video_section.id', $vs->id)->where('member_id', Auth::guard('members')->user()->id)->get();
                                 foreach ($cek as $key => $cek): 
                                     if($cek->hist){?>
                                     <i class="fa fa-check-circle"></i>
