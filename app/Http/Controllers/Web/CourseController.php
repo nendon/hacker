@@ -206,11 +206,11 @@ class CourseController extends Controller
         //tes total waktu video
         // $vsections = $section->first()->video_section->first()->where('section_id', $sect->id)->select(DB::raw('sum(durasi) as durasi'))->first();
         $psection = Section::with('project_section')->where('course_id', $courses->id)->get();
-        // $vmateri = DB::table('video_section')->where('section_id', $vsection->id)->get();
+        $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
 
-        if($vsection == null)
+        if($vsection == null){
             $vsection = $section->first();
-
+        }
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
 
         if(!$tutor){
@@ -225,6 +225,7 @@ class CourseController extends Controller
             'stn' => $section,
             'psection' => $psection,
             'vsection' => $vsection,
+            'vmateri' => $vmateri,
 
         ]);
     }

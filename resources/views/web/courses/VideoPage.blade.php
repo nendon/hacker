@@ -116,7 +116,7 @@
                   <?php
                   foreach ($section->project_section as $key => $project): ?>
                   <li>
-                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
+                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$project->section_id) }}">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
                         <i class="fas fa-clipboard-list"></i>  {{$project->title}}
@@ -184,7 +184,7 @@
                   <?php
                   foreach ($section->project_section as $key => $project): ?>
                   <li>
-                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
+                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$project->section_id) }}">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
                         <i class="fas fa-clipboard-list"></i>  {{$project->title}}
@@ -268,7 +268,7 @@
                   <?php
                   foreach ($section->project_section as $key => $project): ?>
                   <li>
-                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
+                  <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$project->section_id) }}">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
                         <i class="fas fa-clipboard-list"></i>  {{$project->title}}
@@ -346,7 +346,7 @@
 
             <!-- THE VIDEO PLAYER -->
               <video id="player" playsinline controls>
-                <source  src="" type="video/mp4">
+                <source id="jalan" src="" type="video/mp4">
               </video>
 
               <div class="player-end">
@@ -355,8 +355,8 @@
                     <?php 
                       $count = 0;
                       $next = DB::table('video_section')
-                      ->where('section_id',$vsection->section_id)
-                      ->where('id', $vsection->id)
+                      ->where('section_id',$vmateri->section_id)
+                      ->where('id', $vmateri->id)
                       ->get();
                       foreach ($next as $key => $value) :
                       if ($count == 1) {
@@ -366,33 +366,36 @@
                       }
                       if ($count==1)break; 
                       $count++;
-                      endforeach;
+                     
 
                       $full_hist = DB::table('video_section')
                           ->leftjoin('history', function($join){
                             $join->on('video_section.id', '=', 'history.video_id')
                             ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-                          ->where('video_section.section_id', $vsection->section_id)
+                          ->where('video_section.section_id', $vmateri->section_id)
                           ->select(DB::raw('count(video_section.id) as target '), DB::raw('count(history.video_id) as hasil'))
                           ->first();
                       if($full_hist){
                       if($full_hist->target == $full_hist->hasil){
                       ?>
-                      <a  class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$vsection->section_id) }}">
+                      <a name="lanjut" class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$value->section_id) }}">
                       Lanjutkan <i class="fa fa-step-forward"></i>
                       </a>
-                      <?php }else{ ?>
+                      <?php }else{    ?>
+                      
                     <a
-                        data-url="{{$materi->file_video}}"
-                        data-title="{{$materi->title}}"
-                        data-video_id="{{$materi->id}}"
-                        data-section_id="{{$materi->section_id}}"
+                        data-url="{{$vmateri->file_video}}"
+                        data-title="{{$vmateri->title}}"
+                        data-video_id="{{$vmateri->id}}"
+                        data-section_id="{{$vmateri->section_id}}"
                         onClick="changeVideo(this), saveHistory(this)"
                         class="btn btn-next"
                     >Lanjutkan</a>
 
                       <?php }
-                      } ?>
+                      } 
+                    endforeach;
+                  ?>
                   </div>
                 </div>
               </div>
@@ -409,6 +412,9 @@
     <script type="text/javascript" src="{{asset('assets/js/jquery-2.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plyr.min.js')}}"></script>
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+      <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+
     <script>
       //function Menu sidebar
       function sidebarShow(){
@@ -469,32 +475,39 @@
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
               <?php 
+                $sec = DB::table('video_section')
+                       ->where('id', $vmateri->id)->first();
+
                 $full_hist = DB::table('video_section')
                     ->leftjoin('history', function($join){
                       $join->on('video_section.id', '=', 'history.video_id')
                       ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-                    ->where('video_section.section_id', $materi->section_id)
+                    ->where('video_section.section_id',$vmateri->section_id)
                     ->select(DB::raw('count(video_section.id) as target , count(history.video_id) as hasil'))
                     ->first();
                      
+                $cek_max = DB::table('video_section')->select(DB::raw('max(position) as posisi'))->where('section_id',$vmateri->section_id)->first();
+               
                 if($full_hist->target == $full_hist->hasil){
                 ?>
-                <a class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$materi->section_id) }}">
+                <a name="lanj" class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$materi->section_id) }}">
                 Lanjutkan <i class="fa fa-step-forward"></i>
                 </a>
                 <?php }else{ ?>
         <a
-            data-url="{{$materi->file_video}}"
-            data-title="{{$materi->title}}"
-            data-video_id="{{$materi->id}}"
-            data-section_id="{{$materi->section_id}}"
+            data-url="{{$vmateri->file_video}}"
+            data-title="{{$vmateri->title}}"
+            data-video_id="{{$vmateri->id}}"
+            data-section_id="{{$vmateri->section_id}}"
             onClick="changeVideo(this), saveHistory(this)"
             class="btn btn-next"
         >
             Lanjutkan <i class="fa fa-step-forward"></i>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
         </a>
-                      <?php } ?>
+                      <?php } 
+                      
+                ?>
     </div>
     `;
 
@@ -511,7 +524,7 @@
       type: 'video',
       title: 'Elephant Dream',
       sources: [{
-        src: '{{asset($vsection->file_video)}}',
+        src: '{{asset($vmateri->file_video)}}',
         type: 'video/mp4',
       }]
     };
@@ -526,10 +539,9 @@
         $('.player-end').css('display', 'none');
     });
 
-
-    //function for button `Lanjutkan` when video has ended
-    function changeVideo(attr){
-      const defaultUrl = 'https://dev.cilsy.id';
+   // function for button `Lanjutkan` when video has ended
+    function tesVideo(attr){
+      const defaultUrl = 'http://localhost:8000';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
@@ -542,6 +554,38 @@
         }]
       };
     }
+
+    function changeVideo(attr){
+      const defaultUrl = 'http://localhost:8000';
+      $('.player-end').css('display', 'none');
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          $.ajax({
+            url: '{{ url("/bootcamp/getNextLink/") }}',
+            method: 'POST',
+            data: {video_id: $(attr).data('video_id'),
+                    section_id: $(attr).data('section_id')},
+            success: function(result){
+                $('a').data('url', result.url);
+                player.source = {
+                type: 'video',
+                title: result.title,
+                sources: [{
+                src: defaultUrl+result.url,
+                type: 'video/mp4',
+                }]
+            };
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("Status: " + textStatus);
+                console.log("Error: " + errorThrown); 
+            }
+        })
+      }
+    
     function getComments() {
       $.ajax({
           type    :'GET',
