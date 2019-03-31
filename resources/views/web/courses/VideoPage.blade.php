@@ -388,8 +388,8 @@
                         data-title="{{$vmateri->title}}"
                         data-video_id="{{$vmateri->id}}"
                         data-section_id="{{$vmateri->section_id}}"
-                        onClick="changeVideo(this), saveHistory(this)"
-                        class="btn btn-next"
+                        onClick="tesVideo(this), saveHistory(this)"
+                        class="btn btn-next link-next"
                     >Lanjutkan</a>
 
                       <?php }
@@ -416,6 +416,13 @@
       <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
 
     <script>
+    $(function(){
+      getComments();
+    });
+    //vmateri bisa disimpen disni gateh ? harusnya mah bisa ya 
+    let video_id = "{{$vmateri->id}}";
+    let section_id = "{{$vmateri->section_id}}";
+
       //function Menu sidebar
       function sidebarShow(){
         if($("#wrapper").hasClass("toggled")){
@@ -499,8 +506,8 @@
             data-title="{{$vmateri->title}}"
             data-video_id="{{$vmateri->id}}"
             data-section_id="{{$vmateri->section_id}}"
-            onClick="changeVideo(this), saveHistory(this)"
-            class="btn btn-next"
+            onClick="tesVideo(this), saveHistory(this)"
+            class="btn btn-next link-next"
         >
             Lanjutkan <i class="fa fa-step-forward"></i>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
@@ -540,8 +547,8 @@
     });
 
    // function for button `Lanjutkan` when video has ended
-    function tesVideo(attr){
-      const defaultUrl = 'http://localhost:8000';
+    function changeVideo(attr){
+      const defaultUrl = 'https://dev.cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
@@ -553,9 +560,13 @@
           type: 'video/mp4',
         }]
       };
+      video_id = $(attr).data('video_id');
+      section_id =  $(attr).data('section_id');
+
     }
 
-    function changeVideo(attr){
+    function tesVideo(attr){
+    
       const defaultUrl = 'https://dev.cilsy.id';
       $('.player-end').css('display', 'none');
           $.ajaxSetup({
@@ -566,22 +577,34 @@
           $.ajax({
             url: '{{ url("/bootcamp/getNextLink/") }}',
             method: 'POST',
-            data: {video_id: $(attr).data('video_id'),
-                    section_id: $(attr).data('section_id')},
+            dataType: 'JSON',
+            data: {video_id: video_id,
+                    section_id: section_id},
             success: function(result){
-                $('a').data('url', defaultUrl+result.url);
+              if(result.end == true){
+                window.location.href = defaultUrl+result.url;
+              }else{
                 player.source = {
                 type: 'video',
                 title: result.title,
                 sources: [{
-                src: defaultUrl+result.url,
-                type: 'video/mp4',
-                }]
-            };
+                  src: defaultUrl+result.url,
+                  type: 'video/mp4',
+                  }]
+                };
+                console.log("Sebelum : "+$(attr).data('video_id'));                
+                console.log("Sesudah : "+result.videoid);
+                console.log("url : "+defaultUrl+result.url);
+                console.log("max : "+result.max);
+                video_id = result.videoid;
+                section_id = result.section;
+                console.log("video_id sesudah : "+$(attr).data('video_id'));   
+                console.log("video_id sesudah : "+$(attr).data('section_id'));   
+                saveHist(video_id, section_id); 
+              }  
             },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log("Status: " + textStatus);
-                console.log("Error: " + errorThrown); 
+            error: function(data) {
+                console.log("data: " + JSON.stringify(data));
             }
         })
       }
@@ -716,9 +739,30 @@
   }
  
     function saveHistory(attr) {
+     
       let data = {
         video_id: $(attr).data('video_id'),
         section_id: $(attr).data('section_id')
+      };
+
+      // set base url for global usage
+      let loc = window.location;
+      let baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/bootcamp/";
+
+      // use ajax to access save query
+      $.ajax({
+        type: "GET",
+        url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
+        data: data
+      });
+      $( "#pills-materi" ).load(window.location.href + " #pills-materi" ); 
+    }
+
+    function saveHist(video_id, section_id) {
+     
+      let data = {
+        video_id: video_id,
+        section_id: section_id
       };
 
       // set base url for global usage
@@ -746,8 +790,5 @@
       }); 
     });
 
-    setInterval(function(){
-      getComments();
-    }, 5000); 
     </script>
 @endsection()

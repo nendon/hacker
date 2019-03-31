@@ -334,7 +334,7 @@
     //   var img = $('.header').css("background-image", "url(img/bg-head2.jpg)");
     // });
 
-    $(document).on('ready',function () {
+    $(function () {
     getComments();
     });
 
@@ -472,8 +472,5 @@
         getComments();
     }
 
-    setInterval(function(){
-      getComments();
-    },20000);
     </script>
 @endsection()

@@ -93,12 +93,28 @@ class BootcampController extends Controller
         $video = VideoSection::where('id', Input::get('video_id'))->first();
         $posisi = $video->position + 1;
         $next = VideoSection::where('position', $posisi)->first();
+        $section = Section::where('id',Input::get('section_id') )->first();
+        $course = Course::where('id', $section->course_id)->first();
+        $bootcamp = Bootcamp::where('id', $course->bootcamp_id)->first();
+
+        $max =  VideoSection::where('section_id', Input::get('section_id'))->select(DB::raw('max(position) as max'))->first();
+        if($max->max == $video->position){
+            $response['end'] = true;
+            $response['url'] =  '/bootcamp/'.$bootcamp->slug.'/projectSubmit/'.$section->id;
+             return json_encode($response);
+         }else{
+            $response['videoid'] = $next->id;
+            $response['position'] = $next->position;
+            $response['url'] = $next->file_video;
+            $response['title'] = $next->title;
+            $response['section'] = $next->section_id;
+            $response['max']= $max->max;
+            $response['end'] = false;
+             //kode biasa 
+         }
         
-        $response['videoid'] = $next->id;
-        $response['position'] = $next->position;
-        $response['url'] = $next->file_video;
-        $response['title'] = $next->title;
-        $response['section'] = $next->section_id;
+       
+
         
         echo json_encode($response);
     }

@@ -14,6 +14,7 @@ use App\Models\Contributor;
 use App\Models\VideoSection;
 use App\Models\ProjectSection;
 use App\Models\ProjectUser;
+use App\Models\History;
 use App\Models\BootcampLampiran;
 use DB;
 use Auth;
@@ -206,7 +207,13 @@ class CourseController extends Controller
         //tes total waktu video
         // $vsections = $section->first()->video_section->first()->where('section_id', $sect->id)->select(DB::raw('sum(durasi) as durasi'))->first();
         $psection = Section::with('project_section')->where('course_id', $courses->id)->get();
-        $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
+        $hist = History::where('section_id', $id)->orderby('created_at', 'desc')->first();
+
+        // if($hist){
+        //     $vmateri = DB::table('video_section')->join('history', 'video_section.id', 'history.video_id')->where('history.section_id', $id)->orderby('history.created_at', 'desc')->select('video_section.*')->first();       
+        // }else{
+            $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
+        // }
 
         if($vsection == null){
             $vsection = $section->first();
