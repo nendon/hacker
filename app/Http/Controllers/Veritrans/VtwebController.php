@@ -14,6 +14,7 @@ use Session;
 use Mail;
 use App\Mail\InvoiceMail;
 use App\Mail\SuksesMail;
+use App\Notifications\MembeliBootcamp;
 use Auth;
 use Illuminate\Http\Request;
 class VtwebController extends Controller {
@@ -191,6 +192,10 @@ class VtwebController extends Controller {
     public function create_tutorial_member($order_id)
     {
         $invoice = Invoice::where('code', $order_id)->with('details')->first();
+        $members = Member::where('id', $invoice->members_id)->first();
+        //code untuk find data
+        $member = Member::find($members->id);
+        $bootcamp = Bootcamp::find($detail->bootcamp_id);
         if ($invoice) {
             foreach ($invoice->details as $detail) {
                 if($detail->lesson_id){
@@ -201,6 +206,8 @@ class VtwebController extends Controller {
                 }
 
                 if($detail->bootcamp_id){
+                    //menambahkan code untuk mengirimkan notifikasi
+                    $member->notify(new MembeliBootcamp($member, $bootcamp));
                     $tm = BootcampMember::firstOrCreate([
                         'member_id' => $invoice->members_id,
                         'bootcamp_id' => $detail->bootcamp_id,
