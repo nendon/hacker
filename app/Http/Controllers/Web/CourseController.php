@@ -21,6 +21,7 @@ use Auth;
 use Datetime;
 use App\Notifications\UserProject;
 use App\Notifications\MemulaiCourse;
+use App\Notifications\MenyelesaikanCourse;
 use App\Notifications\UserNotifProject;
 
 
@@ -78,6 +79,24 @@ class CourseController extends Controller
             $deadline = '';
         }
         //
+        $bootcamp_tot = Bootcamp::join('course', 'bootcamp.id', 'course.bootcamp_id')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+            ->where('project_user.status', '2');})
+            ->leftjoin('history', function($join){
+            $join->on('video_section.id', '=', 'history.video_id')
+            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+            ->where('course.bootcamp_id', $bcs->id)
+            ->select(
+            DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), 
+            DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+            ->groupby('course.id', 'course.position')
+            ->first();
+
         return view('web.courses.CourseSylabus',[
             'course' => $courses,
             'bc' => $bcs,
@@ -249,11 +268,13 @@ class CourseController extends Controller
         // $ps = ProjectSection::
         $sect = Section::where('id', $id)->first();
         $course = Course::where('id',$sect->course_id)->first();
+        $member = Auth::guard('members')->user()->id;
         
         $project = ProjectSection::where('section_id', $id)->first();
         $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->orderby('created_at', 'desc')->first();
 
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
+
         $full_hist = DB::table('video_section')
         ->leftjoin('history', function($join){
           $join->on('video_section.id', '=', 'history.video_id')
@@ -265,6 +286,38 @@ class CourseController extends Controller
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
         }
+        $members = Member::find($member);
+        $bootcamp = Bootcamp::find($bcs->id ); 
+        $member_boot = BootcampMember::find($tutor->id);
+        $courses = Course::find($course->id);
+        
+        $valid = DB::table('course')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+            ->where('project_user.status', '2');})
+            ->leftjoin('history', function($join){
+            $join->on('video_section.id', '=', 'history.video_id')
+            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+            ->where('course.id', $course->id)
+            ->select('course.id as section', 'course.position as posisi',
+            DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), 
+            DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+            ->groupby('course.id', 'course.position')
+            ->first();
+
+            
+            $persen = 0;
+            $persen = number_format($valid->hasil / $valid->project*100); 
+                        
+       //penambahan email untuk pemberitahuan memulai belajar
+        if ($persen == 100) {
+            $members->notify(new MenyelesaikanCourse($members, $bootcamp, $member_boot, $courses));
+        }
+
          return view('web.courses.ProjectSubmit',[
 
             'bc' => $bcs,

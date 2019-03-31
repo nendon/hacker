@@ -136,6 +136,18 @@ class PackageController extends Controller
           ]);
           // store invoice detail
           if ($invoice) {
+            $id=0;
+            foreach ($boot as $boots) {
+              if($boots->bootcamp_id){
+                $id = $boots->bootcamp->id;
+              InvoiceDetail::updateOrCreate([
+                'invoice_id' => $invoice->id,
+                'bootcamp_id' => $boots->bootcamp->id,
+                'harga_lesson' => $boots->bootcamp->price,
+                'contributor_id' => $boots->bootcamp->contributor_id,
+              ]);
+              }
+          } 
             foreach ($carts as $cart) {
               if($cart->lesson_id){
               InvoiceDetail::updateOrCreate([
@@ -145,18 +157,8 @@ class PackageController extends Controller
                 'contributor_id' => $cart->lesson->contributor_id,
               ]);
               }
-              }
-
-              foreach ($boot as $boots) {
-                if($boots->bootcamp_id){
-                InvoiceDetail::updateOrCreate([
-                  'invoice_id' => $invoice->id,
-                  'bootcamp_id' => $cart->bootcamp->id,
-                  'harga_lesson' => $cart->bootcamp->price,
-                  'contributor_id' => $cart->bootcamp->contributor_id,
-                ]);
-                }
             }
+            
 
             session()->forget('coupon');
           }

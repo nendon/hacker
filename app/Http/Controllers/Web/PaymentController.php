@@ -8,11 +8,14 @@ use App\Models\Invoice;
 use App\Models\Cart;
 use App\Models\Member;
 use App\Models\Lesson;
+use App\Models\Bootcamp;
+use App\Models\InvoiceDetail;
 use DB;
 use Auth;
 use Session;
 use App\Mail\InvoiceMail;
 use App\Mail\SuksesMail;
+use App\Notifications\MembeliBootcamp;
 use Mail;
 
 class PaymentController extends Controller
@@ -21,6 +24,7 @@ class PaymentController extends Controller
   {
     Cart::where('member_id', Auth::guard('members')->user()->id)->delete();
     $invoice = Invoice::where('members_id', Auth::guard('members')->user()->id)->first();
+    // $bootcamps =1;
     $members = Member::where('id', $invoice->members_id)->first();
     // $send = Lesson::where($invoice->details())->first();
     // dd($send);
@@ -32,8 +36,11 @@ class PaymentController extends Controller
         Mail::to($members->email)->send(new SuksesMail());
       }
     }
-    
+    // $member = Member::find($members->id);
+    // $bootcamp = Bootcamp::find($bootcamps);
+   
     if($response == 'finish'){
+      // $member->notify(new MembeliBootcamp($member, $bootcamp));
       return view('web.payment.finish',[
         'invoice' => $invoice,
       ]);
