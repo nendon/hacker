@@ -38,6 +38,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\ProjectSection;
 use App\Models\ProjectUser;
+use App\Models\VideoSection;
 use Validator;
 class BootcampController extends Controller
 {
@@ -85,6 +86,21 @@ class BootcampController extends Controller
             'project_bootcamp' => $project_bootcamp,
             'durasi_bootcamp' =>  $durasi_bootcamp,
         ]);
+    }
+    public function next(Request $request){
+        $input = $request->all();
+        $response = array();
+        $video = VideoSection::where('id', Input::get('video_id'))->first();
+        $posisi = $video->position + 1;
+        $next = VideoSection::where('position', $posisi)->first();
+        
+        $response['videoid'] = $next->id;
+        $response['position'] = $next->position;
+        $response['url'] = $next->file_video;
+        $response['title'] = $next->title;
+        $response['section'] = $next->section_id;
+        
+        echo json_encode($response);
     }
     public function projectView($id)
     {

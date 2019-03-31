@@ -98,11 +98,14 @@ Route::get('/tentang', function () {
     return view('web.tentang');
 });
 
+Route::get('/testing', function () {
+    return view('web.check');
+});
 //bootcamp
 
 
 Route::get('/bootcamp/projectView/{id}', 'Web\BootcampController@projectView');
-
+Route::post('/bootcamp/getNextLink', 'Web\BootcampController@next');
 Route::get('/bootcamp/course', 'Web\BootcampController@member');
 Route::get('bootcamp/{bootcamp}', 'Web\BootcampController@bootcamp');
 Route::get('bootcamp/{bootcamp}/courseSylabus/', 'Web\CourseController@courseSylabus');

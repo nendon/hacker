@@ -8,6 +8,7 @@ use App\Models\ProjectSection;
 use App\Models\Section;
 use App\Models\VideoSection;
 use Auth;
+use DB;
 use DateTime;
 use FFMpeg;
 use Illuminate\Http\Request;
@@ -105,10 +106,16 @@ class SectionController extends Controller
             $section_id = Input::get('section_id');
             $position = Input::get('position');
 
+            $check = VideoSection::where('section_id',  Input::get('section_id'))
+                    ->select(DB::raw('max(position) as posisi'))
+                    ->first();
+
             $section = VideoSection::find($video_id);
             $section->title = $title;
             $section->deskripsi_video = $desk;
-            // $section->position = $position;
+            if($check){ 
+            $section->position = $check->posisi+1;
+            }
             $section->save();
             $response['success'] = true;
         }

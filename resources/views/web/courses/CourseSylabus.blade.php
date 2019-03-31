@@ -336,7 +336,7 @@
 
     $(document).on('ready',function () {
     getComments();
-  });
+    });
 
     function getComments() {
       $.ajax({
@@ -469,10 +469,11 @@
   function loadcontent(){
         $(".content-reload").load(window.location.href + " .content-reload");
         console.log('reload');
+        getComments();
     }
 
     setInterval(function(){
       getComments();
-    }, 10000);
+    },20000);
     </script>
 @endsection()

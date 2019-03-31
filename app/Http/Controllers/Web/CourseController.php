@@ -225,11 +225,11 @@ class CourseController extends Controller
         //tes total waktu video
         // $vsections = $section->first()->video_section->first()->where('section_id', $sect->id)->select(DB::raw('sum(durasi) as durasi'))->first();
         $psection = Section::with('project_section')->where('course_id', $courses->id)->get();
-        // $vmateri = DB::table('video_section')->where('section_id', $vsection->id)->get();
+        $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
 
-        if($vsection == null)
+        if($vsection == null){
             $vsection = $section->first();
-
+        }
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
 
         if(!$tutor){
@@ -244,6 +244,7 @@ class CourseController extends Controller
             'stn' => $section,
             'psection' => $psection,
             'vsection' => $vsection,
+            'vmateri' => $vmateri,
 
         ]);
     }
@@ -266,7 +267,15 @@ class CourseController extends Controller
         $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->orderby('created_at', 'desc')->first();
 
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
-        
+
+        $full_hist = DB::table('video_section')
+        ->leftjoin('history', function($join){
+          $join->on('video_section.id', '=', 'history.video_id')
+          ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+        ->where('video_section.section_id',  $sect ->id)
+        ->select(DB::raw('count(video_section.id) as target '), DB::raw('count(history.video_id) as hasil'))
+        ->first();
+
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
         }
@@ -312,6 +321,7 @@ class CourseController extends Controller
             'sec' =>$sect,
             'course' =>$course ,
             'projectUser' => $projectUser,
+            'hist' => $full_hist,
 
         ]);
     }

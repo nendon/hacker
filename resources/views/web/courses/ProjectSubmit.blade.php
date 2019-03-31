@@ -1,7 +1,17 @@
 @extends('web.app')
 @section('title',$project->title)
 @section('content')
-
+@if($hist->target != $hist->hasil)
+<script>
+$(function(){
+  swal({
+                title: "Kamu belum menonton semua video! jangan lupa selesaikan",
+                showConfirmButton: true,
+                timer: 10000
+              });
+  });
+</script>
+@endif
     <!-- Section Content -->
     <section id="wrapper">
       
@@ -78,7 +88,7 @@
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
                   <li> 
-                    <a
+                    <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$materi->section_id)}}"
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
                         data-video_id="{{$materi->id}}"
@@ -150,7 +160,7 @@
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
                   <li>
-                    <a
+                    <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$materi->section_id)}}"
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
                         data-video_id="{{$materi->id}}"
@@ -232,7 +242,7 @@
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
                   <li>
-                    <a
+                    <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$materi->section_id)}}"
                         data-url="{{$materi->file_video}}"
                         data-title="{{$materi->title}}"
                         data-video_id="{{$materi->id}}"
@@ -401,11 +411,16 @@
 
     </section>
     <script>
-    $(document).on('ready',function () {
+
+      $(function(){
           $('#footer').addClass('hide')
           getComments();
+          
         });
-
+      
+      
+   
+      
   
     </script>
     <script>
@@ -498,7 +513,7 @@
           }
       });
     }
-
+   
     function doComment(bootcamp_id, parent_id) {
     var body = $('#textbody'+parent_id).val();
     var file_data = $('#file').prop("files")[0];
