@@ -21,6 +21,7 @@ use Datetime;
 use App\Notifications\UserProject;
 use App\Notifications\MemulaiCourse;
 use App\Notifications\MenyelesaikanCourse;
+use App\Notifications\MenyelesaikanBootcamp;
 use App\Notifications\UserNotifProject;
 
 
@@ -77,25 +78,7 @@ class CourseController extends Controller
             $exp = '';
             $deadline = '';
         }
-        //
-        $bootcamp_tot = Bootcamp::join('course', 'bootcamp.id', 'course.bootcamp_id')
-            ->join('section', 'course.id', 'section.course_id')
-            ->join('video_section', 'section.id','video_section.section_id')
-            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
-            ->leftjoin('project_user', function($join){
-            $join->on('project_section.id', '=', 'project_user.project_section_id')
-            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
-            ->where('project_user.status', '2');})
-            ->leftjoin('history', function($join){
-            $join->on('video_section.id', '=', 'history.video_id')
-            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-            ->where('course.bootcamp_id', $bcs->id)
-            ->select(
-            DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), 
-            DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
-            ->groupby('course.id', 'course.position')
-            ->first();
-
+                  
         return view('web.courses.CourseSylabus',[
             'course' => $courses,
             'bc' => $bcs,
@@ -139,37 +122,35 @@ class CourseController extends Controller
         $bootcamp = Bootcamp::find($bcs->id ); 
         $member_boot = BootcampMember::find($tutor->id);
         $course = Course::find($courses->id);
-        
-        $valid = DB::table('course')
-                        ->join('section', 'course.id', 'section.course_id')
-                        ->join('video_section', 'section.id','video_section.section_id')
-                        ->leftjoin('project_section', 'section.id', 'project_section.section_id')
-                        ->leftjoin('project_user', function($join){
-                        $join->on('project_section.id', '=', 'project_user.project_section_id')
-                        ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
-                        ->where('project_user.status', '2');})
-                        ->leftjoin('history', function($join){
-                          $join->on('video_section.id', '=', 'history.video_id')
-                          ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-                        ->where('course.id', $courses->id)
-                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
-                        ->groupby('course.id', 'course.position')
-                        ->first();
-
-                        
-                        $persen = 0;
-                        $persen = number_format($valid->hasil / $valid->project*100); 
-                        if ($persen == 0){
-                              $value = 0;
-                            }else{
-                              $value = 1;
-                            }
-       //penambahan email untuk pemberitahuan memulai belajar
-        if ($value == 0) {
+        if ($tutor->mulai == null) {
             $members->notify(new MemulaiCourse($members, $bootcamp, $member_boot, $course));
         }
-        
- 
+        $valid = DB::table('course')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+            ->where('project_user.status', '2');})
+            ->leftjoin('history', function($join){
+                $join->on('video_section.id', '=', 'history.video_id')
+                ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+            ->where('course.id', $courses->id)
+            ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+            ->groupby('course.id', 'course.position')
+            ->first();
+        $persen = 0;
+        $persen = number_format($valid->hasil / $valid->project*100); 
+        if ($persen == 0){
+            $value = 1;
+            $update = BootcampMember::find($tutor->id);
+            $update['mulai'] = $value;
+            $update->save();
+            $response['success'] = true;
+        }
+       //penambahan email untuk pemberitahuan memulai belajar
+
         if($tutor->expired_at){
 
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
@@ -265,7 +246,7 @@ class CourseController extends Controller
         
         $project = ProjectSection::where('section_id', $id)->first();
         $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->orderby('created_at', 'desc')->first();
-
+ 
         $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
 
         $full_hist = DB::table('video_section')
@@ -310,6 +291,33 @@ class CourseController extends Controller
         if ($persen == 100) {
             $members->notify(new MenyelesaikanCourse($members, $bootcamp, $member_boot, $courses));
         }
+        
+        $bootcamp_tot = Bootcamp::join('course', 'bootcamp.id', 'course.bootcamp_id')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+            ->where('project_user.status', '2');})
+            ->leftjoin('history', function($join){
+            $join->on('video_section.id', '=', 'history.video_id')
+            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+            ->where('bootcamp.id', $bcs->id)
+            ->select(
+            DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), 
+            DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+            ->first();
+            $persen_boot = 0;
+            $persen_boot = number_format($bootcamp_tot->hasil / $bootcamp_tot->project*100); 
+            if($persen_boot==100 && $tutor->selesai == null){
+                $value = 1;
+                $update = BootcampMember::find($tutor->id);
+                $update['selesai'] = $value;
+                $update->save();
+                $response['success'] = true;
+                $members->notify(new MenyelesaikanBootcamp($members, $bootcamp)); 
+            } 
 
          return view('web.courses.ProjectSubmit',[
 
