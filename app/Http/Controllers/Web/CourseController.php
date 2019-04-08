@@ -118,38 +118,34 @@ class CourseController extends Controller
         $response['success'] = true;
         
         }
+         //penambahan email untuk pemberitahuan memulai belajar
         $members = Member::find($member);
         $bootcamp = Bootcamp::find($bcs->id ); 
         $member_boot = BootcampMember::find($tutor->id);
         $course = Course::find($courses->id);
-        if ($tutor->mulai == null) {
+       
+        $now = new DateTime();
+        $id_notif = $course->id;
+        $type = 'course';
+        $title = 'mulai';
+        $notif = DB::table('notif_email')->where('member_id', $member)->where('id_notif',$course->id)->first(); 
+        $history = DB::table('notif_email')
+            ->where('title', '=', $title)
+            ->where('member_id', '=', $member)
+            ->where('id_notif', '=', $id_notif)
+            ->where('type', '=', $type)
+            ->select('*')
+            ->get();
+        if (!isset($history[0])) {
             $members->notify(new MemulaiCourse($members, $bootcamp, $member_boot, $course));
+            DB::table('notif_email')->insert([
+                'title' => $title,
+                'member_id' => $member,
+                'id_notif' => $id_notif,
+                'type' => $type,
+                'created_at' => $now
+            ]);
         }
-        $valid = DB::table('course')
-            ->join('section', 'course.id', 'section.course_id')
-            ->join('video_section', 'section.id','video_section.section_id')
-            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
-            ->leftjoin('project_user', function($join){
-            $join->on('project_section.id', '=', 'project_user.project_section_id')
-            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
-            ->where('project_user.status', '2');})
-            ->leftjoin('history', function($join){
-                $join->on('video_section.id', '=', 'history.video_id')
-                ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-            ->where('course.id', $courses->id)
-            ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
-            ->groupby('course.id', 'course.position')
-            ->first();
-        $persen = 0;
-        $persen = number_format($valid->hasil / $valid->project*100); 
-        if ($persen == 0){
-            $value = 1;
-            $update = BootcampMember::find($tutor->id);
-            $update['mulai'] = $value;
-            $update->save();
-            $response['success'] = true;
-        }
-       //penambahan email untuk pemberitahuan memulai belajar
 
         if($tutor->expired_at){
 
@@ -217,8 +213,6 @@ class CourseController extends Controller
             return redirect('bootcamp/'.$bcs->slug);
         }
         $expired = BootcampMember::where('bootcamp_id', $bcs->id)->select(DB::raw('DATE_ADD( start_at, INTERVAL target day) as exp'))->first();
-
-
         return view('web.courses.VideoPage',[
             'course' => $courses,
             'bc' => $bcs,
@@ -264,32 +258,29 @@ class CourseController extends Controller
         $bootcamp = Bootcamp::find($bcs->id ); 
         $member_boot = BootcampMember::find($tutor->id);
         $courses = Course::find($course->id);
-        
-        $valid = DB::table('course')
-            ->join('section', 'course.id', 'section.course_id')
-            ->join('video_section', 'section.id','video_section.section_id')
-            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
-            ->leftjoin('project_user', function($join){
-            $join->on('project_section.id', '=', 'project_user.project_section_id')
-            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
-            ->where('project_user.status', '2');})
-            ->leftjoin('history', function($join){
-            $join->on('video_section.id', '=', 'history.video_id')
-            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-            ->where('course.id', $course->id)
-            ->select('course.id as section', 'course.position as posisi',
-            DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), 
-            DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
-            ->groupby('course.id', 'course.position')
-            ->first();
-
-            
-            $persen = 0;
-            $persen = number_format($valid->hasil / $valid->project*100); 
-                        
-       //penambahan email untuk pemberitahuan memulai belajar
-        if ($persen == 100) {
+               
+       //penambahan email untuk menyelesaikan course belajar
+       $now = new DateTime();
+       $id_notif = $course->id;
+       $type = 'course';
+       $title = 'selesai';
+       $notif = DB::table('notif_email')->where('member_id', $member)->where('id_notif',$course->id)->first(); 
+       $history = DB::table('notif_email')
+            ->where('title', '=', $title)
+            ->where('member_id', '=', $member)
+            ->where('id_notif', '=', $id_notif)
+            ->where('type', '=', $type)
+            ->select('*')
+            ->get();
+       if (!isset($history[0])) {
             $members->notify(new MenyelesaikanCourse($members, $bootcamp, $member_boot, $courses));
+            DB::table('notif_email')->insert([
+                'title' => $title,
+                'member_id' => $member,
+                'id_notif' => $id_notif,
+                'type' => $type,
+                'created_at' => $now
+            ]);
         }
         
         $bootcamp_tot = Bootcamp::join('course', 'bootcamp.id', 'course.bootcamp_id')
@@ -380,11 +371,11 @@ class CourseController extends Controller
 
         // Check if user has history
         $history = DB::table('history')
-                      ->where('member_id', '=', $uid)
-                      ->where('section_id', '=', $params['section_id'])
-                      ->where('video_id', '=', $params['video_id'])
-                      ->select('*')
-                      ->get();
+            ->where('member_id', '=', $uid)
+            ->where('section_id', '=', $params['section_id'])
+            ->where('video_id', '=', $params['video_id'])
+            ->select('*')
+            ->get();
 
         // Insert if user doesn't have any history
         if (!isset($history[0])) {
