@@ -21,12 +21,10 @@ class MenyelesaikanBootcamp extends Notification
      *
      * @return void
      */
-    public function __construct(Member $member, Bootcamp $bootcamp, BootcampMember $bootcampMember, Course $course)
+    public function __construct(Member $member, Bootcamp $bootcamp)
     {
         $this->member = $member;
         $this->bootcamp = $bootcamp;
-        $this->bootcampMember = $bootcampMember;
-        $this->course = $course;
     }
 
     /**
@@ -56,7 +54,6 @@ class MenyelesaikanBootcamp extends Notification
             ->line(sprintf('Selamat atas kelulusan Anda dalam Bootcamp %s di Cilsy! Perjalanan ini tidaklah mudah, dan Anda telah berhasil melaluinya', $this->bootcamp->title))
             ->line('Anda berhak untuk mendapatkan reward berupa sertifikat kelulusan serta akses untuk kami bantu salurkan magang dan kerja.')
             ->line('Untuk download sertifikat dapat Anda klik dari tombol berikut, sedangkan terkait bantuan penyaluran magang dan kerja akan kami berikan info berikutnya.')
-            ->line('Tips untuk dapat menjalani Bootcamp ini dengan baik hanya 2 : Prioritaskan bootcamp ini di jadwal Anda dan have fun dalam menjalaninya.')
             ->action('Download Sertifikat Kelulusan', $url);
                     
     }
