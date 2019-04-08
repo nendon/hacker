@@ -1,5 +1,5 @@
 @extends('web.app')
-@section('title',$project->title)
+@section('title', $project->title)
 @section('content')
 @if($hist->target != $hist->hasil)
 <script>
@@ -10,7 +10,7 @@ $(function(){
                 timer: 10000
               });
   });
-</script>
+</script> 
 @endif
     <!-- Section Content -->
     <section id="wrapper">
@@ -123,18 +123,18 @@ $(function(){
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
-                  foreach ($section->project_section as $key => $project): ?>
+                  foreach ($section->project_section as $key => $projects): ?>
                   <li>
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
-                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}
+                        <i class="fas fa-clipboard-list"></i>  {{$projects->title}}
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
                          $cek = DB::table('project_section')
                          ->join('project_user', 'project_section.id', 'project_user.project_section_id')
-                         ->where('project_section.id', $project->id)
+                         ->where('project_section.id', $projects->id)
                          ->where('project_user.status', 2)
                          ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
                          ->first();
@@ -189,18 +189,18 @@ $(function(){
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
-                  foreach ($section->project_section as $key => $project): ?>
+                  foreach ($section->project_section as $key => $projects): ?>
                   <li>
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
-                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}
+                        <i class="fas fa-clipboard-list"></i>  {{$projects->title}}
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
                           $cek = DB::table('project_section')
                           ->join('project_user', 'project_section.id', 'project_user.project_section_id')
-                          ->where('project_section.id', $project->id)
+                          ->where('project_section.id', $projects->id)
                           ->where('project_user.status', 2)
                           ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
                           ->first();
@@ -271,18 +271,18 @@ $(function(){
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
-                  foreach ($section->project_section as $key => $project): ?>
+                  foreach ($section->project_section as $key => $projects): ?>
                   <li>
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
-                        <i class="fas fa-clipboard-list"></i>  {{$project->title}}
+                        <i class="fas fa-clipboard-list"></i>  {{$projects->title}}
                       </div>
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
                           $cek = DB::table('project_section')
                                   ->join('project_user', 'project_section.id', 'project_user.project_section_id')
-                                  ->where('project_section.id', $project->id)
+                                  ->where('project_section.id', $projects->id)
                                   ->where('project_user.status', 2)
                                   ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
                                   ->first();
@@ -415,7 +415,7 @@ $(function(){
       $(function(){
           $('#footer').addClass('hide')
           getComments();
-          
+          $('#{{$sec->id}}').collapse();
         });
       
       

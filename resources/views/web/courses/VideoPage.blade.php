@@ -368,20 +368,9 @@
                       $count++;
                      
 
-                      $full_hist = DB::table('video_section')
-                          ->leftjoin('history', function($join){
-                            $join->on('video_section.id', '=', 'history.video_id')
-                            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-                          ->where('video_section.section_id', $vmateri->section_id)
-                          ->select(DB::raw('count(video_section.id) as target '), DB::raw('count(history.video_id) as hasil'))
-                          ->first();
-                      if($full_hist){
-                      if($full_hist->target == $full_hist->hasil){
+                      
                       ?>
-                      <a name="lanjut" class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$value->section_id) }}">
-                      Lanjutkan <i class="fa fa-step-forward"></i>
-                      </a>
-                      <?php }else{    ?>
+                     
                       
                     <a
                         data-url="{{$vmateri->file_video}}"
@@ -392,8 +381,8 @@
                         class="btn btn-next link-next"
                     >Lanjutkan</a>
 
-                      <?php }
-                      } 
+                      <?php 
+                      
                     endforeach;
                   ?>
                   </div>
@@ -416,8 +405,17 @@
       <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
 
     <script>
-    $(function(){
+    var id = {{$vmateri->id}};
+    $(document).on('ready',function () {
       getComments();
+
+      $('#{{$vmateri->section_id}}').collapse();
+
+      $(".submateri a").each(function() {
+        if($(this).data('video_id') == id){
+          $(this).addClass("active");
+        }
+      })
     });
     //vmateri bisa disimpen disni gateh ? harusnya mah bisa ya 
     let video_id = "{{$vmateri->id}}";
@@ -481,26 +479,8 @@
             <span class="label--pressed plyr__tooltip" role="tooltip">Exit fullscreen</span>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Enter fullscreen</span>
         </button>
-              <?php 
-                $sec = DB::table('video_section')
-                       ->where('id', $vmateri->id)->first();
-
-                $full_hist = DB::table('video_section')
-                    ->leftjoin('history', function($join){
-                      $join->on('video_section.id', '=', 'history.video_id')
-                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-                    ->where('video_section.section_id',$vmateri->section_id)
-                    ->select(DB::raw('count(video_section.id) as target , count(history.video_id) as hasil'))
-                    ->first();
-                     
-                $cek_max = DB::table('video_section')->select(DB::raw('max(position) as posisi'))->where('section_id',$vmateri->section_id)->first();
+              
                
-                if($full_hist->target == $full_hist->hasil){
-                ?>
-                <a name="lanj" class="btn btn-next" href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$materi->section_id) }}">
-                Lanjutkan <i class="fa fa-step-forward"></i>
-                </a>
-                <?php }else{ ?>
         <a
             data-url="{{$vmateri->file_video}}"
             data-title="{{$vmateri->title}}"
@@ -512,14 +492,12 @@
             Lanjutkan <i class="fa fa-step-forward"></i>
             <span class="label--not-pressed plyr__tooltip" role="tooltip">Lanjutkan Course</span>
         </a>
-                      <?php } 
-                      
-                ?>
+                 
     </div>
     `;
 
     var player = new Plyr('#player', {
-      "debug": true,
+      "debug": false,
       controls,
       keyboard:{
         global: true
@@ -592,15 +570,14 @@
                   type: 'video/mp4',
                   }]
                 };
-                console.log("Sebelum : "+$(attr).data('video_id'));                
-                console.log("Sesudah : "+result.videoid);
-                console.log("url : "+defaultUrl+result.url);
-                console.log("max : "+result.max);
+                
                 video_id = result.videoid;
                 section_id = result.section;
+                console.log("url : "+defaultUrl+result.url);
+                console.log("max : "+result.max);
                 console.log("video_id sesudah : "+$(attr).data('video_id'));   
-                console.log("video_id sesudah : "+$(attr).data('section_id'));   
-                saveHist(video_id, section_id); 
+                console.log("section sesudah : "+$(attr).data('section_id'));   
+               saveHist(video_id, section_id); 
               }  
             },
             error: function(data) {
@@ -743,7 +720,7 @@
       let data = {
         video_id: $(attr).data('video_id'),
         section_id: $(attr).data('section_id')
-      };
+      }; 
 
       // set base url for global usage
       let loc = window.location;
@@ -755,10 +732,24 @@
         url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
         data: data
       });
-      $( "#pills-materi" ).load(window.location.href + " #pills-materi" ); 
+
+      $( "#pills-materi" ).load(window.location.href + " #pills-materi" , () => {
+        var id_collapse = $(attr).data('section_id');
+        $('#'+id_collapse).collapse();
+
+        id =  $(attr).data('video_id');
+        $(".submateri a").each(function() {
+          console.log('id ke : '+$(this).data('video_id'));
+          if($(this).data('video_id') == id){
+            $(this).addClass("active");
+          }else{
+            $(this).removeClass("active");
+          }
+        })
+      })
     }
 
-    function saveHist(video_id, section_id) {
+    function saveHist(video_id, section_id ) {
      
       let data = {
         video_id: video_id,
@@ -775,7 +766,22 @@
         url: baseUrl + '{{$bc->slug}}' +"/saveHistory",
         data: data
       });
-      $( "#pills-materi" ).load(window.location.href + " #pills-materi" ); 
+      $( "#pills-materi" ).load(window.location.href + " #pills-materi" , () => {
+        // ini section id nya bner kan? iyaaa bener dapet dari saat change
+        // var id_collapse = $(section_id).data('section_id');
+        $('#'+section_id).collapse();
+
+        // id =  $(attr).data('video_id');
+        $(".submateri a").each(function() {
+          console.log('id ke : '+$(this).data('video_id'));
+          if($(this).data('video_id') == video_id){
+            $(this).addClass("active");
+            console.log('^active');
+          }else{
+            $(this).removeClass("active");
+          }
+        })
+      })
     }
     
     $('.collap').click(function(e){

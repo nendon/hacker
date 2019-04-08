@@ -90,9 +90,9 @@ class BootcampController extends Controller
     public function next(Request $request){
         $input = $request->all();
         $response = array();
-        $video = VideoSection::where('id', Input::get('video_id'))->first();
-        $posisi = $video->position + 1;
-        $next = VideoSection::where('position', $posisi)->first();
+        $video = VideoSection::where('id', Input::get('video_id'))->where('section_id',Input::get('section_id') )->first();
+        $posisi = $video->position + 1; 
+        $next = VideoSection::where('position', $posisi)->where('section_id', Input::get('section_id'))->first();
         $section = Section::where('id',Input::get('section_id') )->first();
         $course = Course::where('id', $section->course_id)->first();
         $bootcamp = Bootcamp::where('id', $course->bootcamp_id)->first();
