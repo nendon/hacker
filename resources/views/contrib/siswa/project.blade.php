@@ -22,9 +22,9 @@
       Nama Bootcamp/Tutorial <br>
       <select class="form-control">
         <option value="">Semua Bootcamp/Tutorial</option>
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
+        @foreach($bcid as $bcids)
+          <option value="{{$bcids->id}}">{{$bcids->title}}</option>
+        @endforeach
       </select>
     </div>
 

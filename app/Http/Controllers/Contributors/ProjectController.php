@@ -13,6 +13,7 @@ use App\Models\Contributor;
 use App\Notifications\ContribProject;
 use App\Notifications\ContribProjectTolak;
 use Auth;
+use DB;
 
 
 class ProjectController extends Controller
@@ -30,8 +31,10 @@ class ProjectController extends Controller
             
         $uid = Auth::guard('contributors')->user()->id;
         $project = ProjectSection::where('contributor_id', $uid)->paginate(5);
+        $bcid = DB::table('bootcamp')->get();
         return view('contrib.siswa.project', [
-            'project' => $project
+            'project' => $project,
+            'bcid' => $bcid
         ]);
         }
     }
