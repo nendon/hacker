@@ -5,10 +5,10 @@
 <script>
 $(function(){
   swal({
-                title: "Kamu belum menonton semua video! jangan lupa selesaikan",
-                showConfirmButton: true,
-                timer: 10000
-              });
+        title: "Kamu belum menonton semua video! jangan lupa selesaikan",
+        showConfirmButton: true,
+        timer: 10000
+      });
   });
 </script> 
 @endif
@@ -74,7 +74,7 @@ $(function(){
                           ->select(DB::raw('sum(durasi) as total'))
                           ->first();
 
-                          echo gmdate("i:s", $totalmenit->total).":00";
+                          echo gmdate("H:i:s", $totalmenit->total);
                       ?>
                     </h6>
                   </div>
@@ -104,9 +104,9 @@ $(function(){
                         <div class="col-xs-0 px-0 text-right">
                           <!-- {{$materi->durasi}} -->
                            <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
-                                <?php 
-                                echo gmdate("i:s", $materi->durasi).":00";
-                                ?>
+                           <?php 
+                              echo gmdate("H:i:s", $materi->durasi);
+                            ?>
                           <?php 
                           $history = DB::table('video_section')
                           ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
@@ -172,7 +172,9 @@ $(function(){
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
                         </div>
                         <div class="col-xs-2 px-0 text-right">
-                          {{$materi->durasi}}
+                            <?php 
+                              echo gmdate("H:i:s", $materi->durasi);
+                            ?>
                           <?php 
                           $history = DB::table('video_section')
                           ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
@@ -254,7 +256,9 @@ $(function(){
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> {{$materi->title}}
                         </div>
                         <div class="col-xs-2 px-0 text-right">
-                          {{$materi->durasi}}
+                            <?php 
+                              echo gmdate("H:i:s", $materi->durasi);
+                            ?>
                           <?php 
                           $history = DB::table('video_section')
                           ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();

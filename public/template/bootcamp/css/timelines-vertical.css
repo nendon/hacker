@@ -14,8 +14,8 @@
 .timelines:before {
 	content: '';
 	position: absolute;
-	top: 0;
-	bottom: 0;
+	top: 20%;
+	bottom: 20%;
 	width: 10px;
 	background: #afdcf8;
 	left: 10%;
@@ -97,8 +97,8 @@ ul.lesson-detail li:after{
 	border-radius: 50%;
 	box-shadow: 0 0 0 8px #afdcf8;
 	text-align: center;
-	left: 10%;
-	top: 40%;
+	left: 2.9%;
+	top: 1%;
 	margin: 0 0 0 -30px;
 }
 
@@ -157,8 +157,8 @@ ul.lesson-detail li:after{
         z-index: 999;
         left: 50%;
         top: -50px;
-    	}
-
+    }
+}
 /*  ==============================
     timelines Page Sylabus & Lesson
     ==============================
