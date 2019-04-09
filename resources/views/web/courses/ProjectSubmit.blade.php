@@ -384,6 +384,14 @@ $(function(){
 
                   <h4><b>Instruksi: <br/></b><br/> {{$project->instruksi}}</h4>
                   <br/>
+                  <p>Project yang anda submit akan langsung di Review oleh Instruktur dan Team Project Viewer yang sudah kompeten dan memiliki skill yang baik. <br/>
+                  Pastikan anda mengerjakan project dengan sesuai permintaan karena jika tidak Anda tidak akan bisa melanjutkan ke Course selanjutnya. </p>
+                  Ketentuan <br/>
+                  <p>1. Kirimkan tugas ini dalam bentuk dokumen apapun (Word, Excel, PDF, Gambar, dll) <br/>
+                  2. Archive dokumen tersebut ke dalam zip/rar. Tim penilai akan mengulas tugas Anda dalam tempo maksimal 2(dua) hari kerja <br/>(terkecuali Sabtu, Minggu, dan haru libur nasional). <br/>
+                  3. Cukup satu kali saja mengumpulkan tugas, tidak perlu berkali kali. Tindakan demikian hanya akan memperlama proses penilaian. </p>
+                  Siap untuk mengirim? <br/>
+                  Jika anda memiliki kesulitan atau masalah tentang projek atau status projek anda yang disubmit anda bisa menghubungi kami melalui supportprojek@cilsy.id <br/>
                   <br/>
                   @if($projectUser)
                     @if($projectUser->status == "1")
