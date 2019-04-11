@@ -205,12 +205,65 @@ class CourseController extends Controller
         $psection = Section::with('project_section')->where('course_id', $courses->id)->get();
         $hist = History::where('section_id', $id)->orderby('created_at', 'desc')->first();
 
+        //untuk penambahan history terakhir
         // if($hist){
         //     $vmateri = DB::table('video_section')->join('history', 'video_section.id', 'history.video_id')->where('history.section_id', $id)->orderby('history.created_at', 'desc')->select('video_section.*')->first();       
         // }else{
             $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
         // }
+        $cekdulu = DB::table('bootcamp')
+                        ->join('course', 'bootcamp.id', 'course.bootcamp_id')
+                        ->join('section', 'course.id', 'section.course_id')
+                        ->join('video_section', 'section.id','video_section.section_id')
+                        ->join('project_section', 'section.id', 'project_section.section_id')
+                        ->where('section.id', $sect->id)
+                        ->select('section.id as section', 'section.position as position','course.position as p_course')
+                        ->groupby('section.id', 'section.position','course.position' )
+                        ->first();
 
+        if($cekdulu->position != 1 || $cekdulu->p_course != 1){
+        if($sect->position == 1 ){
+        $nilai = Course::where('id', $courses->id-1)->first();
+        $valid = DB::table('course')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->join('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+            ->where('project_user.status', '2');})
+            ->leftjoin('history', function($join){
+            $join->on('video_section.id', '=', 'history.video_id')
+            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+            ->where('course.id', $nilai->id)
+            ->select('course.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+            ->groupby('course.id')
+            ->first();
+        }else{
+            $nilai = Section::where('id', $sect->id-1)->first();
+            $valid = DB::table('course')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->join('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
+            ->where('project_user.status', '2');})
+            ->leftjoin('history', function($join){
+            $join->on('video_section.id', '=', 'history.video_id')
+            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+            ->where('section.id', $nilai->id)
+            ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+            ->groupby('section.id')
+            ->first();
+        }
+        
+        if($valid->hasil != $valid->project){
+         return abort(404);
+        }
+
+        }
+        
         if($vsection == null){
             $vsection = $section->first();
         }
