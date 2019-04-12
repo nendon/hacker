@@ -52,7 +52,7 @@
               <img src="{{asset($bca->picture_problem)}}" class="img-responsive" alt="">
             </div>
             <div class="col-md-7 col-sm-12 col-xs-12 px-5">
-              <h3>Tahukan Anda?</h3>
+              <h3>Tahukah Anda?</h3>
               <p>
               {{$bca->problem}}
               </p>
@@ -102,19 +102,17 @@
             <h3 class="mb-5">Bagaimana Bootcamp membantu anda</h3>
             <h4>Daftar dan Pelajari</h4>
             <p>
-              Bootcamp Cilsy adalah series course yang membatu anda menguasai keterampil
-              Industri IT saat ini. CAri bootcamp yang ideal dengan kevek skll, kesukaan dan juga
-              tujuan karir anda dimasa depan. Untuk memulainya, anda bisa membeli lalu
-              mempelajarinya langsung. Kurikulum di bootcamp telat di sesuaikan dengan kebutuhan 
-              industri dibuat oleh Instruktur superstar yang menguasai bidangnya.
+            Bootcamp Cilsy adalah program terbaru dari Cilsy yang jauh lebih lengkap dibanding Tutorial biasa untuk membantu anda menguasai keterampilan Industri IT. 
+            Cari bootcamp yang ideal dengan kebutuhan skill dan juga tujuan karir anda dimasa depan. 
+            Kurikulum di bootcamp diatur agar lebih tersusun dan jelas kurikulumnya, 
+            serta disesuaikan dengan kebutuhan industri, Materi dibuat oleh Instruktur superstar (praktisi ahli) yang menguasai bidangnya masing-masing.
             </p>
 
             <br>
             <h4>Kerjakan Real Projek, Dapatkan Review</h4>
             <p>
-              Disetiap bootcamp anda harus menyelesaikan real projek untuk menunjukan anda telah
-              berhasil dalam belajar. Projek yang dikerjakan, akan berguna untuk membuat portofolio
-              saat melamar pekerjaan.
+            Di setiap materi anda harus menyelesaikan real projek maupun exersise untuk menunjukan anda benar-benar menguasai materi. 
+            Projek dan exercise yang dikerjakan, akan berguna untuk membuat portofolio saat memulai karir Anda di bidang IT.
             </p>
 
             <br>
@@ -130,9 +128,9 @@
         <div class="row silabus">
           <div class="container">
           <div class="col-xs-12 text-center">
-              <h3>Silabus - Apa yang akan Anda Pelajari di Bootcamp ini</h3>
+              <h3>Apa yang akan Anda Pelajari di Bootcamp ini</h3>
 
-              <p class="text-muted">Kami membuat Program untuk menjadikan Anda seorang {{$bca->title}} dengan bantuan kurikulum yang terstruktur</p>
+              <p class="text-muted">Kami membantu Anda menjadi seorang Tech Talent berkualitas dalam Bootcamp {{$bca->title}} dengan bantuan kurikulum yang terstruktur.</p>
               <ul>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi {{$target->target}} Hari</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> {{$project_bootcamp->durasi}} Projek</li>
@@ -298,8 +296,9 @@
             </div>
           </div>
         </div>
+        @include('web.bootcamp.testimoni')
 
-        <div class="row testimoni">
+        <!-- <div class="row testimoni">
           <div class="col-xs-12 text-center">
             <h2 class="title text-center">Testimoni dari Siswa</h2>
           </div>
@@ -346,7 +345,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="row question">
           <div class="col-xs-12 text-center mb-5">
@@ -369,18 +368,18 @@
             <b>Kenapa saya harus membeli ?</b>
             <ul>
               <li>
-                Tutorial di Cilsy dibaut secara real dari hasil praktik tim internal,
-                Semua sudah diuji coba sebelum dijual.
+              Bootcamp di Cilsy ini merupakan pembelajaran full online dengan video on-demand, 
+              bukan berupa pembelajaran live streaming dengan jadwal tertentu. 
+              Sehingga Anda bisa belajar kapanpun dimanapun sesuai ritme belajar Anda sendiri.
               </li>
               <li>
-                Video dibuat denga kualitas tinggi ( lighting, suara, da tampilan
-                gambar ) dan melalui proses editing.
+              Anda bebas bertanya dengan instruktur jika mengalami kesulitan. 
+              Dan instruktur dijamin akan memberikan jawaban dan bantuan.
               </li>
               <li>
-                  Kursus ini onlinem Anda bsia menonton videonya kapanpun dan 
-                  dimanapun Anda mau. Sangat fleksibel.
+              Sepanjang Bootcamp Anda akan diajak mengerjakan berbagai exercise dan real projek sehingga benar-benar dapat memahami isi materinya.
               </li>
-              <li>Tersedia fasilitas support lifetime terkait isi materi tutorial dan</li>
+              <li>Karena materi Bootcamp ini benar-benar didesain untuk kebutuhan Industri, maka setelah lulus Bootcamp Anda akan diberikan fasilitas untuk disalurkan magang dan kerja</li>
             </ul>
           </div>
         </div>
@@ -396,8 +395,7 @@
                 <img src="{{asset('template/bootcamp/asset/FasilitasVideo.svg')}}" class="img-responsive" alt="">
               </div>
               <h5>Video</h5>
-              Ada 32 video tutorial berkualitas tinggi yang direkam oleh tim
-              tutorial creator Cilsy, bisa Anda tonton sendiri online, maupun di download.
+              Materi berupa video berkualitas yang bisa Anda tonton sendiri online, maupun di download.
             </div>
 
             <div class="item">
@@ -405,8 +403,7 @@
                 <img src="{{asset('template/bootcamp/asset/FasilitasDownload.svg')}}" class="img-responsive" alt="">
               </div>
               <h5>Offline Mode</h5>
-              Seluruh video materu kursus dan eBook bebas anda download
-              sehingga bisa Anda pelajari kapanpun dan dimanapun
+              Seluruh materi Bootcamp bebas anda download sehingga bisa Anda pelajari kapanpun dan dimanapun
             </div>
 
             <div class="item">
@@ -424,9 +421,7 @@
                 <img src="{{asset('template/bootcamp/asset/FasilitasSertifikat.svg')}}" class="img-responsive" alt="">
               </div>
               <h5>Sertifikat</h5>
-              Jika Anda sudah menyelesaikan seluruh tutorial & praktek, Anda
-              bisa membuat resume dan berhak mendapatkan sertifikat dari PT
-              Cilsy.
+              ika Anda sudah menyelesaikan seluruh materi, exersice, dan projek, Anda bisa membuat resume dan berhak mendapatkan sertifikat dari Cilsy.
             </div>
 
 
@@ -436,9 +431,9 @@
                 <div class="icon">
                   <img src="{{asset('template/bootcamp/asset/FasilitasEbook.svg')}}" class="img-responsive" alt="">
                 </div>
-                <h5>Ebook</h5>
-                bagi Anda yang tidak suka belajar melalui video, kami juga
-                menyediakan eBook dengan isi yang sama untuk menunjang pembelajaran Anda.
+                <h5>Kesempatan Berkarir</h5>
+                Setelah lulus Anda akan diberikan fasilitas untuk dibantu disalurkan magang dan kerja ke perusahaan-perusahaan yang sudah bekerjasama dengan Cilsy
+
               </div>
   
               <div class="item">
@@ -446,8 +441,7 @@
                   <img src="{{asset('template/bootcamp/asset/FasilitasAksesSelamanya.svg')}}" class="img-responsive" alt="">
                 </div>
                 <h5>Akses Selamanya</h5>
-                Semua akses materi kursus tidak ada batasan waktunya. Semua
-                dapat Anda memiliki selamanya. Hanya untuk Anda.
+                Semua akses materi Bootcamp tidak ada batasan waktunya. Semua dapat Anda memiliki selamanya. Hanya untuk Anda.
               </div>
   
               <div class="item">
@@ -455,9 +449,7 @@
                   <img src="{{asset('template/bootcamp/asset/FasilitasDiskusi.svg')}}" class="img-responsive" alt="">
                 </div>
                 <h5>Diskusi</h5>
-                Kesulitan saat praktek ? Ada fitur diskusi di halaman tutorial di
-                web. Tim support Cilsy akan membantu semua kendala Anda saat
-                praktek.
+                Kesulitan saat praktek ? Ada fitur diskusi yang dapat Anda gunakan untuk berdiskusi dengan Instruktur untuk memecahkan kendala yang Anda alami
               </div>
   
               <div class="item">
@@ -465,9 +457,7 @@
                   <img src="{{asset('template/bootcamp/asset/FasilitasUpdate.svg')}}" class="img-responsive" alt="">
                 </div>
                 <h5>Free Update</h5>
-                Total video yang Anda dapatkan adalah 32 video. Jika ada
-                pembaharuan materi baru, makan Anda bisa mendapatkannya
-                GRATIS
+                Jika ada pembaharuan materi baru, maka Anda bisa mendapatkannya secara GRATIS tanpa perlu membayar kembali.
               </div>
 
           </div>
@@ -512,9 +502,7 @@
                     </h6>
                   </div>
                   <div id="collapse1" class="panel-collapse collapse in">
-                    <div class="panel-body"> Anda memprakteka semua materi kursus online yang ada di dalam video tutorial kapanpun &
-                        dimanapun. Anda juga bisa berdiskusi dengan tim support Cilsy menggunakan fasilitas
-                        diskusi di web.</div>
+                    <div class="panel-body"> Materi langsung bisa diakses setelah Anda membeli.</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
@@ -525,24 +513,18 @@
                     </h6>
                   </div>
                   <div id="collapse2" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Sangat bisa. Seluruh materi telah disusun dari awal sampai akhir sehingga sangat mudah untuk diikuti oleh pemula.</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h6 class="panel-title">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                          Tutorialnya Berbentuk Apa?</a>
+                      Materinya berbentuk apa?</a>
                     </h6>
                   </div>
                   <div id="collapse3" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Berbentuk video, exercise, dan projek</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
@@ -553,24 +535,20 @@
                     </h6>
                   </div>
                   <div id="collapse4" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Anda tinggal menonton materi-materi video yang sudah disediakan sesuai urutan kurikulum. 
+                    Disepanjang materi dari awal sampai akhir bootcamp Anda harus menyelesaikan exercise dan Projek yang diberikan</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h6 class="panel-title">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
-                      Kenapa saya harys membelu tutorial ini?</a>
+                      Apakah materi bisa di download?</a>
                     </h6>
                   </div>
                   <div id="collapse5" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Bisa. Nanti anda tinggal lakukan download materinya. 
+                    Namun Anda tetap harus menyelesaikan exercise dan projek yang diberikan untuk bisa mengakses materi-materi berikutnya.</div>
                   </div>
                 </div>
               </div>
