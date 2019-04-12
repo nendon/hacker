@@ -1,3 +1,4 @@
+@push('css')
 <div class="row testimoni">
           <div class="col-xs-12 text-center">
             <h2 class="title text-center">Testimoni dari Siswa</h2>
@@ -14,7 +15,7 @@
                   </p>
                   
                   <div class="name">
-                    <img src="{{asset('source/images/testimoni/fitrih.png')}}" class="w-25 pull-left mr-4" alt="">
+                    <img src="{{ url('/assets/source/images/testimoni/fitrih.png') }}" class="w-25 pull-left mr-4" alt="">
                     Fitri Handayani <br>
                     Guru SMK
                   </div>
@@ -28,7 +29,7 @@
                   </p>
                   
                   <div class="name">
-                    <img src="{{asset('source/images/testimoni/ludy.png')}}" class="w-25 pull-left mr-4" alt="">
+                    <img src="{{ url('/assets/source/images/testimoni/ludy.png') }}" class="w-25 pull-left mr-4" alt="">
                     Ludy<br>
                     Sysadmin
                   </div>
@@ -49,7 +50,7 @@
                   </p>
                   
                   <div class="name">
-                    <img src="{{asset('source/images/testimoni/ekas.png')}}" class="w-25 pull-left mr-4" alt="">
+                    <img src="{{ url('/assets/source/images/testimoni/ekas.png') }}" class="w-25 pull-left mr-4" alt="">
                     Eka Saeful<br>
                     Trainer Mikrotik
                   </div>
@@ -58,3 +59,4 @@
             </div>
           </div>
         </div>
+        @endpush
