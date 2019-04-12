@@ -382,7 +382,8 @@ $(function(){
               <div class="col-xs-12">
                   <h3>{{$project->title}}</h3>
 
-                  <h4><b>Instruksi: <br/></b><br/> {{$project->instruksi}}</h4>
+                  <h4><b>Instruksi: <br/></b><br/></h4>
+                  <h5 style="color:#2ba8e2"> {{$project->instruksi}} </h5>
                   <br/>
                   <p>Project yang anda submit akan langsung di Review oleh Instruktur dan Team Project Viewer yang sudah kompeten dan memiliki skill yang baik. <br/>
                   Pastikan anda mengerjakan project dengan sesuai permintaan karena jika tidak Anda tidak akan bisa melanjutkan ke Course selanjutnya. </p>
