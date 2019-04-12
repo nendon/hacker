@@ -137,7 +137,10 @@ class CourseController extends Controller
                
                 
                 if($valid->hasil != $valid->project){
-                return abort(404);
+                    return view('errors.peringatan',[
+                        'bcs' => $bcs,
+            
+                    ]);
                 }
     
             }
@@ -296,7 +299,10 @@ class CourseController extends Controller
         }
         
         if($valid->hasil != $valid->project){
-         return abort(404);
+            return view('errors.peringatan',[
+                'bcs' => $bcs,
+    
+            ]);
         }
 
         }
@@ -396,7 +402,10 @@ class CourseController extends Controller
         }
 
         if($valid->hasil != $valid->project){
-        return abort(404);
+            return view('errors.peringatan',[
+                'bcs' => $bcs,
+    
+            ]);
         }
 
         }

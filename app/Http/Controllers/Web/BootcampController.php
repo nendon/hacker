@@ -179,7 +179,10 @@ class BootcampController extends Controller
         }
 
         if($valid->hasil != $valid->project){
-        return abort(404);
+        return view('errors.peringatan',[
+            'bcs' => $bcs,
+
+        ]);
         }
 
         }
