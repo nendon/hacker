@@ -14,7 +14,7 @@
                     "Alhamdulillaah...saya mendapat banyak ilmu disini. Mudah2an saya bisa lebih percaya diri mengajar karena banyak kosakata baru di dunia IT."
                   </p>
                   
-                  <div class="img-circle">
+                  <div class="name">
                     <img src="{{ url('/assets/source/images/testimoni/fitrih.png') }}" class="w-25 pull-left mr-4" alt="">
                     Fitri Handayani <br>
                     Guru SMK
@@ -28,7 +28,7 @@
                     "Materi sangat bagus dan bisa didownload. Jadi bisa belajar kapanpun dirumah. Saya pun bisa minta dipandu step by stepnya oleh trainernya. Jadi ngga takut gagal" 
                   </p>
                   
-                  <div class="img-circle">
+                  <div class="name">
                     <img src="{{ url('/assets/source/images/testimoni/ludy.png') }}" class="w-25 pull-left mr-4" alt="">
                     Ludy<br>
                     Sysadmin
@@ -49,8 +49,8 @@
                     "Pengajar bersertifikasi dan berpengalaman, nanya-nanya sama trainernya pun malem juga tetep dijawab. mantap. Saya belajar banyak ilmu baru disini yang berguna menunjang pekerjaan saya." 
                   </p>
                   
-                  <div class="img-circle">
-                    <img  src="{{ url('/assets/source/images/testimoni/ekas.png') }}" class="w-25 pull-left mr-4" alt="">
+                  <div class="name">
+                    <img src="{{ url('/assets/source/images/testimoni/ekas.png') }}" class="w-25 pull-left mr-4" alt="">
                     Eka Saeful<br>
                     Trainer Mikrotik
                   </div>
