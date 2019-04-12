@@ -296,6 +296,7 @@
             </div>
           </div>
         </div>
+        
         @include('web.bootcamp.testimoni')
 
         <!-- <div class="row testimoni">
@@ -665,4 +666,5 @@
     @endif
 
   </script>
+  @include('web.bootcamp.testimoni')
 @endsection
