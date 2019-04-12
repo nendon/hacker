@@ -5,7 +5,18 @@
 @section('description', $bca->description)
 @section('content')
   
-  
+<style>
+  .owl-theme .owl-dots .owl-dot span {
+    width: 45px;
+    height: 10px;
+    margin: 5px 7px;
+    background: #D6D6D6;
+    display: block;
+    -webkit-backface-visibility: visible;
+    transition: opacity .2s ease;
+    border-radius: 30px;
+}
+</style>
       
       <!-- Container -->
       <div class="container w-100">
@@ -296,7 +307,7 @@
             </div>
           </div>
         </div>
-        
+      <div class="owl-carousel owl-theme"> 
         <div class="row testimoni">
           <div class="col-xs-12 text-center">
             <h2 class="title text-center">Testimoni dari Siswa</h2>
@@ -412,7 +423,7 @@
             </div>
           </div>
         </div>
-
+      </div>
         <div class="row question">
           <div class="col-xs-12 text-center mb-5">
             <h2 class="title">Apakah bootcamp ini cocok dengan saya?</h2>
@@ -731,4 +742,25 @@
     @endif
 
   </script>
+  <script type="text/javascript" src="{{asset('template/web/js/owl.carousel.min.js') }}"></script>
+<script>
+  $('.owl-carousel').owlCarousel({
+    loop:true,
+    margin: 5,
+    // nav:true,
+    responsive:{
+        0:{
+            items:1,
+            dots:false
+        },
+        600:{
+            items:3,
+            dots:false
+        },
+        1000:{
+            items:3
+        }
+    }
+})
+</script>
 @endsection
