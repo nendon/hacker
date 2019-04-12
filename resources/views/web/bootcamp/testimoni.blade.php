@@ -1,4 +1,16 @@
 @push('css')
+<style>
+  .owl-theme .owl-dots .owl-dot span {
+    width: 45px;
+    height: 10px;
+    margin: 5px 7px;
+    background: #D6D6D6;
+    display: block;
+    -webkit-backface-visibility: visible;
+    transition: opacity .2s ease;
+    border-radius: 30px;
+}
+</style>
 <div class="row testimoni">
           <div class="col-xs-12 text-center">
             <h2 class="title text-center">Testimoni dari Siswa</h2>
