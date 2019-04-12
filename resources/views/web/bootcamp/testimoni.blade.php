@@ -50,9 +50,64 @@
                   </p>
                   
                   <div class="name">
-                    <img src="{{ url('/assets/source/images/testimoni/ekas.png') }}" class="w-25 pull-left mr-4" alt="">
+                    <img src="{{ url('/assets/source/images/testimoni/muhf.png') }}" class="w-25 pull-left mr-4" alt="">
                     Eka Saeful<br>
                     Trainer Mikrotik
+                  </div>
+                </div>
+                <div class="box" style="height: 300px;">
+                  <p>
+                  "Dengan Harga yang terjangkau saya merasa puas dengan semua materi yang diberikan. <br>Pilihan materi pun banyak dan bagus-bagus. Cocok untuk pemula hingga advanced. Orang jaringan sangat recommended kursus online disini."
+                  </p>
+                  
+                  <div class="name">
+                    <img src="{{ url('/assets/source/images/testimoni/ekas.png') }}" class="w-25 pull-left mr-4" alt="">
+                    Muh Fitrah<br>
+                    Network Admin
+                  </div>
+                </div>
+                <div class="box" style="height: 300px;">
+                  <p>
+                  "Alhamdulillah cukup puas dengan materi yang disampaikan.<br>Singkat, padat dan jelas. <br>Lebih paham, sekalipun peserta awam."
+                  </p>
+                  
+                  <div class="name">
+                    <img src="{{ url('/assets/source/images/testimoni/safarulm.png') }}" class="w-25 pull-left mr-4" alt="">
+                    Safarul M<br>
+                    IT Support
+                  </div>
+                </div>
+                <div class="box" style="height: 300px;">
+                  <p>
+                  "Sangat interaktif, penjelasan juga analogi pemahamannya mudah dipahami<br>sehingga materi yang disampaikan dapat langsung diaplikasikan"
+                  </p>
+                  
+                  <div class="name">
+                    <img src="{{ url('/assets/source/images/testimoni/sentota.png') }}" class="w-25 pull-left mr-4" alt="">
+                    Sentot Andi<br>
+                    Staff IT
+                  </div>
+                </div>
+                <div class="box" style="height: 300px;">
+                  <p>
+                  "Updatean materinya ditunggu mas. hehehe <br>Ngga sabar buat belajar materi-materi baru terus di cilsy."
+                  </p>
+                  
+                  <div class="name">
+                    <img src="{{ url('/assets/source/images/testimoni/aguss.png') }}" class="w-25 pull-left mr-4" alt="">
+                    Agus Supriyono<br>
+                    Technical Support
+                  </div>
+                </div>
+                <div class="box" style="height: 300px;">
+                  <p>
+                  "Penyampaian materi sangat mudah dipahami, harga kursus online sangat terjangkau. Sukses Selalu Buat Cilsy Foulation"
+                  </p>
+                  
+                  <div class="name">
+                    <img src="{{ url('/assets/source/images/testimoni/michaels.png') }}" class="w-25 pull-left mr-4" alt="">
+                    Michael Situmorang<br>
+                    Network Admin
                   </div>
                 </div>
               </div>
