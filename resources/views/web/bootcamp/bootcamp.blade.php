@@ -192,20 +192,15 @@
                                     <p class="mb-5">
                                       {{$sections->deskripsi}}
                                     </p>
-                                    <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt=""> {{ count($sections->video_section) }} Video (<?php 
+                                    <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt=""> {{ count($sections->video_section) }} Video (
+                                      <?php 
                                         $totalmenit = DB::table('video_section')
                                         ->where('section_id', $sections->id)
                                         ->select(DB::raw('sum(durasi) as total'))
                                         ->first();
-                                        $convert = $totalmenit->total;
-                                        if ($convert > 0) {
-                                          $hasil = round($convert);
-                                          echo gmdate("H",$hasil)." Jam ".gmdate("i",$hasil)." Menit ".gmdate("s",$hasil)." Detik ";
-                                        }else{
-                                          $hasil = 0;
-                                          echo "$hasil";
-                                        }
-                                    ?>), {{ count($sections->project_section) }} Projek
+                                        echo gmdate("H",$totalmenit->total)." Jam ".gmdate("i",$totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik ";
+                                      ?>
+                                      ), {{ count($sections->project_section) }} Projek
                                 </div>
                                 <?php 
                                   $no++;
@@ -227,7 +222,7 @@
                   <?php $count = 0;
                   $a = 1;
                     foreach ($course as $key => $courses):
-                    if($count>2 && $a>2 ){ ?>
+                    if($count>2 && $no>2 ){ ?>
                   <li>
                     <div class="timelinez-number">
                       <h4>Course</h4>
@@ -262,7 +257,15 @@
                                 <p class="mb-5">
                                   {{$sections->deskripsi}}
                                 </p>
-                                <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt="">{{count($sections->video_section)}} Video (Total 90min), {{count($sections->project_section)}} Projek
+                                <img src="{{asset('template/bootcamp/asset/Lesson.svg')}}" alt="">{{count($sections->video_section)}} Video (
+                                  <?php 
+                                    $totalmenit = DB::table('video_section')
+                                    ->where('section_id', $sections->id)
+                                    ->select(DB::raw('sum(durasi) as total'))
+                                    ->first();
+                                    echo gmdate("H",$totalmenit->total)." Jam ".gmdate("i",$totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik ";
+                                  ?>
+                                  ), {{count($sections->project_section)}} Projek
                                 </div>
                                 <?php 
                                   $no++;
