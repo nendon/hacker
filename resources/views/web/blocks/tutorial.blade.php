@@ -17,7 +17,7 @@
                 <div class="title-area pb-25 hidden">
                   <div class="inner ">
                     <h2 class="mb-25">Kelas Bootcamp</h2>
-                    <p>Update materi tutorial baru setiap bulan</p>
+                    <p>Kelas Bootcamp Online yang jauh lebih lengkap dari Tutorial Biasa, membantu meng-akselerasi karir Anda di dunia IT dengan lebih pasti. Belajar intensif selama 3 bulan, uji pemahaman Anda dengan berbagai exercise dan Real Project, serta di akhir kelas Anda akan diberikan sertifikat, kesempatan magang dan kerja di berbagai company partner Cilsy.</p>
                   </div>                  
                 </div>
                 <a href="{{ url('browse/bootcamp/') }}" class="btn btn-default btn-more" style="color:teal; margin-top: -140px;">Browse Semua Bootcamp </a>
@@ -79,7 +79,7 @@
             <div class="col-md-3">
               <div class="title-area pb-25 hidden">
                 <div class="inner ">
-                  <h2 class="mb-25">Materi Terbaru</h2>
+                  <h2 class="mb-25">Tutorial Terbaru</h2>
                   <p>Update materi tutorial baru setiap bulan</p>
                 </div>
               </div>
