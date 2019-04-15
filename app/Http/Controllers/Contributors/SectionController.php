@@ -48,7 +48,7 @@ class SectionController extends Controller
             $title = Input::get('title');
             $desk = Input::get('desk');
             $course_id = Input::get('course_id');
-            $position = Input::get('position');
+            $position = 1;
             $now = new DateTime();
 
             $section = new Section();
@@ -58,6 +58,19 @@ class SectionController extends Controller
             $section->position = $position;
             $section->created_at = $now;
             $section->save();
+
+            $check = Section::where('course_id',  $course_id)
+            ->select(DB::raw('max(position) as posisi'))
+            ->first();
+
+            $cour = Section::where('title',  $title)->where('course_id',$course_id )->first();
+
+            $sect = Section::find($cour->id);
+            if($check){ 
+                $sect->position = $check->posisi+1;
+                $sect->save();
+            }
+
             $response['success'] = true;
         }
 

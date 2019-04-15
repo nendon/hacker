@@ -13,6 +13,7 @@ use App\Models\LampiranBootcamp;
 use App\Models\Section;
 use App\Models\Contributor;
 use Auth;
+use DB;
 use DateTime;
 
 class BootcampController extends Controller
@@ -204,6 +205,8 @@ class BootcampController extends Controller
             $input['bootcamp_id'] = $bootcamp->id;
             $input['deskripsi'] =  $request->input('desk');
             $input['estimasi'] =  $request->input('estimasi');
+            $input['position'] =  1;
+
             // dd($input);
 
             if ($request->hasFile('image')){
@@ -216,6 +219,20 @@ class BootcampController extends Controller
             }
 
             $store = Course::create($input);
+
+            $check = Course::where('bootcamp_id',  $bootcamp->id)
+            ->select(DB::raw('max(position) as posisi'))
+            ->first();
+
+            $cour = Course::where('title',  $request->input('title'))->where('bootcamp_id',$bootcamp->id )->first();
+
+            $course = Course::find($cour->id);
+            if($check){ 
+                $course->position = $check->posisi+1;
+                $course->save();
+            }
+
+
             $response['success'] = true;
         }
         echo json_encode($response);

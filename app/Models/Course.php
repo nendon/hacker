@@ -8,7 +8,7 @@ class Course extends Model
 {
     protected $table = 'course';
 
-    protected $fillable = ['bootcamp_id', 'title', 'cover_course', 'deskripsi', 'estimasi'];
+    protected $fillable = ['bootcamp_id', 'title', 'cover_course', 'deskripsi', 'estimasi', 'position'];
 
 
     public function bootcamp(){
