@@ -267,19 +267,34 @@ class CourseController extends Controller
         $courses = Course::find($course->id);
                
        //penambahan email untuk menyelesaikan course belajar
-       $now = new DateTime();
-       $id_notif = $course->id;
-       $type = 'course';
-       $title = 'selesai';
-       $notif = DB::table('notif_email')->where('member_id', $member)->where('id_notif',$course->id)->first(); 
-       $history = DB::table('notif_email')
-            ->where('title', '=', $title)
-            ->where('member_id', '=', $member)
-            ->where('id_notif', '=', $id_notif)
-            ->where('type', '=', $type)
-            ->select('*')
-            ->get();
-       if (!isset($history[0])) {
+       $project_course = DB::table('course')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_user', function($join){
+                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
+            ->leftjoin('history', function($join){
+                    $join->on('video_section.id', '=', 'history.video_id')
+            ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+            ->where('course.id', $course->id)
+            ->select('course.id as course', DB::raw('count( DISTINCT video_section.id) as video'),  DB::raw('count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+            ->groupby('course.id')
+            ->first();
+            $courseprog = number_format($project_course->hasil/($project_course->video + $project_course->project)*100);
+        $now = new DateTime();
+        $id_notif = $course->id;
+        $type = 'course';
+        $title = 'selesai';
+        $notif = DB::table('notif_email')->where('member_id', $member)->where('id_notif',$course->id)->first(); 
+        $history = DB::table('notif_email')
+                ->where('title', '=', $title)
+                ->where('member_id', '=', $member)
+                ->where('id_notif', '=', $id_notif)
+                ->where('type', '=', $type)
+                ->select('*')
+                ->get();
+        if (!isset($history[0]) && $courseprog == 100) {
             $members->notify(new MenyelesaikanCourse($members, $bootcamp, $member_boot, $courses));
             DB::table('notif_email')->insert([
                 'title' => $title,
