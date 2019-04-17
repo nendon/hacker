@@ -102,7 +102,7 @@ a.divlink {
             <!-- Menukar class p-0 dan content agar perbandingan luasnya bertukar -->
             <div class="col-sm-5 col-xs-12 p-0">
               <!-- <img src="asset/1.jpg" class="img-responsive" alt=""> -->
-              <iframe width="100%" height="77%" src="https://www.youtube.com/watch?v=yhIQSvNlri4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe width="100%" height="77%" src="https://www.youtube.com/embed/yhIQSvNlri4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </video>
             </div>
             <div class="col-sm-7 col-xs-12 content" >
