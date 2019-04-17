@@ -101,7 +101,7 @@
               
               <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-4">
                 <a href="{{url('bootcamp/'.$has->slug)}}" style="text-decoration:none; color:black;">
-                  <div class="card">
+                  <div class="card"  style="height:100%;">
                     <div class="label">
                       Bootcamp
                     </div>
