@@ -61,7 +61,7 @@ a.divlink {
                 @foreach($key->bootcamp as $result)                
                 <div>
                   <a href="{{url('bootcamp/'.$result->slug)}}" class="divlink" style="text-decoration:none; color:black;">
-                  <div class="card">
+                  <div class="card"     style="height: 100%;">
                     <div class="label">
                       Bootcamp
                     </div>
