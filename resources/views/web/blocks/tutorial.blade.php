@@ -45,7 +45,7 @@
                               {{$result->title}}
                             </h5>
                             <p>
-                              {!! $result->deskripsi !!}
+                              {!! $result->sub_title !!}
                             </p>
                             <ul>
                               <li>

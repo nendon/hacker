@@ -65,7 +65,7 @@
 
                       <h4>{{$news->title}}</h4>
                       <p>
-                        {{$news->deskripsi}}
+                        {{$news->sub_title}}
                       </p>
 
                       <div class="my-4">
