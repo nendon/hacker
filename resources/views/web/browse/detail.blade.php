@@ -115,7 +115,7 @@
                       {{$has->title}}
                     </h5>
                     <p>
-                      {{$has->deskripsi}}
+                      {{$has->sub_title}}
                     </p>
                     <ul>
                       <li>
