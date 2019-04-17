@@ -126,7 +126,7 @@ function addToCart(id) {
 }
 
 function addToCartBootcamp(id) {
-    var datapost = {
+    var datapost = { 
         '_token': TOKEN,
         'id': id
     };
@@ -174,16 +174,16 @@ function addToCartBootcamp(id) {
                     type: "success",
                     showCloseButton: true,
                     showCancelButton: true,
-                    cancelButtonText: 'Tutorial lainnya',
+                    cancelButtonText: 'Bootcamp lainnya',
                     cancelButtonColor: '#3085d6',
                     confirmButtonText: "Lihat keranjang"
                 }).then(function(isConfirm) {
                     if (isConfirm.value) {
                         window.location.href = SITE_URL + '/cart';
                     } else if (swal.cancelButton) {
-                        window.location.href = SITE_URL + '/lessons/browse/all';
+                        window.location.href = SITE_URL + '/browse/bootcamp';
                     } else {
-                        window.location.href = SITE_URL + '/lessons/browse/all';
+                        window.location.href = SITE_URL + '/browse/bootcamp';
 
                     }
                 });
