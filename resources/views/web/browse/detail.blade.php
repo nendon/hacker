@@ -146,7 +146,6 @@
           
           </div>
         </div>
-        <div class="m-5">x</div>
       </div>
 
     </main>
