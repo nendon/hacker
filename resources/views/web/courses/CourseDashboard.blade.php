@@ -99,6 +99,7 @@
               <!-- start Tutorial yang diikuti -->  
               
                 <!-- Box Content -->
+               
                 @foreach ($belitut as $key => $lessons)
                 <div class="col-md-3 col-sm-6 col-xs-12 p-4 all diikuti">
                 @if($lessons->hasil != $lessons->target)
@@ -145,12 +146,13 @@
                 @endif
                 </div> 
                 @endforeach
+               
               <!-- end Tutorial yang diikuti -->  
 
                <!-- start Tutorial yang full -->  
+               @if($full)
                @foreach($full as $key => $full)
                 <div class="col-md-3 col-sm-6 col-xs-12 p-4 all selesai">
-                 
                   <div class="card">
                     <div class="label">
                       Tutorial
@@ -190,9 +192,10 @@
                       <a href="{{ url('kelas/v3/'.$full->slug)}}" class="btn btn-outline-primary">Lanjutkan</a>
                     </div>
                   </div>
-                   
                 </div> 
                @endforeach
+               
+               @endif
               <!-- end Tutorial yang full --> 
               </div>
 

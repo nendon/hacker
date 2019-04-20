@@ -303,7 +303,7 @@
             <div class="border-blue">
               <img src="{{asset($bca->contributor->avatar)}}" class="img-responsive img-circle mx-auto" alt="">
               <h4 class="c-blue">{{$bca->contributor->first_name}} {{$bca->contributor->last_name}}</h4>
-              <h5>Network Administrator</h5>
+              <h5>{{$bca->contributor->pekerjaan}}</h5>
               <p class="text-muted">
                   {{$bca->contributor->deskripsi}}
               </p>
@@ -513,7 +513,7 @@
                 <img src="{{asset('template/bootcamp/asset/FasilitasSertifikat.svg')}}" class="img-responsive" alt="">
               </div>
               <h5>Sertifikat</h5>
-              ika Anda sudah menyelesaikan seluruh materi, exersice, dan projek, Anda bisa membuat resume dan berhak mendapatkan sertifikat dari Cilsy.
+              Jika Anda sudah menyelesaikan seluruh materi, exersice, dan projek, Anda bisa membuat resume dan berhak mendapatkan sertifikat dari Cilsy.
             </div>
 
 

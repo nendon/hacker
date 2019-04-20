@@ -82,6 +82,17 @@ Route::delete('coupon/ganti', 'Web\CouponsController@ganti')->name('coupon.destr
 Route::get('/kontak', function () {
     return view('web.contact');
 });
+//start exercise
+Route::get('/exercise', function () {
+    return view('web.bootcamp.project.exercise');
+});
+Route::get('/mulai', function () {
+    return view('web.bootcamp.project.exercise-question');
+});
+Route::get('/review', function () {
+    return view('web.bootcamp.project.exercise-review');
+});
+//end exercise
 Route::get('/faq', function () {
     return view('web.faq');
 });

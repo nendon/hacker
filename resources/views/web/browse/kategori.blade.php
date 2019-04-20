@@ -75,7 +75,7 @@ a.divlink {
                         {{$result->title}}
                       </h5>
                       <p>
-                        {!! $result->deskripsi !!}
+                        {!! $result->sub_title !!}
                       </p>
                       <ul>
                         <li>
@@ -102,15 +102,13 @@ a.divlink {
             <!-- Menukar class p-0 dan content agar perbandingan luasnya bertukar -->
             <div class="col-sm-5 col-xs-12 p-0">
               <!-- <img src="asset/1.jpg" class="img-responsive" alt=""> -->
-              <iframe width="100%" height="77%" src="https://www.youtube.com/embed/QjT4PiFswO4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe width="100%" height="77%" src="https://www.youtube.com/embed/yhIQSvNlri4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </video>
             </div>
             <div class="col-sm-7 col-xs-12 content" >
               <h2>Apa itu Program Bootcamp?</h2>
               <p>
-                Program Mentoring online untuk mendidik Anda menjadi seorang Professional dalam 16 minggu dengan
-                jaminan pernyaluran kerja. Kurikulum dirancang agar Anda yang tidak memiliki background IT tetap
-                bisa memulai karir di dunia IT.
+              Program Kelas Bootcamp Online intensif untuk mendidik Anda menjadi seorang IT Talent Professional dalam 3 bulan dengan kesempatan pernyaluran magang dan kerja.
               </p>
             </div>
           </div>
@@ -120,27 +118,21 @@ a.divlink {
               <img src="{{asset('img/asset/CompleteCurriculum.svg')}}" alt="">
               <h4>Complete Curriculum</h4>
               <p class="px-5">
-                Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+              Kurikulum dirancang agar Anda yang tidak memiliki background IT tetap bisa memulai karir di dunia IT. Lengap, berurutan, dan sesuai dengan kurikulum industri.
               </p>
             </div>
             <div class="col-sm-4 col-xs-12 text-center mb-5">
               <img src="{{asset('img/asset/RealProjectGetReview.svg')}}" alt="">
               <h4>Real Project, Get Review</h4>
               <p class="px-5">
-                Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+              Selama pembelajaran, Anda akan mengerjakan berbagai exercise dan real project. Memastikan Anda benar-benar paham dengan materi dan implementasinya di industri.
               </p>
             </div>
             <div class="col-sm-4 col-xs-12 text-center mb-5">
               <img src="{{asset('img/asset/ReadytoGetHired.svg')}}" alt="">
               <h4>Ready to Get Hired</h4>
               <p class="px-5">
-                Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+              Lulusan Bootcamp Cilsy akan diberikan kesempatan magang selama 2-3 bulan untuk lebih mengasah skill dan pengalaman dan pada akhirnya siap untuk ditempatkan berkarir di berbagai perusahaan partner Cilsy. 
               </p>
             </div>
           </div>

@@ -65,7 +65,7 @@
 
                       <h4>{{$news->title}}</h4>
                       <p>
-                        {{$news->deskripsi}}
+                        {{$news->sub_title}}
                       </p>
 
                       <div class="my-4">
@@ -101,40 +101,40 @@
               
               <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-4">
                 <a href="{{url('bootcamp/'.$has->slug)}}" style="text-decoration:none; color:black;">
-                <div class="card">
-                  <div class="label">
-                    Bootcamp
-                  </div>
-                  <img src="{{asset($has->cover)}}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <div class="card-author">
-                      <img src="{{asset($has->contributor->avatar)}}" class="img-author" alt="">
-                      <small class="text-muted">{{$has->contributor->first_name}} {{$has->contributor->last_name}}</small>
+                  <div class="card"  style="height:100%;">
+                    <div class="label">
+                      Bootcamp
                     </div>
-                    <h5>
-                      {{$has->title}}
-                    </h5>
-                    <p>
-                      {{$has->deskripsi}}
-                    </p>
-                    <ul>
-                      <li>
-                        <i class="fa fa-book"></i> {{count($has->course)}} Course
-                      </li>
-                      <li>
-                        <i class="fa fa-user"></i> {{count($has->bootcamp_member)}} Siswa
-                      </li>
-                      <li>
-                        <a href="{{url('bootcamp/'.$has->slug)}}"> Selengkapnya</a>
-                      </li>
-                    </ul>
+                    <img src="{{asset($has->cover)}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <div class="card-author">
+                        <img src="{{asset($has->contributor->avatar)}}" class="img-author" alt="">
+                        <small class="text-muted">{{$has->contributor->first_name}} {{$has->contributor->last_name}}</small>
+                      </div>
+                      <h5>
+                        {{$has->title}}
+                      </h5>
+                      <p>
+                        {{$has->sub_title}}
+                      </p>
+                      <ul>
+                        <li>
+                          <i class="fa fa-book"></i> {{count($has->course)}} Course
+                        </li>
+                        <li>
+                          <i class="fa fa-user"></i> {{count($has->bootcamp_member)}} Siswa
+                        </li>
+                        <li>
+                          <a href="{{url('bootcamp/'.$has->slug)}}"> Selengkapnya</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
                 </a>
               </div>
               @endforeach()
               <!-- End Box Conten -->
-            </div>
+           </div>
             <!-- menampbahkan pagination -->
             <div class="row mt-5">
               <div class="col-xs-12 text-center">
@@ -146,7 +146,7 @@
           
           </div>
         </div>
-        <div class="m-5">x</div>
+        <div class="m-5"> </div>
       </div>
 
     </main>
