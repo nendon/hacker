@@ -91,7 +91,7 @@
 
           </div>
 
-            <div class="row card-eq-height">
+            <div class="row kategori-list">
               <div class="col-xs-12">
                 <h3>Semua Bootcamp {{$bucat->title}}</h3>
               </div>
