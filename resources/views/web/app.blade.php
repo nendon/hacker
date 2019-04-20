@@ -29,6 +29,7 @@
     <link href="{{asset('template/web/css/app.css')}}" rel="stylesheet">
     <link href="{{asset('template/web/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/spacing.css')}}">
+    <link rel="stylesheet" href="{{asset('css/quiz.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/video-sidebar.css')}}">
     <link rel="stylesheet" href="{{asset('css/plyr.css')}}">
