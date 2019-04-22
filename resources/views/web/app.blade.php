@@ -551,7 +551,7 @@ a #items .item {
                   <div class="dropdown show" style="margin-left: 131px;">
                     <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Browse
-                    </a>
+                    </a> 
 
                     <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
                     <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
