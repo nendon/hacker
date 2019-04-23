@@ -83,15 +83,10 @@ Route::get('/kontak', function () {
     return view('web.contact');
 });
 //start exercise
-Route::get('/exercise', function () {
-    return view('web.bootcamp.project.exercise');
-});
-Route::get('/mulai', function () {
-    return view('web.bootcamp.project.exercise-question');
-});
-Route::get('/review', function () {
-    return view('web.bootcamp.project.exercise-review');
-});
+Route::get('/exercise', 'Web\CourseController@exercise');
+Route::get('/mulai', 'Web\CourseController@exerciseQuestion');
+Route::get('/questions/{idExercise}', 'Web\CourseController@exerciseGetQuestion');
+Route::get('/review', 'Web\CourseController@exerciseReview');
 //end exercise
 Route::get('/faq', function () {
     return view('web.faq');

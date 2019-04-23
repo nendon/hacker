@@ -2,16 +2,35 @@
 $(document).ready(function(){
   "use strict";
   
-  var questions = [{
-    question: "Carilah berapa nilai rata-rata umur dari para penonton bioskop di tahun 2019 menggunakan Python Jupyternetbook (Download di File Praktek file bioskop_dataset.csv):",
-    choices: ['24', '28', '30', '45'],
-    correctAnswer: 1
-  }, {
-    question: "Yang manakah yang dibawah ini <b>BUKAN</b> termasuk pengertian dari Mean :",
-    choices: ["Mean adalah teknik yang digunakan untuk mencari nilai rata-rata dari serangkaian data.", "Mean = nilai2 dari sekumpulan data/banyaknya data", "Mean bertujuan untuk mencari nilai terbanyak yang muncul dari serangkaian data.", "Mean = nilaidarisekumpulandata.mean()"],
-    correctAnswer: 1
-  }
+  var questions = [
+  //   {
+  //   question: "Carilah berapa nilai rata-rata umur dari para penonton bioskop di tahun 2019 menggunakan Python Jupyternetbook (Download di File Praktek file bioskop_dataset.csv):",
+  //   choices: ['24', '28', '30', '45'],
+  //   correctAnswer: 1
+  // }, {
+  //   question: "Yang manakah yang dibawah ini <b>BUKAN</b> termasuk pengertian dari Mean :",
+  //   choices: ["Mean adalah teknik yang digunakan untuk mencari nilai rata-rata dari serangkaian data.", "Mean = nilai2 dari sekumpulan data/banyaknya data", "Mean bertujuan untuk mencari nilai terbanyak yang muncul dari serangkaian data.", "Mean = nilaidarisekumpulandata.mean()"],
+  //   correctAnswer: 1
+  // }
   ];
+  $.ajaxSetup({ 
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  $.ajax({
+    url: '{{ url("/mulai/".$exercise->id) }}',
+    method: 'GET',
+    dataType: 'JSON',
+    success: function(result){
+      console.log(result);
+      console.log(typeof result);
+      questions = result;
+    },
+    error: function(data) {
+        console.log("data: " + JSON.stringify(data));
+    }
+  });
   
   var questionCounter = 0; //Tracks question number
   var selections = []; //Array containing user choices

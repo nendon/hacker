@@ -16,6 +16,8 @@ use App\Models\ProjectSection;
 use App\Models\ProjectUser;
 use App\Models\History;
 use App\Models\BootcampLampiran;
+use App\Models\Exercise;
+use App\Models\Pertanyaan;
 use DB;
 use Auth;
 use Datetime;
@@ -28,6 +30,84 @@ use App\Notifications\UserNotifProject;
 
 class CourseController extends Controller
 {
+    public function exerciseReview(){
+        $slug = 3;
+        $id= 16;
+        $bootcamp = Bootcamp::where('id', $slug)->first();
+        $exercise = Exercise::where('section_id', $id)->first();
+        $sect = Section::where('id', $id)->first();
+        $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
+        $course = Course::where('id',$sect->course_id)->first();
+        return view('web.bootcamp.project.exercise-review',[
+            'exercise' => $exercise,
+            'stn' => $section,
+            'bc' => $bootcamp,
+            'course' => $course
+        ]);
+    }
+    public function exerciseQuestion(){
+        $slug = 3;
+        $id= 16;
+        $response = array();
+        $bootcamp = Bootcamp::where('id', $slug)->first();
+        $exercise = Exercise::where('section_id', $id)->first();
+        $pertanyaan = DB::table('pertanyaan')->where('exercise_id',$exercise->id)->get();
+        //$pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->first();
+        $sect = Section::where('id', $id)->first();
+        $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
+        $course = Course::where('id',$sect->course_id)->first();
+        // foreach($pertanyaan as $keys => $key){
+        // $response['question'] = $key->tanya;
+        // $response['choice'] = $key->jawaban;
+        // }
+        echo json_encode($response);
+        return view('web.bootcamp.project.exercise-question',[
+            'exercise' => $exercise,
+            'stn' => $section,
+            'bc' => $bootcamp,
+            'course' => $course
+        ]);
+    }
+    
+    public function exerciseGetQuestion($idExercise){
+        $response = array();
+        $pertanyaan = DB::table('pertanyaan')->where('exercise_id',$idExercise)->get();
+        foreach($pertanyaan as $keys => $key){
+            $data = array();
+            $data['question'] = $key->tanya;
+            
+            $jawaban = DB::table('jawaban')->where('tanya_id',$key->id)->get();
+            $choices = array();
+
+            foreach($jawaban as $keyJawab => $jawab) {
+                $pilihan = $jawab->pilihan;
+                if ($pilihan == $key->jawaban) {
+                    $data['correctAnswer'] = count($choices);
+                }
+                array_push($choices, $pilihan);
+            }
+
+            $data['choices'] = $choices;
+            array_push($response, $data);
+        }
+        echo json_encode($response);
+    }
+
+    public function exercise(){
+        $slug = 3;
+        $id= 16;
+        $bootcamp = Bootcamp::where('id', $slug)->first();
+        $exercise = Exercise::where('section_id', $id)->first();
+        $sect = Section::where('id', $id)->first();
+        $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
+        $course = Course::where('id',$sect->course_id)->first();
+        return view('web.bootcamp.project.exercise',[
+            'exercise' => $exercise,
+            'stn' => $section,
+            'bc' => $bootcamp,
+            'course' => $course
+        ]);
+    }
     public function courseSylabus($slug)
     {
         if (empty(Auth::guard('members')->user()->id)) {
@@ -512,7 +592,7 @@ class CourseController extends Controller
             $input = new ProjectUser();
             $input['komentar_user'] = $request->input('body');
             $input['member_id'] = $uid;
-            $input['status'] = 0;
+            $input['status'] .= 0;
             $input['project_section_id'] =  $request->input('project_id');
             if ($request->hasFile('file')){
                 $input['file'] = '/assets/source/bootcamp/project-'.$request->input('project_id').'/'. $request->file('file')->getClientOriginalName();
