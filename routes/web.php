@@ -82,11 +82,12 @@ Route::delete('coupon/ganti', 'Web\CouponsController@ganti')->name('coupon.destr
 Route::get('/kontak', function () {
     return view('web.contact');
 });
-//start exercise
-Route::get('/exercise', 'Web\CourseController@exercise');
-Route::get('/mulai', 'Web\CourseController@exerciseQuestion');
+//start exercise bootcamp/{bootcamp}/projectSubmit/{section}
+Route::get('/bootcamp/{bootcamp}/exercise/{section}', 'Web\CourseController@exercise');
+Route::get('/bootcamp/{bootcamp}/mulai/{exercise}', 'Web\CourseController@exerciseQuestion');
 Route::get('/questions/{idExercise}', 'Web\CourseController@exerciseGetQuestion');
-Route::get('/review', 'Web\CourseController@exerciseReview');
+Route::post('/question', 'Web\CourseController@saveQuestion');
+Route::get('/bootcamp/{bootcamp}/review/{section}', 'Web\CourseController@exerciseReview');
 //end exercise
 Route::get('/faq', function () {
     return view('web.faq');

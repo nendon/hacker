@@ -391,7 +391,7 @@
                     </li>                  
                   </ul>
                   
-                  <a class="btn btn-primary my-4" href="/mulai">Mulai Exercise</a>
+                  <a class="btn btn-primary my-4" href="{{ url('bootcamp/'.$bc->slug.'/mulai/'.$exercise->section_id) }}">Mulai Exercise</a>
               </div>
             </div> 
           </div>

@@ -536,27 +536,7 @@
       function choose() {
         selections[questionCounter] = +$('input[name="answer"]:checked').val();
       }
-      function sendAnswer(){
-        $.ajaxSetup({ 
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        });
-        $.ajax({
-          url: '{{ url("/questions/".$exercise->id) }}',
-          method: 'POST',
-          dataType: 'JSON',
-          success: function(result){
-            console.log(result);
-            console.log(typeof result);
-            questions = result;
-            console.log(choose());
-          },
-          error: function(data) {
-              console.log("data: " + JSON.stringify(data));
-          }
-        });
-      }
+      
       
       // Displays next requested element
       function displayNext() {
@@ -612,16 +592,17 @@
         }
       });
       $.ajax({
-        url: '{{ url("/questions/".$exercise->id) }}',
+        url: '{{ url("/question") }}',
         method: 'POST',
         dataType: 'JSON',
         success: function(result){
           console.log(result);
           console.log(typeof result);
           questions = result;
+          console.log("ada");
       
-          // Display initial question
-          displayNext();
+          // // Display initial question
+          // displayNext();
         },
         error: function(data) {
             console.log("data: " + JSON.stringify(data));

@@ -30,10 +30,10 @@ use App\Notifications\UserNotifProject;
 
 class CourseController extends Controller
 {
-    public function exerciseReview(){
-        $slug = 3;
-        $id= 16;
-        $bootcamp = Bootcamp::where('id', $slug)->first();
+    public function exerciseReview($slug, $id){
+        // $slug = 3;
+        // $id= 16;
+        $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
         $sect = Section::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
@@ -45,11 +45,11 @@ class CourseController extends Controller
             'course' => $course
         ]);
     }
-    public function exerciseQuestion(){
-        $slug = 3;
-        $id= 16;
+    public function exerciseQuestion($slug, $id){
+        // $slug = 3;
+        // $id= 16;
         $response = array();
-        $bootcamp = Bootcamp::where('id', $slug)->first();
+        $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
         $pertanyaan = DB::table('pertanyaan')->where('exercise_id',$exercise->id)->get();
         //$pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->first();
@@ -93,10 +93,10 @@ class CourseController extends Controller
         echo json_encode($response);
     }
 
-    public function exercise(){
-        $slug = 3;
-        $id= 16;
-        $bootcamp = Bootcamp::where('id', $slug)->first();
+    public function exercise($slug, $id){
+        // $slug = 3;
+        // $id= 16;
+        $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
         $sect = Section::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
@@ -642,5 +642,30 @@ class CourseController extends Controller
             ]);
         }
     }
+    public function saveQuestion(Request $req)
+    {
+        $uid = Auth::guard('members')->user()->id;
+        $params = $req->all();
+        $now = new DateTime();
 
+        // Check if user has history
+        $history = DB::table('quiz_user')
+            ->where('exercise_id', '=', $params['exercise_id'])
+            ->where('member_id', '=', $uid)
+            ->where('status', '=', $params['status'])
+            ->where('nilai', '=', $params['nilai'])
+            ->select('*')
+            ->get();
+
+        // Insert if user doesn't have any history
+        if (!isset($history[0])) {
+            DB::table('quiz_user')->insert([
+                'exercise_id' => $params['status'],
+                'member_id' => $uid,
+                'status' => $params['status'],
+                'nilai' => $params['nilai'],
+                'created_at' => $now
+            ]);
+        }
+    }
 }
