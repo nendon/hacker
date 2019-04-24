@@ -161,6 +161,37 @@
                       <?php endforeach; ?>
                       <!-- menambahkan code untuk memunculkan project -->
                       <?php
+                      $exercise = DB::table('exercise')
+                      ->where('section_id',$section->id)
+                      ->first();
+                      if($exercise){
+                        foreach ($section->exercise as $key => $exc): ?>
+                        <li>
+                            <h4><i class="fas fa-clipboard-list"></i>{{ $exc->title}}</h4>
+                            <div class="row">
+                              <div class="col-xs-10">
+                                {{$exc->deskripsi}}  
+                              </div>
+                              <div class="col-sm-1 col-xs-2 p-0">
+                                {{$exc->durasi}}
+                              </div>
+                                <?php 
+                                  $cek = DB::table('quiz_user')
+                                  ->where('exercise_id', $exc->id)
+                                  ->where('member_id', '=', Auth::guard('members')->user()->id)
+                                  ->where('status', 1)
+                                  ->first();
+                                  if($cek){        
+                                    ?>
+                                    <i class="fa fa-check-circle"></i>
+                                  <?php }else{ ?>
+                                    <i class="fa fa-circle"></i>
+                                <?php } ?>
+                            </div>
+                        </li>
+                      <?php 
+                        endforeach;
+                      } else{
                       foreach ($section->project_section as $key => $ps): ?>
                         <li>
                             <h4><i class="fas fa-clipboard-list"></i>{{ $ps->title}}</h4>
@@ -186,7 +217,9 @@
                                 <?php } ?>
                             </div>
                         </li>
-                      <?php endforeach; ?>
+                      <?php 
+                        endforeach; }
+                      ?>
                       </ul>
                     </div>
                   </div>

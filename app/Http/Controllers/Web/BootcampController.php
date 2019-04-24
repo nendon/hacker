@@ -62,7 +62,13 @@ class BootcampController extends Controller
           ->join('project_section', 'section.id','project_section.section_id')
           ->where('course.bootcamp_id', $bc->id)
           ->Select(DB::raw('count(section_id) as durasi'))
-          ->first(); 
+          ->first();
+        $pg_bootcamp = Bootcamp::join('course', 'bootcamp.id', 'course.bootcamp_id')
+          ->join('section', 'course.id', 'section.course_id')
+          ->join('exercise', 'section.id','exercise.section_id')
+          ->where('course.bootcamp_id', $bc->id)
+          ->Select(DB::raw('count(section_id) as durasi'))
+          ->first();  
         $cart = Cart::where('member_id', $mem_id )->where('bootcamp_id', $bc->id)->first();
         // $cs = Course::where('bootcamp_id', $bc->id)->first();
         // $courses = DB::table('course')->where('bootcamp_id', $bc->id)->get();
@@ -85,6 +91,7 @@ class BootcampController extends Controller
             'main_course' => $main_course,
             'project_bootcamp' => $project_bootcamp,
             'durasi_bootcamp' =>  $durasi_bootcamp,
+            'pg_bootcamp' =>  $pg_bootcamp
         ]);
     }
     public function next(Request $request){
