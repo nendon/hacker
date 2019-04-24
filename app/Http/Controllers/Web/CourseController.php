@@ -19,6 +19,8 @@ use App\Models\BootcampLampiran;
 use App\Models\Exercise;
 use App\Models\Pertanyaan;
 use App\Models\QuizUser;
+use App\Models\QuizDetail;
+
 use DB;
 use Auth;
 use Datetime;
@@ -45,7 +47,11 @@ class CourseController extends Controller
         $pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->count();
         $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
                 ->where('exercise_id',$exercise->id)->first();
-        $detail = QuizDetail::where('quizuser_id', $jawaban->id)->get();
+
+        $detail = QuizDetail::join('pertanyaan', 'quiz_detail.tanya_id', 'pertanyaan.id' )
+                ->join('jawaban','quiz_detail.jawab_id', 'jawaban.id' )
+                ->where('quizuser_id', $jawaban->id)
+                ->select('pertanyaan.tanya as soal', 'jawaban.pilihan as jawab', 'jawaban.alasan as alasan', 'quiz_detail.status as status', 'jawaban.status as ketentuan')->get();
         return view('web.bootcamp.project.exercise-review',[
             'exc' => $exercise,
             'stn' => $section,
@@ -73,7 +79,7 @@ class CourseController extends Controller
         // }
         echo json_encode($response);
         return view('web.bootcamp.project.exercise-question',[
-            'exc' => $exercise,
+            'exercise' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
             'course' => $course

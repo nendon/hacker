@@ -87,6 +87,10 @@ Route::get('/bootcamp/{bootcamp}/exercise/{section}', 'Web\CourseController@exer
 Route::get('/bootcamp/{bootcamp}/mulai/{exercise}', 'Web\CourseController@exerciseQuestion');
 Route::get('/questions/{idExercise}', 'Web\CourseController@exerciseGetQuestion');
 Route::post('/question', 'Web\CourseController@saveQuestion');
+Route::post('/quiz', 'Web\CourseController@saveQuiz');
+Route::post('/updatequiz', 'Web\CourseController@updateQuiz');
+
+
 Route::get('/bootcamp/{bootcamp}/review/{section}', 'Web\CourseController@exerciseReview');
 //end exercise
 Route::get('/faq', function () {

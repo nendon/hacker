@@ -103,11 +103,16 @@ class BootcampController extends Controller
         $section = Section::where('id',Input::get('section_id') )->first();
         $course = Course::where('id', $section->course_id)->first();
         $bootcamp = Bootcamp::where('id', $course->bootcamp_id)->first();
+        $exercise = Exercise::where('section_id',Input::get('section_id'))->first();
 
         $max =  VideoSection::where('section_id', Input::get('section_id'))->select(DB::raw('max(position) as max'))->first();
         if($max->max == $video->position){
             $response['end'] = true;
+            if($exercise){
+            $response['url'] =  '/bootcamp/'.$bootcamp->slug.'/exercise/'.$section->id;
+            }else{
             $response['url'] =  '/bootcamp/'.$bootcamp->slug.'/projectSubmit/'.$section->id;
+            }
              return json_encode($response);
          }else{
             $response['videoid'] = $next->id;

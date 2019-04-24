@@ -267,6 +267,38 @@
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
+                   $exer = DB::table('exercise')
+                   ->where('section_id',$section->id)
+                   ->first();
+                 if ($exer){
+                  foreach ($section->exercise as $key => $exercis): ?>
+                   <li>
+                   <a href="{{ url('bootcamp/'.$bc->slug.'/exercise/'.$exercis->section_id) }}">
+                     <div class="sub-materi row">
+                       <div class="col-xs-10 px-0">
+                         <i class="fas fa-clipboard-list"></i>  {{$exercis->title}}
+                       </div>
+                       <div class="col-xs-2 px-0 text-right">
+                       <?php 
+                           $cek = DB::table('quiz_user')
+                           ->where('exercise_id', $exercis->id)
+                           ->where('member_id', '=', Auth::guard('members')->user()->id)
+                           ->where('status', 1)
+                           ->first();
+                           if($cek){        
+                           ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i> 
+                           <?php }else{ ?>
+                            <i class="fa fa-circle ml-2"></i> 
+                         <?php } ?>
+                       </div>
+                     </div>
+                   </a >
+                 </li>
+                 <?php 
+                   endforeach; 
+                   }
+                   else{
                   foreach ($section->project_section as $key => $projects): ?>
                   <li>
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
@@ -293,7 +325,10 @@
                     </div>
                   </a >
                 </li>
-                <?php endforeach; ?>
+                <?php 
+                  endforeach; 
+                  }
+                ?>
                 </ul>
                </div>
               <?php }else{ ?>
@@ -359,7 +394,7 @@
             <div class="header">
               <div class="col-xs-11 pl-5">
                 {{$bc->title}} <br>
-                <small>{{$course->title}} : Exercise {{$exercise->title}}</small>
+                <small>{{$course->title}} : Exercise {{$exc->title}}</small>
               </div>
               <div class="col-xs-1 px-4">
                 <button type="button" class="plyr__control btn btn-outline-primary px-4" onClick="sidebarShow()"><i class="fa fa-bars"></i></button>
@@ -413,12 +448,16 @@
                     </style>
 
                   <div class="text-center">
-                    <h3 class="c-blue">Exercise {{$exercise->title}}</h3>
-                    <h5><i class="fa fa-check-circle c-blue"></i> 2/2 Pertanyaan</h5>
+                    <h3 class="c-blue">Exercise {{$exc->title}}</h3>
+                    <h5><i class="fa fa-check-circle c-blue"></i> {{$jawab->nilai}}/{{$tanya}} Pertanyaan</h5>
                     <!-- Wrong
                     <h5><i class="fa fa-times-circle c-red"></i> 2/2 Pertanyaan</h5> 
                     -->
+                    @if($jawab->status == 1)
                     <b>Anda Lulus!</b>
+                    @else
+                    <b>Anda Tidak Lulus!</b>
+                    @endif
                   </div>
 
                   <br>
@@ -429,37 +468,39 @@
                     </div>
                     <div class="card-body">
                       <ul class="exercise-review">
+                      @foreach( $detail as $key =>$detail)
+                      @if($detail->ketentuan == 1)
                         <li>
                           <h4>
-                            1. Carilah berapa nilai rata-rata umur dari para penonton bioskop di tahun 2019 menggunakan Python
-                            Jupyternetbook (Download di File Praktek file bioskop_dataset.csv):
+                           {{$detail->soal}}:
                           </h4>
 
                           <p class="text-muted">
-                            Benar! Ini adalah nilai Mean. Rumusnya adalah Mean = nilai2 dari sekumpulan data/banyaknya data.
-                            Bisa menggunakan command python :
+                          @if($detail->status != 1)
+                            Salah @else Benar @endif ! Anda menjawab : {{$detail->jawaban}} 
                           </p>
 
                           <p class="text-muted">
-                            mean_age=age.mean()
-                            print(mean_age)
-                          </p>
-
-                          <p class="text-muted">
-                            Dengan catatan:
-                            mean_age adalah nama variable untuk menyimpan nilai mean.
-                            age adalah kolom age pada file bioskop_dataset, yaitu sekumpulan data yang ingin kita cari nilai meannya.
+                          {{$detail->alasan}}
                           </p>
                         </li>
-                        <li class="wrong">
+                      @else
+                      <li class="wrong">
                           <h4>
-                            2. Yang manakah yang di bawah ini bukan termasuk pengertian dari mean :
+                           {{$detail->soal}}:
                           </h4>
 
                           <p class="text-muted">
-                            Benar! Ini bukan tujuan dari Mean, melainkan tujuan dari Mode/Modus.
-                          </div>
+                          @if($detail->status != 1)
+                            Salah @else Benar @endif ! Anda menjawab : {{$detail->jawaban}} 
+                          </p>
+
+                          <p class="text-muted">
+                          {{$detail->alasan}}
+                          </p>
                         </li>
+                      @endif
+                      @endforeach
                       </ul>
                     </div>
                   </div>
@@ -477,9 +518,6 @@
 
 
     <!-- JavaScript -->
-    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap2.min.js"></script>
-    <script type="text/javascript" src="js/plyr.min.js"></script>
     <script>
     //function Menu sidebar    
     function sidebarShow(){
