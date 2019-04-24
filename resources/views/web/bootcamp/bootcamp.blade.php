@@ -145,6 +145,7 @@
               <ul>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi {{$target->target}} Hari</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> {{$project_bootcamp->durasi}} Projek</li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> {{$pg_bootcamp->durasi}} PG</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{$bca->course->count()}}  Course</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt=""> <?php echo gmdate("H", $durasi_bootcamp->durasi)." Jam ".gmdate("i", $durasi_bootcamp->durasi)." Menit ".gmdate("s", $durasi_bootcamp->durasi)." Detik"; ?></li>
               </ul>
@@ -200,7 +201,17 @@
                                         ->first();
                                         echo gmdate("H",$totalmenit->total)." Jam ".gmdate("i",$totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik ";
                                       ?>
-                                      ), {{ count($sections->project_section) }} Projek
+                                      ), 
+                                      <?php 
+                                        $cek = DB::table('exercise')
+                                        ->where('section_id', $sections->id)
+                                        ->first();
+                                        if($cek){        
+                                          ?>
+                                          {{count($sections->exercise)}} PG
+                                        <?php }else{ ?>
+                                          {{count($sections->project_section)}} Projek
+                                      <?php } ?>
                                 </div>
                                 <?php 
                                   $no++;
@@ -265,7 +276,18 @@
                                     ->first();
                                     echo gmdate("H",$totalmenit->total)." Jam ".gmdate("i",$totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik ";
                                   ?>
-                                  ), {{count($sections->project_section)}} Projek
+                                  ), 
+                                  <?php 
+                                  $cek = DB::table('exercise')
+                                  ->where('section_id', $sections->id)
+                                  ->first();
+                                  if($cek){        
+                                    ?>
+                                    {{count($sections->exercise)}} PG
+                                  <?php }else{ ?>
+                                    {{count($sections->project_section)}} Projek
+                                <?php } ?>
+                                  
                                 </div>
                                 <?php 
                                   $no++;

@@ -180,6 +180,38 @@
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
+                  $exercise = DB::table('exercise')
+                  ->where('section_id',$section->id)
+                  ->first();
+                  if ($exercise){
+                    foreach ($section->exercise as $key => $exercises): ?>
+                    <li>
+                    <a href="{{ url('bootcamp/'.$bc->slug.'/exercise/'.$exercises->section_id) }}">
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-clipboard-list"></i>  {{$exercises->title}}
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                        <?php 
+                            $cek = DB::table('quiz_user')
+                            ->where('exercise_id', $exercises->id)
+                            ->where('member_id', '=', Auth::guard('members')->user()->id)
+                            ->where('status', 1)
+                            ->first();
+                            if($cek){        
+                            ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i> 
+                            <?php }else{ ?>
+                            <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a >
+                  </li>
+                <?php 
+                  endforeach; 
+                  }
+                  else{
                   foreach ($section->project_section as $key => $projects): ?>
                   <li>
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
@@ -205,13 +237,34 @@
                     </div>
                   </a >
                 </li>
-                <?php endforeach; ?>
+                <?php 
+                  endforeach; 
+                  }
+                ?>
                 </ul>
               </div>
               <?php }else{
                  $n = $valid->posisi-1;
                  $sect = $valid->section-1;
-                 
+                 $exercise = DB::table('exercise')
+                    ->where('section_id',$section->id)
+                    ->first();
+                 if($exercise){
+                  $lihat = DB::table('section')
+                  ->join('video_section', 'section.id','video_section.section_id')
+                  ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+                  ->leftjoin('quiz_user', function($join){
+                  $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                  ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                  ->where('quiz_user.status', '1');})
+                  ->leftjoin('history', function($join){
+                    $join->on('video_section.id', '=', 'history.video_id')
+                    ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                  ->where('section.id', $sect)->where('section.position', $n)
+                  ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT quiz_user.id)+ count(distinct history.id) as hasil'))
+                  ->groupby('section.id')
+                  ->first();
+                 }else{
                  $lihat = DB::table('section')
                          ->join('video_section', 'section.id','video_section.section_id')
                          ->leftjoin('project_section', 'section.id', 'project_section.section_id')
@@ -226,6 +279,7 @@
                          ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
                          ->groupby('section.id')
                          ->first();
+                 }
               if($lihat->project == $lihat->hasil){ ?>
                <div class="collapse submateri" id="{{$section->id}}">
                 <ul>
@@ -264,6 +318,38 @@
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
+                   $exercise = DB::table('exercise')
+                   ->where('section_id',$section->id)
+                   ->first();
+                  if ($exercise){
+                    foreach ($section->exercise as $key => $exercises): ?>
+                    <li>
+                    <a href="{{ url('bootcamp/'.$bc->slug.'/exercise/'.$exercises->section_id) }}">
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-clipboard-list"></i>  {{$exercises->title}}
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                        <?php 
+                            $cek = DB::table('quiz_user')
+                            ->where('exercise_id', $exercises->id)
+                            ->where('member_id', '=', Auth::guard('members')->user()->id)
+                            ->where('status', 1)
+                            ->first();
+                            if($cek){        
+                            ?>
+                            <i class="fa fa-check-circle ml-2 c-blue"></i> 
+                            <?php }else{ ?>
+                              <i class="fa fa-circle ml-2"></i> 
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a >
+                  </li>
+                  <?php 
+                    endforeach; 
+                    }
+                   else{
                   foreach ($section->project_section as $key => $projects): ?>
                   <li>
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id) }}">
@@ -290,7 +376,10 @@
                     </div>
                   </a >
                 </li>
-                <?php endforeach; ?>
+                <?php 
+                  endforeach; 
+                  }
+                ?>
                 </ul>
                </div>
               <?php }else{ ?>
@@ -345,7 +434,7 @@
             <div class="header">
               <div class="col-xs-11 pl-5">
                 {{$bc->title}} <br>
-                <small>{{$course->title}} : Exercise {{$exercise->title}}</small>
+                <small>{{$course->title}} : Exercise {{$exc->title}}</small>
               </div>
               <div class="col-xs-1 px-4">
                 <button type="button" class="plyr__control btn btn-outline-primary px-4" onClick="sidebarShow()"><i class="fa fa-bars"></i></button>
@@ -363,13 +452,13 @@
                       margin-bottom: 10px;
                     }
                   </style>
-                  <h4 class="mb-5">Exercise {{$exercise->title}}</h4>
+                  <h4 class="mb-5">Exercise {{$exc->title}}</h4>
 
                   <h5 class="mb-4">Exercise 5, 2 Soal</h5>
 
                   <p>Instruksi Exercise:</p>
                   <ul class="exercise">
-                     {{$exercise->instruksi}}
+                     {{$exc->instruksi}}
                     <li>
                       Pastikan anda sudah mempelajari dan memahami materi sebelumnya, karena Exercise ini berkaitan
                       dengan yang sudah anda pelajari
@@ -391,7 +480,7 @@
                     </li>                  
                   </ul>
                   
-                  <a class="btn btn-primary my-4" href="{{ url('bootcamp/'.$bc->slug.'/mulai/'.$exercise->section_id) }}">Mulai Exercise</a>
+                  <a class="btn btn-primary my-4" href="{{ url('bootcamp/'.$bc->slug.'/mulai/'.$exc->section_id) }}">Mulai Exercise</a>
               </div>
             </div> 
           </div>

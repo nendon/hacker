@@ -17,6 +17,10 @@ class Section extends Model
     {
         return $this->hasMany('App\Models\ProjectSection');
     }
+    public function exercise()
+    {
+        return $this->hasMany('App\Models\Exercise');
+    }
 
     public function course()
     {
