@@ -379,7 +379,7 @@
                   <!-- Konten Dari Javascript -->
                 </section>
                 
-                <button class="btn btn-default" id="start">Jadian lagi</button> 
+                <button class="btn btn-default" id="start">Coba lagi</button> 
                 <button class="btn btn-primary my-4" id="submit" style=  "background: rgb(0, 170, 113)">Submit dan Lihat Hasilnya</button>
 
 
@@ -576,42 +576,67 @@
       if (isNaN(selections[questionCounter])) {
         $('#warning').text('Pilih salah satu jawaban!');
       } else {
-        /* Show Score 
+        /* Show Score */
         $('#question').remove();
+        $.ajaxSetup({ 
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          $.ajax({
+            url: '{{ url("/quiz") }}',
+            method: 'POST',
+            dataType: 'JSON',
+            data: {exercise_id: {{$exercise->id}}},
+            success: function(result){
+              console.log(result);
+              console.log(typeof result);
+              questions = result;
+              console.log("ada");
+
+            // Redirect 
+          
+              // // Display initial question
+              // displayNext();
+            },
+            error: function(data) {
+                console.log("data: " + JSON.stringify(data));
+            }
+          });
         var scoreElem = displayScore();
         quiz.append(scoreElem).fadeIn();
         $('#start').show();
         $(this).hide();
         $('#next').hide();
         $('#prev').hide();
-        */
+       
+       
+        $.ajaxSetup({ 
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          $.ajax({
+            url: '{{ url("/updatequiz") }}',
+            method: 'POST',
+            dataType: 'JSON',
+            data: {exercise_id: {{$exercise->id}}},
+            success: function(result){
+              console.log(result);
+              console.log(typeof result);
+              questions = result;
+              console.log("ada");
 
-      $.ajaxSetup({ 
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      $.ajax({
-        url: '{{ url("/question") }}',
-        method: 'POST',
-        dataType: 'JSON',
-        success: function(result){
-          console.log(result);
-          console.log(typeof result);
-          questions = result;
-          console.log("ada");
-      
-          // // Display initial question
-          // displayNext();
-        },
-        error: function(data) {
-            console.log("data: " + JSON.stringify(data));
-        }
-      });
+            // Redirect 
+          //  window.location = "localhost:8000/bootcamp/"+{{$bc->slug}}+"/review/"+{{$exercise->section_id}}
 
-        // Redirect 
-        window.location.href = "review"
+            },
+            error: function(data) {
+                console.log("data: " + JSON.stringify(data));
+            }
+          });
       }
+      
     })
       
       // Computes score and returns a paragraph element to be displayed
@@ -623,15 +648,57 @@
         text= "";
         var numCorrect = 0;
         for (var i = 0; i < selections.length; i++) {
+          var tmp=[];
+          var hasil=[];
+          tmp.push(questions[i].question);
+          tmp.push(questions[i].choices[selections[i]]);
+          
           if (selections[i] === questions[i].correctAnswer) {
+            tmp.push(true);
             numCorrect++;
             text += "Betul "+i+"\n";
           }else{
+            tmp.push(false);
             text += "Salah "+i+"\n";
           }
+          hasil[i] = tmp;
+          var hsl=[];
+
+          if(tmp[2] == true){
+            hsl = 1
+          }else{
+            hsl = 2
+          }
+          
+          $.ajaxSetup({ 
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          $.ajax({
+            url: '{{ url("/question") }}',
+            method: 'POST',
+            dataType: 'JSON',
+            data: {exercise_id: {{$exercise->id}}, tanya:tmp[0] , jawab:tmp[1], hasil:hsl},
+            success: function(result){
+              console.log(result);
+              console.log(typeof result);
+              questions = result;
+              console.log("ada");
+
+            // Redirect 
+            window.location.href = '{{ url("bootcamp/".$bc->slug."/review/".$exercise->section_id) }}';
+
+              // // Display initial question
+              // displayNext();
+            },
+            error: function(data) {
+                console.log("data: " + JSON.stringify(data));
+            }
+          });
+
         }
         
-        console.log(text);
         // Calculate score and display relevant message
         var percentage = numCorrect / questions.length;
         if (percentage >= 0.9){
@@ -648,6 +715,7 @@
 
         return score;
       }
+      
     });
     //function Menu sidebar    
     function sidebarShow(){

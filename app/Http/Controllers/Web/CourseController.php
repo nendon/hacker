@@ -18,6 +18,7 @@ use App\Models\History;
 use App\Models\BootcampLampiran;
 use App\Models\Exercise;
 use App\Models\Pertanyaan;
+use App\Models\QuizUser;
 use DB;
 use Auth;
 use Datetime;
@@ -33,16 +34,26 @@ class CourseController extends Controller
     public function exerciseReview($slug, $id){
         // $slug = 3;
         // $id= 16;
+        if (empty(Auth::guard('members')->user()->id)) {
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+          }
         $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
         $sect = Section::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $course = Course::where('id',$sect->course_id)->first();
+        $pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->count();
+        $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
+                ->where('exercise_id',$exercise->id)->first();
+        $detail = QuizDetail::where('quizuser_id', $jawaban->id)->get();
         return view('web.bootcamp.project.exercise-review',[
             'exercise' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
-            'course' => $course
+            'course' => $course,
+            'tanya' =>$pertanyaan,
+            'jawab' =>$jawaban,
+            'detail' =>$detail
         ]);
     }
     public function exerciseQuestion($slug, $id){
@@ -648,24 +659,97 @@ class CourseController extends Controller
         $params = $req->all();
         $now = new DateTime();
 
-        // Check if user has history
+
+        $quiz = DB::table('quiz_user')
+            ->where('exercise_id', '=', $params['exercise_id'])
+            ->where('member_id', '=', $uid)
+            ->where('status', '=', 0)
+            ->where('nilai', '=', 0)
+            ->first();
+        
+        $tanya = DB::table('pertanyaan')
+            ->where('tanya', '=', $params['tanya'])
+            ->where('exercise_id', '=', $params['exercise_id'])
+            ->select('*')
+            ->first();
+            
+        $jawab = DB::table('jawaban')
+            ->where('tanya_id', '=', $tanya->id)
+            ->where('pilihan', '=',  $params['jawab'])
+            ->select('*')
+            ->first();  
+            
+        DB::table('quiz_detail')->insert([
+            'quizuser_id' => $quiz->id,
+            'tanya_id' => $tanya->id,
+            'jawab_id' => $jawab->id,
+            'status' => $params['hasil'],
+            'created_at' => $now
+        ]); 
+    
+        
+        echo json_encode($params);
+
+    }
+
+    public function saveQuiz(Request $req)
+    {
+        $uid = Auth::guard('members')->user()->id;
+        $params = $req->all();
+        $now = new DateTime();
+
         $history = DB::table('quiz_user')
             ->where('exercise_id', '=', $params['exercise_id'])
             ->where('member_id', '=', $uid)
-            ->where('status', '=', $params['status'])
-            ->where('nilai', '=', $params['nilai'])
             ->select('*')
-            ->get();
-
+            ->first();
         // Insert if user doesn't have any history
-        if (!isset($history[0])) {
+        if (!$history) {
             DB::table('quiz_user')->insert([
-                'exercise_id' => $params['status'],
+                'exercise_id' => $params['exercise_id'],
                 'member_id' => $uid,
-                'status' => $params['status'],
-                'nilai' => $params['nilai'],
+                'status' => 0,
+                'nilai' => 0,
                 'created_at' => $now
             ]);
         }
+
+        echo json_encode($params);
+
+    }
+    public function updateQuiz(Request $req)
+    {
+        $uid = Auth::guard('members')->user()->id;
+        $params = $req->all();
+        $now = new DateTime();
+        $exercise =  DB::table('exercise')
+        ->where('id', '=', $params['exercise_id'])
+        ->first();
+        $quiz = DB::table('quiz_user')
+            ->where('exercise_id', '=', $exercise->id)
+            ->where('member_id', '=', $uid)
+            ->where('status', '=', 0)
+            ->where('nilai', '=', 0)
+            ->first();
+
+        $nilai = DB::table('quiz_detail')
+            ->where('quizuser_id', $quiz->id)
+            ->where('status', 1)
+            ->count();
+
+        $status = 0;
+        if($nilai < $exercise->min_nilai){
+            $status = 2;
+        }else{
+            $status = 1;
+        }
+    
+        DB::table('quiz_user')
+        ->where('id',$quiz->id)
+        ->update([
+        'status' => $status,
+        'nilai' => $nilai]);
+        echo json_encode($params);
+
     }
 }
