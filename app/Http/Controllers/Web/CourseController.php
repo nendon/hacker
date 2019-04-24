@@ -39,7 +39,7 @@ class CourseController extends Controller
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $course = Course::where('id',$sect->course_id)->first();
         return view('web.bootcamp.project.exercise-review',[
-            'exercise' => $exercise,
+            'exc' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
             'course' => $course
@@ -62,7 +62,7 @@ class CourseController extends Controller
         // }
         echo json_encode($response);
         return view('web.bootcamp.project.exercise-question',[
-            'exercise' => $exercise,
+            'exc' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
             'course' => $course
@@ -102,7 +102,7 @@ class CourseController extends Controller
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $course = Course::where('id',$sect->course_id)->first();
         return view('web.bootcamp.project.exercise',[
-            'exercise' => $exercise,
+            'exc' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
             'course' => $course
@@ -314,7 +314,7 @@ class CourseController extends Controller
     {
         if (empty(Auth::guard('members')->user()->id)) {
             return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
-          }
+        }
         $bcs = Bootcamp::where('slug', $slug)->first();
         $sect = Section::where('id', $id)->first();
         $courses = Course::where('id', $sect->course_id)->first();
@@ -324,7 +324,6 @@ class CourseController extends Controller
         // $vsections = $section->first()->video_section->first()->where('section_id', $sect->id)->select(DB::raw('sum(durasi) as durasi'))->first();
         $psection = Section::with('project_section')->where('course_id', $courses->id)->get();
         $hist = History::where('section_id', $id)->orderby('created_at', 'desc')->first();
-
         //untuk penambahan history terakhir
         // if($hist){
         //     $vmateri = DB::table('video_section')->join('history', 'video_section.id', 'history.video_id')->where('history.section_id', $id)->orderby('history.created_at', 'desc')->select('video_section.*')->first();       
