@@ -407,11 +407,9 @@
     <script>
     // JavaScript Document
     
-    $(function(){
-          $('#footer').addClass('hide')
-          getComments();
-          // $('#{{$sec->id}}').collapse();
-        });
+    // $(function(){
+    //       $('#footer').addClass('hide')
+    //     });
       
     $(document).ready(function(){
       "use strict";

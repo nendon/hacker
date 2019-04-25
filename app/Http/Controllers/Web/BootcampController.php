@@ -17,6 +17,7 @@ use App\Models\BootcampCategory;
 use App\Models\Course;
 use App\Models\Section;
 use App\Models\Member;
+use App\Models\Exercise;
 use App\Models\BootcampMember;
 use App\Models\Contributor;
 use DateTime;
