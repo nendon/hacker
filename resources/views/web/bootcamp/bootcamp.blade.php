@@ -145,7 +145,7 @@
               <ul>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Estimasi.svg')}}" alt="">Estimasi {{$target->target}} Hari</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> {{$project_bootcamp->durasi}} Projek</li>
-                <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> {{$pg_bootcamp->durasi}} PG</li>
+                <li><img src="{{asset('template/bootcamp/asset/smallicon-Projek.svg')}}" alt=""> {{$pg_bootcamp->durasi}} Exercise</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Course.svg')}}" alt="">{{$bca->course->count()}}  Course</li>
                 <li><img src="{{asset('template/bootcamp/asset/smallicon-Waktu.svg')}}" alt=""> <?php echo gmdate("H", $durasi_bootcamp->durasi)." Jam ".gmdate("i", $durasi_bootcamp->durasi)." Menit ".gmdate("s", $durasi_bootcamp->durasi)." Detik"; ?></li>
               </ul>
@@ -208,7 +208,7 @@
                                         ->first();
                                         if($cek){        
                                           ?>
-                                          {{count($sections->exercise)}} PG
+                                          {{count($sections->exercise)}} Exercise
                                         <?php }else{ ?>
                                           {{count($sections->project_section)}} Projek
                                       <?php } ?>
@@ -283,7 +283,7 @@
                                   ->first();
                                   if($cek){        
                                     ?>
-                                    {{count($sections->exercise)}} PG
+                                    {{count($sections->exercise)}} Exercise
                                   <?php }else{ ?>
                                     {{count($sections->project_section)}} Projek
                                 <?php } ?>
