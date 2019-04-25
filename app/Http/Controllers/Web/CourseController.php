@@ -62,6 +62,7 @@ class CourseController extends Controller
         return view('web.bootcamp.project.exercise-review',[
             'exc' => $exercise,
             'stn' => $section,
+            'sction' => $sect,
             'bc' => $bootcamp,
             'course' => $course,
             'tanya' =>$pertanyaan,

@@ -529,7 +529,8 @@
         </div>
       </div>
       <div class="text-right">
-      <button class="btn btn-primary my-4" id="next"><a href="url('/bootcamp/'.$bc->slug.'/videoPage/'.$stn+1)">Lanjutkan Materi</a></button>
+      <?php $id = $sction->id +1?>
+      <button class="btn btn-primary my-4" id="next"><a style="color:white;" href="{{url('/bootcamp/'.$bc->slug.'/videoPage/'.$id)}}">Lanjutkan Materi</a></button>
       </div>
     </section>
 
