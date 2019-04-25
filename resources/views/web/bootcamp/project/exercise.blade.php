@@ -284,7 +284,11 @@
               <?php }else{
                  $n = $valid->posisi-1;
                  $sect = $valid->section-1;
-                 $lihat = DB::table('section')
+                 $adaproject = DB::table('project_section')
+                 ->where('section_id', $sect)
+                 ->first();
+                 if($adaproject){
+                  $lihat = DB::table('section')
                   ->join('video_section', 'section.id','video_section.section_id')
                   ->leftjoin('exercise', 'section.id', 'exercise.section_id')
                   ->leftjoin('quiz_user', function($join){
@@ -300,9 +304,32 @@
                     $join->on('video_section.id', '=', 'history.video_id')
                     ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
                   ->where('section.id', $sect)->where('section.position', $n)
-                  ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT quiz_user.id)+ count(distinct project_user.id)+ count(distinct history.id) as hasil'))
+                  
+                  ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT quiz_user.id)+ count(distinct history.id) as hasil'))
                   ->groupby('section.id')
                   ->first();
+                 }else{
+                  $lihat = DB::table('section')
+                  ->join('video_section', 'section.id','video_section.section_id')
+                  ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+                  ->leftjoin('quiz_user', function($join){
+                  $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                  ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                  ->where('quiz_user.status', '1');})
+                  ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                  ->leftjoin('project_user', function($join){
+                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                    ->where('project_user.status', '2');})
+                  ->leftjoin('history', function($join){
+                    $join->on('video_section.id', '=', 'history.video_id')
+                    ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                  ->where('section.id', $sect)->where('section.position', $n)
+                  
+                  ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                  ->groupby('section.id')
+                  ->first();
+                 }
               if($lihat->project == $lihat->hasil){ ?>
                <div class="collapse submateri" id="{{$section->id}}">
                 <ul>
