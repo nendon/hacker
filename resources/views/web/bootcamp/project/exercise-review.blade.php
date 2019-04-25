@@ -119,10 +119,10 @@
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
-                  $exc = DB::table('exercise')
+                  $excr = DB::table('exercise')
                   ->where('section_id',$section->id)
                   ->first();
-                  if($exc){
+                  if($excr){
                     foreach ($section->exercise as $key => $exercises): ?>
                     <li>
                     <a href="{{ url('bootcamp/'.$bc->slug.'/exercise/'.$exercises->section_id) }}">

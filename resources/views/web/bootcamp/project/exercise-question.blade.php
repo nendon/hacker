@@ -756,7 +756,7 @@
           }else{
             hsl = 2
           }
-          
+
           $.ajaxSetup({ 
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -771,10 +771,11 @@
               console.log(result);
               console.log(typeof result);
               questions = result;
-              
+              console.log('coba cek data : '+result);
+
 
             // Redirect 
-            window.location.href = '{{ url("bootcamp/".$bc->slug."/review/".$exercise->section_id) }}';
+            // window.location.href = '{{ url("bootcamp/".$bc->slug."/review/".$exercise->section_id) }}';
 
               // // Display initial question
               // displayNext();
