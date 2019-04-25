@@ -41,25 +41,34 @@ class CourseController extends Controller
           }
         $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
+      
         $sect = Section::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $course = Course::where('id',$sect->course_id)->first();
         $pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->count();
         $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
-                ->where('exercise_id',$exercise->id)->first();
+                ->where('exercise_id',$exercise->id)->orderby('created_at','desc')->first();
 
         $detail = QuizDetail::join('pertanyaan', 'quiz_detail.tanya_id', 'pertanyaan.id' )
                 ->join('jawaban','quiz_detail.jawab_id', 'jawaban.id' )
                 ->where('quizuser_id', $jawaban->id)
-                ->select('pertanyaan.tanya as soal', 'jawaban.pilihan as jawab', 'jawaban.alasan as alasan', 'quiz_detail.status as status', 'jawaban.status as ketentuan')->get();
+                ->select('pertanyaan.tanya as soal', 'jawaban.pilihan as jawab', 'jawaban.alasan as alasan', 'quiz_detail.status as status', 'jawaban.status as ketentuan')->orderby('pertanyaan.id', 'asc')->get();
+        
+                $nilai = DB::table('quiz_detail')
+                ->where('quizuser_id',$jawaban->id)
+                ->where('status', 1)
+                ->count();
+
         return view('web.bootcamp.project.exercise-review',[
             'exc' => $exercise,
             'stn' => $section,
+            'sction' => $sect,
             'bc' => $bootcamp,
             'course' => $course,
             'tanya' =>$pertanyaan,
             'jawab' =>$jawaban,
-            'detail' =>$detail
+            'detail' =>$detail,
+            'nilai' =>$nilai
         ]);
     }
     public function exerciseQuestion($slug, $id){
@@ -357,7 +366,6 @@ class CourseController extends Controller
             ->select('section.id as section', 'section.position as position','course.position as p_course')
             ->groupby('section.id', 'section.position','course.position' )
             ->first();
-
         if($cekdulu->position != 1 || $cekdulu->p_course != 1){
         if($sect->position == 1 ){
         $nilai = Course::where('id', $courses->id-1)->first();
@@ -691,7 +699,6 @@ class CourseController extends Controller
             ->where('exercise_id', '=', $params['exercise_id'])
             ->where('member_id', '=', $uid)
             ->where('status', '=', 0)
-            ->where('nilai', '=', 0)
             ->first();
         
         $tanya = DB::table('pertanyaan')
@@ -728,6 +735,7 @@ class CourseController extends Controller
         $history = DB::table('quiz_user')
             ->where('exercise_id', '=', $params['exercise_id'])
             ->where('member_id', '=', $uid)
+            ->where('status', 0)
             ->select('*')
             ->first();
         // Insert if user doesn't have any history
@@ -756,26 +764,20 @@ class CourseController extends Controller
             ->where('exercise_id', '=', $exercise->id)
             ->where('member_id', '=', $uid)
             ->where('status', '=', 0)
-            ->where('nilai', '=', 0)
             ->first();
 
-        $nilai = DB::table('quiz_detail')
-            ->where('quizuser_id', $quiz->id)
-            ->where('status', 1)
-            ->count();
+        // $nilai = DB::table('quiz_detail')
+        //     ->where('quizuser_id', $quiz->id)
+        //     ->where('status', 1)
+        //     ->count();
 
-        $status = 0;
-        if($nilai < $exercise->min_nilai){
-            $status = 2;
-        }else{
-            $status = 1;
-        }
+        // $status = 0;
+        // if($nilai < $exercise->min_nilai){
+        //     $status = 2;
+        // }else{
+        //     $status = 1;
+        // }
     
-        DB::table('quiz_user')
-        ->where('id',$quiz->id)
-        ->update([
-        'status' => $status,
-        'nilai' => $nilai]);
         echo json_encode($params);
 
     }

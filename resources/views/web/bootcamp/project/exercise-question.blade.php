@@ -485,7 +485,7 @@
                   <!-- Konten Dari Javascript -->
                 </section>
                 
-                <button class="btn btn-default" id="start">Coba lagi</button> 
+                <!-- <button class="btn btn-default" id="start">Coba lagi</button>  -->
                 <button class="btn btn-primary my-4" id="submit" style=  "background: rgb(0, 170, 113)">Submit dan Lihat Hasilnya</button>
 
 
@@ -722,30 +722,6 @@
         $('#prev').hide();
        
        
-        $.ajaxSetup({ 
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-          });
-          $.ajax({
-            url: '{{ url("/updatequiz") }}',
-            method: 'POST',
-            dataType: 'JSON',
-            data: {exercise_id: {{$exercise->id}}},
-            success: function(result){
-              console.log(result);
-              console.log(typeof result);
-              questions = result;
-              console.log("ada");
-
-            // Redirect 
-          //  window.location = "localhost:8000/bootcamp/"+{{$bc->slug}}+"/review/"+{{$exercise->section_id}}
-
-            },
-            error: function(data) {
-                console.log("data: " + JSON.stringify(data));
-            }
-          });
       }
       
     })
@@ -795,7 +771,7 @@
               console.log(result);
               console.log(typeof result);
               questions = result;
-              console.log("ada");
+              
 
             // Redirect 
             window.location.href = '{{ url("bootcamp/".$bc->slug."/review/".$exercise->section_id) }}';
