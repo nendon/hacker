@@ -449,11 +449,11 @@
 
                   <div class="text-center">
                     <h3 class="c-blue">Exercise {{$exc->title}}</h3>
-                    <h5><i class="fa fa-check-circle c-blue"></i> {{$jawab->nilai}}/{{$tanya}} Pertanyaan</h5>
+                    <h5><i class="fa fa-check-circle c-blue"></i> {{$nilai}}/{{$tanya}} Pertanyaan</h5>
                     <!-- Wrong
                     <h5><i class="fa fa-times-circle c-red"></i> 2/2 Pertanyaan</h5> 
                     -->
-                    @if($jawab->status == 1)
+                    @if($nilai > $exc->min_nilai)
                     <b>Anda Lulus!</b>
                     @else
                     <b>Anda Tidak Lulus!</b>

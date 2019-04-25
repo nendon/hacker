@@ -689,7 +689,7 @@
               console.log(result);
               console.log(typeof result);
               questions = result;
-              console.log("ada");
+              
 
             // Redirect 
             window.location.href = '{{ url("bootcamp/".$bc->slug."/review/".$exercise->section_id) }}';

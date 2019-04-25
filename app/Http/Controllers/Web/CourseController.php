@@ -41,6 +41,7 @@ class CourseController extends Controller
           }
         $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
+      
         $sect = Section::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $course = Course::where('id',$sect->course_id)->first();
@@ -52,6 +53,12 @@ class CourseController extends Controller
                 ->join('jawaban','quiz_detail.jawab_id', 'jawaban.id' )
                 ->where('quizuser_id', $jawaban->id)
                 ->select('pertanyaan.tanya as soal', 'jawaban.pilihan as jawab', 'jawaban.alasan as alasan', 'quiz_detail.status as status', 'jawaban.status as ketentuan')->get();
+        
+                $nilai = DB::table('quiz_detail')
+                ->where('quizuser_id',$jawaban->id)
+                ->where('status', 1)
+                ->count();
+
         return view('web.bootcamp.project.exercise-review',[
             'exc' => $exercise,
             'stn' => $section,
@@ -59,7 +66,8 @@ class CourseController extends Controller
             'course' => $course,
             'tanya' =>$pertanyaan,
             'jawab' =>$jawaban,
-            'detail' =>$detail
+            'detail' =>$detail,
+            'nilai' =>$nilai
         ]);
     }
     public function exerciseQuestion($slug, $id){
@@ -363,7 +371,7 @@ class CourseController extends Controller
         $valid = DB::table('course')
             ->join('section', 'course.id', 'section.course_id')
             ->join('video_section', 'section.id','video_section.section_id')
-            ->join('project_section', 'section.id', 'project_section.section_id')
+            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
             ->leftjoin('project_user', function($join){
             $join->on('project_section.id', '=', 'project_user.project_section_id')
             ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
@@ -669,7 +677,6 @@ class CourseController extends Controller
             ->where('exercise_id', '=', $params['exercise_id'])
             ->where('member_id', '=', $uid)
             ->where('status', '=', 0)
-            ->where('nilai', '=', 0)
             ->first();
         
         $tanya = DB::table('pertanyaan')
@@ -734,26 +741,20 @@ class CourseController extends Controller
             ->where('exercise_id', '=', $exercise->id)
             ->where('member_id', '=', $uid)
             ->where('status', '=', 0)
-            ->where('nilai', '=', 0)
             ->first();
 
-        $nilai = DB::table('quiz_detail')
-            ->where('quizuser_id', $quiz->id)
-            ->where('status', 1)
-            ->count();
+        // $nilai = DB::table('quiz_detail')
+        //     ->where('quizuser_id', $quiz->id)
+        //     ->where('status', 1)
+        //     ->count();
 
-        $status = 0;
-        if($nilai < $exercise->min_nilai){
-            $status = 2;
-        }else{
-            $status = 1;
-        }
+        // $status = 0;
+        // if($nilai < $exercise->min_nilai){
+        //     $status = 2;
+        // }else{
+        //     $status = 1;
+        // }
     
-        DB::table('quiz_user')
-        ->where('id',$quiz->id)
-        ->update([
-        'status' => $status,
-        'nilai' => $nilai]);
         echo json_encode($params);
 
     }
