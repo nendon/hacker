@@ -49,6 +49,10 @@
               
               $valid = DB::table('section')
               ->join('video_section', 'section.id','video_section.section_id')
+              ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+              ->leftjoin('quiz_user', function($join){
+                $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id);})
               ->leftjoin('project_section', 'section.id', 'project_section.section_id')
               ->leftjoin('project_user', function($join){
                $join->on('project_section.id', '=', 'project_user.project_section_id')
@@ -57,7 +61,7 @@
                  $join->on('video_section.id', '=', 'history.video_id')
                  ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
               ->where('section.id', $section->id)
-              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct quiz_user.id) + count(distinct history.id) as hasil'))
               ->groupby('section.id', 'section.position')
               ->first();
             //  }
@@ -131,7 +135,38 @@
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
-                  foreach ($section->project_section as $key => $project): ?>
+                  $exc = DB::table('exercise')
+                  ->where('section_id',$section->id)
+                  ->first();
+                  if($exc){
+                    foreach ($section->exercise as $key => $exercises): ?>
+                    <li>
+                    <a href="{{ url('bootcamp/'.$bc->slug.'/exercise/'.$exercises->section_id) }}">
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-clipboard-list"></i>  {{$exercises->title}}
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                        <?php 
+                           $cek = DB::table('exercise')
+                           ->join('quiz_user', 'exercise.id', 'quiz_user.exercise_id')
+                           ->where('exercise.id', $exercises->id)
+                           ->where('quiz_user.status', 1)
+                           ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                           ->first();
+                            if($cek){        
+                            ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                            <?php }else{ ?>
+                            <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a >
+                  </li>
+                  <?php endforeach; 
+                  }else{
+                    foreach ($section->project_section as $key => $project): ?>
                   <li>
                   <a href="{{ url('bootcamp/'.$bc->slug.'/projectSubmit/'.$project->section_id) }}">
                     <div class="sub-materi row">
@@ -156,7 +191,9 @@
                     </div>
                   </a >
                 </li>
-                <?php endforeach; ?>
+                <?php endforeach; 
+                  }
+                  ?>
                 </ul>
               </div>
               <?php }else{

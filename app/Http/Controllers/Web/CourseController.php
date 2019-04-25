@@ -356,14 +356,14 @@ class CourseController extends Controller
             $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
         // }
         $cekdulu = DB::table('bootcamp')
-                        ->join('course', 'bootcamp.id', 'course.bootcamp_id')
-                        ->join('section', 'course.id', 'section.course_id')
-                        ->join('video_section', 'section.id','video_section.section_id')
-                        ->join('project_section', 'section.id', 'project_section.section_id')
-                        ->where('section.id', $sect->id)
-                        ->select('section.id as section', 'section.position as position','course.position as p_course')
-                        ->groupby('section.id', 'section.position','course.position' )
-                        ->first();
+            ->join('course', 'bootcamp.id', 'course.bootcamp_id')
+            ->join('section', 'course.id', 'section.course_id')
+            ->join('video_section', 'section.id','video_section.section_id')
+            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+            ->where('section.id', $sect->id)
+            ->select('section.id as section', 'section.position as position','course.position as p_course')
+            ->groupby('section.id', 'section.position','course.position' )
+            ->first();
 
         if($cekdulu->position != 1 || $cekdulu->p_course != 1){
         if($sect->position == 1 ){
