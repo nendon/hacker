@@ -47,12 +47,12 @@ class CourseController extends Controller
         $course = Course::where('id',$sect->course_id)->first();
         $pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->count();
         $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
-                ->where('exercise_id',$exercise->id)->first();
+                ->where('exercise_id',$exercise->id)->orderby('created_at','desc')->first();
 
         $detail = QuizDetail::join('pertanyaan', 'quiz_detail.tanya_id', 'pertanyaan.id' )
                 ->join('jawaban','quiz_detail.jawab_id', 'jawaban.id' )
                 ->where('quizuser_id', $jawaban->id)
-                ->select('pertanyaan.tanya as soal', 'jawaban.pilihan as jawab', 'jawaban.alasan as alasan', 'quiz_detail.status as status', 'jawaban.status as ketentuan')->get();
+                ->select('pertanyaan.tanya as soal', 'jawaban.pilihan as jawab', 'jawaban.alasan as alasan', 'quiz_detail.status as status', 'jawaban.status as ketentuan')->orderby('pertanyaan.id', 'asc')->get();
         
                 $nilai = DB::table('quiz_detail')
                 ->where('quizuser_id',$jawaban->id)
@@ -356,14 +356,14 @@ class CourseController extends Controller
             $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
         // }
         $cekdulu = DB::table('bootcamp')
-            ->join('course', 'bootcamp.id', 'course.bootcamp_id')
-            ->join('section', 'course.id', 'section.course_id')
-            ->join('video_section', 'section.id','video_section.section_id')
-            ->leftjoin('project_section', 'section.id', 'project_section.section_id')
-            ->where('section.id', $sect->id)
-            ->select('section.id as section', 'section.position as position','course.position as p_course')
-            ->groupby('section.id', 'section.position','course.position' )
-            ->first();
+                        ->join('course', 'bootcamp.id', 'course.bootcamp_id')
+                        ->join('section', 'course.id', 'section.course_id')
+                        ->join('video_section', 'section.id','video_section.section_id')
+                        ->join('project_section', 'section.id', 'project_section.section_id')
+                        ->where('section.id', $sect->id)
+                        ->select('section.id as section', 'section.position as position','course.position as p_course')
+                        ->groupby('section.id', 'section.position','course.position' )
+                        ->first();
 
         if($cekdulu->position != 1 || $cekdulu->p_course != 1){
         if($sect->position == 1 ){
@@ -713,6 +713,7 @@ class CourseController extends Controller
         $history = DB::table('quiz_user')
             ->where('exercise_id', '=', $params['exercise_id'])
             ->where('member_id', '=', $uid)
+            ->where('status', 0)
             ->select('*')
             ->first();
         // Insert if user doesn't have any history

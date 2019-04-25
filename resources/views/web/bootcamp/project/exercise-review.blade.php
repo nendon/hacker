@@ -448,15 +448,32 @@
                     </style>
 
                   <div class="text-center">
+                 
+                 
+                 
                     <h3 class="c-blue">Exercise {{$exc->title}}</h3>
                     <h5><i class="fa fa-check-circle c-blue"></i> {{$nilai}}/{{$tanya}} Pertanyaan</h5>
                     <!-- Wrong
                     <h5><i class="fa fa-times-circle c-red"></i> 2/2 Pertanyaan</h5> 
                     -->
-                    @if($nilai > $exc->min_nilai)
+                    @if($nilai >= $exc->min_nilai)
                     <b>Anda Lulus!</b>
+                    <?php
+                     DB::table('quiz_user')
+                    ->where('exercise_id',$exc->id)
+                    ->where('member_id', Auth::guard('members')->user()->id)
+                    ->update([
+                    'status' => 1,
+                    'nilai' => $nilai]);  ?>
                     @else
                     <b>Anda Tidak Lulus!</b>
+                    <?php
+                     DB::table('quiz_user')
+                    ->where('exercise_id',$exc->id)
+                    ->where('member_id', Auth::guard('members')->user()->id)
+                    ->update([
+                    'status' => 2,
+                    'nilai' => $nilai]);  ?>
                     @endif
                   </div>
 
@@ -511,7 +528,9 @@
 
         </div>
       </div>
-
+      <div class="text-right">
+      <button class="btn btn-primary my-4" id="next"><a href="url('/bootcamp/'.$bc->slug.'/videoPage/'.$stn+1)">Lanjutkan Materi</a></button>
+      </div>
     </section>
 
 
