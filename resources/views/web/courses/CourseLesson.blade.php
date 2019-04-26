@@ -31,12 +31,13 @@
                 <li style="color:red;">Deadline {{$deadline}}  Hari</li>
                 <li>{{$project->video}} Video</li>
                 <li>{{$project->project}} Project</li>
+                <li>{{$project->exercise}} Exercise</li>
               </ul>
             </div>
             <div class="col-sm-3 col-xs-10" style="margin-top:10px;">
                 <div class="progress">
                 <?php 
-                $courseprog = number_format($project->hasil/($project->video + $project->project)*100);
+                $courseprog = number_format($project->hasil/($project->video + $project->project +$project->exercise)*100);
                 ?>
                     <div class="progress-bar" role="progressbar" style="width:{{$courseprog}}%" aria-valuenow="{{$courseprog}}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
@@ -66,20 +67,54 @@
              $i = 1;
              $a =1;
           foreach ($stn as $key => $section): 
-            $valid = DB::table('section')
-                   ->join('video_section', 'section.id','video_section.section_id')
-                   ->leftjoin('project_section', 'section.id', 'project_section.section_id')
-                   ->leftjoin('project_user', function($join){
-                    $join->on('project_section.id', '=', 'project_user.project_section_id')
-                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
-                    ->where('project_user.status', '2');})
-                   ->leftjoin('history', function($join){
-                      $join->on('video_section.id', '=', 'history.video_id')
-                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-                   ->where('section.id', $section->id)
-                   ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
-                   ->groupby('section.id', 'section.position')
-                   ->first();
+            $adaexe = DB::table('exercise')
+                 ->where('section_id', $section->id)
+                 ->first();
+                
+            if($adaexe){
+              $valid = DB::table('section')
+              ->join('video_section', 'section.id','video_section.section_id')
+              ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+              ->leftjoin('quiz_user', function($join){
+                $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                ->where('quiz_user.status',1);})
+              ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+              ->leftjoin('project_user', function($join){
+               $join->on('project_section.id', '=', 'project_user.project_section_id')
+               ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+               ->where('project_user.status',2);})
+              ->leftjoin('history', function($join){
+                 $join->on('video_section.id', '=', 'history.video_id')
+                 ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+              ->where('section.id', $section->id)
+              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT quiz_user.id) + count(distinct history.id) as hasil'))
+              ->groupby('section.id', 'section.position')
+              ->first();
+              
+            }else if(!$adaexe){
+              $valid = DB::table('section')
+              ->join('video_section', 'section.id','video_section.section_id')
+              ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+              ->leftjoin('quiz_user', function($join){
+                $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                ->where('quiz_user.status',1);})
+              ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+              ->leftjoin('project_user', function($join){
+               $join->on('project_section.id', '=', 'project_user.project_section_id')
+               ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+               ->where('project_user.status',2);})
+              ->leftjoin('history', function($join){
+                 $join->on('video_section.id', '=', 'history.video_id')
+                 ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+              ->where('section.id', $section->id)
+              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+              ->groupby('section.id', 'section.position')
+              ->first();
+              
+            }
+
             $persen = number_format($valid->hasil / $valid->project*100); 
           ?>
              
@@ -176,10 +211,11 @@
                                 {{$exc->durasi}}
                               </div>
                                 <?php 
-                                  $cek = DB::table('quiz_user')
-                                  ->where('exercise_id', $exc->id)
-                                  ->where('member_id', '=', Auth::guard('members')->user()->id)
-                                  ->where('status', 1)
+                                  $cek = DB::table('exercise')
+                                  ->join('quiz_user', 'exercise.id', 'quiz_user.exercise_id')
+                                  ->where('exercise.id', $exc->id)
+                                  ->where('quiz_user.status', 1)
+                                  ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
                                   ->first();
                                   if($cek){        
                                     ?>
@@ -243,7 +279,25 @@
                           <?php }else{
                             $n = $valid->posisi-1;
                             $sect = $valid->section-1;
-                            
+                            $adaexc = DB::table('exercise')
+                            ->where('section_id', $sect)
+                            ->first();
+                            if($adaexc){
+                            $lihat = DB::table('section')
+                                    ->join('video_section', 'section.id','video_section.section_id')
+                                    ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+                                    ->leftjoin('quiz_user', function($join){
+                                    $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                                    ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                                    ->where('quiz_user.status', '1');})
+                                    ->leftjoin('history', function($join){
+                                      $join->on('video_section.id', '=', 'history.video_id')
+                                      ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                                    ->where('section.id', $sect)->where('section.position', $n)
+                                    ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT quiz_user.id)+ count(distinct history.id) as hasil'))
+                                    ->groupby('section.id')
+                                    ->first();
+                            }else{
                             $lihat = DB::table('section')
                                     ->join('video_section', 'section.id','video_section.section_id')
                                     ->leftjoin('project_section', 'section.id', 'project_section.section_id')
@@ -258,6 +312,7 @@
                                     ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
                                     ->groupby('section.id')
                                     ->first();
+                                    } 
                                   
                             if($lihat->project == $lihat->hasil){ 
                               if(!$exp){

@@ -32,23 +32,51 @@
           <?php
              $a = 1;
              foreach ($stn as $key => $section): 
-              $valid = DB::table('section')
-              ->join('video_section', 'section.id','video_section.section_id')
-              ->leftjoin('exercise', 'section.id', 'exercise.section_id')
-              ->leftjoin('quiz_user', function($join){
-                $join->on('exercise.id', '=', 'quiz_user.exercise_id')
-                ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id);})
-              ->leftjoin('project_section', 'section.id', 'project_section.section_id')
-              ->leftjoin('project_user', function($join){
-               $join->on('project_section.id', '=', 'project_user.project_section_id')
-               ->where('project_user.member_id', '=', Auth::guard('members')->user()->id);})
-              ->leftjoin('history', function($join){
-                 $join->on('video_section.id', '=', 'history.video_id')
-                 ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
-              ->where('section.id', $section->id)
-              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct quiz_user.id) + count(distinct history.id) as hasil'))
-              ->groupby('section.id', 'section.position')
+              $adaexe = DB::table('exercise')
+              ->where('section_id', $section->id)
               ->first();
+         if($adaexe){
+           $valid = DB::table('section')
+           ->join('video_section', 'section.id','video_section.section_id')
+           ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+           ->leftjoin('quiz_user', function($join){
+             $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+             ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+             ->where('quiz_user.status',1);})
+           ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+           ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+            ->where('project_user.status',2);})
+           ->leftjoin('history', function($join){
+              $join->on('video_section.id', '=', 'history.video_id')
+              ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+           ->where('section.id', $section->id)
+           ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT quiz_user.id) + count(distinct history.id) as hasil'))
+           ->groupby('section.id', 'section.position')
+           ->first();
+           
+         }else{
+           $valid = DB::table('section')
+           ->join('video_section', 'section.id','video_section.section_id')
+           ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+           ->leftjoin('quiz_user', function($join){
+             $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+             ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+             ->where('quiz_user.status',1);})
+           ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+           ->leftjoin('project_user', function($join){
+            $join->on('project_section.id', '=', 'project_user.project_section_id')
+            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+            ->where('project_user.status',2);})
+           ->leftjoin('history', function($join){
+              $join->on('video_section.id', '=', 'history.video_id')
+              ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+           ->where('section.id', $section->id)
+           ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+           ->groupby('section.id', 'section.position')
+           ->first();
+         }
              $persen = number_format($valid->hasil / $valid->project*100); 
              
              $n = $valid->posisi;
@@ -287,7 +315,7 @@
                  $adaproject = DB::table('project_section')
                  ->where('section_id', $sect)
                  ->first();
-                 if($adaproject){
+                 if(!$adaproject){
                   $lihat = DB::table('section')
                   ->join('video_section', 'section.id','video_section.section_id')
                   ->leftjoin('exercise', 'section.id', 'exercise.section_id')
@@ -410,13 +438,13 @@
                       <div class="col-xs-2 px-0 text-right">
                       <?php 
                           $cek = DB::table('project_section')
-                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')
-                                  ->where('project_section.id', $projects->id)
-                                  ->where('project_user.status', 2)
-                                  ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
-                                  ->first();
-                        
-                                  if($cek){        
+                            ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                            ->where('project_section.id', $projects->id)
+                            ->where('project_user.status', 2)
+                            ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                            ->first();
+                  
+                            if($cek){        
                           ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
                           <?php }else{ ?>

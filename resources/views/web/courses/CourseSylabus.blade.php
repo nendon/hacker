@@ -135,11 +135,16 @@
                         $join->on('project_section.id', '=', 'project_user.project_section_id')
                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
                         ->where('project_user.status', '2');})
+                        ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+                        ->leftjoin('quiz_user', function($join){
+                        $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                        ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)                         
+                        ->where('quiz_user.status', '1');})
                         ->leftjoin('history', function($join){
                           $join->on('video_section.id', '=', 'history.video_id')
                           ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
                         ->where('course.id', $courses->id)
-                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                        ->select('course.id as section', 'course.position as posisi',DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT project_user.id)+count(distinct quiz_user.id)+ count(distinct history.id) as hasil'))
                         ->groupby('course.id', 'course.position')
                         ->first();
 
