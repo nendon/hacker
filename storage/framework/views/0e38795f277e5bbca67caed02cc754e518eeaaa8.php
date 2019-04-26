@@ -1,4 +1,4 @@
-<?php $__env->startSection('title',''); ?>
+<?php $__env->startSection('title','Course '.$course->title.' - '.$bc->title); ?>
 <?php $__env->startSection('content'); ?>
 
     <!-- Main -->
@@ -9,14 +9,14 @@
         <div class="container">
           <div class="row">
             <div class="col-xs-12">
-              <h6 class="mb-5">Training to Become a <?php echo e($bc->title); ?> / Couse Part 1</h6>
+              <h6 class="mb-5"><?php echo e($bc->title); ?> / Course Part <?php echo e($course->position); ?></h6>
               <h2 class="mb-4"><?php echo e($course->title); ?></h2>
               <h6>
                 <?php echo e($course->deskripsi); ?>
 
               </h6>
               <br>
-              <button class="btn btn-second btn-lg mb-2">Mulai belajar</button>
+              <button class="btn btn-primary btn-lg mb-2">Mulai belajar</button>
             </div>
           </div>
         </div>
@@ -95,7 +95,16 @@
                           <h4><?php echo e($section->title); ?></h4>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                          1 Jam 20 Menit
+                        <!-- menambahkan code untuk mendapatkan total jam dan menit -->
+                          <?php 
+                              $totalmenit = DB::table('video_section')
+                              ->where('section_id', $section->id)
+                              ->select(DB::raw('sum(durasi) as total'))
+                              ->first();
+
+                              echo gmdate("H", $totalmenit->total)." Jam ".gmdate("i", $totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik";
+                          ?>
+                         <!-- <?php echo e($totalmenit->total); ?> Jam 20 Menit -->
                         </div>
                         <div class="col-md-2 col-sm-5 col-xs-5 mt-3">
                             <div class="progress">
@@ -128,15 +137,17 @@
                                 <?php echo e($vs->deskripsi_video); ?>  
                               </div>
                               <div class="col-sm-1 col-xs-2 p-0">
-                                <?php echo e($vs->durasi); ?>
-
+                              <!-- menambahkan fungsi untuk mengubah durasi menit ke format -->
+                                <?php 
+                                echo gmdate("H:i:s", $vs->durasi);
+                                ?>
                               </div>
                               <div class="col-xs-1 p-0">
                               <?php
                               
                               $cek = DB::table('section')->join('video_section', 'section.id', 'video_section.section_id')
                               ->leftjoin('history', 'video_section.id', 'history.video_id')
-                              ->where('video_section.id', $vs->id)->get();
+                              ->where('video_section.id', $vs->id)->where('member_id', Auth::guard('members')->user()->id)->get();
                                 foreach ($cek as $key => $cek): 
                                     if($cek->hist){?>
                                     <i class="fa fa-check-circle"></i>
@@ -151,6 +162,38 @@
                       <?php endforeach; ?>
                       <!-- menambahkan code untuk memunculkan project -->
                       <?php
+                      $exercise = DB::table('exercise')
+                      ->where('section_id',$section->id)
+                      ->first();
+                      if($exercise){
+                        foreach ($section->exercise as $key => $exc): ?>
+                        <li>
+                            <h4><i class="fas fa-clipboard-list"></i><?php echo e($exc->title); ?></h4>
+                            <div class="row">
+                              <div class="col-xs-10">
+                                <?php echo e($exc->deskripsi); ?>  
+                              </div>
+                              <div class="col-sm-1 col-xs-2 p-0">
+                                <?php echo e($exc->durasi); ?>
+
+                              </div>
+                                <?php 
+                                  $cek = DB::table('quiz_user')
+                                  ->where('exercise_id', $exc->id)
+                                  ->where('member_id', '=', Auth::guard('members')->user()->id)
+                                  ->where('status', 1)
+                                  ->first();
+                                  if($cek){        
+                                    ?>
+                                    <i class="fa fa-check-circle"></i>
+                                  <?php }else{ ?>
+                                    <i class="fa fa-circle"></i>
+                                <?php } ?>
+                            </div>
+                        </li>
+                      <?php 
+                        endforeach;
+                      } else{
                       foreach ($section->project_section as $key => $ps): ?>
                         <li>
                             <h4><i class="fas fa-clipboard-list"></i><?php echo e($ps->title); ?></h4>
@@ -177,7 +220,9 @@
                                 <?php } ?>
                             </div>
                         </li>
-                      <?php endforeach; ?>
+                      <?php 
+                        endforeach; }
+                      ?>
                       </ul>
                     </div>
                   </div>
@@ -253,7 +298,6 @@
 
 
     <!-- Javascript -->
-    <script type="text/javascript" src="<?php echo e(asset('js/jquery-2.2.1.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script>
     <script>
     $('.collap').click(function(e){

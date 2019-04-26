@@ -1,4 +1,4 @@
-<?php $__env->startSection('title','Silabus'); ?>
+<?php $__env->startSection('title','Silabus Bootcamp - '.$bc->title); ?>
 <?php $__env->startSection('content'); ?>
 <!doctype html>
 <html lang="en">
@@ -145,8 +145,7 @@
 
                         
                             $persen = 0;
-                            $persen = number_format($valid->hasil / $valid->project*100); 
-                         
+                            $persen = number_format($valid->hasil / $valid->project*100);  
 
                       ?></div>
                       <div class="timelines-content">
@@ -176,7 +175,7 @@
                               <?php echo e($persen); ?>%
                               </div>
                              
-
+ 
                             </div>
                               
                             <br>
@@ -188,8 +187,22 @@
                             </h6>
 
                             <br>
+                            <?php
+                              $totalmenit = DB::table('course')
+                              ->join('section', 'course.id', 'section.course_id')
+                              ->join('video_section', 'section.id','video_section.section_id')
+                              ->where('course.id', $courses->id)
+                              ->select(DB::raw('sum( DISTINCT video_section.durasi) as durasi'))
+                              ->first();
+                              echo gmdate("H", $totalmenit->durasi)." Jam ".gmdate("i", $totalmenit->durasi)." Menit ".gmdate("s", $totalmenit->durasi)." Detik";
+                            ?>
+                            <small class="text-muted"> 
+                              
+                            </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline <?php echo e($courses->estimasi); ?> Hari
+                           
+                              
+                            </small>
                             
-                            <small class="text-muted"><?php echo e($course->estimasi); ?> Jam </small> &nbsp;&nbsp;&nbsp; <small class="text-muted">Deadline 2 Hari</small>
                                 
                             <br><br>
                             <?php
@@ -316,16 +329,16 @@
             return old=='+ Tampilkan Lebih Banyak' ?  '- Tampilkan Lebih Sedikit' : '+ Tampilkan Lebih Banyak';
         });
     });
-    $('#pills-kurikulum-tab').on('click', function(e){
-      $('.header').css("background-image", "url(img/bg-head.jpg)");
-    });
-    $('#pills-diskusi-tab').on('click', function(e){
-      var img = $('.header').css("background-image", "url(img/bg-head2.jpg)");
-    });
+    // $('#pills-kurikulum-tab').on('click', function(e){
+    //   $('.header').css("background-image", "url(img/bg-head.jpg)");
+    // });
+    // $('#pills-diskusi-tab').on('click', function(e){
+    //   var img = $('.header').css("background-image", "url(img/bg-head2.jpg)");
+    // });
 
-    $(document).on('ready',function () {
+    $(function () {
     getComments();
-  });
+    });
 
     function getComments() {
       $.ajax({
@@ -458,11 +471,9 @@
   function loadcontent(){
         $(".content-reload").load(window.location.href + " .content-reload");
         console.log('reload');
+        getComments();
     }
 
-    setInterval(function(){
-      getComments();
-    }, 20000);
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('web.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

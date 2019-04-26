@@ -2,7 +2,18 @@
 <?php $__env->startSection('description', $bca->description); ?>
 <?php $__env->startSection('content'); ?>
   
-  
+<style>
+  .owl-theme .owl-dots .owl-dot span {
+    width: 45px;
+    height: 10px;
+    margin: 5px 7px;
+    background: #D6D6D6;
+    display: block;
+    -webkit-backface-visibility: visible;
+    transition: opacity .2s ease;
+    border-radius: 30px;
+}
+</style>
       
       <!-- Container -->
       <div class="container w-100">
@@ -50,7 +61,7 @@
               <img src="<?php echo e(asset($bca->picture_problem)); ?>" class="img-responsive" alt="">
             </div>
             <div class="col-md-7 col-sm-12 col-xs-12 px-5">
-              <h3>Tahukan Anda?</h3>
+              <h3>Tahukah Anda?</h3>
               <p>
               <?php echo e($bca->problem); ?>
 
@@ -103,19 +114,17 @@
             <h3 class="mb-5">Bagaimana Bootcamp membantu anda</h3>
             <h4>Daftar dan Pelajari</h4>
             <p>
-              Bootcamp Cilsy adalah series course yang membatu anda menguasai keterampil
-              Industri IT saat ini. CAri bootcamp yang ideal dengan kevek skll, kesukaan dan juga
-              tujuan karir anda dimasa depan. Untuk memulainya, anda bisa membeli lalu
-              mempelajarinya langsung. Kurikulum di bootcamp telat di sesuaikan dengan kebutuhan 
-              industri dibuat oleh Instruktur superstar yang menguasai bidangnya.
+            Bootcamp Cilsy adalah program terbaru dari Cilsy yang jauh lebih lengkap dibanding Tutorial biasa untuk membantu anda menguasai keterampilan Industri IT. 
+            Cari bootcamp yang ideal dengan kebutuhan skill dan juga tujuan karir anda dimasa depan. 
+            Kurikulum di bootcamp diatur agar lebih tersusun dan jelas kurikulumnya, 
+            serta disesuaikan dengan kebutuhan industri, Materi dibuat oleh Instruktur superstar (praktisi ahli) yang menguasai bidangnya masing-masing.
             </p>
 
             <br>
             <h4>Kerjakan Real Projek, Dapatkan Review</h4>
             <p>
-              Disetiap bootcamp anda harus menyelesaikan real projek untuk menunjukan anda telah
-              berhasil dalam belajar. Projek yang dikerjakan, akan berguna untuk membuat portofolio
-              saat melamar pekerjaan.
+            Di setiap materi anda harus menyelesaikan real projek maupun exersise untuk menunjukan anda benar-benar menguasai materi. 
+            Projek dan exercise yang dikerjakan, akan berguna untuk membuat portofolio saat memulai karir Anda di bidang IT.
             </p>
 
             <br>
@@ -131,14 +140,15 @@
         <div class="row silabus">
           <div class="container">
           <div class="col-xs-12 text-center">
-              <h3>Silabus - Apa yang akan Anda Pelajari di Bootcamp ini</h3>
+              <h3>Apa yang akan Anda Pelajari di Bootcamp ini</h3>
 
-              <p class="text-muted">Kami membuat Program untuk menjadikan Anda seorang <?php echo e($bca->title); ?> dengan bantuan kurikulum yang terstruktur</p>
+              <p class="text-muted">Kami membantu Anda menjadi seorang Tech Talent berkualitas dalam Bootcamp <?php echo e($bca->title); ?> dengan bantuan kurikulum yang terstruktur.</p>
               <ul>
                 <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Estimasi.svg')); ?>" alt="">Estimasi <?php echo e($target->target); ?> Hari</li>
-                <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Projek.svg')); ?>" alt=""> Projek</li>
+                <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Projek.svg')); ?>" alt=""> <?php echo e($project_bootcamp->durasi); ?> Projek</li>
+                <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Projek.svg')); ?>" alt=""> <?php echo e($pg_bootcamp->durasi); ?> Exercise</li>
                 <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Course.svg')); ?>" alt=""><?php echo e($bca->course->count()); ?>  Course</li>
-                <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Waktu.svg')); ?>" alt="">120 Jam Video</li>
+                <li><img src="<?php echo e(asset('template/bootcamp/asset/smallicon-Waktu.svg')); ?>" alt=""> <?php echo gmdate("H", $durasi_bootcamp->durasi)." Jam ".gmdate("i", $durasi_bootcamp->durasi)." Menit ".gmdate("s", $durasi_bootcamp->durasi)." Detik"; ?></li>
               </ul>
               <a href="<?php echo e($bca->silabus); ?>" class="btn btn-blue">Download Silabus</a>
 
@@ -181,19 +191,36 @@
                               <li>
                                 <div class="lesson-number">Lesson <h3 class="m-0"><?php echo $no; ?></h3></div>
                                 <div class="lesson-content">
-                                <h4><?php echo e($sections->title); ?></h4>
-                                <p class="mb-5">
-                                  <?php echo e($sections->deskripsi); ?>
+                                  <h4><?php echo e($sections->title); ?></h4>
+                                    <p class="mb-5">
+                                      <?php echo e($sections->deskripsi); ?>
 
-                                </p>
-                                <img src="<?php echo e(asset('template/bootcamp/asset/Lesson.svg')); ?>" alt=""> <?php echo e(count($sections->video_section)); ?> Video (Total min), <?php echo e(count($sections->project_section)); ?> Projek
+                                    </p>
+                                    <img src="<?php echo e(asset('template/bootcamp/asset/Lesson.svg')); ?>" alt=""> <?php echo e(count($sections->video_section)); ?> Video (
+                                      <?php 
+                                        $totalmenit = DB::table('video_section')
+                                        ->where('section_id', $sections->id)
+                                        ->select(DB::raw('sum(durasi) as total'))
+                                        ->first();
+                                        echo gmdate("H",$totalmenit->total)." Jam ".gmdate("i",$totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik ";
+                                      ?>
+                                      ), 
+                                      <?php 
+                                        $cek = DB::table('exercise')
+                                        ->where('section_id', $sections->id)
+                                        ->first();
+                                        if($cek){        
+                                          ?>
+                                          <?php echo e(count($sections->exercise)); ?> Exercise
+                                        <?php }else{ ?>
+                                          <?php echo e(count($sections->project_section)); ?> Projek
+                                      <?php } ?>
                                 </div>
                                 <?php 
                                   $no++;
                                   endforeach; 
                                 ?>
                               </li>
-
                           </ul>
                         </div>
                     </div>
@@ -209,7 +236,7 @@
                   <?php $count = 0;
                   $a = 1;
                     foreach ($course as $key => $courses):
-                    if($count>2 && $a>2 ){ ?>
+                    if($count>2 && $no>2 ){ ?>
                   <li>
                     <div class="timelinez-number">
                       <h4>Course</h4>
@@ -246,7 +273,26 @@
                                   <?php echo e($sections->deskripsi); ?>
 
                                 </p>
-                                <img src="<?php echo e(asset('template/bootcamp/asset/Lesson.svg')); ?>" alt=""><?php echo e(count($sections->video_section)); ?> Video (Total 90min), <?php echo e(count($sections->project_section)); ?> Projek
+                                <img src="<?php echo e(asset('template/bootcamp/asset/Lesson.svg')); ?>" alt=""><?php echo e(count($sections->video_section)); ?> Video (
+                                  <?php 
+                                    $totalmenit = DB::table('video_section')
+                                    ->where('section_id', $sections->id)
+                                    ->select(DB::raw('sum(durasi) as total'))
+                                    ->first();
+                                    echo gmdate("H",$totalmenit->total)." Jam ".gmdate("i",$totalmenit->total)." Menit ".gmdate("s",$totalmenit->total)." Detik ";
+                                  ?>
+                                  ), 
+                                  <?php 
+                                  $cek = DB::table('exercise')
+                                  ->where('section_id', $sections->id)
+                                  ->first();
+                                  if($cek){        
+                                    ?>
+                                    <?php echo e(count($sections->exercise)); ?> Exercise
+                                  <?php }else{ ?>
+                                    <?php echo e(count($sections->project_section)); ?> Projek
+                                <?php } ?>
+                                  
                                 </div>
                                 <?php 
                                   $no++;
@@ -284,7 +330,7 @@
             <div class="border-blue">
               <img src="<?php echo e(asset($bca->contributor->avatar)); ?>" class="img-responsive img-circle mx-auto" alt="">
               <h4 class="c-blue"><?php echo e($bca->contributor->first_name); ?> <?php echo e($bca->contributor->last_name); ?></h4>
-              <h5>Network Administrator</h5>
+              <h5><?php echo e($bca->contributor->pekerjaan); ?></h5>
               <p class="text-muted">
                   <?php echo e($bca->contributor->deskripsi); ?>
 
@@ -292,7 +338,6 @@
             </div>
           </div>
         </div>
-
         <div class="row testimoni">
           <div class="col-xs-12 text-center">
             <h2 class="title text-center">Testimoni dari Siswa</h2>
@@ -302,46 +347,126 @@
 
             <div class="slick mx-auto"  style="max-width: 800px;">
               <div>
-                <div class="box">
+                <div class="box" style="height: 350px;">
+            
                   <p>
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    "Alhamdulillaah...saya mendapat banyak ilmu disini. Mudah2an saya bisa lebih percaya diri mengajar karena banyak kosakata baru di dunia IT."
                   </p>
                   
                   <div class="name">
-                    <img src="<?php echo e(asset('template/bootcamp/img/users.png')); ?>" class="w-25 pull-left mr-4" alt="">
-                    Rizki Alif irfany <br>
-                    Google Expert
+                    <img src="<?php echo e(url('/assets/source/images/testimoni/fitrih.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                    Fitri Handayani <br>
+                    Guru SMK
                   </div>
                 </div>
               </div>
 
               <div>
-                <div class="box">
+                <div class="box" style="height: 350px;">
                   <p>
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                    "Materi sangat bagus dan bisa didownload. Jadi bisa belajar kapanpun dirumah. Saya pun bisa minta dipandu step by stepnya oleh trainernya. Jadi ngga takut gagal" 
                   </p>
                   
                   <div class="name">
-                    <img src="<?php echo e(asset('template/bootcamp/img/users.png')); ?>" class="w-25 pull-left mr-4" alt="">
-                    Rizki Alif irfany <br>
-                    Google Expert
+                    <img src="<?php echo e(url('/assets/source/images/testimoni/ludy.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                    Ludy<br>
+                    Sysadmin
                   </div>
                 </div>
               </div>
 
-              <div>
-                <div class="box image" style="background-image: url(<?php echo e(asset('template/bootcamp/asset/4.jpg')); ?>);">
+              
+                <!-- <div class="box image" style="background-image: url(<?php echo e(asset('template/bootcamp/asset/4.jpg')); ?>);">
                   <div style="bottom: 8%;position:absolute;color:#fff;">
                     <b>Rizki Alif Irfany</b>
                     <br>
                     <i>Google Expert</i>
                   </div>
-                </div>   
+                </div>    -->
+                <div>
+                  <div class="box" style="height: 350px;">
+                    <p>
+                      "Pengajar bersertifikasi dan berpengalaman, nanya-nanya sama trainernya pun malem juga tetep dijawab. mantap. Saya belajar banyak ilmu baru disini yang berguna menunjang pekerjaan saya." 
+                    </p>
+                    
+                    <div class="name">
+                      <img src="<?php echo e(url('/assets/source/images/testimoni/muhf.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                      Eka Saeful<br>
+                      Trainer Mikrotik
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="box" style="height: 350px;">
+                    <p>
+                    "Dengan Harga yang terjangkau saya merasa puas dengan semua materi yang diberikan. <br>Pilihan materi pun banyak dan bagus-bagus. Cocok untuk pemula hingga advanced. Orang jaringan sangat recommended kursus online disini."
+                    </p>
+                    
+                    <div class="name">
+                      <img src="<?php echo e(url('/assets/source/images/testimoni/ekas.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                      Muh Fitrah<br>
+                      Network Admin
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="box" style="height: 350px;">
+                    <p>
+                    "Alhamdulillah cukup puas dengan materi yang disampaikan.<br>Singkat, padat dan jelas. <br>Lebih paham, sekalipun peserta awam."
+                    </p>
+                    
+                    <div class="name">
+                      <img src="<?php echo e(url('/assets/source/images/testimoni/safarulm.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                      Safarul M<br>
+                      IT Support
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="box" style="height: 350px;">
+                    <p>
+                    "Sangat interaktif, penjelasan juga analogi pemahamannya mudah dipahami<br>sehingga materi yang disampaikan dapat langsung diaplikasikan"
+                    </p>
+                    
+                    <div class="name">
+                      <img src="<?php echo e(url('/assets/source/images/testimoni/sentota.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                      Sentot Andi<br>
+                      Staff IT
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="box" style="height: 350px;">
+                    <p>
+                    "Updatean materinya ditunggu mas. hehehe <br>Ngga sabar buat belajar materi-materi baru terus di cilsy."
+                    </p>
+                    
+                    <div class="name">
+                      <img src="<?php echo e(url('/assets/source/images/testimoni/aguss.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                      Agus Supriyono<br>
+                      Technical Support
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="box" style="height: 350px;">
+                    <p>
+                    "Penyampaian materi sangat mudah dipahami, harga kursus online sangat terjangkau. Sukses Selalu Buat Cilsy Foulation"
+                    </p>
+                    
+                    <div class="name">
+                      <img src="<?php echo e(url('/assets/source/images/testimoni/michaels.png')); ?>" class="w-25 pull-left mr-4" alt="">
+                      Michael Situmorang<br>
+                      Network Admin
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
+         
+        </div>
         <div class="row question">
           <div class="col-xs-12 text-center mb-5">
             <h2 class="title">Apakah bootcamp ini cocok dengan saya?</h2>
@@ -365,18 +490,18 @@
             <b>Kenapa saya harus membeli ?</b>
             <ul>
               <li>
-                Tutorial di Cilsy dibaut secara real dari hasil praktik tim internal,
-                Semua sudah diuji coba sebelum dijual.
+              Bootcamp di Cilsy ini merupakan pembelajaran full online dengan video on-demand, 
+              bukan berupa pembelajaran live streaming dengan jadwal tertentu. 
+              Sehingga Anda bisa belajar kapanpun dimanapun sesuai ritme belajar Anda sendiri.
               </li>
               <li>
-                Video dibuat denga kualitas tinggi ( lighting, suara, da tampilan
-                gambar ) dan melalui proses editing.
+              Anda bebas bertanya dengan instruktur jika mengalami kesulitan. 
+              Dan instruktur dijamin akan memberikan jawaban dan bantuan.
               </li>
               <li>
-                  Kursus ini onlinem Anda bsia menonton videonya kapanpun dan 
-                  dimanapun Anda mau. Sangat fleksibel.
+              Sepanjang Bootcamp Anda akan diajak mengerjakan berbagai exercise dan real projek sehingga benar-benar dapat memahami isi materinya.
               </li>
-              <li>Tersedia fasilitas support lifetime terkait isi materi tutorial dan</li>
+              <li>Karena materi Bootcamp ini benar-benar didesain untuk kebutuhan Industri, maka setelah lulus Bootcamp Anda akan diberikan fasilitas untuk disalurkan magang dan kerja</li>
             </ul>
           </div>
         </div>
@@ -392,8 +517,7 @@
                 <img src="<?php echo e(asset('template/bootcamp/asset/FasilitasVideo.svg')); ?>" class="img-responsive" alt="">
               </div>
               <h5>Video</h5>
-              Ada 32 video tutorial berkualitas tinggi yang direkam oleh tim
-              tutorial creator Cilsy, bisa Anda tonton sendiri online, maupun di download.
+              Materi berupa video berkualitas yang bisa Anda tonton sendiri online, maupun di download.
             </div>
 
             <div class="item">
@@ -401,8 +525,7 @@
                 <img src="<?php echo e(asset('template/bootcamp/asset/FasilitasDownload.svg')); ?>" class="img-responsive" alt="">
               </div>
               <h5>Offline Mode</h5>
-              Seluruh video materu kursus dan eBook bebas anda download
-              sehingga bisa Anda pelajari kapanpun dan dimanapun
+              Seluruh materi Bootcamp bebas anda download sehingga bisa Anda pelajari kapanpun dan dimanapun
             </div>
 
             <div class="item">
@@ -420,9 +543,7 @@
                 <img src="<?php echo e(asset('template/bootcamp/asset/FasilitasSertifikat.svg')); ?>" class="img-responsive" alt="">
               </div>
               <h5>Sertifikat</h5>
-              Jika Anda sudah menyelesaikan seluruh tutorial & praktek, Anda
-              bisa membuat resume dan berhak mendapatkan sertifikat dari PT
-              Cilsy.
+              Jika Anda sudah menyelesaikan seluruh materi, exersice, dan projek, Anda bisa membuat resume dan berhak mendapatkan sertifikat dari Cilsy.
             </div>
 
 
@@ -432,9 +553,9 @@
                 <div class="icon">
                   <img src="<?php echo e(asset('template/bootcamp/asset/FasilitasEbook.svg')); ?>" class="img-responsive" alt="">
                 </div>
-                <h5>Ebook</h5>
-                bagi Anda yang tidak suka belajar melalui video, kami juga
-                menyediakan eBook dengan isi yang sama untuk menunjang pembelajaran Anda.
+                <h5>Kesempatan Berkarir</h5>
+                Setelah lulus Anda akan diberikan fasilitas untuk dibantu disalurkan magang dan kerja ke perusahaan-perusahaan yang sudah bekerjasama dengan Cilsy
+
               </div>
   
               <div class="item">
@@ -442,8 +563,7 @@
                   <img src="<?php echo e(asset('template/bootcamp/asset/FasilitasAksesSelamanya.svg')); ?>" class="img-responsive" alt="">
                 </div>
                 <h5>Akses Selamanya</h5>
-                Semua akses materi kursus tidak ada batasan waktunya. Semua
-                dapat Anda memiliki selamanya. Hanya untuk Anda.
+                Semua akses materi Bootcamp tidak ada batasan waktunya. Semua dapat Anda memiliki selamanya. Hanya untuk Anda.
               </div>
   
               <div class="item">
@@ -451,9 +571,7 @@
                   <img src="<?php echo e(asset('template/bootcamp/asset/FasilitasDiskusi.svg')); ?>" class="img-responsive" alt="">
                 </div>
                 <h5>Diskusi</h5>
-                Kesulitan saat praktek ? Ada fitur diskusi di halaman tutorial di
-                web. Tim support Cilsy akan membantu semua kendala Anda saat
-                praktek.
+                Kesulitan saat praktek ? Ada fitur diskusi yang dapat Anda gunakan untuk berdiskusi dengan Instruktur untuk memecahkan kendala yang Anda alami
               </div>
   
               <div class="item">
@@ -461,9 +579,7 @@
                   <img src="<?php echo e(asset('template/bootcamp/asset/FasilitasUpdate.svg')); ?>" class="img-responsive" alt="">
                 </div>
                 <h5>Free Update</h5>
-                Total video yang Anda dapatkan adalah 32 video. Jika ada
-                pembaharuan materi baru, makan Anda bisa mendapatkannya
-                GRATIS
+                Jika ada pembaharuan materi baru, maka Anda bisa mendapatkannya secara GRATIS tanpa perlu membayar kembali.
               </div>
 
           </div>
@@ -508,9 +624,7 @@
                     </h6>
                   </div>
                   <div id="collapse1" class="panel-collapse collapse in">
-                    <div class="panel-body"> Anda memprakteka semua materi kursus online yang ada di dalam video tutorial kapanpun &
-                        dimanapun. Anda juga bisa berdiskusi dengan tim support Cilsy menggunakan fasilitas
-                        diskusi di web.</div>
+                    <div class="panel-body"> Materi langsung bisa diakses setelah Anda membeli.</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
@@ -521,24 +635,18 @@
                     </h6>
                   </div>
                   <div id="collapse2" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Sangat bisa. Seluruh materi telah disusun dari awal sampai akhir sehingga sangat mudah untuk diikuti oleh pemula.</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h6 class="panel-title">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                          Tutorialnya Berbentuk Apa?</a>
+                      Materinya berbentuk apa?</a>
                     </h6>
                   </div>
                   <div id="collapse3" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Berbentuk video, exercise, dan projek</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
@@ -549,24 +657,20 @@
                     </h6>
                   </div>
                   <div id="collapse4" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Anda tinggal menonton materi-materi video yang sudah disediakan sesuai urutan kurikulum. 
+                    Disepanjang materi dari awal sampai akhir bootcamp Anda harus menyelesaikan exercise dan Projek yang diberikan</div>
                   </div>
                 </div>
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h6 class="panel-title">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
-                      Kenapa saya harys membelu tutorial ini?</a>
+                      Apakah materi bisa di download?</a>
                     </h6>
                   </div>
                   <div id="collapse5" class="panel-collapse collapse">
-                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.</div>
+                    <div class="panel-body">Bisa. Nanti anda tinggal lakukan download materinya. 
+                    Namun Anda tetap harus menyelesaikan exercise dan projek yang diberikan untuk bisa mengakses materi-materi berikutnya.</div>
                   </div>
                 </div>
               </div>
@@ -683,5 +787,26 @@
     <?php endif; ?>
 
   </script>
+  <script type="text/javascript" src="<?php echo e(asset('template/web/js/owl.carousel.min.js')); ?>"></script>
+<script>
+  $('.owl-carousel').owlCarousel({
+    loop:true,
+    margin: 5,
+    // nav:true,
+    responsive:{
+        0:{
+            items:1,
+            dots:false
+        },
+        600:{
+            items:3,
+            dots:false
+        },
+        1000:{
+            items:3
+        }
+    }
+})
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('web.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

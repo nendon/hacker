@@ -163,7 +163,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        });
+        }); 
         $.ajax({
             type    :"POST",
             url     :'<?php echo e(url("contributor/bootcamp/saveCourse")); ?>',

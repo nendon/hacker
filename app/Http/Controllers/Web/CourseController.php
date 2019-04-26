@@ -48,7 +48,12 @@ class CourseController extends Controller
         $pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->count();
         $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
                 ->where('exercise_id',$exercise->id)->orderby('created_at','desc')->first();
-
+        $cek = DB::table('quiz_detail')
+            ->where('exercise_id', $exercise->id)
+            ->where('member_id', Auth::guard('members')->user()->id)
+            ->where('quizuser_id', 0)
+            ->update(['quizuser_id' =>  $jawaban->id ]);
+        echo($cek);
         $detail = QuizDetail::join('pertanyaan', 'quiz_detail.tanya_id', 'pertanyaan.id' )
                 ->join('jawaban','quiz_detail.jawab_id', 'jawaban.id' )
                 ->where('quizuser_id', $jawaban->id)
@@ -695,11 +700,12 @@ class CourseController extends Controller
         $now = new DateTime();
 
 
-        $quiz = DB::table('quiz_user')
-            ->where('exercise_id', '=', $params['exercise_id'])
-            ->where('member_id', '=', $uid)
-            ->where('status', '=', 0)
-            ->first();
+        // $quiz = DB::table('quiz_user')
+        //     ->where('exercise_id', '=', $params['exercise_id'])
+        //     ->where('member_id', '=', $uid)
+        //     ->where('status', '=', 0)
+        //     ->select('id')
+        //     ->first();
         
         $tanya = DB::table('pertanyaan')
             ->where('tanya', '=', $params['tanya'])
@@ -712,11 +718,13 @@ class CourseController extends Controller
             ->where('pilihan', '=',  $params['jawab'])
             ->select('*')
             ->first();  
-            
+       
         DB::table('quiz_detail')->insert([
-            'quizuser_id' => $quiz->id,
+            'quizuser_id' => 0,
             'tanya_id' => $tanya->id,
             'jawab_id' => $jawab->id,
+            'exercise_id' => $params['exercise_id'],
+            'member_id' =>$uid,
             'status' => $params['hasil'],
             'created_at' => $now
         ]); 
@@ -760,24 +768,45 @@ class CourseController extends Controller
         $exercise =  DB::table('exercise')
         ->where('id', '=', $params['exercise_id'])
         ->first();
+
         $quiz = DB::table('quiz_user')
-            ->where('exercise_id', '=', $exercise->id)
+            ->where('exercise_id', '=',  $exercise->id)
             ->where('member_id', '=', $uid)
             ->where('status', '=', 0)
+            ->select('id')
             ->first();
+        
 
-        // $nilai = DB::table('quiz_detail')
-        //     ->where('quizuser_id', $quiz->id)
-        //     ->where('status', 1)
-        //     ->count();
+        DB::table('quiz_detail')
+        ->where('exercise_id', $params['exercise_id'])
+        ->where('member_id', Auth::guard('members')->user()->id)
+        ->where('quizuser_id', 0)
+        ->update(['quizuser_id' =>  $quiz->id]);
 
-        // $status = 0;
-        // if($nilai < $exercise->min_nilai){
-        //     $status = 2;
-        // }else{
-        //     $status = 1;
-        // }
+        $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
+                ->where('exercise_id',$params['exercise_id'])->where('status', 0)
+                ->orderby('created_at','desc')->first();
+      
+        $nilai = DB::table('quiz_detail')
+            ->where('quizuser_id', $jawaban->id)
+            ->where('status', 1)
+            ->count();
+
+        $status = 0;
+        if($nilai < $exercise->min_nilai){
+            $status = 2;
+        }else{
+            $status = 1;
+        }
+
+        DB::table('quiz_user')
+        ->where('exercise_id', $params['exercise_id'])
+        ->where('member_id', Auth::guard('members')->user()->id)
+        ->update([
+        'status' => $status,
+        'nilai' => $nilai]); 
     
+       
         echo json_encode($params);
 
     }

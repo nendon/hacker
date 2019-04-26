@@ -1,5 +1,5 @@
 <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $object): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-<?php $__env->startSection('title', 'Kategori | '); ?>
+<?php $__env->startSection('title', 'Kategori'); ?>
 <?php $__env->startSection('description', $object->meta_desc); ?>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <?php $__env->startSection('content'); ?>

@@ -1,9 +1,12 @@
-<?php $__env->startSection('title','Browse Bootcamp'); ?>
+ 
+<?php $__env->startSection('title', $bucat->title.' Bootcamp'); ?>
 <link rel="stylesheet" href="<?php echo e(asset('css/halaman.css')); ?>">
 
 <link rel="stylesheet" href="<?php echo e(asset('css/slick-theme.css')); ?>">
 <style>
-        
+.pointer {
+  cursor: pointer;
+}
 </style>
 <?php $__env->startSection('content'); ?>
     <main>
@@ -42,9 +45,10 @@
               
               <div class="slick2 mt-5">
                 <?php $__currentLoopData = $new; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div>
+                <div onclick="location.href='<?php echo e(url('bootcamp/'.$news->slug)); ?>'" class="pointer">
+                  <!-- <a href="<?php echo e(url('bootcamp/'.$news->slug)); ?>" > -->
                   <div class="row box sm-flex p-0 mx-0">
-                    <div class="col-sm-4 col-xs-12 p-0 preview" style="background: url(<?php echo e(asset($news->cover)); ?>); background-size:cover;">
+                    <div class="col-sm-4 col-xs-12 p-0 preview" style="background: url(<?php echo e(asset($news->cover)); ?>);background-size:cover;">
                       <div class="label">
                         Bootcamp
                       </div>
@@ -63,7 +67,7 @@
 
                       <h4><?php echo e($news->title); ?></h4>
                       <p>
-                        <?php echo e($news->deskripsi); ?>
+                        <?php echo e($news->sub_title); ?>
 
                       </p>
 
@@ -82,6 +86,7 @@
                       </div>
                     </div>
                   </div>
+                  <!-- </a> -->
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </div>
@@ -89,7 +94,7 @@
 
           </div>
 
-            <div class="row card-eq-height">
+            <div class="row kategori-list">
               <div class="col-xs-12">
                 <h3>Semua Bootcamp <?php echo e($bucat->title); ?></h3>
               </div>
@@ -97,73 +102,57 @@
               <!-- Box Content -->
               <?php $__currentLoopData = $hasil; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $has): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
               
-              <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-4">
+              <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-4" style="height:100%;">
                 <a href="<?php echo e(url('bootcamp/'.$has->slug)); ?>" style="text-decoration:none; color:black;">
-                <div class="card">
-                  <div class="label">
-                    Bootcamp
-                  </div>
-                  <img src="<?php echo e(asset($has->cover)); ?>" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <div class="card-author">
-                      <img src="<?php echo e(asset($has->contributor->avatar)); ?>" class="img-author" alt="">
-                      <small class="text-muted"><?php echo e($has->contributor->first_name); ?> <?php echo e($has->contributor->last_name); ?></small>
+                  <div class="card"  >
+                    <div class="label">
+                      Bootcamp
                     </div>
-                    <h5>
-                      <?php echo e($has->title); ?>
+                    <img src="<?php echo e(asset($has->cover)); ?>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <div class="card-author">
+                        <img src="<?php echo e(asset($has->contributor->avatar)); ?>" class="img-author" alt="">
+                        <small class="text-muted"><?php echo e($has->contributor->first_name); ?> <?php echo e($has->contributor->last_name); ?></small>
+                      </div>
+                      <h5>
+                        <?php echo e($has->title); ?>
 
-                    </h5>
-                    <p>
-                      <?php echo e($has->deskripsi); ?>
+                      </h5>
+                      <p>
+                        <?php echo e($has->sub_title); ?>
 
-                    </p>
-                    <ul>
-                      <li>
-                        <i class="fa fa-book"></i> <?php echo e(count($has->course)); ?> Course
-                      </li>
-                      <li>
-                        <i class="fa fa-user"></i> <?php echo e(count($has->bootcamp_member)); ?> Siswa
-                      </li>
-                      <li>
-                        <a href="<?php echo e(url('bootcamp/'.$has->slug)); ?>"> Selengkapnya</a>
-                      </li>
-                    </ul>
+                      </p>
+                      <ul>
+                        <li>
+                          <i class="fa fa-book"></i> <?php echo e(count($has->course)); ?> Course
+                        </li>
+                        <li>
+                          <i class="fa fa-user"></i> <?php echo e(count($has->bootcamp_member)); ?> Siswa
+                        </li>
+                        <li>
+                          <a href="<?php echo e(url('bootcamp/'.$has->slug)); ?>"> Selengkapnya</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
                 </a>
               </div>
               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               <!-- End Box Conten -->
-            </div>
-
+           </div>
+            <!-- menampbahkan pagination -->
             <div class="row mt-5">
               <div class="col-xs-12 text-center">
-                <nav aria-label="Page navigation">
-                  <ul class="pagination m-0">
-                    <li>
-                      <a href="#" aria-label="Previous">
-                        <span aria-hidden="true"><i class="fa fa-chevron-left"></i></span>
-                      </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                      <a href="#" aria-label="Next">
-                        <span aria-hidden="true"><i class="fa fa-chevron-right"></i></span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+                <div class="col-md-12 text-center">
+                  <?php echo e($hasil->links()); ?>
+
+                </div>
               </div>
             </div>
+          
           </div>
-
         </div>
-      
-        <div class="m-5">x</div>
+        <div class="m-5"> </div>
       </div>
 
     </main>

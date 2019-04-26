@@ -1,7 +1,9 @@
 <?php $__env->startSection('title','Browse Bootcamp'); ?>
 
 <style>
-        
+a.divlink { 
+ width:25%px;
+}        
 </style>
 <?php $__env->startSection('content'); ?>
 <!-- Main -->
@@ -33,7 +35,7 @@
 
               <div class="kategori">
                 <?php $__currentLoopData = $boot; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $boots): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <a href="<?php echo e(url('browse/bootcamp/'.$boots->slug)); ?>" style="text-decoration:none;">
+               <a href="<?php echo e(url('browse/bootcamp/'.$boots->slug)); ?>" style="text-decoration:none; color:black;">
                 <div>
                   <div class="kotak" style="background:url(<?php echo e(asset($boots->cover)); ?>); background-size:cover;">
                     <h4 style="font-weight: bold';"><?php echo e($boots->title); ?></h4>
@@ -55,15 +57,15 @@
 
               </p>
 
-              <div class="programming ">
-                <?php $__currentLoopData = $key->bootcamp; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <a href="<?php echo e(url('bootcamp/'.$result->slug)); ?>" style="text-decoration:none; color:black;">                
+              <div class="programming" width="0px">
+                <?php $__currentLoopData = $key->bootcamp; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                
                 <div>
+                  <a href="<?php echo e(url('bootcamp/'.$result->slug)); ?>" class="divlink" style="text-decoration:none; color:black;">
                   <div class="card">
                     <div class="label">
                       Bootcamp
                     </div>
-                    <img src="<?php echo e(asset($result->cover)); ?>" class="card-img-top img-responsive" alt="..." style="background-size:cover;">
+                    <img src="<?php echo e(asset($result->cover)); ?>" class="card-img-top img-responsive" alt="" style="background-size:cover;">
                     <div class="card-body">
                       <div class="card-author">
                         <img src="<?php echo e(asset($result->contributor->avatar)); ?>" class="img-author" alt="">
@@ -74,7 +76,7 @@
 
                       </h5>
                       <p>
-                        <?php echo $result->deskripsi; ?>
+                        <?php echo $result->sub_title; ?>
 
                       </p>
                       <ul>
@@ -90,8 +92,8 @@
                       </ul>
                     </div>
                   </div>
+                 </a>
                 </div>
-                </a>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </div>
             </div>
@@ -102,15 +104,13 @@
             <!-- Menukar class p-0 dan content agar perbandingan luasnya bertukar -->
             <div class="col-sm-5 col-xs-12 p-0">
               <!-- <img src="asset/1.jpg" class="img-responsive" alt=""> -->
-              <iframe width="100%" height="77%" src="https://www.youtube.com/embed/QjT4PiFswO4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe width="100%" height="77%" src="https://www.youtube.com/embed/yhIQSvNlri4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </video>
             </div>
             <div class="col-sm-7 col-xs-12 content" >
               <h2>Apa itu Program Bootcamp?</h2>
               <p>
-                Program Mentoring online untuk mendidik Anda menjadi seorang Professional dalam 16 minggu dengan
-                jaminan pernyaluran kerja. Kurikulum dirancang agar Anda yang tidak memiliki background IT tetap
-                bisa memulai karir di dunia IT.
+              Program Kelas Bootcamp Online intensif untuk mendidik Anda menjadi seorang IT Talent Professional dalam 3 bulan dengan kesempatan pernyaluran magang dan kerja.
               </p>
             </div>
           </div>
@@ -120,27 +120,21 @@
               <img src="<?php echo e(asset('img/asset/CompleteCurriculum.svg')); ?>" alt="">
               <h4>Complete Curriculum</h4>
               <p class="px-5">
-                Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+              Kurikulum dirancang agar Anda yang tidak memiliki background IT tetap bisa memulai karir di dunia IT. Lengap, berurutan, dan sesuai dengan kurikulum industri.
               </p>
             </div>
             <div class="col-sm-4 col-xs-12 text-center mb-5">
               <img src="<?php echo e(asset('img/asset/RealProjectGetReview.svg')); ?>" alt="">
               <h4>Real Project, Get Review</h4>
               <p class="px-5">
-                Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+              Selama pembelajaran, Anda akan mengerjakan berbagai exercise dan real project. Memastikan Anda benar-benar paham dengan materi dan implementasinya di industri.
               </p>
             </div>
             <div class="col-sm-4 col-xs-12 text-center mb-5">
               <img src="<?php echo e(asset('img/asset/ReadytoGetHired.svg')); ?>" alt="">
               <h4>Ready to Get Hired</h4>
               <p class="px-5">
-                Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+              Lulusan Bootcamp Cilsy akan diberikan kesempatan magang selama 2-3 bulan untuk lebih mengasah skill dan pengalaman dan pada akhirnya siap untuk ditempatkan berkarir di berbagai perusahaan partner Cilsy. 
               </p>
             </div>
           </div>
