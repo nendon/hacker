@@ -127,16 +127,23 @@ class CourseController extends Controller
     public function exercise($slug, $id){
         // $slug = 3;
         // $id= 16;
+        if (empty(Auth::guard('members')->user()->id)) {
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+          }
         $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
         $sect = Section::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $course = Course::where('id',$sect->course_id)->first();
+        $quiz = QuizUser::where('exercise_id', $exercise->id)->where('member_id', Auth::guard('members')->user()->id)
+                ->where('status', 1)
+                ->first();
         return view('web.bootcamp.project.exercise',[
             'exc' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
-            'course' => $course
+            'course' => $course,
+            'quizstatus' =>$quiz 
         ]);
     }
     public function courseSylabus($slug)
@@ -420,8 +427,8 @@ class CourseController extends Controller
             ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct quiz_user.id)+ count(distinct history.id) as hasil'))
             ->groupby('section.id')
             ->first();
+            
         }
-        
         if($valid->hasil != $valid->project){
             return view('errors.peringatan',[
                 'bcs' => $bcs,

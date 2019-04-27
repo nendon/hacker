@@ -557,8 +557,11 @@
                       Jika anda gagal atau tidak lulus maka anda tidak bisa melanjutkan ke materi selanjutnya
                     </li>                  
                   </ul>
-                  
+                  @if(!$quizstatus)
                   <a class="btn btn-primary my-4" href="{{ url('bootcamp/'.$bc->slug.'/mulai/'.$exc->section_id) }}">Mulai Exercise</a>
+                  @else
+                  <a class="btn btn-primary my-4" href="{{ url('bootcamp/'.$bc->slug.'/review/'.$exc->section_id) }}">Lihat Hasil</a>
+                  @endif
               </div>
             </div> 
           </div>
