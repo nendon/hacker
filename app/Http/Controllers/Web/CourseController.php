@@ -92,6 +92,13 @@ class CourseController extends Controller
         // $response['choice'] = $key->jawaban;
         // }
         echo json_encode($response);
+        $quizstatus = QuizUser::where('exercise_id', $exercise->id)->where('member_id', Auth::guard('members')->user()->id)
+                ->where('status', 1)
+                ->first();
+        if($quizstatus){
+            return redirect('bootcamp/'.$slug.'/review/'.$id);
+        }
+        
         return view('web.bootcamp.project.exercise-question',[
             'exercise' => $exercise,
             'stn' => $section,
