@@ -589,6 +589,7 @@
                      DB::table('quiz_user')
                     ->where('exercise_id',$exc->id)
                     ->where('member_id', Auth::guard('members')->user()->id)
+                    ->where('id', $jawab->id)
                     ->update([
                     'status' => 1,
                     'nilai' => $nilai]);  ?>
@@ -598,6 +599,7 @@
                      DB::table('quiz_user')
                     ->where('exercise_id',$exc->id)
                     ->where('member_id', Auth::guard('members')->user()->id)
+                    ->where('id', $jawab->id)
                     ->update([
                     'status' => 2,
                     'nilai' => $nilai]);  ?>
