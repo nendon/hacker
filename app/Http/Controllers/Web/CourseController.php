@@ -48,7 +48,12 @@ class CourseController extends Controller
         $pertanyaan = Pertanyaan::where('exercise_id',$exercise->id)->count();
         $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
                 ->where('exercise_id',$exercise->id)->orderby('created_at','desc')->first();
-
+        $cek = DB::table('quiz_detail')
+            ->where('exercise_id', $exercise->id)
+            ->where('member_id', Auth::guard('members')->user()->id)
+            ->where('quizuser_id', 0)
+            ->update(['quizuser_id' =>  $jawaban->id ]);
+        echo($cek);
         $detail = QuizDetail::join('pertanyaan', 'quiz_detail.tanya_id', 'pertanyaan.id' )
                 ->join('jawaban','quiz_detail.jawab_id', 'jawaban.id' )
                 ->where('quizuser_id', $jawaban->id)
@@ -87,6 +92,13 @@ class CourseController extends Controller
         // $response['choice'] = $key->jawaban;
         // }
         echo json_encode($response);
+        $quizstatus = QuizUser::where('exercise_id', $exercise->id)->where('member_id', Auth::guard('members')->user()->id)
+                ->where('status', 1)
+                ->first();
+        if($quizstatus){
+            return redirect('bootcamp/'.$slug.'/review/'.$id);
+        }
+        
         return view('web.bootcamp.project.exercise-question',[
             'exercise' => $exercise,
             'stn' => $section,
@@ -122,16 +134,23 @@ class CourseController extends Controller
     public function exercise($slug, $id){
         // $slug = 3;
         // $id= 16;
+        if (empty(Auth::guard('members')->user()->id)) {
+            return redirect('member/signin')->with('error', 'Anda Harus Login terlebih dahulu!');
+          }
         $bootcamp = Bootcamp::where('slug', $slug)->first();
         $exercise = Exercise::where('section_id', $id)->first();
         $sect = Section::where('id', $id)->first();
         $section = Section::with('video_section')->where('course_id', $sect->course_id)->orderBy('position', 'asc')->get();
         $course = Course::where('id',$sect->course_id)->first();
+        $quiz = QuizUser::where('exercise_id', $exercise->id)->where('member_id', Auth::guard('members')->user()->id)
+                ->where('status', 1)
+                ->first();
         return view('web.bootcamp.project.exercise',[
             'exc' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
-            'course' => $course
+            'course' => $course,
+            'quizstatus' =>$quiz 
         ]);
     }
     public function courseSylabus($slug)
@@ -417,8 +436,8 @@ class CourseController extends Controller
             ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct quiz_user.id)+ count(distinct history.id) as hasil'))
             ->groupby('section.id')
             ->first();
+            
         }
-        
         if($valid->hasil != $valid->project){
             return view('errors.peringatan',[
                 'bcs' => $bcs,
@@ -701,11 +720,12 @@ class CourseController extends Controller
         $now = new DateTime();
 
 
-        $quiz = DB::table('quiz_user')
-            ->where('exercise_id', '=', $params['exercise_id'])
-            ->where('member_id', '=', $uid)
-            ->where('status', '=', 0)
-            ->first();
+        // $quiz = DB::table('quiz_user')
+        //     ->where('exercise_id', '=', $params['exercise_id'])
+        //     ->where('member_id', '=', $uid)
+        //     ->where('status', '=', 0)
+        //     ->select('id')
+        //     ->first();
         
         $tanya = DB::table('pertanyaan')
             ->where('tanya', '=', $params['tanya'])
@@ -718,11 +738,13 @@ class CourseController extends Controller
             ->where('pilihan', '=',  $params['jawab'])
             ->select('*')
             ->first();  
-            
+       
         DB::table('quiz_detail')->insert([
-            'quizuser_id' => $quiz->id,
+            'quizuser_id' => 0,
             'tanya_id' => $tanya->id,
             'jawab_id' => $jawab->id,
+            'exercise_id' => $params['exercise_id'],
+            'member_id' =>$uid,
             'status' => $params['hasil'],
             'created_at' => $now
         ]); 
@@ -766,24 +788,45 @@ class CourseController extends Controller
         $exercise =  DB::table('exercise')
         ->where('id', '=', $params['exercise_id'])
         ->first();
+
         $quiz = DB::table('quiz_user')
-            ->where('exercise_id', '=', $exercise->id)
+            ->where('exercise_id', '=',  $exercise->id)
             ->where('member_id', '=', $uid)
             ->where('status', '=', 0)
+            ->select('id')
             ->first();
+        
 
-        // $nilai = DB::table('quiz_detail')
-        //     ->where('quizuser_id', $quiz->id)
-        //     ->where('status', 1)
-        //     ->count();
+        DB::table('quiz_detail')
+        ->where('exercise_id', $params['exercise_id'])
+        ->where('member_id', Auth::guard('members')->user()->id)
+        ->where('quizuser_id', 0)
+        ->update(['quizuser_id' =>  $quiz->id]);
 
-        // $status = 0;
-        // if($nilai < $exercise->min_nilai){
-        //     $status = 2;
-        // }else{
-        //     $status = 1;
-        // }
+        $jawaban = QuizUser::where('member_id', Auth::guard('members')->user()->id)
+                ->where('exercise_id',$params['exercise_id'])->where('status', 0)
+                ->orderby('created_at','desc')->first();
+      
+        $nilai = DB::table('quiz_detail')
+            ->where('quizuser_id', $jawaban->id)
+            ->where('status', 1)
+            ->count();
+
+        $status = 0;
+        if($nilai < $exercise->min_nilai){
+            $status = 2;
+        }else{
+            $status = 1;
+        }
+
+        DB::table('quiz_user')
+        ->where('exercise_id', $params['exercise_id'])
+        ->where('member_id', Auth::guard('members')->user()->id)
+        ->update([
+        'status' => $status,
+        'nilai' => $nilai]); 
     
+       
         echo json_encode($params);
 
     }

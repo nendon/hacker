@@ -80,7 +80,28 @@
                     </div>
                     <div class="form-group">
                       Promotional Video
-                      <input class="form-control dropify" type="file" data-default-file="<?php echo e(asset($bootcamp->promote_video)); ?>" value="<?php echo e($bootcamp->promote_video); ?>"  id="video">
+                      <div id="drop-area-zone" data-no="` + id + `" data-default-file="<?php echo e(asset($bootcamp->promote_video)); ?>" data-title="judul-`+id+`" class="dm-uploader p-4">
+                            <div class="row">
+                              <div class="col-md-1" id="d-thumbnail">
+                                <div id="thumbnail-preview">
+                                  <i class="fa fa-video"></i>
+                                </div>
+                              </div>
+                              <div class="col-md-9" id="d-text">
+                                <h6 class="text-muted">Maksimal ukuran video yang dapat diunggah adalah 100MB</h6>
+                                <h6 class="text-muted">Tarik dan lepas video ke sini</h6>
+                              </div>
+                              <div class="col-md-2">
+                                <div class="btn btn-green pull-right pull-xs-none my-2">
+                                    <span>Pilih Video</span>
+                                    <input type="file" name="video" id="video"> accept=".mp4">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+                      <!-- <input class="form-control dropify" type="file" data-default-file="<?php echo e(asset($bootcamp->promote_video)); ?>" value="<?php echo e($bootcamp->promote_video); ?>"  id="video"> -->
                     </div>
                     Gambar Deskripsi Lengkap
                       <input class="form-control dropify" type="file" data-default-file="<?php echo e(asset($bootcamp->picture_desk)); ?>" value="<?php echo e($bootcamp->picture_desk); ?>" id="picture_desk">

@@ -29,6 +29,7 @@
     <link href="<?php echo e(asset('template/web/css/app.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('template/web/css/bootstrap.min.css')); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo e(asset('css/spacing.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/quiz.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/video-sidebar.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/plyr.css')); ?>">
@@ -537,7 +538,16 @@ a #items .item {
             <?php if(Auth::guard("members")->user()): ?>
               <div id="items" style="top:38%">
                   <div class="item" style="background-color:white">Halo, <?php echo e(Auth::guard('members')->user()->username); ?></div>
-                  <a href="<?php echo e(url('lessons/browse/all')); ?>" class="hidden-lg hidden-md" style="color: #fff;"><div class="item browse" style="background-color:#2BA8E2;">Browse Tutorial</div></a>                  
+                  <div class="dropdown show" style="margin-left: 131px;">
+                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Browse
+                    </a> 
+
+                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+                    <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+                    <a href="<?php echo e(url('browse/bootcamp')); ?>" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                    </div>
+                  </div>
                   <a href="<?php echo e(url('bootcamp/course')); ?>" ><div class="item">Dashboard</div></a>
                   <a href="<?php echo e(url('member/change-password')); ?>" ><div class="item">Ganti Password</div></a>
                   <a href="<?php echo e(url('member/riwayat')); ?>" ><div class="item">Riwayat Pembelian</div></a>
@@ -545,13 +555,22 @@ a #items .item {
               </div>
               <?php else: ?>
                 <div id="items">
-                    <a href="<?php echo e(url('lessons/browse/all')); ?>" class="hidden-lg hidden-md" style="color: #fff;"><div class="item browse" style="background-color:#2BA8E2;">Browse Tutorial</div></a>
+                <div class="dropdown show" style="margin-left: 131px;">
+                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Browse
+                    </a>
+
+                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+                    <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+                    <a href="<?php echo e(url('browse/bootcamp')); ?>" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                    </div>
+                  </div>
                     <a href="<?php echo e(url('member/signin')); ?>"><div class="item" onclick="w3_close()">Masuk</div></a>
                     <a href="<?php echo e(url('member/signup')); ?>"><div class="item">Daftar</div></a>
                 </div>
               <?php endif; ?>
             </div>
-            <div class="w3-overlay w3-animate-opacity"  style="cursor:pointer"  id="myOverlay"></div>
+        <div class="w3-overlay w3-animate-opacity"  style="cursor:pointer"  id="myOverlay"></div>
 
           <a href="<?php echo e(url('cart')); ?>" class="navbar-brand pull-right hidden-lg hidden-md" >
           <i style="height: 32px; width: 32px; color: white;" class="fa fa-shopping-cart">
@@ -568,8 +587,19 @@ a #items .item {
             <!-- <span class="sr-only">Toggle navigation</span> -->
             <i class="ion ion-ios-search-strong"></i>
           </button>
+
           <a class="navbar-brand" href="<?php echo e(url('/')); ?>"><img class="logo" src="<?php echo e(asset('template/web/img/logo.png')); ?>"></a>
-          <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn hidden-xs hidden-sm">Browse Tutorial</a>
+          
+          <div class="dropdown show" style="margin-left: 131px;">
+            <a class="btn dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Browse
+            </a>
+
+            <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+            <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+            <a href="<?php echo e(url('browse/bootcamp')); ?>" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+            </div>
+          </div>
         </div>
         
         <!-- Collect the nav links, forms, and other content for toggling -->

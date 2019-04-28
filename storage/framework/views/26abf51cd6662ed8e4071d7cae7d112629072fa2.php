@@ -21,9 +21,9 @@
       Nama Bootcamp/Tutorial <br>
       <select class="form-control">
         <option value="">Semua Bootcamp/Tutorial</option>
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
+        <?php $__currentLoopData = $bcid; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bcids): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <option value="<?php echo e($bcids->id); ?>"><?php echo e($bcids->title); ?></option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       </select>
     </div>
 

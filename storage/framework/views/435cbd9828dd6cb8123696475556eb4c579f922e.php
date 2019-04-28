@@ -27,6 +27,20 @@
     vertical-align: middle;
     z-index :100;
   }
+  .sidebar-box {
+    max-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  .sidebar-box .read-more { 
+    position: absolute; 
+    bottom: -5px; 
+    left: 0;
+    width: 100%; 
+    text-align: left; 
+    margin: 0; 
+    background-color: white;
+  }
 </style>
 <main>
 
@@ -92,22 +106,17 @@
       </div>
 
       <!-- Row -->
-      <div class="row box">
-        <div class="col-xs-12">
-          
+      <div class="row box ">
+          <div class="col-xs-12 sidebar-box">
           <h5>Deskripsi Tutorial</h5>
-          <?php echo nl2br(substr($lessons->description, 0, 400)); ?>
-
-          <div class="collapse" id="collapseDeskripsi">
-          <?php echo nl2br(substr($lessons->description, 400)); ?>
+          <?php echo nl2br($lessons->description); ?>
 
           <h5>Objektif Tutorial</h5>
           <?php echo nl2br($lessons->goal_tutorial); ?>
 
+          <p class="read-more" style=""><a href="#" class="btn" style="color:#2BA8E2; font-weight:bold; text-decoration:none;">+ Tampilkan Lebih Banyak</a></p>
           </div><br>
-          <a id="collapse" data-toggle="collapse" href="#collapseDeskripsi" role="button" style="color:#2BA8E2; font-weight:bold;">+ Tampilkan Lebih Banyak</a>
         </div>
-      </div>
 
       <!-- Row -->
       <div class="row box">
@@ -149,7 +158,7 @@
 
           </div>
 
-          <a id="collapse" data-toggle="collapse" href="#collapseKurikulum" role="button" style="color:#2BA8E2; font-weight:bold;">+ Tampilkan Lebih Banyak</a>
+          <a id="collapse1" data-toggle="collapse" href="#collapseKurikulum" role="button" style="color:#2BA8E2; font-weight:bold;">+ Tampilkan Lebih Banyak</a>
         </div>
       </div>
 
@@ -205,7 +214,6 @@
                   <?php echo e($contributors->deskripsi); ?>
 
               </p>
-              <a href="#">Lebih Banyak</a>
           </div>
               
          
@@ -228,6 +236,7 @@
         </div>
       </div>
     </div>
+  </div>
   </section>
 
 </main>
@@ -256,6 +265,47 @@
     </div>
   </div>
 </div>
+<script>
+  $(function() {
+		
+    var $el, $ps, $up, totalHeight;
+    
+    $(".sidebar-box .btn").click(function() {
+    
+      // IE 7 doesn't even get this far. I didn't feel like dicking with it.
+          
+      totalHeight = 0
+    
+      $el = $(this);
+      $p  = $el.parent();
+      $up = $p.parent();
+      $ps = $up.find("p:not('.read-more')");
+      
+      // measure how tall inside should be by adding together heights of all inside paragraphs (except read-more paragraph)
+      $ps.each(function() {
+        totalHeight += $(this).outerHeight();
+        // FAIL totalHeight += $(this).css("margin-bottom");
+      });
+            
+      $up
+        .css({
+          // Set height to prevent instant jumpdown when max height is removed
+         // "height": $up.height(),
+          "max-height": 9999
+        })
+        .animate({
+         // "height": totalHeight
+        });
+      
+      // fade out read-more
+      $p.fadeOut();
+      
+      // prevent jump-down
+      return false;
+        
+    });
+  });
+</script>
 <script>
   fbq('track', 'ViewContent');
 </script>
@@ -293,6 +343,11 @@
             return old=='+ Tampilkan Lebih Banyak' ?  '- Tampilkan Lebih Sedikit' : '+ Tampilkan Lebih Banyak';
         });
     });
+    $('#collapse1').click(function(){ 
+      $(this).text(function(i,old){
+          return old=='+ Tampilkan Lebih Banyak' ?  '- Tampilkan Lebih Sedikit' : '+ Tampilkan Lebih Banyak';
+      });
+  });
     $(function(){
       $('#ModalVideo').modal({
           show: false

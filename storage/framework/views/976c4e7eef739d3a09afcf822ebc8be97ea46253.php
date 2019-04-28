@@ -1,12 +1,21 @@
-<?php $__env->startSection('title',$project->title); ?>
+<?php $__env->startSection('title', $project->title); ?>
 <?php $__env->startSection('content'); ?>
-
+<?php if($hist->target != $hist->hasil): ?>
+<script>
+$(function(){
+  swal({
+        title: "Kamu belum menonton semua video! jangan lupa selesaikan",
+        showConfirmButton: true,
+        timer: 10000
+      });
+  });
+</script> 
+<?php endif; ?>
     <!-- Section Content -->
     <section id="wrapper">
       
       <!-- Nav Sidebar -->
       <div id="sidebar-wrapper">
-
         <div class="tabs-video">
           <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item active">
@@ -23,39 +32,123 @@
           </ul>
         </div>
 
-        <div class="tab-content" id="pills-tabContent">
+
+        <div class="tab-content tab-content-video-page" id="pills-tabContent">
           <!-- Tab Materi -->
           <div class="tab-pane fade active in" id="pills-materi" role="tabpanel" aria-labelledby="pills-materi-tab">
           <?php
-             $a = 1;
-             foreach ($stn as $key => $section): ?>
+            $a = 1;
+            foreach ($stn as $key => $section): 
+            $adaexe = DB::table('exercise')
+                 ->where('section_id', $section->id)
+                 ->first();
+            if($adaexe){
+              $valid = DB::table('section')
+              ->join('video_section', 'section.id','video_section.section_id')
+              ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+              ->leftjoin('quiz_user', function($join){
+                $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                ->where('quiz_user.status',1);})
+              ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+              ->leftjoin('project_user', function($join){
+               $join->on('project_section.id', '=', 'project_user.project_section_id')
+               ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+               ->where('project_user.status',2);})
+              ->leftjoin('history', function($join){
+                 $join->on('video_section.id', '=', 'history.video_id')
+                 ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+              ->where('section.id', $section->id)
+              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT quiz_user.id) + count(distinct history.id) as hasil'))
+              ->groupby('section.id', 'section.position')
+              ->first();
+              
+            }else{
+              $valid = DB::table('section')
+              ->join('video_section', 'section.id','video_section.section_id')
+              ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+              ->leftjoin('quiz_user', function($join){
+                $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                ->where('quiz_user.status',1);})
+              ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+              ->leftjoin('project_user', function($join){
+               $join->on('project_section.id', '=', 'project_user.project_section_id')
+               ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+               ->where('project_user.status',2);})
+              ->leftjoin('history', function($join){
+                 $join->on('video_section.id', '=', 'history.video_id')
+                 ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+              ->where('section.id', $section->id)
+              ->select('section.id as section','section.position as posisi', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+              ->groupby('section.id', 'section.position')
+              ->first();
+            }
+             $persen = number_format($valid->hasil / $valid->project*100); 
+             
+             $n = $valid->posisi;
+             $sect = $valid->section;
+
+             ?>
+             
               <div class="video-materi">
                 <a class="collap" id="<?php echo "materi-".$a ?>" data-toggle="collapse" href="#<?php echo e($section->id); ?>" role="button">
+               
                  <div class="number-circle"><?php echo $a ;?></div>
                   <div class="title">
                      <?php echo e($section->title); ?>
 
-                    <h6><span class="fa fa-clock"></span> 40:48</h6>
+                    <h6><span class="fa fa-clock"></span>
+                      <!-- menambahkan fungsi untuk memanggil total menit section -->
+                      <?php 
+                          $totalmenit = DB::table('video_section')
+                          ->where('section_id', $section->id)
+                          ->select(DB::raw('sum(durasi) as total'))
+                          ->first();
+
+                          echo gmdate("H:i:s", $totalmenit->total);
+                      ?>
+                    </h6>
                   </div>
                   <i class="icon-collap fa fa-chevron-down"></i>
-                </a>    
+                </a>
               </div>
+              <?php if($valid->project == $valid->hasil)    {   ?>
               <div class="collapse submateri" id="<?php echo e($section->id); ?>">
                 <ul>
                 <?php
                  $i = 1;
                  foreach ($section->video_section as $key => $materi): ?>
-                  <li>
-                    <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/videoPage/'.$vsection->id)); ?>">
+                  <li> 
+                    <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/videoPage/'.$materi->section_id)); ?>"
+                        data-url="<?php echo e($materi->file_video); ?>"
+                        data-title="<?php echo e($materi->title); ?>"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
                       <div class="sub-materi row">
-                        <div class="col-xs-10 px-0">
+                        <!-- mengubah col-xs-10 jadi 8 -->
+                        <div class="col-xs-8 px-0">
                           <i class="fas fa-play-circle"></i><?php echo " $i."; ?> <?php echo e($materi->title); ?>
 
                         </div>
-                        <div class="col-xs-2 px-0 text-right">
-                          <?php echo e($materi->durasi); ?>
-
+                        <!-- mengubah col-xs-2 jadi 0 -->
+                        <div class="col-xs-0 px-0 text-right">
+                          <!-- <?php echo e($materi->durasi); ?> -->
+                           <!-- menambahkan fungsi untuk mengubah durasi menit ke format waktu -->
+                           <?php 
+                              echo gmdate("H:i:s", $materi->durasi);
+                            ?>
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
                           <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
                         </div>
                       </div>
                     </a>
@@ -63,45 +156,369 @@
                   <?php $i++;?>
                   <?php endforeach; ?>
                   <?php
-                  foreach ($section->project_section as $key => $project): ?>
+                  $exc = DB::table('exercise')
+                  ->where('section_id',$section->id)
+                  ->first();
+                  if($exc){
+                    foreach ($section->exercise as $key => $exercises): ?>
+                    <li>
+                    <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/exercise/'.$exercises->section_id)); ?>">
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-clipboard-list"></i>  <?php echo e($exercises->title); ?>
+
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                        <?php 
+                           $cek = DB::table('exercise')
+                           ->join('quiz_user', 'exercise.id', 'quiz_user.exercise_id')
+                           ->where('exercise.id', $exercises->id)
+                           ->where('quiz_user.status', 1)
+                           ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                           ->first();
+                            if($cek){        
+                            ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                            <?php }else{ ?>
+                            <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a >
+                  </li>
+                  <?php endforeach; 
+                  }else{
+                  foreach ($section->project_section as $key => $projects): ?>
                   <li>
                   <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id)); ?>">
                     <div class="sub-materi row">
                       <div class="col-xs-10 px-0">
-                        <i class="fas fa-clipboard-list"></i>  <?php echo e($project->title); ?>           
+                        <i class="fas fa-clipboard-list"></i>  <?php echo e($projects->title); ?>
+
                       </div>
                       <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                         $cek = DB::table('project_section')
+                         ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                         ->where('project_section.id', $projects->id)
+                         ->where('project_user.status', 2)
+                         ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                         ->first();
+                          if($cek){        
+                          ?>
                         <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
                       </div>
                     </div>
                   </a >
                 </li>
-                <?php endforeach; ?>
+                <?php 
+                  endforeach;
+                  } ?>
                 </ul>
               </div>
+              <?php }else{
+                        
+              if($valid->posisi == '1'){ ?>
+              <div class="collapse submateri" id="<?php echo e($section->id); ?>">
+                <ul>
+                <?php
+                 $i = 1;
+                 foreach ($section->video_section as $key => $materi): ?>
+                  <li>
+                    <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/videoPage/'.$materi->section_id)); ?>"
+                        data-url="<?php echo e($materi->file_video); ?>"
+                        data-title="<?php echo e($materi->title); ?>"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> <?php echo e($materi->title); ?>
+
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                            <?php 
+                              echo gmdate("H:i:s", $materi->durasi);
+                            ?>
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <?php $i++;?>
+                  <?php endforeach; ?>
+                  <?php
+                  $exercise = DB::table('exercise')
+                  ->where('section_id',$section->id)
+                  ->first();
+                  if ($exercise){
+                    foreach ($section->exercise as $key => $exercises): ?>
+                    <li>
+                    <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/exercise/'.$exercises->section_id)); ?>">
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-clipboard-list"></i>  <?php echo e($exercises->title); ?>
+
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                        <?php 
+                            $cek = DB::table('quiz_user')
+                            ->where('exercise_id', $exercises->id)
+                            ->where('member_id', '=', Auth::guard('members')->user()->id)
+                            ->where('status', 1)
+                            ->first();
+                            if($cek){        
+                            ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i> 
+                            <?php }else{ ?>
+                            <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a >
+                  </li>
+                <?php 
+                  endforeach; 
+                  }
+                  else{
+                  foreach ($section->project_section as $key => $projects): ?>
+                  <li>
+                  <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id)); ?>">
+                    <div class="sub-materi row">
+                      <div class="col-xs-10 px-0">
+                        <i class="fas fa-clipboard-list"></i>  <?php echo e($projects->title); ?>
+
+                      </div>
+                      <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                          $cek = DB::table('project_section')
+                          ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                          ->where('project_section.id', $projects->id)
+                          ->where('project_user.status', 2)
+                          ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                          ->first();
+                          if($cek){        
+                          ?>
+                        <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </a >
+                </li>
+                <?php 
+                  endforeach; 
+                  }
+                ?>
+                </ul>
+              </div>
+              <?php }else{
+                 $n = $valid->posisi-1;
+                 $sect = $valid->section-1;
+                 $adaproject = DB::table('project_section')
+                 ->where('section_id', $sect)
+                 ->first();
+                 if(!$adaproject){
+                  $lihat = DB::table('section')
+                  ->join('video_section', 'section.id','video_section.section_id')
+                  ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+                  ->leftjoin('quiz_user', function($join){
+                  $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                  ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                  ->where('quiz_user.status', '1');})
+                  ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                  ->leftjoin('project_user', function($join){
+                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                    ->where('project_user.status', '2');})
+                  ->leftjoin('history', function($join){
+                    $join->on('video_section.id', '=', 'history.video_id')
+                    ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                  ->where('section.id', $sect)->where('section.position', $n)
+                  
+                  ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct exercise.id) as project'), DB::raw('count(DISTINCT quiz_user.id)+ count(distinct history.id) as hasil'))
+                  ->groupby('section.id')
+                  ->first();
+                 }else{
+                  $lihat = DB::table('section')
+                  ->join('video_section', 'section.id','video_section.section_id')
+                  ->leftjoin('exercise', 'section.id', 'exercise.section_id')
+                  ->leftjoin('quiz_user', function($join){
+                  $join->on('exercise.id', '=', 'quiz_user.exercise_id')
+                  ->where('quiz_user.member_id', '=', Auth::guard('members')->user()->id)
+                  ->where('quiz_user.status', '1');})
+                  ->leftjoin('project_section', 'section.id', 'project_section.section_id')
+                  ->leftjoin('project_user', function($join){
+                    $join->on('project_section.id', '=', 'project_user.project_section_id')
+                    ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                    ->where('project_user.status', '2');})
+                  ->leftjoin('history', function($join){
+                    $join->on('video_section.id', '=', 'history.video_id')
+                    ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
+                  ->where('section.id', $sect)->where('section.position', $n)
+                  
+                  ->select('section.id as section', DB::raw('count( DISTINCT video_section.id) + count(distinct project_section.id) as project'), DB::raw('count(DISTINCT project_user.id)+ count(distinct history.id) as hasil'))
+                  ->groupby('section.id')
+                  ->first();
+                 }
+              if($lihat->project == $lihat->hasil){ ?>
+               <div class="collapse submateri" id="<?php echo e($section->id); ?>">
+                <ul>
+                <?php
+                 $i = 1;
+                 foreach ($section->video_section as $key => $materi): ?>
+                  <li>
+                    <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/videoPage/'.$materi->section_id)); ?>"
+                        data-url="<?php echo e($materi->file_video); ?>"
+                        data-title="<?php echo e($materi->title); ?>"
+                        data-video_id="<?php echo e($materi->id); ?>"
+                        data-section_id="<?php echo e($materi->section_id); ?>"
+                        onclick="changeVideo(this), saveHistory(this)"
+                    >
+                      <div class="sub-materi row">
+                        <div class="col-xs-10 px-0">
+                          <i class="fas fa-play-circle"></i><?php echo " $i."; ?> <?php echo e($materi->title); ?>
+
+                        </div>
+                        <div class="col-xs-2 px-0 text-right">
+                            <?php 
+                              echo gmdate("H:i:s", $materi->durasi);
+                            ?>
+                          <?php 
+                          $history = DB::table('video_section')
+                          ->join('history', 'video_section.id', 'history.video_id')->where('video_section.id', $materi->id)->where('history.member_id', '=', Auth::guard('members')->user()->id)->first();
+                          if($history){        
+                          ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <?php $i++;?>
+                  <?php endforeach; ?>
+                  <?php
+                   $exercise = DB::table('exercise')
+                   ->where('section_id',$section->id)
+                   ->first();
+                 if ($exercise){
+                   foreach ($section->exercise as $key => $exercises): ?>
+                   <li>
+                   <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/exercise/'.$exercises->section_id)); ?>">
+                     <div class="sub-materi row">
+                       <div class="col-xs-10 px-0">
+                         <i class="fas fa-clipboard-list"></i>  <?php echo e($exercises->title); ?>
+
+                       </div>
+                       <div class="col-xs-2 px-0 text-right">
+                       <?php 
+                           $cek = DB::table('quiz_user')
+                           ->where('exercise_id', $exercises->id)
+                           ->where('member_id', '=', Auth::guard('members')->user()->id)
+                           ->where('status', 1)
+                           ->first();
+                           if($cek){        
+                           ?>
+                          <i class="fa fa-check-circle ml-2 c-blue"></i> 
+                           <?php }else{ ?>
+                            <i class="fa fa-circle ml-2"></i> 
+                         <?php } ?>
+                       </div>
+                     </div>
+                   </a >
+                 </li>
+                 <?php 
+                   endforeach; 
+                   }
+                   else{
+                  foreach ($section->project_section as $key => $projects): ?>
+                  <li>
+                  <a href="<?php echo e(url('bootcamp/'.$bc->slug.'/projectSubmit/'.$section->id)); ?>">
+                    <div class="sub-materi row">
+                      <div class="col-xs-10 px-0">
+                        <i class="fas fa-clipboard-list"></i>  <?php echo e($projects->title); ?>
+
+                      </div>
+                      <div class="col-xs-2 px-0 text-right">
+                      <?php 
+                          $cek = DB::table('project_section')
+                                  ->join('project_user', 'project_section.id', 'project_user.project_section_id')
+                                  ->where('project_section.id', $projects->id)
+                                  ->where('project_user.status', 2)
+                                  ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)
+                                  ->first();
+                        
+                                  if($cek){        
+                          ?>
+                        <i class="fa fa-check-circle ml-2 c-blue"></i>
+                          <?php }else{ ?>
+                          <i class="fa fa-circle ml-2"></i>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </a >
+                </li>
+                <?php 
+                  endforeach; 
+                  }
+                ?>
+                </ul>
+               </div>
+              <?php }else{ ?>
+                <a disabled class="btn btn-primary float-right disable">Terkunci</a>
+              <?php } 
+              }
+            }?>           
               <?php $a++;?>
                   <?php endforeach; ?>
           </div>
 
           <!-- Tab Diskusi-->
           <div class="tab-pane fade" id="pills-diskusi" role="tabpanel" aria-labelledby="pills-diskusi-tab">
-            <div class="row box m-4">
-              <div class="col-xs-12">
-                <h6>Buat Pertanyaan</h6>
-                <textarea class="form-control" name="pertanyaan" id="pertanyaan" cols="30" rows="10"></textarea>
-                <br>
-                <button class="btn btn-primary mb-2">Upload Gambar</button>
-                <button class="btn btn-primary mb-2">Tambah Pertanyaan</button>
+              <div class="row box m-4">
+                <div class="col-xs-12">
+                  <h6>Buat Pertanyaan</h6>
+                  <form id="form-comment" class="mb-25" enctype="multipart/form-data" method="POST">
+                        <?php echo csrf_field(); ?> 
+                        <?php echo e(method_field('POST')); ?>
+
+                        <input type="hidden" name="bootcamp_id" value="<?php echo e($bc->id); ?>">
+                        <input type="hidden" name="parent_id" value="0"> 
+                        <div class="form-group">
+                          <textarea style="white-space: pre-line" rows="8" cols="80" class="form-control" name="body" id="textbody0"></textarea>
+                        </div>
+                       
+                        <input class="inputfile" type="file" name="image" id="file" data-multiple-caption="{count} files selected" multiple="multiple"/>
+                        <label for="file"><i class="fa fa-upload"></i><span>Upload File</span></label>
+                       
+                      <button type="button" class="btn btn-primary upload-image" onclick="doComment(<?php echo e($bc->id); ?>, 0)">Tambah Pertanyaan</button> 
+                  </form><!--./ Comment Form -->
+                </div>
+
+                <hr class="mb-5">
+
+                <div class="col-xs-12">
+                <div id="comments-lists">
+                    <p>Memuat Pertanyaan . . .</p>
+                </div>
+                </div>
+
               </div>
-
-              <hr class="mb-5">
-
-              <div class="col-xs-12">
-                <hr>
-                <span class="text-muted">Saat ini belum ada diskusi</span>
-              </div>
-
-            </div>
           </div>
         </div>
 
@@ -122,21 +539,58 @@
               </div>
             </div>
             
-            <div class="row px-5 pt-4">
-              
+            <div id="cek_review" class="row px-5 pt-4">
+            <?php if($projectUser): ?>
+              <?php if($projectUser->status == 2): ?>
+              <div class="w-100 px-5 py-4">
+                  <i class="fa fa-check-circle c-blue"><b> Selamat Anda Lolos dalam project lessons <?php echo e($sec->title); ?></b></i>  <a href="<?php echo e(url('bootcamp/projectView/'.$sec->id)); ?>" class="btn btn-outline-primary">Lihat Hasil Preview</a>
+              </div> 
+              <?php elseif($projectUser->status == 0): ?>
+              <div class="w-100 px-5 py-4">
+                  <i class="fa fa-circle ml-2"></i><b> Project anda sedang di review oleh Instruktur dan Team Project Review</b> 
+              </div> 
+              <?php else: ?>
+              <div class="w-100 px-5 py-4">
+                  <i class="fa fa-check-circle c-red"><b> Maaf anda belum berhasil dalam project lessons <?php echo e($sec->title); ?>. Mohon upload ulang project agar bisa melanjutkan</b></i>  <a href="<?php echo e(url('bootcamp/projectView/'.$sec->id)); ?>" class="btn btn-outline-primary">Lihat Hasil Preview</a>
+              </div> 
+              <?php endif; ?>
+            <?php endif; ?>
               <div class="col-xs-12">
                   <h3><?php echo e($project->title); ?></h3>
 
-                  <h4><b>Instruksi: <br/></b><br/> <?php echo e($project->instruksi); ?></h4>
+                  <h4><b>Instruksi: <br/></b><br/></h4>
+                  <h5 style="color:#2ba8e2"> <?php echo e($project->instruksi); ?> </h5>
                   <br/>
+                  <p>Project yang anda submit akan langsung di Review oleh Instruktur dan Team Project Viewer yang sudah kompeten dan memiliki skill yang baik. <br/>
+                  Pastikan anda mengerjakan project dengan sesuai permintaan karena jika tidak Anda tidak akan bisa melanjutkan ke Course selanjutnya. </p>
+                  Ketentuan <br/>
+                  <p>1. Kirimkan tugas ini dalam bentuk dokumen apapun (Word, Excel, PDF, Gambar, dll) <br/>
+                  2. Archive dokumen tersebut ke dalam zip/rar. Tim penilai akan mengulas tugas Anda dalam tempo maksimal 2(dua) hari kerja <br/>(terkecuali Sabtu, Minggu, dan haru libur nasional). <br/>
+                  3. Cukup satu kali saja mengumpulkan tugas, tidak perlu berkali kali. Tindakan demikian hanya akan memperlama proses penilaian. </p>
+                  Siap untuk mengirim? <br/>
+                  Jika anda memiliki kesulitan atau masalah tentang projek atau status projek anda yang disubmit anda bisa menghubungi kami melalui supportprojek@cilsy.id <br/>
                   <br/>
-                  <input type="file" id="file" name="file">
+                  <?php if($projectUser): ?>
+                    <?php if($projectUser->status == "1"): ?>
+                    <div>
+                    <input type="file" id="files" name="files">
+                    
+                    <h5>Komentar</h5>
+                    <textarea class="form-control" name="komentar" id="komentar" cols="100" rows="2"></textarea>
+                    
+                    <button class="btn btn-primary my-4" onclick="saveProject(<?php echo e($project->id); ?>)">Submit Projek</button>
+                    </div>
+                    <?php endif; ?>
+                  <?php else: ?>
+                  <div>
+                  <input type="file" id="files" name="files">
                   
                   <h5>Komentar</h5>
                   <textarea class="form-control" name="komentar" id="komentar" cols="100" rows="2"></textarea>
                   
                   <button class="btn btn-primary my-4" onclick="saveProject(<?php echo e($project->id); ?>)">Submit Projek</button>
-                  
+                  </div>
+                  <?php endif; ?>
               </div>
             </div> 
           </div>
@@ -145,7 +599,19 @@
       </div>
 
     </section>
-    
+    <script>
+
+      $(function(){
+          $('#footer').addClass('hide')
+          getComments();
+          $('#<?php echo e($sec->id); ?>').collapse();
+        });
+      
+      
+   
+      
+  
+    </script>
     <script>
       
     //function Menu sidebar    
@@ -173,7 +639,7 @@
     //fungsi untuk save project
     function saveProject(project_id) {
       var body = $('#komentar').val();
-      var file_data = $('#file').prop("files")[0];
+      var file_data = $('#files').prop("files")[0];
       dataform = new FormData();
       dataform.append( 'file', file_data);
       dataform.append( 'body', body);
@@ -216,10 +682,142 @@
                   timer: 3000
                 });
               }
+              $("#cek_review").load(location.href+ ' #cek_review');
+              
             }
         });
       }
     }
+
+    function getComments() {
+      $.ajax({
+          type    :'GET',
+          url     :'<?php echo e(url("bootcamp/coments/getComments/".$bc->id)); ?>',
+          success:function(data){
+            if (data == '') {
+              $('#comments-lists').html('Tidak Ada Pertanyaan');
+            }else {
+              $('#comments-lists').html(data);
+            }
+          }
+      });
+    }
+   
+    function doComment(bootcamp_id, parent_id) {
+    var body = $('#textbody'+parent_id).val();
+    var file_data = $('#file').prop("files")[0];
+    dataform = new FormData();
+    dataform.append( 'image', file_data);
+    dataform.append( 'body', body);
+    dataform.append( 'bootcamp_id', bootcamp_id);
+    dataform.append( 'parent_id', parent_id);
+
+    if (body == '') {
+      alert('Harap Isi form !')
+    }else {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax({
+          type    :"POST",
+          url     :'<?php echo e(url("/bootcamp/coments/doComment")); ?>',
+          data    : dataform,
+          dataType : 'json',
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+               swal({
+                title: "Memuat Pertanyaan",
+                text: "Mohon Tunggu sebentar Pertanyaan anda sedang dimuat",
+                imageUrl: "<?php echo e(asset('template/web/img/loading.gif')); ?>",
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            // Show image container
+          },
+          success:function(data){
+            if (data.success == false) {
+               window.location.href = '<?php echo e(url("member/signin")); ?>';
+            }else if (data.success == true) {
+              $('#textbody'+parent_id).val('');
+              $('.inputfile').each(function() {
+                var $input	 = $(this),
+                    $label	 = $input.next('label'),
+                    labelVal = $label.html();
+                    $label.find('span').html('Upload Image');
+              });
+              swal({
+                title: "Pertanyaan berhasil terkirim!",
+                showConfirmButton: true,
+                timer: 3000
+              });
+              
+              getComments();
+            }
+          }
+      });
+    }
+  }
+  function replyComment(bootcamp_id, parent_id) {
+    var body = $('#textbody'+parent_id).val();
+    var file_data = $('#file-2').prop("files")[0];
+    dataform = new FormData();
+    dataform.append( 'image', file_data);
+    dataform.append( 'body', body);
+    dataform.append( 'bootcamp_id', bootcamp_id);
+    dataform.append( 'parent_id', parent_id);
+
+    if (body == '') {
+      alert('Harap Isi form !')
+    }else {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax({
+          type    :"POST",
+          url     :'<?php echo e(url("/bootcamp/coments/doComment")); ?>',
+          data    : dataform,
+          dataType : 'json',
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+               swal({
+                title: "Memuat Pertanyaan",
+                text: "Mohon Tunggu sebentar Pertanyaan anda sedang dimuat",
+                imageUrl: "<?php echo e(asset('template/web/img/loading.gif')); ?>",
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            // Show image container
+          },
+          success:function(data){
+            if (data.success == false) {
+               window.location.href = '<?php echo e(url("member/signin")); ?>';
+            }else if (data.success == true) {
+              $('#textbody'+parent_id).val('');
+              $('.inputfile').each(function() {
+                var $input	 = $(this),
+                    $label	 = $input.next('label'),
+                    labelVal = $label.html();
+                    $label.find('span').html('Upload Image');
+              });
+              swal({
+                title: "Pertanyaan berhasil terkirim!",
+                showConfirmButton: true,
+                timer: 3000
+              });
+              
+              getComments();
+            }
+          }
+      });
+    }
+  }
+  
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('web.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
