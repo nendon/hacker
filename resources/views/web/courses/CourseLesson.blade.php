@@ -317,7 +317,7 @@
                             if($lihat->project == $lihat->hasil){ 
                               if(!$exp){
                               ?>
-                              <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a>
+                              <!-- <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a> -->
                             <?php 
                               }else{ ?>
                               <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Retake</a>

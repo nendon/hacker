@@ -54,6 +54,8 @@ class CourseController extends Controller
             ->where('quizuser_id', 0)
             ->update(['quizuser_id' =>  $jawaban->id ]);
         echo($cek);
+        $lampiran = BootcampLampiran::where('bootcamp_id', $bootcamp->id)->get();
+
         $detail = QuizDetail::join('pertanyaan', 'quiz_detail.tanya_id', 'pertanyaan.id' )
                 ->join('jawaban','quiz_detail.jawab_id', 'jawaban.id' )
                 ->where('quizuser_id', $jawaban->id)
@@ -72,6 +74,7 @@ class CourseController extends Controller
             'course' => $course,
             'tanya' =>$pertanyaan,
             'jawab' =>$jawaban,
+            'lampiran' =>$lampiran,
             'detail' =>$detail,
             'nilai' =>$nilai
         ]);
@@ -98,11 +101,13 @@ class CourseController extends Controller
         if($quizstatus){
             return redirect('bootcamp/'.$slug.'/review/'.$id);
         }
-        
+        $lampiran = BootcampLampiran::where('bootcamp_id', $bootcamp->id)->get();
+
         return view('web.bootcamp.project.exercise-question',[
             'exercise' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
+            'lampiran' =>$lampiran,
             'course' => $course
         ]);
     }
@@ -145,11 +150,14 @@ class CourseController extends Controller
         $quiz = QuizUser::where('exercise_id', $exercise->id)->where('member_id', Auth::guard('members')->user()->id)
                 ->where('status', 1)
                 ->first();
+
+        $lampiran = BootcampLampiran::where('bootcamp_id', $bootcamp->id)->get();
         return view('web.bootcamp.project.exercise',[
             'exc' => $exercise,
             'stn' => $section,
             'bc' => $bootcamp,
             'course' => $course,
+            'lampiran' =>$lampiran,
             'quizstatus' =>$quiz 
         ]);
     }
@@ -235,7 +243,7 @@ class CourseController extends Controller
         ->join('course', 'bootcamp.id', 'course.bootcamp_id')
         ->join('section', 'course.id', 'section.course_id')
         ->join('video_section', 'section.id','video_section.section_id')
-        ->join('project_section', 'section.id', 'project_section.section_id')
+        ->leftjoin('project_section', 'section.id', 'project_section.section_id')
         ->where('course.id', $courses->id)
         ->select('course.id as section', 'course.position as p_course')
         ->groupby('course.id', 'course.position' )
@@ -247,7 +255,7 @@ class CourseController extends Controller
                 $valid = DB::table('course')
                     ->join('section', 'course.id', 'section.course_id')
                     ->join('video_section', 'section.id','video_section.section_id')
-                    ->join('project_section', 'section.id', 'project_section.section_id')
+                    ->leftjoin('project_section', 'section.id', 'project_section.section_id')
                     ->leftjoin('project_user', function($join){
                     $join->on('project_section.id', '=', 'project_user.project_section_id')
                     ->where('project_user.member_id', '=', Auth::guard('members')->user()->id)                         
@@ -381,6 +389,8 @@ class CourseController extends Controller
         // }else{
             $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
         // }
+        $lampiran = BootcampLampiran::where('bootcamp_id', $bcs->id)->get();
+
         $cekdulu = DB::table('bootcamp')
             ->join('course', 'bootcamp.id', 'course.bootcamp_id')
             ->join('section', 'course.id', 'section.course_id')
@@ -462,6 +472,7 @@ class CourseController extends Controller
             'stn' => $section,
             'psection' => $psection,
             'vsection' => $vsection,
+            'lampiran' =>$lampiran,
             'vmateri' => $vmateri,
 
         ]);
@@ -480,7 +491,7 @@ class CourseController extends Controller
         $sect = Section::where('id', $id)->first();
         $course = Course::where('id',$sect->course_id)->first();
         $member = Auth::guard('members')->user()->id;
-        
+        $lampiran = BootcampLampiran::where('bootcamp_id', $bcs->id)->get();
         $project = ProjectSection::where('section_id', $id)->first();
         $projectUser = ProjectUser::where('project_section_id', $project->id)->where('member_id', Auth::guard('members')->user()->id)->orderby('created_at', 'desc')->first();
  
@@ -646,6 +657,7 @@ class CourseController extends Controller
             'course' =>$course ,
             'projectUser' => $projectUser,
             'hist' => $full_hist,
+            'lampiran' =>$lampiran
 
         ]);
     }

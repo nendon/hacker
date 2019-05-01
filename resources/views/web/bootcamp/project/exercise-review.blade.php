@@ -503,9 +503,15 @@
           <div class="tab-pane fade" id="pills-file-praktek" role="tabpanel" aria-labelledby="pills-file-praktek-tab">
             <a href="file/bioskop_dataset.csv" download>
               <div class="row box m-4  px-1">
+              
+               
+                @foreach($lampiran as $key => $lampiran)
+                <a href="{{$lampiran->file}}"> 
                 <div class="col-xs-12">
-                  <i class="fa fa-download"></i> bioskop_dataset.csv
+                <i class="fa fa-download"></i>{{$lampiran->nama}}
                 </div>
+                </a>
+                @endforeach
               </div>
             </a>
           </div>
@@ -617,32 +623,40 @@
                       @foreach( $detail as $key =>$detail)
                       @if($detail->ketentuan == 1)
                         <li>
-                          <h4>
-                           {{$detail->soal}}:
-                          </h4>
-
-                          <p class="text-muted">
-                          @if($detail->status != 1)
-                            Salah @else Benar @endif ! Anda menjawab : {{$detail->jawaban}} 
+                          <p>
+                          <b>
+                           Pertanyaan :</b> {{$detail->soal}}:
+                           
                           </p>
 
                           <p class="text-muted">
-                          {{$detail->alasan}}
+                          <b>
+                          @if($detail->status != 1)
+                            Salah @else Benar @endif ! Anda menjawab :</b> {{$detail->jawab}} 
+                          </p>
+
+                          <p class="text-muted">
+                          <b>
+                          Keterangan :</b> {{$detail->alasan}}
+                          
                           </p>
                         </li>
                       @else
                       <li class="wrong">
-                          <h4>
-                           {{$detail->soal}}:
-                          </h4>
-
-                          <p class="text-muted">
-                          @if($detail->status != 1)
-                            Salah @else Benar @endif ! Anda menjawab : {{$detail->jawaban}} 
+                          <p>
+                          <b>
+                          Pertanyaan :</b> {{$detail->soal}}:
                           </p>
 
                           <p class="text-muted">
-                          {{$detail->alasan}}
+                          <b>
+                          @if($detail->status != 1)
+                          Salah  @else Benar @endif ! Anda menjawab :</b> {{$detail->jawab}} 
+                          </p>
+
+                          <p class="text-muted">
+                          <b>
+                          Keterangan :</b> {{$detail->alasan}}
                           </p>
                         </li>
                       @endif

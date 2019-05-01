@@ -15,6 +15,9 @@
             <li class="nav-item">
               <a class="nav-link" id="pills-diskusi-tab" data-toggle="pill" href="#pills-diskusi" role="tab" aria-controls="pills-diskusi" aria-selected="false">Diskusi</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-file-praktek-tab" data-toggle="pill" href="#pills-file-praktek" role="tab" aria-controls="pills-file-praktek" aria-selected="false">File Praktek</a>
+            </li>
             <div class="tabs-close">
               <a class="btn btn-menu c-blue" onclick="sidebarShow()">
                 <i class="fa fa-times"></i>
@@ -500,6 +503,20 @@
 
               </div>
           </div>
+          <!-- Tab File Praktek -->
+        <div class="tab-pane fade" id="pills-file-praktek" role="tabpanel" aria-labelledby="pills-file-praktek-tab">
+          <a href="file/bioskop_dataset.csv" download>
+            <div class="row box m-4  px-1">
+            @foreach($lampiran as $key => $lampiran)
+                      <a href="{{$lampiran->file}}"> 
+                      <div class="col-xs-12">
+                      <i class="fa fa-download"></i>{{$lampiran->nama}}
+                      </div>
+                      </a>
+            @endforeach
+            </div>
+          </a>
+        </div>
         </div>
 
       </div>

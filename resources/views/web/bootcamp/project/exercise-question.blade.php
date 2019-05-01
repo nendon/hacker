@@ -502,9 +502,13 @@
   <div class="tab-pane fade" id="pills-file-praktek" role="tabpanel" aria-labelledby="pills-file-praktek-tab">
     <a href="file/bioskop_dataset.csv" download>
       <div class="row box m-4  px-1">
-        <div class="col-xs-12">
-          <i class="fa fa-download"></i> bioskop_dataset.csv
-        </div>
+      @foreach($lampiran as $key => $lampiran)
+                <a href="{{$lampiran->file}}"> 
+                <div class="col-xs-12">
+                <i class="fa fa-download"></i>{{$lampiran->nama}}
+                </div>
+                </a>
+      @endforeach
       </div>
     </a>
   </div>
