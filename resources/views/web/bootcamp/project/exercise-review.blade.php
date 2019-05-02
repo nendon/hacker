@@ -674,7 +674,7 @@
       <div class="text-right">
       <?php $id = $sction->id +1?>
       @if($nilai >= $exc->min_nilai)
-      <button class="btn btn-primary my-4" id="next"><a style="color:white;" href="{{url('/bootcamp/'.$bc->slug.'/videoPage/'.$id)}}">Lanjutkan Materi</a></button>
+      <button class="btn btn-primary my-4" id="next"><a style="color:white;" href="{{url($lanjut)}}">Lanjutkan Materi</a></button>
       @else
       <button class="btn btn-warning my-4" id="next"><a style="color:white;" href="{{url('/bootcamp/'.$bc->slug.'/exercise/'.$sction->id)}}">Coba Kembali</a></button>
       @endif

@@ -13,6 +13,9 @@
             <li class="nav-item">
               <a class="nav-link" id="pills-diskusi-tab" data-toggle="pill" href="#pills-diskusi" role="tab" aria-controls="pills-diskusi" aria-selected="false">Diskusi</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-file-praktek-tab" data-toggle="pill" href="#pills-file-praktek" role="tab" aria-controls="pills-file-praktek" aria-selected="false">File Praktek</a>
+            </li>
             <div class="tabs-close">
               <a class="btn btn-menu c-blue" onclick="sidebarShow()">
                 <i class="fa fa-times"></i>
@@ -513,6 +516,21 @@
                 </div>
 
               </div>
+          </div>
+           <!-- Tab File Praktek -->
+          <div class="tab-pane fade" id="pills-file-praktek" role="tabpanel" aria-labelledby="pills-file-praktek-tab">
+            <a href="file/bioskop_dataset.csv" download>
+              <div class="row box m-4  px-1">
+              <?php $__currentLoopData = $lampiran; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $lampiran): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <a href="<?php echo e($lampiran->file); ?>"> 
+                        <div class="col-xs-12">
+                        <i class="fa fa-download"></i><?php echo e($lampiran->nama); ?>
+
+                        </div>
+                        </a>
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+              </div>
+            </a>
           </div>
         </div>
 

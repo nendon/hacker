@@ -66,6 +66,17 @@ class CourseController extends Controller
                 ->where('status', 1)
                 ->count();
 
+        $video = Section::where('id',$id)->first();
+        $posisi = $video->position + 1; 
+        $next = Section::where('position', $posisi)->where('course_id', $course->id)->first();
+        $max =  Section::where('course_id', $course->id)->select(DB::raw('max(position) as max'))->first();
+        $lanjut = "";
+        if($max->max == $video->position){
+            $lanjut = '/bootcamp/'.$bootcamp->slug.'/courseSylabus/';
+        }else{
+            $lanjut =  '/bootcamp/'.$bootcamp->slug.'/videoPage/'.$next->id;
+        }
+
         return view('web.bootcamp.project.exercise-review',[
             'exc' => $exercise,
             'stn' => $section,
@@ -76,7 +87,8 @@ class CourseController extends Controller
             'jawab' =>$jawaban,
             'lampiran' =>$lampiran,
             'detail' =>$detail,
-            'nilai' =>$nilai
+            'nilai' =>$nilai,
+            'lanjut' =>$lanjut
         ]);
     }
     public function exerciseQuestion($slug, $id){
