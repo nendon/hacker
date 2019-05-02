@@ -81,6 +81,8 @@ class BootcampController extends Controller
         $myFormatForView = date("d F y", $time);
         $contributors = DB::table('contributors')->where('contributors.id',$bc->contributor_id)->first();
         // dd($bc);
+        $tutor = BootcampMember::where('bootcamp_id', $bc->id)->where('member_id', $mem_id)->first();
+
         return view('web.bootcamp.bootcamp',[
             'bca' => $bc,
             'butcat' => $boot_cat,
@@ -89,6 +91,7 @@ class BootcampController extends Controller
             'course' => $courses,
             'cart' => $cart,
             'tanggal' => $myFormatForView,
+            'tutor' =>$tutor,
             'main_course' => $main_course,
             'project_bootcamp' => $project_bootcamp,
             'durasi_bootcamp' =>  $durasi_bootcamp,

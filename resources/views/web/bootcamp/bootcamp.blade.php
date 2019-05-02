@@ -45,12 +45,16 @@
               {{$bca->sub_title}}
             </h4> 
             <h6 class="mb-5">oleh {{$contributors->username}}</h6>
+            @if(!$tutor)
             <?php if(($cart != null)){ ?>
             <a href="{{ url('cart') }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
             <?php }else{ ?>          
-            <button id="beli-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Beli Tutorial</button> &nbsp;&nbsp;&nbsp;
+            <button id="beli-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
             <?php } ?>
-            <button id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp({{ $bca->id }})">Lihat Keranjang</button>
+            <a id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" href="{{ url('cart') }}" >Lihat Keranjang</a>
+            @else
+            <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
+            @endif
             <a href="{{$bca->silabus}}" class="btn btn-blue m-2">Download Silabus</a>
           </div>
         </div>
@@ -596,8 +600,16 @@
                   <li>Free Update</li>
                   <li>Sertifikat</li>
                 </ul>
-                <button id="beli-{{ $bca->id }}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})">Daftar Sekarang</button>
-                <button id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp({{ $bca->id }})">Lihat Keranjang</button>
+                @if(!$tutor)
+                <?php if(($cart != null)){ ?>
+                <a href="{{ url('cart') }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
+                <?php }else{ ?>          
+                <button id="jual-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
+                <?php } ?>
+                <a id="tamu-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" href="{{ url('cart') }}" >Lihat Keranjang</a>
+                @else
+                <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;         
+                @endif
                 </div>  
             </div>
           </div>

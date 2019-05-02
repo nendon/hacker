@@ -43,12 +43,16 @@
 
             </h4> 
             <h6 class="mb-5">oleh <?php echo e($contributors->username); ?></h6>
+            <?php if(!$tutor): ?>
             <?php if(($cart != null)){ ?>
             <a href="<?php echo e(url('cart')); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
             <?php }else{ ?>          
-            <button id="beli-<?php echo e($bca->id); ?>" class="btn btn-blue" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)"><i class="fa fa-shopping-cart"></i> Beli Tutorial</button> &nbsp;&nbsp;&nbsp;
+            <button id="beli-<?php echo e($bca->id); ?>" class="btn btn-blue" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
             <?php } ?>
-            <button id="guest-<?php echo e($bca->id); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)">Lihat Keranjang</button>
+            <a id="guest-<?php echo e($bca->id); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" href="<?php echo e(url('cart')); ?>" >Lihat Keranjang</a>
+            <?php else: ?>
+            <a href="<?php echo e(url('bootcamp/'.$bca->slug.'/courseSylabus')); ?>" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
+            <?php endif; ?>
             <a href="<?php echo e($bca->silabus); ?>" class="btn btn-blue m-2">Download Silabus</a>
           </div>
         </div>
@@ -604,8 +608,16 @@
                   <li>Free Update</li>
                   <li>Sertifikat</li>
                 </ul>
-                <button id="beli-<?php echo e($bca->id); ?>" class="btn btn-blue" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)">Daftar Sekarang</button>
-                <button id="guest-<?php echo e($bca->id); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)">Lihat Keranjang</button>
+                <?php if(!$tutor): ?>
+                <?php if(($cart != null)){ ?>
+                <a href="<?php echo e(url('cart')); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
+                <?php }else{ ?>          
+                <button id="jual-<?php echo e($bca->id); ?>" class="btn btn-blue" onclick="addToCartBootcamp(<?php echo e($bca->id); ?>)"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
+                <?php } ?>
+                <a id="tamu-<?php echo e($bca->id); ?>" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" href="<?php echo e(url('cart')); ?>" >Lihat Keranjang</a>
+                <?php else: ?>
+                <a href="<?php echo e(url('bootcamp/'.$bca->slug.'/courseSylabus')); ?>" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;         
+                <?php endif; ?>
                 </div>  
             </div>
           </div>
