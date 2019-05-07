@@ -226,7 +226,7 @@ class BootcampController extends Controller
                     ->join('course', 'course.bootcamp_id', 'bootcamp.id')
                     ->join('section', 'section.course_id', 'course.id')
                     ->join('video_section', 'video_section.section_id', 'section.id')
-                    ->join('project_section', 'project_section.section_id', 'section.id')
+                    ->leftjoin('project_section', 'project_section.section_id', 'section.id')
                     ->leftjoin('history', function($join){
                         $join->on('video_section.id', '=', 'history.video_id')
                         ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
@@ -240,7 +240,7 @@ class BootcampController extends Controller
                     ->join('course', 'course.bootcamp_id', 'bootcamp.id')
                     ->join('section', 'section.course_id', 'course.id')
                     ->join('video_section', 'video_section.section_id', 'section.id')
-                    ->join('project_section', 'project_section.section_id', 'section.id')
+                    ->leftjoin('project_section', 'project_section.section_id', 'section.id')
                     ->leftjoin('history', function($join){
                         $join->on('video_section.id', '=', 'history.video_id')
                         ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
@@ -254,19 +254,20 @@ class BootcampController extends Controller
                 ->join('course', 'course.bootcamp_id', 'bootcamp.id')
                 ->join('section', 'section.course_id', 'course.id')
                 ->join('video_section', 'video_section.section_id', 'section.id')
-                ->join('project_section', 'project_section.section_id', 'section.id')
+                ->leftjoin('project_section', 'project_section.section_id', 'section.id')
                 ->join('history', 'video_section.id', '=', 'history.video_id')
-                ->where('bootcamp_member.member_id', $mem_id )
+                ->where('history.member_id', $mem_id )
                 ->select('bootcamp.title as title', 'bootcamp.cover as cover', 'bootcamp.slug', 'course.id as id_course', 'course.title as course_title' )
                 ->orderby('history.created_at', 'desc')
                 ->first();       
 
+        if($last){
         $last_course =   BootcampMember::join('bootcamp','bootcamp.id', '=', 'bootcamp_member.bootcamp_id')
                         ->join('contributors', 'contributors.id', '=', 'bootcamp.contributor_id')
                         ->join('course', 'course.bootcamp_id', 'bootcamp.id')
                         ->join('section', 'section.course_id', 'course.id')
                         ->join('video_section', 'video_section.section_id', 'section.id')
-                        ->join('project_section', 'project_section.section_id', 'section.id')
+                        ->leftjoin('project_section', 'project_section.section_id', 'section.id')
                         ->leftjoin('history', function($join){
                             $join->on('video_section.id', '=', 'history.video_id')
                             ->where('history.member_id', '=', Auth::guard('members')->user()->id);})
@@ -274,7 +275,9 @@ class BootcampController extends Controller
                         ->select('section.id as id', DB::raw('count(history.id) as hasil'), DB::raw('count(video_section.id) as target'))
                         ->groupby('section.id')
                         ->get();
-                        
+                        }else{
+                            $last_course = [];  
+                        }               
                         
         $belitut =  TutorialMember::join('lessons','lessons.id', '=', 'tutorial_member.lesson_id')
                     ->join('contributors', 'contributors.id', '=', 'lessons.contributor_id')

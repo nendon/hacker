@@ -590,12 +590,15 @@
 
 
 
-
+   
     <!-- JavaScript -->
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/plyr.min.js"></script>
     <script>
+     $(function(){
+          $('#footer').addClass('hide');
+    });
     //function Menu sidebar    
     function sidebarShow(){
       if($("#wrapper").hasClass("toggled")){

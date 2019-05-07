@@ -61,10 +61,10 @@ class CourseController extends Controller
                 ->where('quizuser_id', $jawaban->id)
                 ->select('pertanyaan.tanya as soal', 'jawaban.pilihan as jawab', 'jawaban.alasan as alasan', 'quiz_detail.status as status', 'jawaban.status as ketentuan')->orderby('pertanyaan.id', 'asc')->get();
         
-                $nilai = DB::table('quiz_detail')
-                ->where('quizuser_id',$jawaban->id)
-                ->where('status', 1)
-                ->count();
+        $nilai = DB::table('quiz_detail')
+        ->where('quizuser_id',$jawaban->id)
+        ->where('status', 1)
+        ->count();
 
         $video = Section::where('id',$id)->first();
         $posisi = $video->position + 1; 
@@ -201,6 +201,7 @@ class CourseController extends Controller
         $lampiran = BootcampLampiran::where('bootcamp_id', $bcs->id)->get();
         //penambahan fungsi untuk membantu pembagian deadline per course
         if(!$tutor->start_at){
+            $target = Course::where('bootcamp_id', $bcs->id)->select(DB::raw('sum(estimasi) as target'))->first();
 
         $update = BootcampMember::find($tutor->id);
         $update['start_at'] = $now;
@@ -846,6 +847,7 @@ class CourseController extends Controller
         DB::table('quiz_user')
         ->where('exercise_id', $params['exercise_id'])
         ->where('member_id', Auth::guard('members')->user()->id)
+        ->where('id', $jawaban->id)
         ->update([
         'status' => $status,
         'nilai' => $nilai]); 

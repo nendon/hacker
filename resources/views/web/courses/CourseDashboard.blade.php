@@ -11,10 +11,12 @@
       <section>
 
         <!-- Container -->
+        @if($last)
         <div class="container">
 
           <!-- Row -->
           <div class="row box p-0">
+          
           @if($last->cover)
             <div class="col-sm-4 col-xs-12 p-0 image-preview" style="background: url({{asset($last->cover)}});">
               <!-- Image for full width  & height -->
@@ -48,11 +50,15 @@
                 </div>
                <!-- Timeline -->
 
-               
+               @if(!$last)
+               <a href="{{ url('bootcamp/'.$last->slug.'/courseSylabus') }}" class="btn btn-primary btn-lg mt-5 mb-2">Lanjutkan</a>
+               @else
               <a href="{{ url('bootcamp/'.$last->slug.'/courseLesson/'.$last->id_course) }}" class="btn btn-primary btn-lg mt-5 mb-2">Lanjutkan</a>
+              @endif
+         
             </div>
           </div>
-
+          @endif
 
           <!-- Tabs-->
           <div class="tabs-dashboard">
