@@ -773,7 +773,6 @@ a #items .item {
             <a href="{{ url('/') }}">
                 <img class="logo" src="{{asset('template/web/img/logo.png')}}"></img>
             </a>
-            <!-- <a href="{{ url('lessons/browse/all') }}" class="browse-btn">Browse Tutorial</a> -->
             <?php //Helper::searchForm(); ?>
             <div class="header-left pull-right">
               <?php if (!empty(Session::get('memberID'))) {?>

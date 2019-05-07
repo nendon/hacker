@@ -29,6 +29,7 @@
     <link href="{{asset('template/web/css/app.css')}}" rel="stylesheet">
     <link href="{{asset('template/web/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/spacing.css')}}">
+    <link rel="stylesheet" href="{{asset('css/quiz.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/video-sidebar.css')}}">
     <link rel="stylesheet" href="{{asset('css/plyr.css')}}">
@@ -547,7 +548,16 @@ a #items .item {
             @if (Auth::guard("members")->user())
               <div id="items" style="top:38%">
                   <div class="item" style="background-color:white">Halo, {{ Auth::guard('members')->user()->username }}</div>
-                  <a href="{{ url('lessons/browse/all') }}" class="hidden-lg hidden-md" style="color: #fff;"><div class="item browse" style="background-color:#2BA8E2;">Browse Tutorial</div></a>                  
+                  <div class="dropdown show" style="margin-left: 131px;">
+                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Browse
+                    </a> 
+
+                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+                    <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+                    <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                    </div>
+                  </div>
                   <a href="{{ url('bootcamp/course') }}" ><div class="item">Dashboard</div></a>
                   <a href="{{ url('member/change-password') }}" ><div class="item">Ganti Password</div></a>
                   <a href="{{ url('member/riwayat') }}" ><div class="item">Riwayat Pembelian</div></a>
@@ -555,13 +565,22 @@ a #items .item {
               </div>
               @else
                 <div id="items">
-                    <a href="{{ url('lessons/browse/all') }}" class="hidden-lg hidden-md" style="color: #fff;"><div class="item browse" style="background-color:#2BA8E2;">Browse Tutorial</div></a>
+                <div class="dropdown show" style="margin-left: 131px;">
+                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Browse
+                    </a>
+
+                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+                    <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+                    <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                    </div>
+                  </div>
                     <a href="{{ url('member/signin') }}"><div class="item" onclick="w3_close()">Masuk</div></a>
                     <a href="{{ url('member/signup') }}"><div class="item">Daftar</div></a>
                 </div>
               @endif
             </div>
-            <div class="w3-overlay w3-animate-opacity"  style="cursor:pointer"  id="myOverlay"></div>
+        <div class="w3-overlay w3-animate-opacity"  style="cursor:pointer"  id="myOverlay"></div>
 
           <a href="{{ url('cart')}}" class="navbar-brand pull-right hidden-lg hidden-md" >
           <i style="height: 32px; width: 32px; color: white;" class="fa fa-shopping-cart">
@@ -578,8 +597,19 @@ a #items .item {
             <!-- <span class="sr-only">Toggle navigation</span> -->
             <i class="ion ion-ios-search-strong"></i>
           </button>
+
           <a class="navbar-brand" href="{{ url('/') }}"><img class="logo" src="{{asset('template/web/img/logo.png')}}"></a>
-          <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Browse Tutorial</a>
+          
+          <div class="dropdown show" style="margin-left: 131px;">
+            <a class="btn dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Browse
+            </a>
+
+            <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+            <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+            <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+            </div>
+          </div>
         </div>
         
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -743,7 +773,6 @@ a #items .item {
             <a href="{{ url('/') }}">
                 <img class="logo" src="{{asset('template/web/img/logo.png')}}"></img>
             </a>
-            <!-- <a href="{{ url('lessons/browse/all') }}" class="browse-btn">Browse Tutorial</a> -->
             <?php //Helper::searchForm(); ?>
             <div class="header-left pull-right">
               <?php if (!empty(Session::get('memberID'))) {?>
@@ -769,6 +798,54 @@ a #items .item {
     </div>
     <div class="main-wrapper">
       @yield('content')
+    </div>
+        <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img class="footer-logo" src="{{asset('template/web/img/logo-only.png') }}" alt=""></img>
+                    <span class="footer-logo-text">Cilsy</span>
+                    <p>
+                        Satu-satunya kursus online jaringan dan server yang dipandu sampai bisa. Terdapat ratusan video tutorial eksklusif serta trainer profesional yang siap membantu proses belajar anda.
+                    </p>
+                    <p class="copyrigth-text">
+                        Copyright Cilsy Fiolution 2016-2018
+                    </p>
+                </div>
+                <div class="col-md-2">
+
+                  <?=Helper::pageMenu();?>
+
+                </div>
+                <div class="col-md-2">
+                    <ul class="nav-footer">
+                        <li>Ikuti Kami</li>
+                        <li><a href="https://www.facebook.com/cilsyfiolution/">Facebook</a></li>
+                        <li><a href="https://www.instagram.com/cilsyfiolution/">Instagram</a></li>
+                        <li><a href="#">Line</a></li>
+                        <li><a href="#">Google+</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <ul class="nav-footer">
+                        <li>Bantuan</li>
+                        <li><a href="{{ url('/kontak') }}">Kontak</a></li>
+                        <li><a href="{{ url('/kebijakan') }}">Kebijakan Layanan</a></li>
+                        <li><a href="{{ url('/carapesan') }}">Cara Pesan</a></li>
+                        <li><a href="{{ url('/petunjuk') }}">Petunjuk Pembayaran</a></li>
+                        <li><a href="{{ url('/faq') }}">FAQ</a></li>
+                        <li><a href="{{ url('https://linuxsupports.com') }}">Official Company</a></li>
+                        <li><a href="{{ url('https://blog.cilsy.id') }}">Blog</a></li>
+                        <li><a href="{{ url('https://devops.cilsy.id') }}">Sekolah DevOps Cilsy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <p class="copyrigth-text">
+                        Jl. Dr. Djundjunan No 169 RT 002 RW 002 Kel Husein Sastranegara Kec Cicendo Bandung
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
       
   <script>
