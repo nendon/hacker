@@ -1,13 +1,24 @@
  @extends('web.app')
 @section('title', $bucat->title.' Bootcamp')
-<link rel="stylesheet" href="{{asset('css/halaman.css')}}">
+<!-- <link rel="stylesheet" href="{{asset('css/halaman.css')}}">
 {{--  <link rel="stylesheet" href="{{asset('css/slick.css')}}">  --}}
-<link rel="stylesheet" href="{{asset('css/slick-theme.css')}}">
+<link rel="stylesheet" href="{{asset('css/slick-theme.css')}}"> -->
+
+@push('css')
+<style type="text/css">
+a.divlink { 
+ width:100%;
+}        
+</style>
+
 <style>
 .pointer {
   cursor: pointer;
 }
 </style>
+@endpush
+
+
 @section('content')
     <main>
       

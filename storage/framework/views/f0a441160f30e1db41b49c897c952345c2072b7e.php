@@ -224,7 +224,7 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
   }
   .navbar-collapse.collapse {
-      display: none!important;
+      /* display: none!important; */
   }
   .navbar-nav {
       float: none!important;
@@ -302,7 +302,11 @@
 }
 
 #btn.active {
-  left: 310px;
+  background: #00000080;
+  left: 245px;
+  top: 0px;
+  padding: 10px;
+  z-index: 99
 }
 #btn.active div {
   background-color: #fff;
@@ -343,9 +347,9 @@
 
 #items {
   position: relative;
-  top: 25%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  top: 10%; /*  top: 25%; */
+  /* -webkit-transform: translateY(-50%);
+          transform: translateY(-50%); */
 }
 
 #items .item {
@@ -507,6 +511,32 @@ a #items .item {
   opacity: 1;
 }
 
+
+    .browse-desktop{
+      margin-left: 131px;
+    }
+
+    @media  only screen and (max-width: 768px){
+      .browse-desktop{
+        display: none;
+      }
+      #browse ul{
+        list-style: none;
+        padding-left: 20px;
+        margin-top: 10px;
+      }
+      #browse ul li{
+        position: relative;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 10px 20px;
+        background: #fff;
+        transition: all 250ms;    
+        margin: 0 10px 10px;
+      }
+    }
+
+
     </style>
     <?php echo $__env->yieldPushContent('css'); ?>
 </head>
@@ -536,37 +566,33 @@ a #items .item {
           </div>
           <div id="box">
             <?php if(Auth::guard("members")->user()): ?>
-              <div id="items" style="top:38%">
+              <div id="items">
                   <div class="item" style="background-color:white">Halo, <?php echo e(Auth::guard('members')->user()->username); ?></div>
-                  <div class="dropdown show" style="margin-left: 131px;">
-                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Browse
-                    </a> 
-
-                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
-                    <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
-                    <a href="<?php echo e(url('browse/bootcamp')); ?>" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                  <a data-toggle="collapse" href="#browse"><div class="item">Browse</div></a>
+                    <div id="browse" class="collapse">
+                    <ul>
+                      <li><a href="<?php echo e(url('lessons/browse/all')); ?>">Tutorial</a></li>
+                      <li><a href="<?php echo e(url('browse/bootcamp')); ?>">Bootcamp</a></li>
+                    </ul>
                     </div>
-                  </div>
                   <a href="<?php echo e(url('bootcamp/course')); ?>" ><div class="item">Dashboard</div></a>
                   <a href="<?php echo e(url('member/change-password')); ?>" ><div class="item">Ganti Password</div></a>
                   <a href="<?php echo e(url('member/riwayat')); ?>" ><div class="item">Riwayat Pembelian</div></a>
                   <a href="<?php echo e(url('member/signout')); ?>"><div class="item">Logout</div></a>
+                  <!--  Gada Ditambahin teh disini oke coba aku copas -->
               </div>
               <?php else: ?>
                 <div id="items">
-                <div class="dropdown show" style="margin-left: 131px;">
-                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Browse
-                    </a>
-
-                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
-                    <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
-                    <a href="<?php echo e(url('browse/bootcamp')); ?>" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                    <a data-toggle="collapse" href="#browse"><div class="item">Browse</div></a>
+                      <div id="browse" class="collapse">
+                      <ul>
+                        <li><a href="<?php echo e(url('lessons/browse/all')); ?>">Tutorial</a></li>
+                        <li><a href="<?php echo e(url('browse/bootcamp')); ?>">Bootcamp</a></li>
+                      </ul>
                     </div>
-                  </div>
                     <a href="<?php echo e(url('member/signin')); ?>"><div class="item" onclick="w3_close()">Masuk</div></a>
                     <a href="<?php echo e(url('member/signup')); ?>"><div class="item">Daftar</div></a>
+                   
                 </div>
               <?php endif; ?>
             </div>
@@ -590,7 +616,7 @@ a #items .item {
 
           <a class="navbar-brand" href="<?php echo e(url('/')); ?>"><img class="logo" src="<?php echo e(asset('template/web/img/logo.png')); ?>"></a>
           
-          <div class="dropdown show" style="margin-left: 131px;">
+          <div class="dropdown browse-desktop">
             <a class="btn dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Browse
             </a>
@@ -763,7 +789,6 @@ a #items .item {
             <a href="<?php echo e(url('/')); ?>">
                 <img class="logo" src="<?php echo e(asset('template/web/img/logo.png')); ?>"></img>
             </a>
-            <!-- <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn">Browse Tutorial</a> -->
             <?php //Helper::searchForm(); ?>
             <div class="header-left pull-right">
               <?php if (!empty(Session::get('memberID'))) {?>

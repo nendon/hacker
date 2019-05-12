@@ -1,10 +1,14 @@
 <?php $__env->startSection('title','Browse Bootcamp'); ?>
 
-<style>
+<?php $__env->startPush('css'); ?>
+<style type="text/css">
 a.divlink { 
- width:25%px;
+ width:100%;
 }        
 </style>
+<?php $__env->stopPush(); ?>
+
+
 <?php $__env->startSection('content'); ?>
 <!-- Main -->
     <main>

@@ -1,5 +1,5 @@
 @extends('web.app')
-@section('title','')
+@section('title','Hasil Review Exercise '.$exc->title.' - '.$bc->title)
 @section('content')
     <!-- Section Content -->
     <section id="wrapper">

@@ -1,11 +1,15 @@
 @extends('web.app')
 @section('title','Browse Bootcamp')
-{{--  <link rel="stylesheet" href="{{asset('css/slick.css')}}">  --}}
-<style>
+
+@push('css')
+<style type="text/css">
 a.divlink { 
- width:25%px;
+ width:100%;
 }        
 </style>
+@endpush
+
+
 @section('content')
 <!-- Main -->
     <main>

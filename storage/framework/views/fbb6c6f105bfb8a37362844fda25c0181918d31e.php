@@ -355,7 +355,7 @@
 
     <!-- JavaScript -->
     <!-- <script type="text/javascript" src="<?php echo e(asset('js/jquery-3.3.1.min.js')); ?>"></script> -->
-    <script type="text/javascript" src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script>
+    <!-- <script type="text/javascript" src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script> -->
     <script type="text/javascript" src="<?php echo e(asset('js/isotope.pkgd.min.js')); ?>"></script>
     <script>
     /* Timeline */

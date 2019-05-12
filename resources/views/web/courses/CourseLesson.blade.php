@@ -350,7 +350,7 @@
 
 
     <!-- Javascript -->
-    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script> -->
     <script>
     $('.collap').click(function(e){
       var datatarget =  $(this).attr("href");
