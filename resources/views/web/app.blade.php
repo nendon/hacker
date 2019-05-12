@@ -30,6 +30,8 @@
     <link href="{{asset('template/web/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/spacing.css')}}">
     <link rel="stylesheet" href="{{asset('css/quiz.css')}}">
+    <link rel="stylesheet" href="{{asset('css/price-table.css')}}">
+    <link rel="stylesheet" href="{{asset('css/Maret2019.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/video-sidebar.css')}}">
     <link rel="stylesheet" href="{{asset('css/plyr.css')}}">
@@ -548,16 +550,16 @@ a #items .item {
             @if (Auth::guard("members")->user())
               <div id="items" style="top:38%">
                   <div class="item" style="background-color:white">Halo, {{ Auth::guard('members')->user()->username }}</div>
-                  <div class="dropdown show" style="margin-left: 131px;">
+                    <div class="dropdown show" style="margin-left: 131px;">
                     <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Browse
-                    </a> 
+                        Browse
+                      </a> 
 
-                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
-                    <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
-                    <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                      <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+                        <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+                        <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                      </div>
                     </div>
-                  </div>
                   <a href="{{ url('bootcamp/course') }}" ><div class="item">Dashboard</div></a>
                   <a href="{{ url('member/change-password') }}" ><div class="item">Ganti Password</div></a>
                   <a href="{{ url('member/riwayat') }}" ><div class="item">Riwayat Pembelian</div></a>
@@ -565,14 +567,14 @@ a #items .item {
               </div>
               @else
                 <div id="items">
-                <div class="dropdown show" style="margin-left: 131px;">
-                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Browse
-                    </a>
+                  <div class="dropdown show" style="margin-left: 131px;">
+                      <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Browse
+                      </a>
 
                     <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
-                    <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
-                    <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
+                      <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
+                      <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
                     </div>
                   </div>
                     <a href="{{ url('member/signin') }}"><div class="item" onclick="w3_close()">Masuk</div></a>
@@ -601,11 +603,11 @@ a #items .item {
           <a class="navbar-brand" href="{{ url('/') }}"><img class="logo" src="{{asset('template/web/img/logo.png')}}"></a>
           
           <div class="dropdown show" style="margin-left: 131px;">
-            <a class="btn dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;"role="button" id="dropdownMenuL" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Browse
             </a>
 
-            <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuL">
             <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
             <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
             </div>
@@ -928,11 +930,15 @@ a #items .item {
     <script type="text/javascript" src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 
     <script>
+      $("#switcher").on("click", function(){
+        $(".toggle-penawaran").toggleClass("active");
+        $("#prices").toggleClass("active");
+      })  
       $(document).ready(function() {
-  $('.menu-icon').click(function(event){
-    $('#sidebar').toggleClass('sidebar-expand');
-    console.log('clicked');
-  });
+      $('.menu-icon').click(function(event){
+      $('#sidebar').toggleClass('sidebar-expand');
+        console.log('clicked');
+      });
   $('#sidebar ul li').click(function(event) {
     $('#sidebar ul li').removeClass('icon-active')
     $(this).addClass('icon-active')
@@ -1093,6 +1099,7 @@ a #items .item {
     </script>  --}}
 
     <script type="text/javascript">
+
       function notifview(id){
         var token   = "{{csrf_token()}}";
         var dataString= '_token='+ token + '&id=' + id ;
