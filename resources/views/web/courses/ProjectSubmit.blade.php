@@ -1,5 +1,5 @@
 @extends('web.app')
-@section('title', $project->title)
+@section('title', 'Project '.$project->title.' - '.$bc->title)
 @section('content')
 @if($hist->target != $hist->hasil)
 <script>

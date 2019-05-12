@@ -1,13 +1,24 @@
  
 <?php $__env->startSection('title', $bucat->title.' Bootcamp'); ?>
-<link rel="stylesheet" href="<?php echo e(asset('css/halaman.css')); ?>">
+<!-- <link rel="stylesheet" href="<?php echo e(asset('css/halaman.css')); ?>">
 
-<link rel="stylesheet" href="<?php echo e(asset('css/slick-theme.css')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('css/slick-theme.css')); ?>"> -->
+
+<?php $__env->startPush('css'); ?>
+<style type="text/css">
+a.divlink { 
+ width:100%;
+}        
+</style>
+
 <style>
 .pointer {
   cursor: pointer;
 }
 </style>
+<?php $__env->stopPush(); ?>
+
+
 <?php $__env->startSection('content'); ?>
     <main>
       

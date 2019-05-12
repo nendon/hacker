@@ -587,7 +587,7 @@
 
     <!-- JavaScript -->
     <script type="text/javascript" src="{{asset('assets/js/jquery-2.2.1.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script> -->
     <script type="text/javascript" src="{{asset('js/plyr.min.js')}}"></script>
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
       <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>

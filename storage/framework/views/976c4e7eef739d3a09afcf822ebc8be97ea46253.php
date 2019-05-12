@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', $project->title); ?>
+<?php $__env->startSection('title', 'Project '.$project->title.' - '.$bc->title); ?>
 <?php $__env->startSection('content'); ?>
 <?php if($hist->target != $hist->hasil): ?>
 <script>
