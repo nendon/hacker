@@ -91,7 +91,8 @@ class CartController extends Controller
                 'title' => $bootcamp->title,
                 'price' => $bootcamp->price
             ]);
-        }else{
+        }
+        else{
             $mem_id = isset(Auth::guard('members')->user()->id) ? Auth::guard('members')->user()->id : 0;
             $cart = Cart::where('member_id', $mem_id )->where('lesson_id', null)->first();
             if($cart){
@@ -105,10 +106,11 @@ class CartController extends Controller
             }
 
         /* simpan ke cart */
-        $cart = Cart::firstOrCreate([
+        $cart = Cart::Create([
             'member_id' => Auth::guard('members')->user()->id,
             'contributor_id' => $bootcamp->contributor_id,
-            'bootcamp_id' => $bootcamp->id
+            'bootcamp_id' => $bootcamp->id,
+            
         ]);
         // Session::put('cart', $cart);
         dd($cart);
@@ -133,7 +135,8 @@ class CartController extends Controller
                 'title' => $bootcamp->title,
                 'price' => $price
             ]);
-        }else{
+        }
+        else{
             $mem_id = isset(Auth::guard('members')->user()->id) ? Auth::guard('members')->user()->id : 0;
             $cart = Cart::where('member_id', $mem_id )->where('lesson_id', null)->first();
             if($cart){
@@ -143,11 +146,11 @@ class CartController extends Controller
                 ->update([
                   'aktif'      => 0
                 ]);
-                }
+             }
             }
 
         /* simpan ke cart */
-        $cart = Cart::firstOrCreate([
+        $cart = Cart::Create([
             'member_id' => Auth::guard('members')->user()->id,
             'contributor_id' => $bootcamp->contributor_id,
             'bootcamp_id' => $bootcamp->id,

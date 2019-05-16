@@ -159,7 +159,7 @@
                             </div> -->
                             <hr class="my-4">
                             @else
-                            <h4 class="c-blue">Rp 1.000.000/ 1x Bayaran</h4>
+                            <h4 class="c-blue">Rp {{number_format($cart->bootcamp->price)}}/ 1x Bayaran</h4>
                             <hr class="my-4">
                             @endif
                             @if($cart->cicilan)
