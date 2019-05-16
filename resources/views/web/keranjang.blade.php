@@ -44,15 +44,14 @@
             </div>
         </div>
 
-        @if($carts)
-        <div class="row">
+         <div class="row">
             @php
                 $total = 0;
                 $subtotal = 0;
             @endphp
 
             @if (count($carts) > 0)
-              @foreach ($carts as $cart)
+             @foreach ($carts as $cart)
                 <div class="col-sm-8 col-xs-12 mb-4">
                     <h3 class="mb-4">Total 1 Kelas dalam kerangjang</h3>
                     <div class="box">
@@ -117,8 +116,8 @@
                         Session::put('subtotal', $subtotal);
                         Session::put('total', $total);
                     @endphp
-                @endforeach
-                @else
+             @endforeach
+            @else
                 <div id="cart">
                 <div class="col-sm-12 well" style="width:65%;">
                     <h4>
@@ -130,19 +129,24 @@
                     </h4>
                 </div> 
                 </div>
-                @endif                
-                <div class="col-sm-4 col-xs-12">
+            @endif                
+            <div id="cart-total" class="col-sm-4 col-xs-12  {{ !count($carts) ? 'hide' : '' }}">
                     <div class="card-blue">
                         <div class="card-title">
+                    @if (count($carts) > 0)
                         @if($cart->cicilan)
                             Cicilan
                         @else
                             Bayar Langsung
                         @endif
+                    @else
+                    Pembayaran 
+                    @endif
                         </div>
                         <div class="card-body">
                             Rincian Pembayaran
                             <hr class="my-4">
+                        @if (count($carts) > 0)
                             @if($cart->cicilan)
                             <h4 class="c-blue">Rp {{number_format($cart->bootcamp->normal_price/3)}}/ 3x Bayaran</h4>
                             <!-- <div class="rincian-cicilan-pembayaran">
@@ -159,21 +163,32 @@
                             </div> -->
                             <hr class="my-4">
                             @else
-                            <h4 class="c-blue">Rp 1.000.000/ 1x Bayaran</h4>
+                            <h4 class="c-blue">Rp {{number_format($cart->bootcamp->price/3)}}/ 1x Bayaran</h4>
                             <hr class="my-4">
                             @endif
+                        @else
+                            <h4 class="c-blue">Rp {{number_format($total)}}/ 1x Bayaran</h4>
+                            <hr class="my-4">
+                        @endif
+
+                        @if (count($carts) > 0)
                             @if($cart->cicilan)
-                            Total Sampai Lunas    <span class="pull-right"> Rp. {{ number_format($subtotal, 0, ",", ".") }}</span>
+                            Total Sampai Lunas    <span id="total-price" class="pull-right"> Rp. {{ number_format($subtotal, 0, ",", ".") }}</span>
 
                             @else
-                            Sub Total     <span class="pull-right"> Rp. {{ number_format($subtotal, 0, ",", ".") }}</span>
+                            Sub Total     <span id="total-price" class="pull-right"> Rp. {{ number_format($subtotal, 0, ",", ".") }}</span>
 
                             @endif
+                        @else
+                            Total Sampai Lunas    <span id="total-price" class="pull-right"> Rp. {{ number_format($total, 0, ",", ".") }}</span>
+                        @endif
                             <div class="spacer"></div>
-                            @if(!$cart->cicilan)
+
+                    @if (count($carts) > 0)    
+                        @if(!$cart->cicilan)
                             <hr class="my-4">
                             <div class="voucher-rincian-cicilan">
-                            @if (! session()->has('coupon'))
+                             @if (! session()->has('coupon'))
                                 <a class="c-blue collapsed" href="#voucher" data-toggle="collapse">Gunakan kode voucher disini</a>
                                 <div class="collapse" id="voucher">
                                     <div class="input-group">
@@ -203,21 +218,21 @@
                                 @endif
                             
                             @if (session()->has('coupon'))
-                                <div class="col-md-6">
+                            <div class="col-md-6">
                                 Diskon <span style="font-size:11px; color:blue;">{{ session()->get('coupon')['name'] }}</span>
                                 <form action="{{ url('coupon/delete') }}" method="POST" style="display:inline">
                                     {{ csrf_field() }}
                                     {{ method_field('delete') }}
                                     <button type="submit" style="font-size:14px" class="btn-link" alt="Hapus Voucher"><i class="fa fa-trash"></i></button>
                                 </form>
-                                </div>
-                                <div class="col-md-6" style="text-align:right">
+                            </div>
+                            <div class="col-md-6" style="text-align:right">
                                 @if(session()->get('coupon')['type'] == 'fixed')
                                 Rp. {{ number_format(session()->get('coupon')['value'], 0, ",", ".") }}
                                 @elseif(session()->get('coupon')['type'] == 'percent')
                                 Diskon {{ session()->get('coupon')['percent_off'] }} %
                                 @endif
-                                </div>
+                            </div>
                             @endif
                              </div>
                             
@@ -239,6 +254,7 @@
                             @endif
                             <br>
                             <br>
+                            <div id="cart-pay" class="row  {{ !count($carts) ? 'hide' : '' }}">
                             @if($cart->cicilan)
                             <form action="{{ url('cicilan/checkout')}}" method="post">
                                 {{ csrf_field() }}
@@ -250,6 +266,8 @@
                                 <button class="btn btn-blue w-100" id="inicheckout">Bayar Sekarang</button>
                             </form>
                             @endif
+                        </div>
+                        @endif
                         </div>
                     </div>
 
@@ -272,7 +290,7 @@
             </div>
             
         </div>
-        @endif
+      
     </div>
 </div>
 
@@ -305,27 +323,38 @@ $(function(){
                 var html = '';
                 var total = 0;
                 $.each(carts, function(k,v) {
-                    html += '<div id="cart-'+v.id+'" class="col-sm-12 well shadow">';
-                    html += '<div class="row cart-list">';
-                    html += '<div class="col-md-2">'
-                    html += '<center><img src="'+v.image+'" style="max-width:100%;max-height:100px;"></center>';
-                    html += '</div>';
-                    html += '<div class="col-md-7 cart-title">';
-                    html += v.title;
-                    html += '</div>'
-                    html += '<div class="col-md-2 cart-price">';
-                    html += 'Rp'+v.price.toLocaleString('id', 'idr');
-                    html += '</div>';
-                    html += '<div class="col-md-1">';
-                    html += '<button type="button" onclick="deleteCart('+v.id+')" class="btn btn-default btn-lg"><i class="fa fa-trash"></i></button>';
-                    html += '</div>';
-                    html += '</div>';
-                    html += '</div>';
-                    total += parseInt(v.price);
+                    html += '<div class="col-sm-8 col-xs-12 mb-4">';
+                    html += '<h3 class="mb-4">Total 1 Kelas dalam kerangjang</h3>';
+                    html += '<div class="box">';
+                    html += '<div class="table-responsive">';
+                    html += '<table class="table cart">';
+                    html += '<thead>';
+                    html += '<th>Nama Kelas</th>';
+                    html += '<th>Harga</th>';
+                    html += '<th>Action</th>';
+                    html += '</thead>';
+                    html += '<tbody  id="cart-'+v.id+'" >';
+                    html += '<td style="min-width: 250px">';
+                    html += '<img src="'+v.image+'" class="img-rounded img-thumb-cart" alt="">';
+                    html += '<h4 class="mb-0">'+v.title+'</h4>';
+                    html += '<small>oleh contributor</small>';
+                    html += '</td>';
+                    html += '<td>';
+                    html += 'Rp '+v.price.toLocaleString('id', 'idr');
+                    html += '</td>';
+                    html += '<td>';
+                    html += '<a href="browse/bootcamp">';
+                    html += '<button onclick="deleteCart('+v.id+')" >';
+                    html += '<i class="fa fa-trash"></i>';
+                    html += '</button>';
+                    html += '</a>';
+                    html += '</td>';
+                    html += '</tbody>';
+                 
                 });
                 $('#tutorial-total').html(carts.length);
                 $('#cart').html(html);
-                $('#cart-total, #cart-pay').removeClass('hide');
+                $('#cart-total').removeClass('hide');
                 $('#total-price').html('Rp'+total.toLocaleString('id', 'idr'));
                 $('#total-harga').html('Rp'+total.toLocaleString('id', 'idr'));
             }
