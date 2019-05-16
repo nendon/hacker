@@ -8,6 +8,7 @@ use App\Models\Lesson;
 use App\Models\Bootcamp;
 use App\Models\Coupon;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -32,7 +33,7 @@ class CartController extends Controller
         $code = session()->get('total');
         // dd($code);
         $data = [
-            'carts' => Cart::where('member_id', $member_id)->with('member', 'contributor','lesson', 'bootcamp')->where('cart.bootcamp_id', '<>', null )->get(),
+            'carts' => Cart::where('member_id', $member_id)->with('member', 'contributor','lesson', 'bootcamp')->where('cart.bootcamp_id', '<>', null )->where('cart.aktif', null)->get(),
         ];
         // dd($data);
         if($data){
@@ -90,7 +91,18 @@ class CartController extends Controller
                 'title' => $bootcamp->title,
                 'price' => $bootcamp->price
             ]);
-        }
+        }else{
+            $mem_id = isset(Auth::guard('members')->user()->id) ? Auth::guard('members')->user()->id : 0;
+            $cart = Cart::where('member_id', $mem_id )->where('lesson_id', null)->first();
+            if($cart){
+                DB::table('cart')
+                ->where('member_id', $mem_id)
+                ->where('lesson_id',null)
+                ->update([
+                  'aktif'      => 0
+                ]);
+                }
+            }
 
         /* simpan ke cart */
         $cart = Cart::firstOrCreate([
@@ -121,7 +133,18 @@ class CartController extends Controller
                 'title' => $bootcamp->title,
                 'price' => $price
             ]);
-        }
+        }else{
+            $mem_id = isset(Auth::guard('members')->user()->id) ? Auth::guard('members')->user()->id : 0;
+            $cart = Cart::where('member_id', $mem_id )->where('lesson_id', null)->first();
+            if($cart){
+                DB::table('cart')
+                ->where('member_id', $mem_id)
+                ->where('lesson_id',null)
+                ->update([
+                  'aktif'      => 0
+                ]);
+                }
+            }
 
         /* simpan ke cart */
         $cart = Cart::firstOrCreate([

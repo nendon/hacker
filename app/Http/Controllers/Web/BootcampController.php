@@ -83,11 +83,6 @@ class BootcampController extends Controller
         // dd($bc);
         $tutor = BootcampMember::where('bootcamp_id', $bc->id)->where('member_id', $mem_id)->first();
 
-        if($cart){
-            DB::table('cart')->where('member_id', $mem_id)
-            ->where('lesson_id',null)
-            ->delete();
-        }
         return view('web.bootcamp.bootcamp',[
             'bca' => $bc,
             'butcat' => $boot_cat,

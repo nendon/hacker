@@ -8,6 +8,7 @@ use App\Models\BootcampCategory;
 use App\Models\Bootcamp;
 use Auth;
 use App\Models\Cart;
+use DB;
 
 class BrowseController extends Controller
 {
@@ -19,9 +20,12 @@ class BrowseController extends Controller
 
         $cart = Cart::where('member_id', $member_id )->where('lesson_id', null)->first();
         if($cart){
-            DB::table('cart')->where('member_id', $member_id)
+            DB::table('cart')
+            ->where('member_id', $member_id)
             ->where('lesson_id',null)
-            ->delete();
+            ->update([
+              'aktif'      => 0
+            ]);
         }
 
         return view('web.browse.kategori', [

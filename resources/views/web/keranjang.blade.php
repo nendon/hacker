@@ -77,13 +77,18 @@
                                     @endif
                                     </td>
                                     <td>
-                                    <form action="{{ url('cart/delete/'.$cart->id)}}" method="post">
+                                    <a href="browse/bootcamp">
+                                    <button class="btn btn-default btn-lg">
+                                            <i class="fa fa-trash"></i>
+                                    </button>
+                                    </a>
+                                    <!-- <form action="{{ url('cart/delete/'.$cart->id)}}" method="post">
                                         {{ csrf_field() }}
                                         {{ method_field('delete') }}
                                         <button class="btn btn-default btn-lg">
                                             <i class="fa fa-trash"></i>
                                         </button>
-                                    </form>
+                                    </form> -->
                                     </td>
                                 </tbody>
                             </table>
