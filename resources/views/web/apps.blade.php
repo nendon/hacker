@@ -27,9 +27,11 @@
     <link rel="stylesheet" href="{{asset('template/bootcamp/css/timelines-vertical.css')}}">
 
     <link href="{{asset('template/web/css/app.css')}}" rel="stylesheet">
-    <link href="{{asset('template/web/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('template/web/css/bootstrapnew.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/spacing.css')}}">
     <link rel="stylesheet" href="{{asset('css/quiz.css')}}">
+    <link rel="stylesheet" href="{{asset('css/price-table.css')}}">
+    <link rel="stylesheet" href="{{asset('css/Maret2019.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/video-sidebar.css')}}">
     <link rel="stylesheet" href="{{asset('css/plyr.css')}}">
@@ -65,7 +67,7 @@
 
 
     <link rel="stylesheet" href="{{ asset('template/web/plugins/jquery-ui-1.12.1.custom/jquery-ui.css') }}">
-    <script type="text/javascript" src="{{asset('template/web/js/jquery.min.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{asset('template/web/js/jquery-3.3.1.min.js')}}"></script> -->
     <script type="text/javascript" src="{{asset('template/web/js/jquery-ui.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('template/web/js/venobox.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('template/web/js/imageviewer.min.js') }}"></script>
@@ -1103,7 +1105,7 @@ a #items .item {
       ga('create', 'UA-101007788-1', 'auto');
       ga('send', 'pageview');
     </script>
-    <script type="text/javascript" src="{{asset('template/web/js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('template/web/js/bootstrapnew.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('template/web/js/pace.js') }}"></script>
     <script type="text/javascript" src="{{asset('js/timeline.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/isotope.pkgd.min.js')}}"></script>

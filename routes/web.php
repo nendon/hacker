@@ -56,8 +56,10 @@ Route::get('point', 'Web\PointController@index');
 
 // Cart
 Route::get('cart', 'Web\CartController@index')->name('cart');
+Route::get('cartboot', 'Web\CartController@indexboot')->name('cart');
 Route::post('cart/add', 'Web\CartController@store');
 Route::post('cart/add/bootcamp', 'Web\CartController@storeBootcamp');
+Route::post('cart/add/cicilan', 'Web\CartController@storeCicilan');
 Route::delete('cart/delete/{cart}', 'Web\CartController@destroy');
 
 // Contributor Profile
@@ -72,6 +74,8 @@ Route::post('notification/handling', 'Veritrans\VtwebController@notification');
 // PAYMENT
 Route::get('summary', 'Web\SummaryController@summary')->name('summary');
 Route::post('member/checkout', 'Web\Members\PackageController@summary');
+Route::post('cicilan/checkout', 'Web\Members\PackageController@cicilan');
+Route::post('bootcamp/checkout', 'Web\Members\PackageController@bootcamp');
 Route::get('payment/{response}', 'Web\PaymentController@index');
 Route::post('coupon', 'Web\CouponsController@store')->name('coupon.store');
 Route::delete('coupon/delete', 'Web\CouponsController@destroy')->name('coupon.destroy');

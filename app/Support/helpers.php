@@ -118,7 +118,7 @@ class Helper
 }
 function cart(){
   $member_id = Auth::guard('members')->user()->id ?? null;
-  $data = Cart::where('member_id', $member_id)->with('member', 'contributor', 'lesson', 'bootcamp')->take(3)->get();
+  $data = Cart::where('member_id', $member_id)->with('member', 'contributor', 'lesson')->where('cart.lesson_id', '<>', null )->take(3)->get();
   $html='';
   foreach ($data as $cart) {
     // check if $cart->bootcamp_id and $cart->bootcamp is not null
@@ -183,7 +183,7 @@ function getCategory()
 function getTotalCart()
 {
     $member_id = Auth::guard('members')->user()->id ?? null;
-    $data = Cart::where('member_id', $member_id)->count();
+    $data = Cart::where('member_id', $member_id)->where('cart.lesson_id', '<>', null )->count();
     return $data;
 }
 

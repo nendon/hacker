@@ -168,25 +168,82 @@ function addToCartBootcamp(id) {
                     localStorage.setItem('cart', JSON.stringify(cart));
                 }
 
-                swal({
-                    title: "Menambahkan ke keranjang",
-                    text: data.title,
-                    type: "success",
-                    showCloseButton: true,
-                    showCancelButton: true,
-                    cancelButtonText: 'Bootcamp lainnya',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: "Lihat keranjang"
-                }).then(function(isConfirm) {
-                    if (isConfirm.value) {
-                        window.location.href = SITE_URL + '/cart';
-                    } else if (swal.cancelButton) {
-                        window.location.href = SITE_URL + '/browse/bootcamp';
-                    } else {
-                        window.location.href = SITE_URL + '/browse/bootcamp';
+                
+                        window.location.href = SITE_URL + '/cartboot';
+                    
+                  
+            } else {
+                alert('Koneksi Bermasalah, Silahkan Ulangi');
+                location.reload();
+            }
+        }
+    })
+}
 
+function addToCartCicilan(id) {
+    var datapost = { 
+        '_token': TOKEN,
+        'id': id
+    };
+    $.ajax({
+        type: 'POST',
+        url: SITE_URL + '/cart/add/cicilan',
+        data: datapost,
+        success: function(data) {
+            if (typeof data !== 'null') {
+                if (!MEMBER) {
+                    var cek = localStorage.getItem('cart');
+                    if (cek == null) {
+                        var cart = [];
+                        cart.push({
+                            'id': data.id,
+                            'image': data.image,
+                            'title': data.title,
+                            'price': data.price,
+                            'cicilan' : data.cicilan,
+                        });
+                    } else {
+                        var exist = false;
+                        var cart = JSON.parse(cek);
+                        
+                        $.each(cart, function(k, v) {
+                            if (v.id == data.id) {
+                                exist = true;
+                            }
+                        })
+                        if (!exist) {
+                            cart.push({
+                                'id': data.id,
+                                'image': data.image,
+                                'title': data.title,
+                                'price': data.price,
+                                'cicilan' : data.cicilan,
+                            });
+                        }
                     }
-                });
+
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                }
+
+                // swal({
+                //     title: "Menambahkan ke keranjang",
+                //     text: data.title,
+                //     type: "success",
+                //     showCloseButton: true,
+                //     showCancelButton: true,
+                //     cancelButtonText: 'Bootcamp lainnya',
+                //     cancelButtonColor: '#3085d6',
+                //     confirmButtonText: "Lihat keranjang"
+                // }).then(function(isConfirm) {
+                //     if (isConfirm.value) {
+                        window.location.href = SITE_URL + '/cartboot';
+                    // } else if (swal.cancelButton) {
+                    //     window.location.href = SITE_URL + '/browse/bootcamp';
+                    // } else {
+                    //     window.location.href = SITE_URL + '/browse/bootcamp';
+
+                    // }
+                // });
             } else {
                 alert('Koneksi Bermasalah, Silahkan Ulangi');
                 location.reload();
