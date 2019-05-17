@@ -30,6 +30,8 @@
     <link href="<?php echo e(asset('template/web/css/bootstrap.min.css')); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo e(asset('css/spacing.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/quiz.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/price-table.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/Maret2019.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/video-sidebar.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/plyr.css')); ?>">
@@ -621,7 +623,7 @@ a #items .item {
               Browse
             </a>
 
-            <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuL">
             <a href="<?php echo e(url('lessons/browse/all')); ?>" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
             <a href="<?php echo e(url('browse/bootcamp')); ?>" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
             </div>
@@ -944,11 +946,15 @@ a #items .item {
     <script type="text/javascript" src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 
     <script>
+      $("#switcher").on("click", function(){
+        $(".toggle-penawaran").toggleClass("active");
+        $("#prices").toggleClass("active");
+      })  
       $(document).ready(function() {
-  $('.menu-icon').click(function(event){
-    $('#sidebar').toggleClass('sidebar-expand');
-    console.log('clicked');
-  });
+      $('.menu-icon').click(function(event){
+      $('#sidebar').toggleClass('sidebar-expand');
+        console.log('clicked');
+      });
   $('#sidebar ul li').click(function(event) {
     $('#sidebar ul li').removeClass('icon-active')
     $(this).addClass('icon-active')
@@ -1048,6 +1054,7 @@ a #items .item {
     
 
     <script type="text/javascript">
+
       function notifview(id){
         var token   = "<?php echo e(csrf_token()); ?>";
         var dataString= '_token='+ token + '&id=' + id ;

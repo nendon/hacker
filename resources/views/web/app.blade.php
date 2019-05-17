@@ -580,24 +580,12 @@ a #items .item {
             @if (Auth::guard("members")->user())
               <div id="items">
                   <div class="item" style="background-color:white">Halo, {{ Auth::guard('members')->user()->username }}</div>
-<<<<<<< HEAD
-                    <div class="dropdown show" style="margin-left: 131px;">
-                    <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Browse
-                      </a> 
-
-                      <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
-                        <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
-                        <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
-                      </div>
-=======
                   <a data-toggle="collapse" href="#browse"><div class="item">Browse</div></a>
                     <div id="browse" class="collapse">
                     <ul>
                       <li><a href="{{ url('lessons/browse/all') }}">Tutorial</a></li>
                       <li><a href="{{ url('browse/bootcamp') }}">Bootcamp</a></li>
                     </ul>
->>>>>>> a9c8735a3baf137abeb6dd0c55cf137ed3c64eea
                     </div>
                   <a href="{{ url('bootcamp/course') }}" ><div class="item">Dashboard</div></a>
                   <a href="{{ url('member/change-password') }}" ><div class="item">Ganti Password</div></a>
@@ -607,23 +595,12 @@ a #items .item {
               </div>
               @else
                 <div id="items">
-<<<<<<< HEAD
-                  <div class="dropdown show" style="margin-left: 131px;">
-                      <a class="btn  dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Browse
-                      </a>
-
-                    <div class="dropdown-menu" style="left: 0px;border-radius: 8px;" aria-labelledby="dropdownMenuLink">
-                      <a href="{{ url('lessons/browse/all') }}" class="browse-btn hidden-xs hidden-sm">Tutorial</a>
-                      <a href="{{ url('browse/bootcamp') }}" class="browse-btn hidden-xs hidden-sm">Bootcamp</a>
-=======
                     <a data-toggle="collapse" href="#browse"><div class="item">Browse</div></a>
                       <div id="browse" class="collapse">
                       <ul>
                         <li><a href="{{ url('lessons/browse/all') }}">Tutorial</a></li>
                         <li><a href="{{ url('browse/bootcamp') }}">Bootcamp</a></li>
                       </ul>
->>>>>>> a9c8735a3baf137abeb6dd0c55cf137ed3c64eea
                     </div>
                     <a href="{{ url('member/signin') }}"><div class="item" onclick="w3_close()">Masuk</div></a>
                     <a href="{{ url('member/signup') }}"><div class="item">Daftar</div></a>
@@ -651,13 +628,8 @@ a #items .item {
 
           <a class="navbar-brand" href="{{ url('/') }}"><img class="logo" src="{{asset('template/web/img/logo.png')}}"></a>
           
-<<<<<<< HEAD
-          <div class="dropdown show" style="margin-left: 131px;">
-            <a class="btn dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;"role="button" id="dropdownMenuL" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-=======
           <div class="dropdown browse-desktop">
             <a class="btn dropdown-toggle" style="background:white;margin-top:12px;height:50px;width: 135px;border-radius: 6px;padding: 12px 30px; color: #2ba8e2;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
->>>>>>> a9c8735a3baf137abeb6dd0c55cf137ed3c64eea
               Browse
             </a>
 
