@@ -167,7 +167,150 @@ class PackageController extends Controller
           Session::put('price', $invoice->price);
 
           return redirect('checkout');
-  }
+      }
+      public function bootcamp(){
+        $now = new DateTime();
+        $member_id = Auth::guard('members')->user()->id ?? null;
+        if (!$member_id) {
+          return redirect('member/signin?next=/cart');
+        }
+
+        /* ambil data cart */
+        $price = 0;
+        $carts = 0;
+        $boot = 0;
+        $total = 0;
+        $harga = 0;
+        $boot = Cart::where('member_id', $member_id)->with('bootcamp')->get();
+
+       
+        foreach ($boot as $boots) {
+          if($boots->bootcamp_id){
+          $harga += $boots->bootcamp->price;
+          }
+        }
+
+        $price += $total + $harga;
+
+        if(Session::get('coupon')){
+          $disc = 0;
+          
+          if(session()->get('coupon')['type'] == 'percent'){
+            $disc =  $price*session()->get('coupon')['percent_off']/100;
+          }else{
+            $disc = session()->get('coupon')['discount'];
+          }
+          $price = $price-$disc;
+        }
+        
+        $code = $this->generateCode();
+        // store
+        $invoice = Invoice::updateOrCreate([
+          'members_id' => $member_id,
+          'status' => 0,
+        ], [
+          'price' => $price,
+          'code' => $code
+        ]);
+        // store invoice detail
+        if ($invoice) {
+          $id=0;
+          foreach ($boot as $boots) {
+            if($boots->bootcamp_id){
+              $id = $boots->bootcamp->id;
+            InvoiceDetail::updateOrCreate([
+              'invoice_id' => $invoice->id,
+              'bootcamp_id' => $boots->bootcamp->id,
+              'harga_lesson' => $boots->bootcamp->price,
+              'contributor_id' => $boots->bootcamp->contributor_id,
+            ]);
+            }
+        } 
+         
+          
+
+          session()->forget('coupon');
+        }
+
+        Session::put('invoiceCODE', $invoice->code);
+        Session::put('price', $invoice->price);
+
+        return redirect('checkout');
+      }
+      public function cicilan(){
+        $now = new DateTime();
+        $member_id = Auth::guard('members')->user()->id ?? null;
+        if (!$member_id) {
+          return redirect('member/signin?next=/cartboot');
+        }
+
+        /* ambil data cart */
+        $price = 0;
+        $carts = 0;
+        $boot = 0;
+        $total = 0;
+        $harga = 0;
+        $boot = Cart::where('member_id', $member_id)->with('bootcamp')->get();
+
+       
+        foreach ($boot as $boots) {
+          if($boots->cicilan){
+            if($boots->bootcamp_id){
+            $harga += $boots->bootcamp->normal_price/3;
+            }
+          }else{
+            if($boots->bootcamp_id){
+              $harga += $boots->bootcamp->price;
+            }
+          }
+        }
+
+        $price += $total + $harga;
+        
+        if(Session::get('coupon')){
+          $disc = 0;
+          
+          if(session()->get('coupon')['type'] == 'percent'){
+            $disc =  $price*session()->get('coupon')['percent_off']/100;
+          }else{
+            $disc = session()->get('coupon')['discount'];
+          }
+          $price = $price-$disc;
+        }
+        
+        $code = $this->generateCode();
+        // store
+        $invoice = Invoice::updateOrCreate([
+          'members_id' => $member_id,
+          'status' => 0,
+        ], [
+          'price' => $price,
+          'code' => $code,
+          'cicilan' => 1
+        ]);
+        // store invoice detail
+        if ($invoice) {
+          $id=0;
+          foreach ($boot as $boots) {
+            if($boots->bootcamp_id){
+              $id = $boots->bootcamp->id;
+            InvoiceDetail::updateOrCreate([
+              'invoice_id' => $invoice->id,
+              'bootcamp_id' => $boots->bootcamp->id,
+              'harga_lesson' => $boots->bootcamp->price,
+              'contributor_id' => $boots->bootcamp->contributor_id,
+            ]);
+            }
+        } 
+         
+          session()->forget('coupon');
+        }
+
+        Session::put('invoiceCODE', $invoice->code);
+        Session::put('price', $invoice->price);
+
+        return redirect('checkout');
+    }
     private function generateCode()
     {
       $randomCode     = 'INV'.rand(000000,999999);

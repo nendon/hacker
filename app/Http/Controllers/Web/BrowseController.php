@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BootcampCategory;
 use App\Models\Bootcamp;
+use Auth;
+use App\Models\Cart;
+use DB;
 
 class BrowseController extends Controller
 {
@@ -13,6 +16,18 @@ class BrowseController extends Controller
         //load data dengan eager loading
         $bootcat = BootcampCategory::with('bootcamp.contributor', 'bootcamp.bootcamp_member', 'bootcamp.course')->get();
         // dd($bootcat);
+        $member_id = Auth::guard('members')->user()->id ?? null;
+
+        $cart = Cart::where('member_id', $member_id )->where('lesson_id', null)->first();
+        if($cart){
+            DB::table('cart')
+            ->where('member_id', $member_id)
+            ->where('lesson_id',null)
+            ->update([
+              'aktif'      => 0
+            ]);
+        }
+
         return view('web.browse.kategori', [
             'boot' => $bootcat,
         ]);

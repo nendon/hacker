@@ -45,7 +45,7 @@
               {{$bca->sub_title}}
             </h4> 
             <h6 class="mb-5">oleh {{$contributors->username}}</h6>
-            @if(!$tutor)
+            <!-- @if(!$tutor)
             <?php if(($cart != null)){ ?>
             <a href="{{ url('cart') }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
             <?php }else{ ?>          
@@ -54,14 +54,15 @@
             <a id="guest-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" href="{{ url('cart') }}" >Lihat Keranjang</a>
             @else
             <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
-            @endif
+            @endif -->
+            <a href="#penjelasan"class="btn btn-blue" ></i>Selengkapnya</a>&nbsp;&nbsp;&nbsp;
             <a href="{{$bca->silabus}}" class="btn btn-blue m-2">Download Silabus</a>
           </div>
         </div>
 
         <!-- Tahukan Anda -->
         
-        <div class="row section1">
+        <div id="penjelasan"class="row section1">
           <div class="container">
             <div class="col-md-5 col-sm-8 col-xs-12 px-0">
               <img src="{{asset($bca->picture_problem)}}" class="img-responsive" alt="">
@@ -582,38 +583,96 @@
 
         </div>
 
-        <div class="row harga">
-          <div class="col-xs-12 text-center">
-            <h2 class="title">Mulai belajar sekarang</h2>
-            
-            <div class="border-blue">
-              <div class="border-content">
-                <h5 class="c-black">Bootcamp {{$bca->title}}</h5>
-                <h1>Rp. {{ number_format($bca->price, 0, ",", ".") }}</h1>
-                <ul>
-                  <li>Ebook</li>
-                  <li>Script konfig</li>
-                  <li>Video Tutorial</li>
-                  <li>Team support</li>
-                  <li>FREE download</li>
-                  <li>Unlimited Time</li>
-                  <li>Free Update</li>
-                  <li>Sertifikat</li>
-                </ul>
-                @if(!$tutor)
-                <?php if(($cart != null)){ ?>
-                <a href="{{ url('cart') }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da;" >Lihat Keranjang</a> &nbsp;&nbsp;&nbsp;       
-                <?php }else{ ?>          
-                <button id="jual-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
-                <?php } ?>
-                <a id="tamu-{{ $bca->id }}" class="btn btn-blue" style="background-color:#fff; color:#5bc0de; border-color:#46b8da; display:none" href="{{ url('cart') }}" >Lihat Keranjang</a>
-                @else
-                <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;         
-                @endif
-                </div>  
-            </div>
+        <div id="bayar" class="row harga">
+        <div class="col-sm-6 col-xs-12">
+              <h4>Sudah termasuk di dalam Bootcamp :</h4>
+              <br>
+              <ul class="fitur-gambar">
+                  <li><span>Ebook Materi</span></li>
+                  <li><span>Script Konfigurasi</span></li>
+                  <li><span>Video Tutorial</span></li>
+                  <li><span>Support Instruktur</span></li>
+                  <li><span>Akses Selamanya</span></li>
+                  <li><span>Free Download</span></li>
+                  <li><span>Sertifikat Penyelesaian</span></li>
+                  <li><span>Update Materi</span></li>
+              </ul>
           </div>
+          <div class="col-sm-6 col-xs-12 text-center" >
+          
+              <div class="toggle-penawaran">
+                  <div class="badge-offer">
+                      <span>HEMAT SAMPAI 17%</span>
+                      <img src="{{asset('img/share.svg')}}" alt="share-arrow">
+                  </div>
+                  <label class="cicilan">Cicilan</label>
+                  <div class="toggle">
+                      <input type="checkbox" id="switcher" class="check">
+                      <b class="switch"></b>
+                  </div>
+                  <label class="bayar-langsung">Bayar Langsung</label>
+              </div>
+      
+                  <br><br>
+
+                  <table id="prices" style="width: 70%;">
+                    <tbody>
+                      <tr>
+                      
+                          <!-- <td class="popular">
+                              <div class="pricing-table">
+                                  <h4 class="title">Big Data Analytic</h4>
+                                  <h3>Gratis</h3>
+                                  <p>Selama 7 hari </p>
+                                  <p>Coba Gratis selama 7 Hari, </p>
+                                  <p>Bisa akses ke semua materi, projek, </p>
+                                  <p>hingga diskusi dengan instruktur </p>
+
+                                  <a class="btn btn-white"  data-toggle="modal" data-target="#myModal">Mulai Belajar</a>
+                              </div>
+                          </td> -->
+                      
+                          <td class="table-cicilan">
+                              <div class="pricing-table">
+                                  <h4>Cicilan 3 Bulan</h4>
+                                  <h3>Big Data Analytics</h3>
+                                  <hr class="bb-h3">
+                                  <h1>Rp {{number_format($bca->normal_price/3)}}</h1>
+                                  <p>/bulan x 3</p>
+                                  <p>(Total Pembayaran Rp. {{number_format($bca->normal_price)}})</p>
+                                  @if(!$tutor)
+                                       
+                                  <button id="beli-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartCicilan({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
+                                  @else
+                                  <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
+                                  @endif 
+                              </div>
+                          </td>
+                          <td class="table-cash">
+                              <div class="pricing-table">
+                                  <h4>Bayar Lunas</h4>
+                                  <h3>Big Data Analytics</h3>
+                                  <hr class="bb-h3">
+                                  <h5 class="c-blue"><strike>{{number_format($bca->normal_price)}}</strike></h5>
+                                  <h1 class="c-blue">{{number_format($bca->price)}}</h1>
+                                  <p>Sekali Bayar - <span class="c-orange"> Hemat 17%</span></p>
+                                  @if(!$tutor)       
+                                  <button id="beli-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
+                                  @else
+                                  <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
+                                  @endif                              
+                              </div>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+      
+
+          </div>
+        
         </div>
+       
+
 
         <div class="row faq">
           <div class="col-xs-12">
@@ -681,7 +740,24 @@
                 
           </div>
         </div>
-
+        <div class="container-fluid container-penawaran">
+        <div class="row">
+            <div class="col-sm-6 col-xs-12 px-5 md-border-right mb-5">
+                <h4>Siap untuk belajar Big Data Analytics?</h4>
+                <p class="mb-5">
+                    90% yang belajar di cilsy mengatakan mereka puas dengan hasil belajar nya
+                </p>
+                <a href="#bayar" class="btn btn-white">Mulai Belajar</a>
+            </div>
+            <div class="col-sm-6 col-xs-12 px-5" >
+                <h4>Lihat apa saja yang anda pelajari nanti</h4>
+                <p class="mb-5">
+                    Download silabus dan pelajari apa yang akan anda kerjakan nanti
+                </p>
+                <a href="{{$bca->silabus}}" class="btn btn-white">Download Silabus</a>
+            </div>
+        </div>
+      </div>
       </div>
 
       <!-- Modal -->
@@ -747,6 +823,7 @@
       });
     });
      $(function(){
+      $('#footer').hide();
       $('#ModalVideo').modal({
           show: false
       }).on('hidden.bs.modal', function(){
@@ -765,6 +842,7 @@
 
 <script>
     var cek = localStorage.getItem('cart');
+    if(!Auth::guard('members')->user()){
     if(cek != null){
       var results = JSON.parse(cek);
       if (results.length > 0){
@@ -776,6 +854,7 @@
         });
       }
     }
+  }
     @if($cart != null)
     var cek = localStorage.getItem('cart');
     if(cek != null){

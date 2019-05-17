@@ -1,0 +1,254 @@
+  .badge-offer span{
+    border: 1px solid orange;color: orange; border-radius: 15px;padding: 0 10px;font-size: 10px
+  }
+  .badge-offer img{
+    transform: rotate(90deg);width: 20px;margin:20px 0 0 5px
+  }
+  .toggle,
+  .toggler {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 5px;
+  }
+  .toggler {
+      color: #aaaaaa;
+      transition: 0.2s;
+      font-weight: bold;
+  }
+  .toggle-penawaran .cicilan{
+    color: #000;
+  }
+  .toggle-penawaran.active .cicilan,
+  .toggle-penawaran .bayar-langsung{
+    color: #aaaaaa;  
+  }
+  .toggle-penawaran.active .bayar-langsung{
+      color: #2699fb;
+  }
+  .toggle-penawaran .toggle {
+      position: relative;
+      width: 40px;
+      height: 20px;
+      border-radius: 100px;
+      background-color: #000;
+      overflow: hidden;
+      box-shadow: inset 0 0 2px 1px rgba(0, 0, 0, 0.05);
+  }
+  .toggle-penawaran.active .toggle{
+      background: #2699fb;
+  }
+  .check {
+      position: absolute;
+      display: block;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 6;
+  }
+  .check:checked ~ .switch {
+      right: 2px;
+      left: 57.5%;
+      transition: 0.25s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+      transition-property: left, right;
+      transition-delay: 0.08s, 0s;
+  }
+  .switch {
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      bottom: 2px;
+      right: 57.5%;
+      background-color: #fff;
+      border-radius: 36px;
+      z-index: 1;
+      transition: 0.25s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+      transition-property: left, right;
+      transition-delay: 0s, 0.08s;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  #prices.active .table-cicilan,
+  #prices .table-cash{
+    display: none;
+  }
+
+  #prices.active .table-cash{
+    display: table-cell;
+  }
+
+
+  /* Variables & Mixins */
+  #prices {
+      overflow: hidden;
+    max-width: 1200px;
+    margin: auto;
+    width: 100%;
+    font-weight: normal;
+  }
+  
+  .pricing-table {
+    margin: auto auto 20px auto;
+    position: relative;
+    min-height: 340px;
+    padding-bottom: 55px;
+    text-align: center;
+    background: #fff;
+    border: 2px solid #2699fb;
+    border-radius: 4px;
+  }
+  
+  .pricing-table td {
+    width: 33%;
+    vertical-align: top;
+  }
+  
+  .pricing-table h2 {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 1.4em;
+    font-weight: bold;
+    position: relative;
+  }
+
+  .pricing-table h2:before{
+    content: "";
+    display: block;
+    background: #2699fb;
+    width: 70%;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px
+  }
+  
+  .pricing-table h3 {
+    display: block;
+    padding: 10px;
+    font-size: 1.4em;
+    font-weight: bold;
+    position: relative;
+  }
+
+  .bb-h3{
+    margin:-5px auto 15px;
+    border-bottom: 1px solid #2699fb;
+    width:50%
+  }
+  
+  .pricing-table h4 {
+    display: block;
+    margin: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #fff;
+    background: #2699fb;
+    margin-top: -1px;
+  }
+
+  .pricing-table h1{
+    margin-top: 0;
+    font-size: 2em;
+    font-weight: bold;
+    color: #2699fb;
+  }
+  
+  /* Popular Table */
+  .popular .pricing-table {
+    min-height: 380px;
+    background: #2699fb;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+  }
+
+  .popular .pricing-table h1 {
+    color: #fff;
+  }
+  
+  .popular .pricing-table h2 {
+    font-weight: normal;
+    background: #2699fb;
+  }
+
+  .popular .pricing-table h2:before{
+    content: "";
+    display: block;
+    background: #fff;
+    width: 70%;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px
+  }
+
+  .popular .pricing-table h4{
+    background: #2185dd;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .pricing-table p {
+    margin: 10px auto;
+    width: 80%;
+    font-weight: 300;
+  }
+  
+  .pricing-table h5 + p {
+    border-top: 1px solid rgba(0, 0, 0, 0);
+  }
+  
+  .pricing-table a {
+    display: block;
+    margin: auto;
+    width: 45%;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    font-size: 0.85em;
+    color: #fff;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+    width: 80%;
+  }
+  
+  .popular .pricing-table a {
+    background: #fff;
+    color: #2699fb;
+  }
+  
+  .pricing-table a:hover {
+    background: #2080d4;
+    color: #fff;
+  }
+  
+  /*------------------------------------*/
+  /*---------- MEDIA QUERIES -----------*/
+  /*------------------------------------*/
+  @media screen and (max-width: 700px) {
+    #prices td {
+      display: block !important;
+      width: 80% !important;
+      margin: 0 auto;
+    }
+  
+    .pricing-table {
+      min-height: 0;
+    }
+  
+    .popular .pricing-table {
+      margin-top: 0px;
+    }
+  }
+  

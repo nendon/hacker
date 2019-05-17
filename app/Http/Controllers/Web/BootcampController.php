@@ -70,7 +70,7 @@ class BootcampController extends Controller
           ->where('course.bootcamp_id', $bc->id)
           ->Select(DB::raw('count(section_id) as durasi'))
           ->first();  
-        $cart = Cart::where('member_id', $mem_id )->where('bootcamp_id', $bc->id)->first();
+        $cart = Cart::where('member_id', $mem_id )->where('lesson_id', null)->first();
         // $cs = Course::where('bootcamp_id', $bc->id)->first();
         // $courses = DB::table('course')->where('bootcamp_id', $bc->id)->get();
         $courses = Course::with('section.project_section', 'section.video_section')->where('bootcamp_id', $bc->id)->get();
