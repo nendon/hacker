@@ -1,0 +1,134 @@
+.navbar{
+  margin-bottom: 0px;
+}
+@media (min-width: 768px){
+  .navbar {
+      border-radius: 0px;
+  }
+}
+.navbar-default {
+    background-color: #2ba8e2;
+    border-color: #2ba8e2;
+}
+@media (max-width:768px) {
+  .navbar-default .logo{
+    height: 40px;
+  }
+}
+
+@media (min-width: 768px){
+  .navbar-nav>li {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+}
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover{
+    color: #f3f3f3;
+}
+
+
+
+  .navbar-default .navbar-nav>li:last-child >a{
+      color: #2ba8e2;
+      background-color: #FFF;
+      border-radius: 6px;
+      padding-left: 60px;
+      padding-right: 60px;
+  }
+
+}
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
+  background: rgba(255,255,255,0.25);
+}
+.navbar-default .navbar-toggle{
+  border: none;
+}
+.navbar-default .navbar-toggle .icon-bar{
+  background: #fff;
+}
+
+.navbar-brand{
+  padding-top: 5px;
+}
+/*Seacrh Form*/
+.navbar-form {
+    margin-top: 8px;
+    background: #eee;
+    padding: 5px;
+}
+@media (min-width:768px) {
+  .navbar-form {
+    width: 50%;
+  }
+}
+.navbar-form .dropdown-divider{
+
+  border: 1px solid #eee;
+  max-height: 1px;
+
+}
+
+.navbar-form .form-control{
+  height: 43px;
+  padding-left: 45%;
+}
+/*@media (min-width: 768px){*/
+  .navbar-form .btn-category{
+      width: 40% !important;
+      position: absolute;
+      z-index: 9;
+  }
+/*}*/
+/*@media (min-width: 768px){*/
+  .navbar-form .input-group {
+    width: 100%;
+  }
+/*}*/
+.navbar-form .btn-category .btn{
+  padding: 10px 12px;
+  background: #fff;
+  width: 100%;
+}
+.navbar-form .btn-search:last-child>.btn, .navbar-form .btn-search>.btn-group{
+  margin-left: -36px;
+  z-index: 999;
+  background: #fff;
+}
+.navbar-form .keyword{
+  border: 0;
+  margin-top: -1px;
+  /*border-left: 1px solid #eee;*/
+}
+.navbar-form .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 3px 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #292b2c;
+    text-align: inherit;
+    white-space: nowrap;
+    background: 0 0;
+    border: 0
+}
+.navbar-form .dropdown-item:focus,.dropdown-item:hover {
+    color: #1d1e1f;
+    text-decoration: none;
+    background-color: #f7f7f9
+}
+
+.navbar-form .dropdown-item.active,.dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0275d8;
+}
+
+.navbar-form .dropdown-item.disabled,.dropdown-item:disabled {
+    color: #636c72;
+    cursor: not-allowed;
+    background-color: transparent
+}
+

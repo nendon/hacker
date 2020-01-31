@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 175.091 175.091">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #2699fb;
+      }
+
+      .cls-3 {
+        filter: url(#Play_Button);
+      }
+    </style>
+    <filter id="Play_Button" x="0" y="0" width="175.091" height="175.091" filterUnits="userSpaceOnUse">
+      <feOffset dx="5" dy="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="7.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_124" data-name="Group 124" transform="translate(-655.5 -395.5)">
+    <g class="cls-3" transform="matrix(1, 0, 0, 1, 655.5, 395.5)">
+      <path id="Play_Button-2" data-name="Play Button" class="cls-1" d="M65.045,0A65.045,65.045,0,1,1,0,65.045,65.045,65.045,0,0,1,65.045,0Z" transform="translate(17.5 12.5)"/>
+    </g>
+    <path id="Path_5" data-name="Path 5" class="cls-2" d="M37.973,26.117,0,0V52.234Z" transform="translate(725.681 447.178)"/>
+  </g>
+</svg>

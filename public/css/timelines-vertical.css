@@ -1,0 +1,328 @@
+
+/*  ==============================
+    timelines Page Sylabus & Lesson
+    ==============================
+*/
+.timelines {
+	margin: 30px 0 0 0;
+	padding: 0;
+	list-style: none;
+	position: relative;
+} 
+
+/* The line */
+.timelines:before {
+	content: '';
+	position: absolute;
+	top: 10%;
+	bottom: 10%;
+	width: 10px;
+	background: #afdcf8;
+	left: 10%;
+	margin-left: -10px;
+}
+.timelines li:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: #afdcf8;
+    left: 10%;
+	margin-left: -10px;
+	height: 50%;
+}
+
+.timelines li:after {
+	height: 50%;
+    content: '';
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    width: 10px;
+    background: #afdcf8;
+    left: 10%;
+	margin-left: -10px;
+	z-index: -1;
+}
+
+.timelines li:first-child:before,
+.timelines li:last-child:after,
+ul.lesson-detail li:before,
+ul.lesson-detail li:after{
+	display: none;
+}
+.timelines > li {
+	position: relative;
+}
+
+/* Right content */
+.timelines > li .timelines-content {
+	margin: 0 0 15px 15%;
+	padding: 2em;
+	font-size: 1.2em;
+	font-weight: 300;
+	line-height: 1.4;
+	position: relative;
+	border-radius: 5px;
+}
+
+
+.timelines > li .timelines-content h2 { 
+	margin-top: 0px;
+	padding: 0 0 10px 0;
+	border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+
+.timelines > li:nth-child(odd) .timelines-content:after {
+	border-right-color: #6cbfee;
+}
+
+/* The icons */
+.timelines > li .timelines-number {
+	width: 50px;
+	height: 50px;
+	font-family: 'ecoico';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	font-size: 1.4em;
+	line-height: 50px;
+	-webkit-font-smoothing: antialiased;
+	position: absolute;
+	background: #fff;
+	color: #46a4da;
+	border-radius: 50%;
+	box-shadow: 0 0 0 8px #afdcf8;
+	text-align: center;
+	left: 2.7%;
+	top: 10%;
+	margin: 0 0 0 -30px;
+}
+
+.timelines-number-phone:before {
+	content: "\e000";
+}
+
+.timelines-number-screen:before {
+	content: "\e001";
+}
+
+.timelines-number-mail:before {
+	content: "\e002";
+}
+
+.timelines-number-earth:before {
+	content: "\e003";
+}
+
+@media screen and (max-width: 47.2em) {
+    .timelines .row.box{
+        z-index: 9999;
+        background: #fff;
+    }
+
+	.timelines:before {
+        left: 50%;
+    }
+
+    .timelines > li{
+        margin-bottom: 80px;
+    }
+
+	.timelines > li .timelines-content {
+		margin: 0 0 30px 0;
+		padding: 1em;
+		font-weight: 400;
+		font-size: 95%;
+	}
+	
+	.timelines > li .timelines-content:after {
+		right: auto;
+		left: 20px;
+		border-right-color: transparent;
+		border-bottom-color: #3594cb;
+		top: -20px;
+	}
+
+	.timelines > li:nth-child(odd) .timelines-content:after {
+		border-right-color: transparent;
+		border-bottom-color: #6cbfee;
+	}
+
+	.timelines > li .timelines-number {
+        position: absolute;
+        z-index: 999;
+        left: 50%;
+        top: -50px;
+	}
+}
+
+/*  ==============================
+    timelines Page Sylabus & Lesson
+    ==============================
+*/
+.timelines {
+	margin: 30px 0 0 0;
+	padding: 0;
+	list-style: none;
+	position: relative;
+} 
+
+/* The line */
+/* .timelines:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 10px;
+	background: #afdcf8;
+	left: 10%;
+	margin-left: -10px;
+} */
+.timelines li:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: #afdcf8;
+    left: 10%;
+	margin-left: -10px;
+	height: 50%;
+}
+
+.timelines li:after {
+	height: 50%;
+    content: '';
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    width: 10px;
+    background: #afdcf8;
+    left: 10%;
+	margin-left: -10px;
+	z-index: -1;
+}
+
+.timelines li:first-child:before,
+.timelines li:last-child:after,
+ul.lesson-detail li:before,
+ul.lesson-detail li:after{
+	display: none;
+}
+
+.timelines > li {
+	position: relative;
+}
+
+/* Right content */
+.timelines > li .timelines-content {
+	margin: 0 0 0 15%;
+	padding: 2em;
+	/* font-size: 1.2em;
+	font-weight: 300;
+	line-height: 1.4; */
+	position: relative;
+	border-radius: 5px;
+}
+
+.timelines > li .timelines-content h2 { 
+	margin-top: 0px;
+	padding: 0 0 10px 0;
+	border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+
+.timelines > li:nth-child(odd) .timelines-content:after {
+	border-right-color: #6cbfee;
+}
+
+/* The icons */
+.timelines > li .timelines-number {
+	width: 50px;
+	height: 50px;
+	font-family: 'ecoico';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	font-size: 1.4em;
+	line-height: 50px;
+	-webkit-font-smoothing: antialiased;
+	position: absolute;
+	background: #fff;
+	color: #46a4da;
+	border-radius: 50%;
+	box-shadow: 0 0 0 8px #afdcf8;
+	text-align: center;
+	/* left: 10%;
+	top: 40%; */
+	margin: 120px 0 0 50px;
+}
+
+.timelines-number-phone:before {
+	content: "\e000";
+}
+
+.timelines-number-screen:before {
+	content: "\e001";
+}
+
+.timelines-number-mail:before {
+	content: "\e002";
+}
+
+.timelines-number-earth:before {
+	content: "\e003";
+}
+
+@media screen and (max-width: 47.2em) {
+    .timelines .row.box{
+        z-index: 9999;
+        background: #fff;
+    }
+
+	.timelines:before {
+        left: 50%;
+    }
+
+    .timelines > li{
+        margin-bottom: 40px;
+    }
+
+	.timelines > li .timelines-content {
+		margin: 0 0 0 0;
+		padding: 1em;
+		font-weight: 400;
+		font-size: 95%;
+	}
+
+	.timelines > li .timelines-content:after {
+		right: auto;
+		left: 20px;
+		border-right-color: transparent;
+		border-bottom-color: #3594cb;
+		top: -20px;
+	}
+
+	.timelines > li:nth-child(odd) .timelines-content:after {
+		border-right-color: transparent;
+		border-bottom-color: #6cbfee;
+	}
+
+	.timelines > li .timelines-number {
+        position: absolute;
+        z-index: 999;
+        left: 50%;
+        top: -50px;
+	}
+	
+	ul.timelines li:before,ul.timelines li:after{
+		top: 0;
+		left: 50%;
+		height: 80%;
+	}
+}

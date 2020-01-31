@@ -1,0 +1,509 @@
+    .c-blue{
+        color: #2699fb;
+    }
+    .c-orange{
+        color: #ffa500;
+    }
+    .fs-10{
+        font-size: 10px;
+    }
+
+    /* ===========================
+    ==== Checkout Cash ====
+    ===========================
+    */
+    table.cart thead{
+        border-bottom:1px solid #ddd;
+    }
+    table.cart thead th{
+        font-weight: normal;
+    }
+    table.cart tbody td{
+        padding: 20px 10px;
+        white-space: unset!important;
+    }
+    
+
+    .container-penawaran{
+        background: linear-gradient(to top, #012e78cc, #038dd2cc),url(../img/head.png) no-repeat center;
+        background-size: cover;
+        padding: 40px 0;
+        color:#fff;
+        padding-left: 5%;
+        padding-right: 5%
+    }
+    .container-expired img{
+        width: 15px;
+    }
+    .container-expired a{
+        text-decoration: none;
+        color: orange
+    }
+    .container-expired a:hover,.container-expired a:active{
+        color: #fcd422;
+    }
+    .container-expired{
+        background: linear-gradient(to right,#05c8bc,#a652ec);
+        padding-top: 10px;
+        padding-bottom:10px;
+        color:#fff
+    }
+    .btn-white{
+        color: #2699fb;
+        background: #fff;
+        padding: 8px 24px;
+        font-size: 12px;
+    }
+    .btn-outline-blue{
+        color: #2699fb;
+        background: transparent;
+        border: 1px solid #2699fb;
+        padding: 8px 24px;
+        font-size: 12px;
+    }
+    .btn-outline-blue:hover,.btn-outline-blue:focus,.btn-outline-blue:active{
+        color: #2699fb;
+    }
+    .box{
+        border-radius: 5px;
+        box-shadow: 0 4px 10px 0 #00000044;
+        padding: 10px 20px;
+    }
+    .card-blue{
+        border: 4px solid #2699fb;
+        background: #2699fb;
+        border-radius: 4px;
+        box-shadow: 0 4px 10px 0 #00000044;
+    }
+    .card-blue .card-title{
+        background: #2699fb;
+        padding: 5px 0;
+        text-align: center;
+        color: #fff;
+    }
+    .card-blue .card-body{
+        border-radius: 4px;
+        background: #fff
+    }
+    .img-thumb-cart{
+        max-width:100px;
+        float:left;
+        margin-right: 15px;
+    }
+    .link-hapus-cart{
+        color: #000;
+        cursor: pointer;
+    }
+    .link-hapus-cart:hover{
+        text-decoration: none;
+    }
+    .popular .pricing-table h4.title{
+        background:#2699fb;
+        font-weight: bold;
+        border-bottom: 2px solid #fff;
+        width:80%;
+        margin: 0 auto
+    }
+    ul.fitur{
+        list-style: none;
+        list-style-position: inside;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    ul.fitur li{
+        width: 50%;
+        padding: 0 5px;
+    }
+    ul.fitur li span{
+        margin-left: 1.2em;
+        display: inline-block;
+    }
+    ul.fitur li:before {
+        color: #1fb6ff;
+        content: "\f058";
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        margin-left: -.1em;
+        margin-right: .5em;
+        width: 1em;
+        position: absolute;
+    }
+
+    ul.fitur-gambar{
+        list-style: none;
+        list-style-position: inside;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    ul.fitur-gambar li{
+        width: 50%;
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+    ul.fitur-gambar li span{
+        margin: 12px 0 auto 3.5em;
+        display: inline-block;
+    }
+    ul.fitur-gambar li:before {
+        background: #fff;
+        color: #1fb6ff;
+        content: "\f00c";
+        font-weight: bold;
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        width: 3em;
+        height: 3em;
+        text-align: center;
+        border-radius: 5px;
+        margin-left: -.1em;
+        margin-right: 1em;
+        padding: .1em;
+        padding-top: .8em;
+        box-shadow: 0 2px 10px 0 #0000002a;
+        position: absolute;
+    }
+
+    ul.fitur-detail{
+        list-style: none;
+        list-style-position: inside;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        text-align: left;
+    }
+    ul.fitur-detail h4{
+        margin-top: 0;
+    }
+    ul.fitur-detail p{
+        margin-left: 5em;
+    }
+    ul.fitur-detail li{
+        width: 50%;
+        margin-bottom: 20px;
+        padding: 0 20px;
+    }
+    ul.fitur-detail li:before {
+        float: left;
+        background: #fff;
+        color: #1fb6ff;
+        content: "\f00c";
+        font-weight: bold;
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        width: 3em;
+        height: 3em;
+        text-align: center;
+        border-radius: 5px;
+        margin-left: -.1em;
+        margin-right: 2em;
+        padding: .1em;
+        padding-top: .8em;
+        box-shadow: 0 2px 10px 0 #0000002a;
+    }
+
+    ul.rincian-cicilan{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        list-style: none;
+        margin: 0;
+    }
+     ul.rincian-cicilan li{
+        width: 50%;       
+        margin-bottom: 15px;      
+     }
+
+     .voucher-rincian-cicilan a{
+         text-decoration: none  ;
+         position: relative
+     }
+     .voucher-rincian-cicilan a:after{
+        color: #1fb6ff;
+        font-family: "Font Awesome 5 Free";
+        right: 0;
+        font-weight: 900;
+        margin-right: -12px;
+        position: absolute;
+        content: "\f0de";
+        margin-top: 4px;
+     }
+     .voucher-rincian-cicilan a.collapsed:after{
+        content: "\f0dd";
+        margin-top: -2px;
+     }
+     .voucher-rincian-cicilan .form-control{
+         border: 1px solid #f5f5f5;
+     }
+     .voucher-rincian-cicilan .btn{
+         background: #f5f5f5;
+         color: #2699fb;
+     }
+     .rincian-cicilan-pembayaran{
+         padding: 0 10px;
+         margin: 20px 0 10px;
+         font-weight: normal
+     }
+     .rincian-cicilan-pembayaran a{
+         text-decoration: none;
+     }
+     .rincian-cicilan-pembayaran ul{
+         list-style: none;
+         text-align: left;
+         counter-reset: item;
+         padding: 0 10px;
+    }
+    .rincian-cicilan-pembayaran ul li{
+        display: block;
+        margin-bottom: .5em;
+        padding-top: 2px;
+    }
+    .rincian-cicilan-pembayaran ul li h6{
+        margin: 20px 0 0;
+        display: inline;
+        color: #000;
+    }
+    .rincian-cicilan-pembayaran ul li span{
+        float: right;
+    }
+    .rincian-cicilan-pembayaran ul li:before{
+        background: #333333;
+        display: inline-block;
+        content: counter(item) "";
+        counter-increment: item;
+        color: white;
+        display: inline-block;
+        border-radius: 50%;
+        margin: 0 5px ;
+        font-size: 10px;
+        text-align: center;
+        padding-top: 2px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .modal-content{
+        max-width: 400px;
+        border: 1px solid #fff;
+        margin: 0 auto;
+    }
+    .modal-header{
+        border-bottom: none;
+    }
+    .modal-header a{
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .modal-footer{
+        background: #f5f5f5;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+
+    .popup{
+        z-index:999;
+        display:none;
+        top:0;
+        position: fixed;
+        width: 100vw;
+        height:100vh;
+        background: #00000080;
+        color:#fff
+    }
+
+    .popuppembayaran{
+        z-index:999;
+        display:none;
+        top:0;
+        position: fixed;
+        width: 100vw;
+        height:100vh;
+        background: #fff;
+        color:#303030
+    }
+
+    /* ===========================
+       ==== Cicilan Dashboard ====
+       ===========================
+     */
+     .row-flex {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display:         flex;
+        flex-wrap: wrap;
+    }
+    .row-flex > [class*='col-'] {
+        display: flex;
+        flex-direction: column;
+    }
+     .box .footer{
+        background:#f5f5f5;
+        margin: 15px -20px -10px -20px;
+        padding: 10px 20px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+     }
+     .box .footer a{
+        text-decoration: none;
+     }
+     ul.nav-cicilan{
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        border-radius: 4px;
+        border: 1.5px solid #eee;
+    }
+    ul.nav-cicilan>li{
+        border-top: 1.5px solid #eee;
+    }
+    ul.nav-cicilan>li:first-child{
+        border-top: none;
+    }
+    .nav-cicilan.nav-stacked>li+li{
+        margin:0;
+    }
+    ul.nav-cicilan>li a{
+        color: #000;
+        text-decoration: none;
+    }
+    .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+         background: #2699fb;
+         border-radius: 4px;
+         color: #fff;
+         text-decoration: none;
+    }
+
+    ul.rincian-cicilan{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        list-style: none;
+        margin: 0;
+    }
+     ul.rincian-cicilan li{
+        width: 50%;       
+        margin-bottom: 15px;      
+     }
+
+     ul.modal-rincian-cicilan{
+         list-style: none;
+         text-align: left;
+         counter-reset: item;
+         padding: 0 20px;
+    }
+    ul.modal-rincian-cicilan li{
+        display: block;
+        margin-bottom: .5em;
+        padding-top: 2px;
+    }
+    ul.modal-rincian-cicilan li h6{
+        margin: 20px 0 0;
+        display: inline;
+    }
+    ul.modal-rincian-cicilan li span{
+        float: right;
+    }
+    ul.modal-rincian-cicilan li:before{
+        background: #333333;
+        display: inline-block;
+        content: counter(item) "";
+        counter-increment: item;
+        color: white;
+        display: inline-block;
+        border-radius: 50%;
+        margin: 0 5px ;
+        font-size: 10px;
+        text-align: center;
+        padding-top: 2px;
+        width: 20px;
+        height: 20px;
+    }
+
+    ul.modal-rincian-cicilan li.active:before{
+        background: #2699fb;
+        display: inline-block;
+        content: "\f00c";
+        font-family: "Font Awesome 5 Free";
+        font-weight: bold;
+        color: white;
+        display: inline-block;
+        border-radius: 50%;
+        margin: 0 5px ;
+        font-size: 10px;
+        text-align: center;
+        padding-top: 2px;
+        width: 20px;
+        height: 20px;
+    }
+
+
+    @media only screen and (min-width: 768px){
+        .md-border-right{
+            border-right:1px solid #fff;margin-bottom: 30px
+        }
+    }
+
+    @media only screen and (max-width: 480px){
+        .img-thumb-cart{
+            max-width: 100%;
+            margin-bottom: 15px;
+            margin-right: 0;
+        }
+        ul.fitur-detail li{
+            width: 100%;
+        }
+        .container-expired span{
+            border-bottom: 1px solid orange;
+            padding-bottom:4px
+        }
+
+        .sm-text-center{
+            text-align: center;
+        }
+    }
+
+
+    /* Loading Css */
+    .lds-ring {
+        margin: 0 auto;
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+      }
+      .lds-ring div {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 51px;
+        height: 51px;
+        margin: 6px;
+        border-radius: 50%;
+        animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border: 6px solid #54b973;
+        border-color: #54b973 transparent transparent transparent;
+      }
+      .lds-ring.orange div {
+        border: 6px solid #ffa500;
+        border-color: #ffa500 transparent transparent transparent;
+      }
+      .lds-ring div:nth-child(1) {
+        animation-delay: -0.45s;
+      }
+      .lds-ring div:nth-child(2) {
+        animation-delay: -0.3s;
+      }
+      .lds-ring div:nth-child(3) {
+        animation-delay: -0.15s;
+      }
+      @keyframes lds-ring {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      
