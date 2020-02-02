@@ -557,17 +557,17 @@ a #items .item {
 
     <nav class="navbar navbar-default navbar-fixed-top">
     <?php if (empty(Session::get('memberID'))) {?>
-    {{--  <div class="global-notification">
+    <div class="global-notification">
       <div class="container">
     <h4>
-    <a href="{{ url('member/package') }}"><font color="red">Mau dapat Cashback Rp.50.000? Amankan Disini! Tersisa <font id="demo"></font> Hari lagi..</font></a>
-    </h4>
+    <font color="red">Gunakan kode voucher DISKON200 atau POTONG10 untuk mendapatkan potongan harga khusus!</font>
+    </h4> 
     <span id='close' onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;' style="    position: absolute;
     right: 20px;
     top: 10px;">x</span>
 
     </div>  
-    </div>  --}}
+    </div>  
     <?php } ?>
       <div class="container">
         <div class="navbar-header navbar-fixed-side navbar-fixed-side-left">

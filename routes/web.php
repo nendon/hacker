@@ -56,11 +56,16 @@ Route::get('point', 'Web\PointController@index');
 
 // Cart
 Route::get('cart', 'Web\CartController@index')->name('cart');
-Route::get('cartboot', 'Web\CartController@indexboot')->name('cart');
 Route::post('cart/add', 'Web\CartController@store');
 Route::post('cart/add/bootcamp', 'Web\CartController@storeBootcamp');
-Route::post('cart/add/cicilan', 'Web\CartController@storeCicilan');
 Route::delete('cart/delete/{cart}', 'Web\CartController@destroy');
+
+// Cart Bootcamp
+Route::get('bootcamp/payment/{type}/{id}', 'Web\CartController@viewBootcampPayment')->name('cart.bootcamp');
+Route::post('bootcamp/payment', 'Web\CartController@storeBootcampNew')->name('cart.bootcamp.store');
+Route::post('bootcamp/payment/coupon', 'Web\CouponsController@storeCouponBootcamp')->name('bootcamp.coupon.store');
+Route::delete('bootcamp/payment/coupon/delete', 'Web\CouponsController@destroyCouponBootcamp')->name('bootcamp.coupon.destroy');
+Route::post('member/checkout/bootcamp', 'Web\Members\PackageController@summaryBootcamp');
 
 // Contributor Profile
 Route::get('contributor/profile/{username}', 'Web\ContributorsController@getProfile');
@@ -74,8 +79,6 @@ Route::post('notification/handling', 'Veritrans\VtwebController@notification');
 // PAYMENT
 Route::get('summary', 'Web\SummaryController@summary')->name('summary');
 Route::post('member/checkout', 'Web\Members\PackageController@summary');
-Route::post('cicilan/checkout', 'Web\Members\PackageController@cicilan');
-Route::post('bootcamp/checkout', 'Web\Members\PackageController@bootcamp');
 Route::get('payment/{response}', 'Web\PaymentController@index');
 Route::post('coupon', 'Web\CouponsController@store')->name('coupon.store');
 Route::delete('coupon/delete', 'Web\CouponsController@destroy')->name('coupon.destroy');
@@ -121,6 +124,7 @@ Route::get('/testing', function () {
 
 Route::get('/bootcamp/projectView/{id}', 'Web\BootcampController@projectView');
 Route::post('/bootcamp/getNextLink', 'Web\BootcampController@next');
+Route::get('/bootcamp/usertry/{slug}', 'Web\BootcampController@usertry');
 Route::get('/bootcamp/course', 'Web\BootcampController@member');
 Route::get('bootcamp/{bootcamp}', 'Web\BootcampController@bootcamp');
 Route::get('bootcamp/{bootcamp}/courseSylabus/', 'Web\CourseController@courseSylabus');
@@ -308,6 +312,9 @@ Route::post('contributor/register', 'Contributors\ContribAuth\RegisterController
 // Route::post('contributor/register', 'Contributors\AuthController@doRegister');
 Route::get('contributor/aktivasi/{token}', 'Contributors\AuthController@aktivasi');
 Route::get('contribauth/activate', 'Contributors\ContribAuth\ActivationController@active')->name('auth.activate');
+
+Route::get('member/aktivasi/{token}', 'Web\Members\MemberAuth\ActivationController@activate');
+// Route::get('member/activate', 'Web\Members\MemberAuth\ActivationController@active');
 
 Route::get('contributor/logout', 'Contributors\ContribAuth\LoginController@logout');
 

@@ -601,16 +601,9 @@
           <div class="col-sm-6 col-xs-12 text-center" >
           
               <div class="toggle-penawaran">
-                  <div class="badge-offer">
-                      <span>HEMAT SAMPAI 17%</span>
-                      <img src="{{asset('img/share.svg')}}" alt="share-arrow">
-                  </div>
-                  <label class="cicilan">Cicilan</label>
-                  <div class="toggle">
-                      <input type="checkbox" id="switcher" class="check">
-                      <b class="switch"></b>
-                  </div>
+                 
                   <label class="bayar-langsung">Bayar Langsung</label>
+                  
               </div>
       
                   <br><br>
@@ -633,23 +626,7 @@
                           </td> -->
                       
                           <td class="table-cicilan">
-                              <div class="pricing-table">
-                                  <h4>Cicilan 3 Bulan</h4>
-                                  <h3>Big Data Analytics</h3>
-                                  <hr class="bb-h3">
-                                  <h1>Rp {{number_format($bca->normal_price/3)}}</h1>
-                                  <p>/bulan x 3</p>
-                                  <p>(Total Pembayaran Rp. {{number_format($bca->normal_price)}})</p>
-                                  @if(!$tutor)
-                                       
-                                  <button id="beli-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartCicilan({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
-                                  @else
-                                  <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
-                                  @endif 
-                              </div>
-                          </td>
-                          <td class="table-cash">
-                              <div class="pricing-table">
+                          <div class="pricing-table">
                                   <h4>Bayar Lunas</h4>
                                   <h3>Big Data Analytics</h3>
                                   <hr class="bb-h3">
@@ -659,10 +636,11 @@
                                   @if(!$tutor)       
                                   <button id="beli-{{ $bca->id}}" class="btn btn-blue" onclick="addToCartBootcamp({{ $bca->id }})"><i class="fa fa-shopping-cart"></i> Daftar Sekarang</button> &nbsp;&nbsp;&nbsp;
                                   @else
-                                  <a href="{{ url('bootcamp/'.$bca->slug.'/courseSylabus') }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
+                                  <a href="payment/cash/{{ $bca->id }}" class="btn btn-blue" style="background-color:Orange;color:white;border-color:#46b8da; " >Mulai Belajar</a> &nbsp;&nbsp;&nbsp;       
                                   @endif                              
                               </div>
                           </td>
+                          
                       </tr>
                     </tbody>
                   </table>

@@ -57,7 +57,6 @@ class HomeController extends Controller {
         }
 		
 		$invoice = Invoice::where('status', '=', 1)->where('members_id', '=', $mem_id)->first();
-		$mem_id= Auth::guard("members")->user();
 		// $tutorial = TutorialMember::where('member_id', $mem_id)->get();
 		// $cart = Cart::where('member_id', $mem_id)->where('lesson_id', $lessons->id)->get();
 		// dd($lessons);		

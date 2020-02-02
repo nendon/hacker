@@ -127,7 +127,7 @@ function addToCart(id) {
 
 function addToCartBootcamp(id) {
     var datapost = { 
-        '_token': TOKEN,
+        '_token': TOKEN, 
         'id': id
     };
     $.ajax({
@@ -145,6 +145,7 @@ function addToCartBootcamp(id) {
                             'image': data.image,
                             'title': data.title,
                             'price': data.price,
+                            'jenis': 1,
                         });
                     } else {
                         var exist = false;
@@ -161,17 +162,32 @@ function addToCartBootcamp(id) {
                                 'image': data.image,
                                 'title': data.title,
                                 'price': data.price,
+                                'jenis': 1,
                             });
                         }
                     }
-
                     localStorage.setItem('cart', JSON.stringify(cart));
                 }
 
-                
-                        window.location.href = SITE_URL + '/cartboot';
-                    
-                  
+                swal({
+                    title: "Menambahkan ke keranjang",
+                    text: data.title,
+                    type: "success",
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    cancelButtonText: 'Bootcamp lainnya',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: "Lihat keranjang"
+                }).then(function(isConfirm) {
+                    if (isConfirm.value) {
+                        window.location.href = SITE_URL + '/cart';
+                    } else if (swal.cancelButton) {
+                        window.location.href = SITE_URL + '/browse/bootcamp';
+                    } else {
+                        window.location.href = SITE_URL + '/browse/bootcamp';
+
+                    }
+                });
             } else {
                 alert('Koneksi Bermasalah, Silahkan Ulangi');
                 location.reload();
@@ -179,7 +195,6 @@ function addToCartBootcamp(id) {
         }
     })
 }
-
 function addToCartCicilan(id) {
     var datapost = { 
         '_token': TOKEN,

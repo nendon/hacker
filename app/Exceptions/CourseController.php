@@ -10,7 +10,7 @@ use App\Models\BootcampMember;
 use App\Models\Section;
 use App\Models\Member;
 use App\Models\Contributor;
-use App\Models\Usertry;
+
 use App\Models\VideoSection;
 use App\Models\ProjectSection;
 use App\Models\ProjectUser;
@@ -19,7 +19,6 @@ use App\Models\BootcampLampiran;
 use App\Models\Exercise;
 use App\Models\Pertanyaan;
 use App\Models\QuizUser;
-use Validator; 
 use App\Models\QuizDetail;
 
 use DB;
@@ -185,15 +184,14 @@ class CourseController extends Controller
         $bcs = Bootcamp::where('slug', $slug)->first();
         $courses = Course::where('bootcamp_id', $bcs->id)->first();
         $cs = DB::table('course')->where('bootcamp_id', $bcs->id)->get();
-        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->where('status', 1)->first();
+        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
         $mulai = DB::table('course')->where('bootcamp_id', $bcs->id)->first();
 
         $now = new Datetime();
-        $tryuser = Usertry::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
-
+        
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
         ->where('member_id', Auth::guard('members')->user()->id)
-        ->where('expired_at', '<', $now)->where('status', 1)
+        ->where('expired_at', '<', $now)
         ->first();
           
 
@@ -216,7 +214,7 @@ class CourseController extends Controller
 
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
                ->where('member_id', Auth::guard('members')->user()->id)
-               ->where('expired_at', '<', $now)->where('status', 1)
+               ->where('expired_at', '<', $now)
                ->first();
 
         $awal = date_create();
@@ -234,7 +232,6 @@ class CourseController extends Controller
             'cs' => $cs,
             'tutor' => $tutor,
             'mulai' => $mulai,
-            'tryuser' => $tryuser, 
             'exp'  => $exp,
             'lampiran' =>$lampiran,
             'deadline' => $deadline ,
@@ -252,7 +249,7 @@ class CourseController extends Controller
         $vsection = $section->first()->video_section->first();
         $cs = DB::table('section')->where('course_id', $courses->id)->get();
 
-        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->where('status', 1)->first();
+        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
         $member = Auth::guard('members')->user()->id;
         //cek 404
         $cekdulu = DB::table('bootcamp')
@@ -341,7 +338,7 @@ class CourseController extends Controller
 
         $exp = BootcampMember::where('bootcamp_id', $bcs->id)
                ->where('member_id', Auth::guard('members')->user()->id)
-               ->where('expired_at', '<', $now)->where('status', 1)
+               ->where('expired_at', '<', $now)
                ->first();
 
         $awal = date_create();
@@ -406,9 +403,6 @@ class CourseController extends Controller
             $vmateri = DB::table('video_section')->where('section_id', $id)->orderby('position', 'asc')->first();
         // }
         $lampiran = BootcampLampiran::where('bootcamp_id', $bcs->id)->get();
-        $coursenext = Section::where('course_id',$sect->course_id)->select(DB::raw('max(position) as max'))->first();
-        $nowposisi = $sect->position -1;
-        $secnext = Section::where('course_id',$sect->course_id)->where('position', $nowposisi)->first();
 
         $cekdulu = DB::table('bootcamp')
             ->join('course', 'bootcamp.id', 'course.bootcamp_id')
@@ -444,7 +438,7 @@ class CourseController extends Controller
             ->groupby('course.id')
             ->first();
         }else{
-            $nilai = Section::where('id', $secnext->id)->first();
+            $nilai = Section::where('id', $sect->id-1)->first();
             $valid = DB::table('course')
             ->join('section', 'course.id', 'section.course_id')
             ->join('video_section', 'section.id','video_section.section_id')
@@ -479,12 +473,12 @@ class CourseController extends Controller
         if($vsection == null){
             $vsection = $section->first();
         }
-        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->where('status', 1)->first();
+        $tutor = BootcampMember::where('bootcamp_id', $bcs->id)->where('member_id', Auth::guard('members')->user()->id)->first();
 
         if(!$tutor){
             return redirect('bootcamp/'.$bcs->slug);
         }
-        $expired = BootcampMember::where('bootcamp_id', $bcs->id)->select(DB::raw('DATE_ADD( start_at, INTERVAL target day) as exp'))->where('status', 1)->first();
+        $expired = BootcampMember::where('bootcamp_id', $bcs->id)->select(DB::raw('DATE_ADD( start_at, INTERVAL target day) as exp'))->first();
         return view('web.courses.VideoPage',[
             'course' => $courses,
             'bc' => $bcs,
@@ -682,9 +676,6 @@ class CourseController extends Controller
     }
 
     public function saveProject(Request $request){
-        $validator = Validator::make($request->all(), [
-            'file' => 'mimes:jpeg,png,jpg,zip,pdf,doc,docx,xls,xlsx |max:150000',
-        ]);
         $response = array();
         if (empty(Auth::guard('members')->user()->id)) {
             $response['success'] = false;
@@ -695,36 +686,26 @@ class CourseController extends Controller
             // $member = DB::table('contributors')->where('id', $uid)->first();
 
             $input = new ProjectUser();
-
-            $lesson = ProjectSection::Find($request->input('project_id'));
-            $bc = Section::join('course', 'course.id', 'section.course_id')
-                  ->join('bootcamp', 'bootcamp.id', 'course.bootcamp_id')
-                  ->where('section.id', $lesson->section_id)->first();
-            $bootcamp = Bootcamp::Find($bc->bootcamp_id ); 
-            $contrib = Contributor::find($bc->contributor_id);
-
-            $input['komentar_user'] = htmlspecialchars($request->input('body'));
+            $input['komentar_user'] = $request->input('body');
             $input['member_id'] = $uid;
-            $input['status'] = 0;
+            $input['status'] .= 0;
             $input['project_section_id'] =  $request->input('project_id');
             if ($request->hasFile('file')){
-                if( $validator->fails()){
-                    $response['success'] = true;
-                    $response['message'] = "Format yang diperbolehkan hanya doc,docx, pdf, zip, png, jpeg, jpg";
-                    return json_encode($response);
-                } 
-
                 $input['file'] = '/assets/source/bootcamp/project-'.$request->input('project_id').'/'. $request->file('file')->getClientOriginalName();
                 $request->file('file')->move(public_path('/assets/source/bootcamp/project-'.$request->input('project_id').'/'), $input['file']);
             }
-            $input['contributor_id'] = $bc->contributor_id;
             $input->save();
             $response['success'] = true;
 
             $member = Member::Find($uid);
             $cariuser = ProjectUser::where('komentar_user', $request->input('body'))->where('member_id',$uid)->where('status', 0)->first();
             $user = ProjectUser::Find($cariuser->id);
-            
+            $lesson = ProjectSection::Find($request->input('project_id'));
+            $bc = Section::join('course', 'course.id', 'section.course_id')
+                  ->join('bootcamp', 'bootcamp.id', 'course.bootcamp_id')
+                  ->where('section.id', $lesson->section_id)->first();
+            $bootcamp = Bootcamp::Find($bc->bootcamp_id ); 
+            $contrib = Contributor::find($bc->contributor_id);
             $contrib->notify(new UserProject($member, $lesson, $user, $bootcamp, $contrib));
             $member->notify(new UserNotifProject($member,  $bootcamp, $lesson, $contrib));
 

@@ -714,7 +714,7 @@
 
    // function for button `Lanjutkan` when video has ended
     function changeVideo(attr){
-      const defaultUrl = 'https://dev.cilsy.id';
+      const defaultUrl = 'https://vuln.cilsy.id';
       const url = $(attr).data('url');
       const title = $(attr).data('title');
       $('.player-end').css('display', 'none');
@@ -733,7 +733,7 @@
 
     function tesVideo(attr){
     
-      const defaultUrl = 'https://dev.cilsy.id';
+      const defaultUrl = 'https://vuln.cilsy.id';
       $('.player-end').css('display', 'none');
           $.ajaxSetup({
               headers: {

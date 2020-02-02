@@ -1,5 +1,12 @@
 @extends('web.app')
 @section('title','Course '.$course->title.' - '.$bc->title)
+@push('css')
+<style>
+  .konten-timeline{
+    margin: 0;
+  }
+</style>
+@endpush
 @section('content')
 
     <!-- Main -->
@@ -48,7 +55,7 @@
           </div>
       </section>
 
-      <section class="mt-5">
+      <section class="konten-timeline">
 
         <!-- Container -->
         <div class="container">
@@ -278,10 +285,16 @@
                          <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a>
                           <?php }else{
                             $n = $valid->posisi-1;
-                            $sect = $valid->section-1;
+                            $p = DB::table('section')
+                            ->where('course_id', $course->id)
+                            ->where('position', $valid->posisi-1)
+                            ->first();
+
+                            $sect = $p->id;
                             $adaexc = DB::table('exercise')
                             ->where('section_id', $sect)
                             ->first();
+                            
                             if($adaexc){
                             $lihat = DB::table('section')
                                     ->join('video_section', 'section.id','video_section.section_id')
@@ -317,7 +330,7 @@
                             if($lihat->project == $lihat->hasil){ 
                               if(!$exp){
                               ?>
-                              <!-- <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a> -->
+                              <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Mulai Belajar</a>
                             <?php 
                               }else{ ?>
                               <a href="{{ url('bootcamp/'.$bc->slug.'/videoPage/'.$section->id) }}" class="btn btn-primary float-right">Retake</a>
