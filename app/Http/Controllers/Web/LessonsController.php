@@ -122,14 +122,14 @@ class LessonsController extends Controller
             return redirect('kelas/v3/'.$slug);
         }
         // dd($cart);
-        if (count($lessons) > 0) {
+        if ($lessons->count()) {
             $main_videos = Video::where('lessons_id', $lessons->id)->orderBy('position', 'asc')->get();
             $preview = Video::where('enable', 1)->where('lessons_id', $lessons->id)->orderBy('position', 'asc')->first();
             $last_videos = Viewer::leftJoin('videos', 'videos.id', '=', 'viewers.video_id')
             ->select('videos.*', 'viewers.video_id')
             ->where('viewers.member_id', $mem_id)
             ->where('videos.lessons_id', $lessons->id)->orderBy('viewers.updated_at', 'desc')->first();
-            // dd($last_videos);
+            //dd($lessons);
             $files = File::where('enable', 1)->where('lesson_id', $lessons->id)->orderBy('id', 'asc')->get();
             
             // Contributor
