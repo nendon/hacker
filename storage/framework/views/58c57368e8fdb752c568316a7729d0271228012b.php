@@ -1,1 +1,0 @@
-halo ini email dummy pengingat pertama

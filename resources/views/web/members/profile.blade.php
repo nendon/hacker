@@ -143,7 +143,7 @@
 
   <div class="form-group @if ($errors->has('full_name')) has-error @endif">
     <div class="col-md-12">
-      <label for="nama lengkap">Nama Lengkap</label>
+      <label for="nama lengkap">Nama Lengkap *</label>
         <input type="text" class="form-control input-profile" placeholder="Nama Lengkap" name="full_name" value="{{ old('full_name',$members->full_name) }}">
         @if ($errors->has('full_name')) <p class="help-block">{{ $errors->first('full_name') }}</p> @endif
     </div>
@@ -151,7 +151,7 @@
   </div>
   <div class="form-group @if ($errors->has('gender')) has-error @endif">
     <div class="col-md-12">
-    <label class="">Jenis Kelamin</label><br>
+    <label class="">Jenis Kelamin *</label><br>
     <label class="radio-inline"><input type="radio" name="gender" value="male" {{ $members->gender == 'male' ? 'checked' : '' }}>Laki-Laki</label>
     <label class="radio-inline"><input type="radio" name="gender" value="female" {{ $members->gender == 'female' ? 'checked' : '' }}>Perempuan</label>
     </div>
@@ -159,7 +159,7 @@
 
   <div class="form-group @if ($errors->has('tanggal_lahir')) has-error @endif">
     <div class="col-md-12">
-      <label for="">Tanggal Lahir</label><br>
+      <label for="">Tanggal Lahir *</label><br>
         <input type="text" name="bornday" class="datepicker form-control input-profile" data-date-format="yyyy-mm-dd" value="@if($members->tanggal_lahir != null){{ old('tanggal_lahir', $members->tanggal_lahir->format('Y-m-d')) }}@endif">
     </div>
   </div>

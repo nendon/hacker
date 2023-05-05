@@ -3,8 +3,8 @@
 
 @endpush
  @if (Auth::guard("members")->user()) 
- @if (count($cekdulu) > 0)
- @if (count($ratenow) <1)
+ @if (count((is_countable($cekdulu)?$cekdulu:[])) > 0)
+ @if (count((is_countable($ratenow)?$ratenow:[])) <1)
  <?echo $ratenow ?>
   <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">

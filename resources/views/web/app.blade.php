@@ -874,6 +874,10 @@ a #items .item {
                 </div>
             </div>
         </div>
+        <div style="position: fixed; bottom: 0; left: 0; right: 0; background-color: #4CAF50; color: white; text-align: center; font-size: 15px; padding: 13px;">
+  Powered by <img src="https://www.biznetgio.com/assets/logo/logo.svg" width="15px"><a href="https://biznetgiocloud.com"> Biznet Gio Cloud </a>
+</div>
+
     </div>
   <script>
   function sideBarOverlay() {
