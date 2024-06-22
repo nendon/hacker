@@ -42,6 +42,21 @@ services:
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
       - vuln-net
+
+  pma:
+    image: phpmyadmin:5.1
+    environment:
+        - PMA_ARBITRARY=1
+        - PMA_HOST=db
+        - PMA_USER=${DB_USERNAME}
+        - PMA_PASSWORD=${DB_PASSWORD}
+        - PMA_PORT=${DB_PORT}
+    depends_on:
+        - db
+    ports:
+        - 8888:80
+    networks:
+      - vuln-net
 networks:
   vuln-net:
     driver: bridge
